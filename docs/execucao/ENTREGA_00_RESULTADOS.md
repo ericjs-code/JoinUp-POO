@@ -82,5 +82,10 @@ O teste dos hashes do seed é uma evidência Java offline; não demonstra persis
 - `GET /api/health` é liveness HTTP, não readiness de banco. O modo demo é configuração reservada; o seed continua manual nesta entrega.
 - Tamanho padrão de corpo: 64 KiB; threads: 8, fila: 128. São decisões de infraestrutura configuráveis, sem mudança de regras de negócio. Não houve teste de carga ou avaliação de clientes lentos.
 - Cookies seguros, sessões, CSRF, uploads, regras de negócio e outros GoF aguardam os incrementos correspondentes, sem promessa de estarem prontos.
-- CI Java 21 (`.github/workflows/java.yml`) foi adicionada para `clean verify` em Linux; seu resultado remoto deverá ser observado no PR e não é substituído pelos resultados locais Windows.
+- CI Java 21 (`.github/workflows/java.yml`) executou `mvn --batch-mode --no-transfer-progress clean verify` com **sucesso em Linux** no commit de implementação `68effed513207f7a38dfff2569ce512d1a22d978`: [execução do push](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38077439772) e [execução do PR](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38077461433). São evidências adicionais aos testes locais Windows; nenhuma dessas execuções usa MySQL.
 - A entrega deve ser revisada pelo Tech Lead no PR da branch indicada. **Sem merge automático na `main` e sem avanço para outras etapas.**
+
+## Referências de auditoria
+
+- [Pull Request #1 — Entrega 00 — Fundação Java 21 puro](https://github.com/ericjs-code/JoinUp-POO/pull/1), aberto para revisão técnica contra `main`.
+- [Commit de implementação 68effed](https://github.com/ericjs-code/JoinUp-POO/commit/68effed513207f7a38dfff2569ce512d1a22d978). Esta atualização do relatório apenas registra os resultados posteriores de CI e a identificação do PR.
