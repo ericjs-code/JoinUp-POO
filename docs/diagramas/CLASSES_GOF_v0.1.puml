@@ -1,5 +1,5 @@
 @startuml
-title JoinUp-POO — GoF: Entregas 00/01 implementadas; Facade prevista para 02
+title JoinUp-POO — Quatro GoF implementados nas Entregas 00/01/02
 skinparam shadowing false
 skinparam classAttributeIconSize 0
 hide empty members
@@ -7,22 +7,35 @@ left to right direction
 
 package "Facade — Criar e editar evento" {
   class EventoFacade <<Facade>> {
-    +criarEvento(dados, organizadorId): Evento
-    +editarEvento(eventoId, dados, organizadorId): Evento
+    +criarEvento(token: String, dados: CriarEventoDados): EventoView
+    +editarEvento(token: String, id: long, dados: EditarEventoDados): EventoView
+    +adicionarTipo(token: String, evento: long, dados: TipoIngressoDados): TipoIngresso
+    +editarTipo(token: String, evento: long, tipo: long, dados: TipoIngressoDados): TipoIngresso
+    +consultar(id: long): EventoView
+    +explorar(filtro: FiltroEventos): Map
+    +meusEventos(token: String, filtro: FiltroEventos): Map
   }
   class EventoService <<Subsystem>> {
-    +criarEvento(conexao, dados): Evento
-    +editarEvento(conexao, eventoId, dados): Evento
+    +criar(conexao: Connection, dados: CriarEventoDados, dono: long, agora: Instant): Evento
+    +bloquearEditavel(conexao: Connection, id: long, dono: long, clock: Clock): Evento
+    +editar(conexao: Connection, evento: Evento, dados: EditarEventoDados, agora: Instant): Evento
+    +buscar(conexao: Connection, id: long): Evento
   }
   class ArtistaService <<Subsystem>> {
-    +sincronizarLineup(conexao, eventoId, artistas): void
+    +sincronizarLineup(conexao: Connection, evento: long, ids: List<Long>): void
+    +lineup(conexao: Connection, evento: long): List<ItemCatalogo>
+    +buscar(conexao: Connection, busca: String): List<ItemCatalogo>
+    +generos(conexao: Connection): List<ItemCatalogo>
   }
   class TipoIngressoService <<Subsystem>> {
-    +cadastrarTipos(conexao, eventoId, tipos): void
-    +validarEdicaoSemVendas(conexao, tipoId): void
+    +cadastrarTipos(conexao: Connection, evento: long, dados: List<TipoIngressoDados>): List<Long>
+    +adicionar(conexao: Connection, evento: long, dados: TipoIngressoDados): long
+    +editar(conexao: Connection, evento: long, id: long, dados: TipoIngressoDados): void
+    +listar(conexao: Connection, evento: long): List<TipoIngresso>
   }
   class ComunidadeService <<Subsystem>> {
-    +criarParaEvento(conexao, eventoId): Comunidade
+    +criarParaEvento(conexao: Connection, evento: Evento): long
+    +buscar(conexao: Connection, evento: long): Comunidade
   }
   class ExecutorTransacional <<Infrastructure>> {
     +executar(operacao): Resultado
@@ -32,6 +45,17 @@ package "Facade — Criar e editar evento" {
   EventoFacade --> ArtistaService
   EventoFacade --> TipoIngressoService
   EventoFacade --> ComunidadeService
+  EventoFacade --> GerenciadorSessao : conta ativa e papel
+  class EventoRepositoryJdbc
+  class ArtistaRepositoryJdbc
+  class TipoIngressoRepositoryJdbc
+  class ComunidadeRepositoryJdbc
+  class EventoRoutes
+  EventoRoutes --> EventoFacade
+  EventoService --> EventoRepositoryJdbc
+  ArtistaService --> ArtistaRepositoryJdbc
+  TipoIngressoService --> TipoIngressoRepositoryJdbc
+  ComunidadeService --> ComunidadeRepositoryJdbc
 }
 
 package "Template Method — Login" {
@@ -117,8 +141,10 @@ note bottom of AutenticacaoTemplate
 end note
 
 note top of EventoFacade
-  PROPOSTA para Entrega 02.
-  Nenhuma classe Facade foi criada na Entrega 01.
+  IMPLEMENTADO: conta/sessão -> evento -> categoria.
+  Uma Connection compartilhada por operação.
+  Falha em qualquer subsistema provoca rollback.
+  Clock UTC lido depois do lock e antes de concluir.
 end note
 
 note bottom of ConfiguracaoSistema

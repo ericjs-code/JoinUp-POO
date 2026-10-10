@@ -97,6 +97,7 @@ class MySqlIntegrationIT {
         if (client != null) client.close(); if (app != null) app.close();
         if (!LIMITES.isEmpty()) try (var c = admin()) {
             // Limpeza somente das PKs criadas pela suíte nesta instância explicitamente isolada.
+            try(var ps=c.prepareStatement("DELETE FROM line_up WHERE id_evento>?")) { ps.setLong(1,LIMITES.get("eventos")); ps.executeUpdate(); }
             for (String tabela : List.of("auditoria_reativacoes","sessoes","revenda_anuncios","ingressos","compras","comunidades","tipos_ingressos","eventos","participantes","organizadores","usuarios_suporte"))
                 try (var ps = c.prepareStatement("DELETE FROM " + tabela + " WHERE " + PKS.get(tabela) + ">?")) { ps.setLong(1, LIMITES.get(tabela)); ps.executeUpdate(); }
             for (var par : CONTAGENS.entrySet()) assertEquals(par.getValue().longValue(), numero(c,"SELECT COUNT(*) FROM " + par.getKey()), "Limpeza " + par.getKey());
@@ -452,5 +453,222 @@ class MySqlIntegrationIT {
             var status=new ArrayList<>(List.of(x.get(30,TimeUnit.SECONDS),y.get(30,TimeUnit.SECONDS)));Collections.sort(status);assertEquals(List.of(200,409),status);
         }
         assertEquals(1,valor("SELECT COUNT(*) FROM auditoria_reativacoes WHERE id_participante="+id));
+    }
+
+    // Entrega 02: fixtures próprias, chamadas HTTP e verificações no MySQL real.
+    private record EventoFixture(long id,long dono,String cookie) {}
+    private static Map<String,Object> eventoDados() {
+        return new HashMap<>(Map.ofEntries(Map.entry("nome","Evento integração 02"),Map.entry("descricao","Descrição persistente"),
+                Map.entry("data",Instant.now().plus(Duration.ofDays(30)).truncatedTo(java.time.temporal.ChronoUnit.SECONDS).toString()),
+                Map.entry("localizacao","Arena"),Map.entry("cidade","Curitiba"),Map.entry("estado","PR"),Map.entry("cep","80000000"),
+                Map.entry("generoId",2),Map.entry("artistaIds",List.of(1,3)),Map.entry("tiposIngresso",List.of(tipoDados("Pista"),tipoDados("VIP")))));
+    }
+    private static Map<String,Object> tipoDados(String nome) { return Map.of("nome",nome,"preco",new java.math.BigDecimal("123.45"),"quantidade",10); }
+    private static EventoFixture eventoFixture() throws Exception {
+        var d=cadastro("organizadores"); long dono=id(cadastrar("organizadores",d)); String ck=login("organizadores",d.email());
+        var r=pedir("POST","/api/organizador/eventos",eventoDados(),ck); assertEquals(201,r.statusCode(),r.body()); return new EventoFixture(id(r),dono,ck);
+    }
+    private static String rota(EventoFixture f) { return "/api/organizador/eventos/"+f.id(); }
+    private static long tipoId(EventoFixture f) throws SQLException { return valor("SELECT MIN(id_tipos_ingressos) FROM tipos_ingressos WHERE id_evento="+f.id()); }
+    private static void vendaFixture(EventoFixture f,long tipo,boolean item,boolean ingresso,boolean contador) throws SQLException {
+        try(var c=admin()) {
+            long compra=inserir(c,"INSERT INTO compras(id_participante,id_evento,valor_total,nome_evento_na_compra,data_evento_na_compra,local_evento_na_compra) SELECT 1,id_evento,123.45,nome,data,localizacao FROM eventos WHERE id_evento=?",f.id());
+            if(item) inserir(c,"INSERT INTO compra_itens(id_compra,id_tipo_ingresso,quantidade,valor_unitario,subtotal) VALUES(?,?,1,123.45,123.45)",compra,tipo);
+            if(ingresso) inserir(c,"INSERT INTO ingressos(data_compra,status,id_participante,id_evento,id_tipo_ingresso,id_compra) VALUES(CURRENT_DATE,'cancelado',1,?,?,?)",f.id(),tipo,compra);
+            if(contador) executar("UPDATE tipos_ingressos SET quantidade_vendida=1 WHERE id_tipos_ingressos=?",tipo);
+        }
+    }
+    @Test void eventosCatalogosPublicosSeedFiltrosPaginacaoEPrivacidade() throws Exception {
+        var r=pedir("GET","/api/eventos?busca=Festival%20Aurora&generoId=2&cidade=Curitiba&pagina=1&tamanho=1",null,null);
+        assertEquals(200,r.statusCode(),r.body()); var j=JSON.ler(r.body().getBytes(StandardCharsets.UTF_8),Map.class);
+        assertEquals(1,((List<?>)j.get("dados")).size()); assertEquals(1,((Number)j.get("total")).intValue());
+        assertEquals(200,pedir("GET","/api/eventos/3",null,null).statusCode()); // Organizador inativo continua público.
+        assertEquals(200,pedir("GET","/api/eventos/4",null,null).statusCode()); // Histórico do seed não é removido.
+        var detalhe=pedir("GET","/api/eventos/1",null,null); assertEquals(200,detalhe.statusCode());
+        for(String privado:List.of("cpf","cnpj","email","senha","membros","postagens","mensagens","organizadorId")) assertFalse(detalhe.body().contains("\""+privado+"\""),privado);
+        assertTrue(dados(detalhe).get("comunidade") instanceof Map);
+        var g=pedir("GET","/api/generos-musicais",null,null); assertEquals(15,((List<?>)JSON.ler(g.body().getBytes(StandardCharsets.UTF_8),Map.class).get("dados")).size());
+        var a=pedir("GET","/api/artistas?busca=Ana",null,null); assertEquals(200,a.statusCode()); assertFalse(a.body().contains("cpf")); assertTrue(a.body().contains("Ana Castela"));
+        assertEquals(200,pedir("GET","/api/eventos/1/tipos-ingresso",null,null).statusCode());
+        for(String query:List.of("pagina=0","pagina=100001","tamanho=101","generoId=-1","extra=1","busca="+"x".repeat(81))) assertEquals(400,pedir("GET","/api/eventos?"+query,null,null).statusCode(),query);
+        var vazia=pedir("GET","/api/eventos?busca=nuncaexiste02",null,null); assertEquals(0,((Number)JSON.ler(vazia.body().getBytes(StandardCharsets.UTF_8),Map.class).get("total")).intValue());
+    }
+    @Test void facadeCriaEventoLineupDuasCategoriasComunidadeUnicaEListaSomenteDono() throws Exception {
+        var f=eventoFixture(); assertEquals(2,valor("SELECT COUNT(*) FROM line_up WHERE id_evento="+f.id()));
+        assertEquals(2,valor("SELECT COUNT(*) FROM tipos_ingressos WHERE id_evento="+f.id()));
+        assertEquals(1,valor("SELECT COUNT(*) FROM comunidades WHERE id_evento="+f.id()));
+        assertEquals(f.dono(),valor("SELECT id_organizador FROM eventos WHERE id_evento="+f.id()));
+        var r=pedir("GET","/api/organizador/eventos",null,f.cookie()); assertEquals(200,r.statusCode());
+        var linhas=(List<?>)JSON.ler(r.body().getBytes(StandardCharsets.UTF_8),Map.class).get("dados"); assertEquals(1,linhas.size()); assertEquals(f.id(),((Number)((Map<?,?>)linhas.getFirst()).get("id")).longValue());
+        assertEquals(405,pedir("DELETE",rota(f),null,f.cookie()).statusCode());
+        assertEquals(405,pedir("DELETE","/api/eventos/"+f.id(),null,f.cookie()).statusCode());
+        try(var c=admin()) { assertEquals("123.45",escalar(c,"SELECT valor FROM tipos_ingressos WHERE id_tipos_ingressos="+tipoId(f))); }
+        EVIDENCIA.add("Entrega02: criação HTTP com evento/2 artistas/2 categorias/comunidade 1:1 persistidos.");
+    }
+    @Test void edicaoParcialGeneralELineupPreservaCategoriasEComunidade() throws Exception {
+        var f=eventoFixture(); long comunidade=valor("SELECT id_comunidade FROM comunidades WHERE id_evento="+f.id());
+        var r=pedir("PATCH",rota(f),Map.of("nome","Novo título","artistaIds",List.of(2,10)),f.cookie()); assertEquals(200,r.statusCode(),r.body());
+        assertEquals("Novo título",dados(r).get("nome")); assertEquals("Descrição persistente",dados(r).get("descricao"));
+        assertEquals(2,valor("SELECT COUNT(*) FROM line_up WHERE id_evento="+f.id()+" AND id_artista IN(2,10)"));
+        assertEquals(0,valor("SELECT COUNT(*) FROM line_up WHERE id_evento="+f.id()+" AND id_artista IN(1,3)"));
+        assertEquals(10,valor("SELECT COUNT(*) FROM artistas")); assertEquals(comunidade,valor("SELECT id_comunidade FROM comunidades WHERE id_evento="+f.id()));
+        assertEquals(2,valor("SELECT COUNT(*) FROM tipos_ingressos WHERE id_evento="+f.id()));
+        assertEquals(400,pedir("PATCH",rota(f),"{\"nome\":null}",f.cookie()).statusCode());
+        assertEquals(422,pedir("PATCH",rota(f),Map.of(),f.cookie()).statusCode());
+    }
+    @Test void eventoComVendasPodeEditarReagendarMasSnapshotsIntegraisPermanecem() throws Exception {
+        var f=eventoFixture(); vendaFixture(f,tipoId(f),true,true,true);
+        Map<String,List<List<String>>> antes; try(var c=admin()) { antes=snapshot(c); }
+        String destino=Instant.now().plus(Duration.ofDays(60)).truncatedTo(java.time.temporal.ChronoUnit.SECONDS).toString();
+        var r=pedir("PATCH",rota(f),Map.of("nome","Evento reagendado","descricao","Alterada","localizacao","Nova arena","data",destino,"artistaIds",List.of(8)),f.cookie()); assertEquals(200,r.statusCode(),r.body());
+        try(var c=admin()) {
+            var depois=snapshot(c); for(String tabela:List.of("compras","compra_itens","ingressos","comunidades","comunidade_mensagens","postagens")) assertEquals(antes.get(tabela),depois.get(tabela),tabela);
+        }
+        EVIDENCIA.add("Entrega02: edição/reagendamento com vendas preservou todas as colunas de compras/itens/ingressos/comunidades/conteúdo.");
+    }
+    @ParameterizedTest @ValueSource(strings={"contador","item","ingresso"})
+    void vendaHistoricaBloqueiaTodosCamposMesmoSemContadorOuComIngressoCancelado(String fonte) throws Exception {
+        var f=eventoFixture(); long tipo=tipoId(f); vendaFixture(f,tipo,fonte.equals("item"),fonte.equals("ingresso"),fonte.equals("contador"));
+        for(var alteracao:List.of(Map.of("nome","Outro"),Map.of("preco",150),Map.of("quantidade",50))) {
+            var r=pedir("PATCH",rota(f)+"/tipos-ingresso/"+tipo,alteracao,f.cookie()); assertEquals(409,r.statusCode(),r.body()); assertTrue(r.body().contains("TIPO_INGRESSO_COM_VENDAS"));
+        }
+        assertEquals(10,valor("SELECT quantidade_disponivel FROM tipos_ingressos WHERE id_tipos_ingressos="+tipo));
+    }
+    @Test void categoriaSemVendasEditavelENovaPermitidaMesmoComOutrasVendidas() throws Exception {
+        var f=eventoFixture(); long vendido=tipoId(f),livre=valor("SELECT MAX(id_tipos_ingressos) FROM tipos_ingressos WHERE id_evento="+f.id()); vendaFixture(f,vendido,true,true,true);
+        var r=pedir("PATCH",rota(f)+"/tipos-ingresso/"+livre,Map.of("nome","Camarote","preco",new java.math.BigDecimal("99.99"),"quantidade",0),f.cookie()); assertEquals(200,r.statusCode(),r.body());
+        assertEquals(0,valor("SELECT quantidade_disponivel FROM tipos_ingressos WHERE id_tipos_ingressos="+livre));
+        assertEquals(0,valor("SELECT quantidade_vendida FROM tipos_ingressos WHERE id_tipos_ingressos="+livre));
+        assertEquals(201,pedir("POST",rota(f)+"/tipos-ingresso",tipoDados("Nova"),f.cookie()).statusCode());
+        assertEquals(3,valor("SELECT COUNT(*) FROM tipos_ingressos WHERE id_evento="+f.id()));
+        assertEquals(405,pedir("DELETE",rota(f)+"/tipos-ingresso/"+livre,null,f.cookie()).statusCode());
+    }
+    @ParameterizedTest @ValueSource(ints={0,-86400})
+    void inicioInclusiveBloqueiaEdicaoReagendamentoECategorias(int segundos) throws Exception {
+        var f=eventoFixture(); long tipo=tipoId(f); executar("UPDATE eventos SET data=TIMESTAMPADD(SECOND,?,UTC_TIMESTAMP()) WHERE id_evento=?",segundos,f.id());
+        for(var d:List.of(Map.of("nome","Outro"),Map.of("artistaIds",List.of(2)),Map.of("data",Instant.now().plus(Duration.ofDays(40)).toString()))) {
+            var r=pedir("PATCH",rota(f),d,f.cookie()); assertEquals(409,r.statusCode()); assertTrue(r.body().contains("EVENTO_JA_INICIADO"));
+        }
+        assertEquals(409,pedir("POST",rota(f)+"/tipos-ingresso",tipoDados("Nova"),f.cookie()).statusCode());
+        assertEquals(409,pedir("PATCH",rota(f)+"/tipos-ingresso/"+tipo,Map.of("quantidade",50),f.cookie()).statusCode());
+        assertEquals(2,valor("SELECT COUNT(*) FROM tipos_ingressos WHERE id_evento="+f.id()));
+    }
+    @Test void destinoPassadoAtualInvalidoEOffsetEquivalentePersistidoEmUtc() throws Exception {
+        var f=eventoFixture();
+        for(String d:List.of(Instant.now().minusSeconds(1).toString(),Instant.now().toString(),"2026-02-30T20:00:00Z","2027-01-01T20:00:00")) {
+            int status=pedir("PATCH",rota(f),Map.of("data",d),f.cookie()).statusCode(); assertTrue(Set.of(400,422).contains(status),d);
+        }
+        Instant destino=Instant.now().plus(Duration.ofDays(35)).truncatedTo(java.time.temporal.ChronoUnit.SECONDS);
+        assertEquals(200,pedir("PATCH",rota(f),Map.of("data",destino.atOffset(ZoneOffset.ofHours(-3)).toString()),f.cookie()).statusCode());
+        try(var c=admin();var ps=c.prepareStatement("SELECT data FROM eventos WHERE id_evento=?")) { ps.setLong(1,f.id()); try(var rs=ps.executeQuery()) { rs.next(); assertEquals(destino,rs.getObject(1,LocalDateTime.class).toInstant(ZoneOffset.UTC)); } }
+        var r=pedir("GET","/api/eventos/"+f.id(),null,null); assertEquals(destino.toString(),dados(r).get("data"));
+    }
+    @Test void autorizacao401403TitularidadeTodasMutacoesEContaInativa() throws Exception {
+        var f=eventoFixture(); var outro=eventoFixture(); long tipo=tipoId(f);
+        var paths=List.of("/api/organizador/eventos",rota(f),rota(f)+"/tipos-ingresso",rota(f)+"/tipos-ingresso/"+tipo);
+        var metodos=List.of("POST","PATCH","POST","PATCH");
+        for(String ck:Arrays.asList(null,login("participantes","ana.demo@joinup.test"),login("suporte","suporte1.demo@joinup.test"))) {
+            for(int i=0;i<paths.size();i++) assertEquals(ck==null?401:403,pedir(metodos.get(i),paths.get(i),Map.of(),ck).statusCode());
+            assertEquals(ck==null?401:403,pedir("GET","/api/organizador/eventos",null,ck).statusCode());
+        }
+        assertEquals(403,pedir("PATCH",rota(f),Map.of("nome","Ataque"),outro.cookie()).statusCode());
+        assertEquals(403,pedir("POST",rota(f)+"/tipos-ingresso",tipoDados("Ataque"),outro.cookie()).statusCode());
+        assertEquals(403,pedir("PATCH",rota(f)+"/tipos-ingresso/"+tipo,Map.of("quantidade",1),outro.cookie()).statusCode());
+        executar("UPDATE organizadores SET ativo=0 WHERE id_organizador=?",f.dono());
+        for(int i=0;i<paths.size();i++) assertEquals(403,pedir(metodos.get(i),paths.get(i),Map.of(),f.cookie()).statusCode());
+        assertEquals(200,pedir("GET","/api/eventos/"+f.id(),null,null).statusCode());
+    }
+    @Test void csrfEForjaDeOrganizadorIdsPrecoFracionarioEQuantidadeInvalidos() throws Exception {
+        var f=eventoFixture(); long tipo=tipoId(f);
+        var paths=List.of("/api/organizador/eventos",rota(f),rota(f)+"/tipos-ingresso",rota(f)+"/tipos-ingresso/"+tipo);
+        for(int i=0;i<paths.size();i++) for(String origin:new String[]{null,"https://evil.test","null"}) assertEquals(403,pedir(i%2==0?"POST":"PATCH",paths.get(i),Map.of(),f.cookie(),origin).statusCode());
+        for(String campo:List.of("id_organizador","organizadorId","autor","quantidade_vendida")) assertEquals(400,pedir("PATCH",rota(f),Map.of(campo,1),f.cookie()).statusCode());
+        for(String json:List.of("{\"quantidade\":1.5}","{\"quantidade\":\"10\"}","{\"preco\":\"10.25\"}","{\"quantidadeVendida\":10}")) assertEquals(400,pedir("PATCH",rota(f)+"/tipos-ingresso/"+tipo,json,f.cookie()).statusCode(),json);
+        for(var d:List.of(Map.of("quantidade",-1),Map.of("preco",new java.math.BigDecimal("1.001")),Map.of("preco",new java.math.BigDecimal("1000000")),Map.of("nome","n".repeat(46)))) assertEquals(422,pedir("PATCH",rota(f)+"/tipos-ingresso/"+tipo,d,f.cookie()).statusCode());
+        assertEquals(400,pedir("PATCH",rota(f),Map.of("artistaIds",List.of(1.1)),f.cookie()).statusCode());
+    }
+    @Test void payloadInvalidoReferenciasDuplicatasEDataCriacaoPassadaNaoPersistem() throws Exception {
+        var f=eventoFixture(); long antes=valor("SELECT COUNT(*) FROM eventos");
+        var invalidos=List.of(Map.of("generoId",2147483647),Map.of("artistaIds",List.of(2147483647)),Map.of("artistaIds",List.of(1,1)),
+                Map.of("artistaIds",List.of(0)),Map.of("artistaIds",List.of()),Map.of("tiposIngresso",List.of()),Map.of("cidade","c".repeat(61)),Map.of("nome","n".repeat(46)),Map.of("descricao","d".repeat(451)),
+                Map.of("localizacao","l".repeat(46)),Map.of("cep","80000-000"),Map.of("estado","XX"),Map.of("imagem","https://evil.test/x.png"),Map.of("data","2020-01-01T20:00:00Z"));
+        for(var i:invalidos) { var d=eventoDados(); d.putAll(i); var r=pedir("POST","/api/organizador/eventos",d,f.cookie()); assertEquals(422,r.statusCode(),r.body()); assertEquals(antes,valor("SELECT COUNT(*) FROM eventos")); }
+        assertEquals(422,pedir("POST","/api/organizador/eventos",Map.of(),f.cookie()).statusCode());
+        assertEquals(400,pedir("POST","/api/organizador/eventos","[]",f.cookie()).statusCode());
+        assertEquals(400,pedir("POST","/api/organizador/eventos","",f.cookie()).statusCode());
+    }
+    @Test void idsInexistentesETipoDeOutroEventoNaoSaoEditados() throws Exception {
+        var f=eventoFixture(); var outro=eventoFixture();
+        for(String id:List.of("0","-1","abc","01","2147483648")) assertEquals(400,pedir("PATCH","/api/organizador/eventos/"+id,Map.of("nome","X"),f.cookie()).statusCode());
+        assertEquals(404,pedir("GET","/api/eventos/2147483647",null,null).statusCode());
+        assertEquals(404,pedir("GET","/api/eventos/2147483647/tipos-ingresso",null,null).statusCode());
+        assertEquals(404,pedir("PATCH","/api/organizador/eventos/2147483647",Map.of("nome","X"),f.cookie()).statusCode());
+        assertEquals(404,pedir("PATCH",rota(f)+"/tipos-ingresso/"+tipoId(outro),Map.of("quantidade",1),f.cookie()).statusCode());
+    }
+    @ParameterizedTest @ValueSource(strings={"line_up","tipos_ingressos","comunidades"})
+    void falhaSqlAposEventoReverteTodasEtapas(String tabela) throws Exception {
+        var f=eventoFixture(); long eventos=valor("SELECT COUNT(*) FROM eventos"),lineup=valor("SELECT COUNT(*) FROM line_up"),tipos=valor("SELECT COUNT(*) FROM tipos_ingressos"),comunidades=valor("SELECT COUNT(*) FROM comunidades");
+        String cond=tabela.equals("comunidades")?"NEW.id_evento > "+f.id():"NEW.id_evento > "+f.id();
+        executar("CREATE TRIGGER it02_falha BEFORE INSERT ON "+tabela+" FOR EACH ROW BEGIN IF "+cond+" THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='falha proposital entrega02'; END IF; END");
+        try {
+            var r=pedir("POST","/api/organizador/eventos",eventoDados(),f.cookie()); assertEquals(503,r.statusCode(),r.body()); assertFalse(r.body().contains("SQL"));
+            assertEquals(eventos,valor("SELECT COUNT(*) FROM eventos")); assertEquals(lineup,valor("SELECT COUNT(*) FROM line_up")); assertEquals(tipos,valor("SELECT COUNT(*) FROM tipos_ingressos")); assertEquals(comunidades,valor("SELECT COUNT(*) FROM comunidades"));
+            EVIDENCIA.add("Entrega02: trigger de falha em "+tabela+" após INSERT evento: HTTP 503; contagens evento/lineup/tipos/comunidades inalteradas por rollback.");
+        } finally { executar("DROP TRIGGER it02_falha"); }
+    }
+    @Test void falhaSincronizacaoLineupReverteEdicaoGeralERetornaLineupOriginal() throws Exception {
+        var f=eventoFixture(); executar("CREATE TRIGGER it02_edicao BEFORE INSERT ON line_up FOR EACH ROW BEGIN IF NEW.id_evento="+f.id()+" THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='falha proposital'; END IF; END");
+        try {
+            assertEquals(503,pedir("PATCH",rota(f),Map.of("nome","Não persistir","artistaIds",List.of(2)),f.cookie()).statusCode());
+            var r=pedir("GET","/api/eventos/"+f.id(),null,null); assertEquals("Evento integração 02",dados(r).get("nome"));
+            assertEquals(2,valor("SELECT COUNT(*) FROM line_up WHERE id_evento="+f.id()+" AND id_artista IN(1,3)"));
+        } finally { executar("DROP TRIGGER it02_edicao"); }
+    }
+    @Test void concorrenciaRevalidaInicioDepoisDeEsperarLockDeEvento() throws Exception {
+        var f=eventoFixture();
+        try(var c=admin();var executor=Executors.newSingleThreadExecutor()) {
+            c.setAutoCommit(false);
+            try(var ps=c.prepareStatement("SELECT id_evento FROM eventos WHERE id_evento=? FOR UPDATE")) { ps.setLong(1,f.id()); try(var rs=ps.executeQuery()) { assertTrue(rs.next()); } }
+            var pedido=executor.submit(()->pedir("PATCH",rota(f),Map.of("nome","Não pode vencer o lock"),f.cookie()));
+            boolean esperando=false; long deadline=System.nanoTime()+TimeUnit.SECONDS.toNanos(10);
+            while(System.nanoTime()<deadline) {
+                if(valor("SELECT COUNT(*) FROM information_schema.processlist WHERE USER='joinup_it' AND INFO LIKE '%e.id_evento=%FOR UPDATE%'")>0) { esperando=true; break; }
+                Thread.sleep(20);
+            }
+            assertTrue(esperando,"Requisição precisa aguardar lock real do evento");
+            try(var ps=c.prepareStatement("UPDATE eventos SET data=UTC_TIMESTAMP() WHERE id_evento=?")) { ps.setLong(1,f.id()); ps.executeUpdate(); }
+            c.commit(); var r=pedido.get(20,TimeUnit.SECONDS); assertEquals(409,r.statusCode(),r.body());
+            assertEquals("Evento integração 02",dados(pedir("GET","/api/eventos/"+f.id(),null,null)).get("nome"));
+            EVIDENCIA.add("Entrega02: requisição observada esperando SELECT evento FOR UPDATE; data concorrente passa ao início; PATCH revalida e recusa HTTP 409.");
+        }
+    }
+    @Test void edicoesConcorrentesParciaisNaoPerdemNomeOuEstoque() throws Exception {
+        var f=eventoFixture(); long tipo=tipoId(f);
+        try(var executor=Executors.newFixedThreadPool(2)) {
+            var inicio=new CountDownLatch(1);
+            var a=executor.submit(()->{inicio.await();return pedir("PATCH",rota(f),Map.of("nome","Concorrente"),f.cookie());});
+            var b=executor.submit(()->{inicio.await();return pedir("PATCH",rota(f)+"/tipos-ingresso/"+tipo,Map.of("quantidade",25),f.cookie());}); inicio.countDown();
+            assertEquals(200,a.get(20,TimeUnit.SECONDS).statusCode()); assertEquals(200,b.get(20,TimeUnit.SECONDS).statusCode());
+        }
+        assertEquals(25,valor("SELECT quantidade_disponivel FROM tipos_ingressos WHERE id_tipos_ingressos="+tipo));
+        assertEquals("Concorrente",dados(pedir("GET","/api/eventos/"+f.id(),null,null)).get("nome"));
+    }
+    @Test void frontendRealEPlaceholderSeguroServidosPeloJar() throws Exception {
+        for(String path:List.of("/eventos.html","/css/eventos.css","/js/eventos.js","/assets/evento-placeholder.svg")) assertEquals(200,pedir("GET",path,null,null).statusCode(),path);
+        var svg=pedir("GET","/assets/evento-placeholder.svg",null,null); assertTrue(svg.headers().firstValue("Content-Type").orElseThrow().startsWith("image/svg+xml"));
+        assertEquals(404,pedir("GET","/assets/inexistente.svg",null,null).statusCode());
+    }
+    @Test void catalogosIncluemNovosRegistrosPersistidosSemExporCpfENaoCriamCompras() throws Exception {
+        long genero,artista; try(var c=admin()) {
+            genero=inserir(c,"INSERT INTO generos_musicais(nome) VALUES('Gênero teste 02')");
+            artista=inserir(c,"INSERT INTO artistas(nome,cpf) VALUES('Artista teste 02','00000000099')");
+        }
+        try {
+            var g=pedir("GET","/api/generos-musicais",null,null); assertEquals(200,g.statusCode()); assertTrue(g.body().contains("Gênero teste 02"));
+            var a=pedir("GET","/api/artistas?busca=Artista%20teste%2002",null,null); assertEquals(200,a.statusCode()); assertTrue(a.body().contains("Artista teste 02")); assertFalse(a.body().contains("cpf")); assertFalse(a.body().contains("00000000099"));
+            long compras=valor("SELECT COUNT(*) FROM compras"),ingressos=valor("SELECT COUNT(*) FROM ingressos");
+            pedir("GET","/api/eventos/1",null,null); pedir("GET","/api/eventos/1/tipos-ingresso",null,null);
+            assertEquals(compras,valor("SELECT COUNT(*) FROM compras")); assertEquals(ingressos,valor("SELECT COUNT(*) FROM ingressos"));
+        } finally { executar("DELETE FROM artistas WHERE id_artista=?",artista); executar("DELETE FROM generos_musicais WHERE id_genero_musical=?",genero); }
     }
 }

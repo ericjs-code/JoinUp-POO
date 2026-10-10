@@ -1,0 +1,15 @@
+main { max-width: 1140px; } nav { display: flex; flex-wrap: wrap; gap: 20px; font-size: 14px; }
+.intro { text-align: left; max-width: 740px; padding-bottom: 20px; }
+.filtros { display: grid; grid-template-columns: 2fr 1.4fr 1fr auto; align-items: end; gap: 16px; margin-bottom: 28px; }
+.cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin: 22px 0; }
+.card { border: 1px solid #ffffff22; border-radius: 18px; overflow: hidden; background: #ffffff06; }
+.card img { width: 100%; aspect-ratio: 2/1; object-fit: cover; } .card .conteudo { padding: 22px; } .card h3 { margin: 8px 0; }
+.card p { margin: 8px 0; color: var(--muted); font-size: 14px; } .card a { display: inline-block; margin: 12px 12px 0 0; }
+.paginacao { align-items: center; } #detalhe img { width: 100%; max-height: 360px; object-fit: cover; border-radius: 12px; margin-top: 25px; }
+textarea { background: #0b0819; border: 1px solid #9d4edd55; border-radius: 10px; color: white; padding: 13px; font: inherit; resize: vertical; }
+fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 17px; min-width: 0; } fieldset:disabled { opacity: .7; }
+.artistas { display: flex; flex-wrap: wrap; gap: 14px; } .artistas label { flex-direction: row; align-items: center; padding: 12px; background: #ffffff08; border-radius: 12px; } .artistas input { width: auto; accent-color: var(--purple); }
+.tipo { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 14px; margin: 18px 0; padding: 16px; border: 1px solid #ffffff22; border-radius: 14px; }
+.tipo .aviso, .tipo button { grid-column: 1/-1; } .tipo .aviso { margin: 0; color: #e0aaff; } #gestao-categorias { margin-top: 34px; }
+@media(max-width:800px) { .cards { grid-template-columns: repeat(2,1fr); } .filtros { grid-template-columns: 1fr 1fr; } header { align-items: start; } }
+@media(max-width:520px) { .cards,.filtros,.tipo { grid-template-columns: 1fr; } header { flex-direction: column; } .cabecalho { flex-wrap: wrap; } .painel { padding: 20px; } }

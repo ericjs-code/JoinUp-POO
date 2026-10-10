@@ -1,4 +1,5 @@
--- JoinUp-POO / carga demonstrativa v0.2: APROVADA PELO PO PARA DESENVOLVIMENTO. NÃO TESTADA NO MYSQL.
+-- JoinUp-POO / carga demonstrativa v0.2: APROVADA PELO PO; VALIDADA NO MYSQL 8.4.0 após correção DDL.
+-- Evidência e idempotência: docs/banco/VALIDACAO_INTEGRACAO_01.md.
 -- EXCLUSIVAMENTE PARA INSTÂNCIA LOCAL/TESTES COM BANCO joinup_poo NOVO.
 -- Não aplicar em produção nem em banco com dados existentes não demonstrativos.
 -- Reexecutar é seguro apenas sobre a própria base de demonstração: INSERT IGNORE.

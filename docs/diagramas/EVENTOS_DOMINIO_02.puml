@@ -1,0 +1,110 @@
+@startuml
+title JoinUp-POO — Fragmento RA2: classes efetivas de eventos (Entrega 02)
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "eventos.domain" {
+  class Evento <<record>> {
+    +id: long
+    +nome: String
+    +data: Instant
+    +descricao: String
+    +imagem: String
+    +localizacao: String
+    +cidade: String
+    +estado: String
+    +cep: String
+    +organizadorId: long
+    +generoId: long
+    +genero: String
+  }
+  class ItemCatalogo <<record>> {
+    +id: long
+    +nome: String
+  }
+  class TipoIngresso <<record>> {
+    +id: long
+    +nome: String
+    +preco: BigDecimal
+    +quantidade: int
+    +quantidadeVendida: int
+    +temVendas: boolean
+  }
+  class Comunidade <<record>> {
+    +id: long
+    +nome: String
+    +imagem: String
+    +eventoId: long
+  }
+}
+package "eventos.dto" {
+  class EventoView <<record>>
+  class CriarEventoDados <<record>>
+  class EditarEventoDados <<record>>
+  class TipoIngressoDados <<record>>
+  class FiltroEventos <<record>>
+}
+package "eventos.http" {
+  class EventoRoutes
+}
+package "eventos.facade" {
+  class EventoFacade <<Facade>>
+}
+package "eventos.service" {
+  class EventoService
+  class ArtistaService
+  class TipoIngressoService
+  class ComunidadeService
+  class ValidacaoEvento
+}
+package "eventos.repository" {
+  class EventoRepositoryJdbc
+  class ArtistaRepositoryJdbc
+  class TipoIngressoRepositoryJdbc
+  class ComunidadeRepositoryJdbc
+  class JdbcEventos
+}
+class Organizador
+class GerenciadorSessao
+class ExecutorTransacional
+EventoRoutes --> EventoFacade
+EventoRoutes ..> CriarEventoDados
+EventoRoutes ..> EditarEventoDados
+EventoRoutes ..> TipoIngressoDados
+EventoFacade --> ExecutorTransacional
+EventoFacade --> GerenciadorSessao
+EventoFacade --> EventoService
+EventoFacade --> ArtistaService
+EventoFacade --> TipoIngressoService
+EventoFacade --> ComunidadeService
+EventoFacade ..> EventoView
+EventoFacade ..> FiltroEventos
+EventoService --> EventoRepositoryJdbc
+ArtistaService --> ArtistaRepositoryJdbc
+TipoIngressoService --> TipoIngressoRepositoryJdbc
+ComunidadeService --> ComunidadeRepositoryJdbc
+EventoService ..> ValidacaoEvento
+ArtistaService ..> ValidacaoEvento
+TipoIngressoService ..> ValidacaoEvento
+EventoRepositoryJdbc ..> JdbcEventos
+ArtistaRepositoryJdbc ..> JdbcEventos
+TipoIngressoRepositoryJdbc ..> JdbcEventos
+ComunidadeRepositoryJdbc ..> JdbcEventos
+EventoView *-- "1" ItemCatalogo : genero
+EventoView *-- "1..*" ItemCatalogo : artistas
+EventoView *-- "1..*" TipoIngresso : tiposIngresso
+EventoView o-- "0..1" Comunidade : referência pública
+Evento ..> Organizador : organizadorId (FK)
+Comunidade ..> Evento : eventoId (FK UNIQUE)
+note bottom of Evento
+  Associação por IDs no domínio; não é grafo ORM.
+  data = Instant, DATETIME interpretado em UTC.
+  line_up existe no SQL; não se inventa classe LineUp.
+  Projeções não incluem contas ou conteúdo privado.
+end note
+note bottom of TipoIngresso
+  temVendas deriva de quantidade_vendida,
+  EXISTS(compra_itens) ou EXISTS(ingressos).
+  Preço/estoque de catálogo; compra fora desta entrega.
+end note
+@enduml

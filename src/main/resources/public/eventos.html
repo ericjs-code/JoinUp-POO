@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Eventos | JoinUp</title><link rel="stylesheet" href="/css/conta.css"><link rel="stylesheet" href="/css/eventos.css"><script src="/js/eventos.js" defer></script></head>
+<body><header><a class="marca" href="/">JoinUp<span>●</span></a><nav><a href="/eventos.html">Explorar eventos</a><a href="/eventos.html?meus=1">Meus eventos</a><a href="/conta.html">Minha conta</a></nav></header>
+<main><section class="intro"><p class="badge">Música conecta pessoas</p><h1>Encontre seu próximo <span>encontro.</span></h1><p>Descubra eventos e conheça quem sobe ao palco.</p></section>
+<p id="mensagem" role="status" aria-live="polite"></p>
+<section id="explorar"><div class="cabecalho"><h2 id="titulo-lista">Explorar eventos</h2><a id="criar" href="/eventos.html?novo=1" hidden>Criar evento →</a></div>
+<form id="filtros" class="filtros"><label>Pesquisar<input name="busca" maxlength="80" placeholder="Evento ou descrição"></label><label>Gênero<select name="generoId"><option value="">Todos os gêneros</option></select></label><label>Cidade<input name="cidade" maxlength="60" placeholder="Ex.: Curitiba"></label><button>Buscar</button></form>
+<p id="lista-status"></p><div id="cards" class="cards"></div><div class="paginacao"><button id="anterior" class="secundario">Anterior</button><span id="pagina"></span><button id="proxima" class="secundario">Próxima</button></div></section>
+<section id="detalhe" class="painel" hidden><a href="/eventos.html">← Explorar eventos</a><div id="detalhe-conteudo"></div></section>
+<section id="editor" class="painel" hidden><h2 id="titulo-editor">Criar evento</h2><p id="limite-editor">Você pode editar informações e categorias até o início. Categorias com vendas ficam bloqueadas.</p>
+<form id="form-evento"><fieldset id="campos-evento"><label>Nome<input name="nome" maxlength="45" required></label><label>Descrição<textarea name="descricao" maxlength="450" required rows="4"></textarea></label>
+<div class="linha"><label>Data e hora no seu fuso<input name="data" type="datetime-local" step="1" required></label><label>Gênero<select name="generoId" required></select></label></div>
+<label>Local<input name="localizacao" maxlength="45" required></label><div class="linha"><label>Cidade<input name="cidade" maxlength="60" required></label><label>UF<select name="estado" required></select></label></div>
+<div class="linha"><label>CEP (8 dígitos)<input name="cep" pattern="[0-9]{8}" maxlength="8" inputmode="numeric" required></label><label>Imagem<select name="imagem"><option value="">Sem imagem</option><option value="/assets/evento-placeholder.svg">Arte JoinUp</option></select></label></div>
+<p class="muted">Arte padrão disponível. Envio de fotos será disponibilizado em uma próxima etapa.</p>
+<h3>Lineup</h3><div id="artistas" class="artistas"></div>
+<section id="tipos-criacao"><h3>Categorias de ingresso</h3><div id="categorias-novas"></div><button id="mais-tipo" type="button" class="secundario">Adicionar categoria</button></section>
+<button id="salvar-evento">Publicar evento</button></fieldset></form>
+<section id="gestao-categorias" hidden><h3>Categorias do evento</h3><p>Preço e disponibilidade são de catálogo. A compra ainda não está disponível.</p><div id="categorias-existentes"></div><form id="nova-categoria"><fieldset id="campos-categoria"><h3>Nova categoria</h3><div id="linha-nova-categoria"></div><button>Adicionar ao evento</button></fieldset></form></section></section>
+<footer>Eventos, lineup e catálogo persistidos. Compra, revenda e conteúdo de comunidades serão entregues nas próximas etapas.</footer></main></body></html>
