@@ -1,0 +1,121 @@
+@startuml
+title JoinUp-POO — Classes candidatas dos quatro padrões GoF (v0.1)
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide empty members
+left to right direction
+
+package "Facade — Criar e editar evento" {
+  class EventoFacade <<Facade>> {
+    +criarEvento(dados, organizadorId): Evento
+    +editarEvento(eventoId, dados, organizadorId): Evento
+  }
+  class EventoService <<Subsystem>> {
+    +criarEvento(conexao, dados): Evento
+    +editarEvento(conexao, eventoId, dados): Evento
+  }
+  class ArtistaService <<Subsystem>> {
+    +sincronizarLineup(conexao, eventoId, artistas): void
+  }
+  class TipoIngressoService <<Subsystem>> {
+    +cadastrarTipos(conexao, eventoId, tipos): void
+    +validarEdicaoSemVendas(conexao, tipoId): void
+  }
+  class ComunidadeService <<Subsystem>> {
+    +criarParaEvento(conexao, eventoId): Comunidade
+  }
+  class ExecutorTransacional <<Infrastructure>> {
+    +executar(operacao): Resultado
+  }
+  EventoFacade --> ExecutorTransacional
+  EventoFacade --> EventoService
+  EventoFacade --> ArtistaService
+  EventoFacade --> TipoIngressoService
+  EventoFacade --> ComunidadeService
+}
+
+package "Template Method — Login" {
+  abstract class AutenticacaoTemplate <<AbstractClass>> {
+    +{final} autenticar(credenciais): Sessao
+    #buscarUsuario(email): Usuario
+    #validarRegraDoPerfil(usuario): void
+  }
+  class AutenticacaoParticipante <<ConcreteClass>>
+  class AutenticacaoOrganizador <<ConcreteClass>>
+  class AutenticacaoSuporte <<ConcreteClass>>
+  interface VerificadorSenha {
+    +verificar(senha, hash): boolean
+  }
+  class GerenciadorSessao {
+    +criar(usuario): Sessao
+  }
+  AutenticacaoTemplate <|-- AutenticacaoParticipante
+  AutenticacaoTemplate <|-- AutenticacaoOrganizador
+  AutenticacaoTemplate <|-- AutenticacaoSuporte
+  AutenticacaoTemplate --> VerificadorSenha
+  AutenticacaoTemplate --> GerenciadorSessao
+}
+
+package "Factory Method — Cadastro" {
+  abstract class Usuario <<Product>> {
+    +id: Long
+    +email: String
+    +ativo: boolean
+  }
+  class Participante <<ConcreteProduct>>
+  class Organizador <<ConcreteProduct>>
+  class UsuarioSuporte <<ConcreteProduct>>
+  abstract class CadastroUsuarioCreator <<Creator>> {
+    +{final} cadastrar(dados, operador): Usuario
+    #criarUsuario(dados): Usuario
+  }
+  class CadastroParticipanteCreator <<ConcreteCreator>>
+  class CadastroOrganizadorCreator <<ConcreteCreator>>
+  class CadastroSuporteCreator <<ConcreteCreator>>
+  interface UsuarioRepository {
+    +salvar(usuario): void
+  }
+  Usuario <|-- Participante
+  Usuario <|-- Organizador
+  Usuario <|-- UsuarioSuporte
+  CadastroUsuarioCreator <|-- CadastroParticipanteCreator
+  CadastroUsuarioCreator <|-- CadastroOrganizadorCreator
+  CadastroUsuarioCreator <|-- CadastroSuporteCreator
+  CadastroUsuarioCreator ..> Usuario : cria (factory method)
+  CadastroUsuarioCreator --> UsuarioRepository : persiste
+  CadastroParticipanteCreator ..> Participante : instancia
+  CadastroOrganizadorCreator ..> Organizador : instancia
+  CadastroSuporteCreator ..> UsuarioSuporte : instancia
+}
+
+package "Singleton — Configuração" {
+  class ConfiguracaoSistema <<Singleton>> {
+    -ConfiguracaoSistema()
+    +{static} getInstancia(): ConfiguracaoSistema
+    +getPortaHttp(): int
+    +getLimiteUploadBytes(): long
+    +isModoDemo(): boolean
+  }
+  class ApplicationBootstrap
+  ApplicationBootstrap ..> ConfiguracaoSistema : obtém única instância
+}
+
+note bottom of CadastroSuporteCreator
+  Cadastro de suporte somente após
+  autorização de suporte autenticado.
+  Controle obrigatório no backend.
+end note
+
+note bottom of AutenticacaoTemplate
+  Algoritmo final: buscar conta do perfil,
+  verificar senha e status ativo,
+  validar regra específica e criar sessão.
+end note
+
+note bottom of ConfiguracaoSistema
+  Imutável e thread-safe.
+  Não armazenar Connection, sessão,
+  usuário logado ou estado de compra.
+end note
+
+@enduml
