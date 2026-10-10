@@ -1,7 +1,7 @@
 # JoinUp-POO — Contratos HTTP propostos (Java puro)
 
 > **Versão:** 0.1 — 10/10/2026  
-> **Estado:** PROPOSTA TÉCNICA — aguarda validação do Product Owner; **sem implementação**.  
+> **Estado:** APROVADO PELO PRODUCT OWNER COMO BASE DO DESENVOLVIMENTO EM 10/10/2026; contrato evolutivo sujeito às regras e adendos aprovados; **ainda sem implementação**.  
 > **Referências:** [Requisitos homologados](../requisitos/ESPECIFICACAO_FUNCIONAL_v0.1.md), [Arquitetura Java puro](../arquitetura/ADR-001-STACK-JAVA-PURO.md), [Schema MySQL](../../src/main/resources/db/schema_v0.2.sql), [Parecer do banco](../banco/PARECER_BANCO_v0.2.md).
 
 ## 1. Convenções e limites
