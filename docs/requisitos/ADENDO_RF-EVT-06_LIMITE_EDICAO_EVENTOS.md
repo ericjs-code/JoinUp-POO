@@ -12,7 +12,7 @@
 
 **RF-EVT-06B:** se o evento ainda não tiver começado, suas informações gerais podem ser editadas **mesmo que existam ingressos vendidos**, preservando as compras e os ingressos emitidos, conforme RF-EVT-02.
 
-**RF-EVT-06C:** as regras de categorias de ingresso são independentes: tipo que já teve ao menos uma venda permanece bloqueado para edição manual (RF-EVT-03/04) e podem ser adicionados novos tipos após vendas de outros tipos (RF-EVT-05). **A política de adicionar ou editar tipos sem vendas após o início do evento não foi expressamente decidida nesta aprovação** e requer validação específica; não inferir que se tornou permitida.
+**RF-EVT-06C (complementado pela decisão posterior RF-EVT-07):** tipos que já tiveram ao menos uma venda permanecem bloqueados para edição manual (RF-EVT-03/04), e novos tipos podem ser adicionados após vendas de outros (RF-EVT-05), **mas somente antes do início do evento**. Ver [adendo RF-EVT-07](./ADENDO_RF-EVT-07_CATEGORIAS_APENAS_ANTES_INICIO.md).
 
 **RF-EVT-06D:** a restrição deve ser verificada no backend Java/JDBC também em chamadas diretas da API, independentemente de o frontend ocultar opções.
 
@@ -32,6 +32,6 @@
 - Comparar o instante atual do servidor ao início **persistido** do evento; definir a política de zona horária de forma coerente com o transporte HTTP e o MySQL.
 - O frontend deve explicar por que a edição foi bloqueada; servidor deve retornar resposta de conflito do domínio quando evento tiver iniciado.
 - Validar a condição novamente no contexto da transação ao persistir; evitar checagem apenas no frontend.
-- **Pendente de decisão específica:** inclusão/edição de tipos de ingressos sem vendas depois do início do evento e tratamento de tentativa de remarcação para um horário já passado.
+- **Resolvido por RF-EVT-07:** inclusão/edição de categorias após o início do evento são bloqueadas. **Permanece pendente:** tratamento de tentativa de remarcação de evento futuro para horário já passado.
 
 > Nenhum código, script de banco ou teste foi executado por esta aprovação.
