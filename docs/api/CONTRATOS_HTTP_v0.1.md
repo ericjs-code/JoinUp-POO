@@ -51,8 +51,8 @@
 | GET | `/api/organizador/eventos` | **Organizador** | Lista apenas eventos de sua autoria |
 | POST | `/api/organizador/eventos` | **Organizador** | **Facade** cria evento, lineup, tipos e comunidade em **uma transação**; RF-EVT-H01/H02 |
 | PATCH | `/api/organizador/eventos/{eventoId}` | **Organizador dono, conta ativa** | Edita dados gerais e lineup **somente antes do início do evento**, mesmo após vendas, preservando históricos; RF-EVT-01/02/06 |
-| POST | `/api/organizador/eventos/{eventoId}/tipos-ingresso` | **Organizador dono** | Adiciona categoria mesmo após vendas de outras; RF-EVT-05 |
-| PATCH | `/api/organizador/eventos/{eventoId}/tipos-ingresso/{tipoId}` | **Organizador dono** | Edita nome, preço e quantidade **somente se nenhuma venda**; RF-EVT-03/04 |
+| POST | `/api/organizador/eventos/{eventoId}/tipos-ingresso` | **Organizador dono e ativo** | Adiciona categoria **somente antes do início do evento**, inclusive após vendas de outras categorias; RF-EVT-05/07 |
+| PATCH | `/api/organizador/eventos/{eventoId}/tipos-ingresso/{tipoId}` | **Organizador dono e ativo** | Edita nome, preço e quantidade **somente antes do início do evento e se a categoria nunca teve venda**; RF-EVT-03/04/07 |
 
 **Criar evento, exemplo de payload (ilustrativo, sujeito ao formulário original):**
 
@@ -181,7 +181,7 @@ Imagem será tratada pelo contrato de upload; o campo de referência da imagem e
 | `CONTA_INATIVA` | 403 | Usuário desativado |
 | `RECURSO_NAO_ENCONTRADO` | 404 | ID inexistente ou inacessível |
 | `EVENTO_ENCERRADO` | 409 | Evento passado na compra/revenda |
-| `EVENTO_JA_INICIADO` | 409 | Organizador tenta editar informações gerais de evento iniciado ou encerrado (RF-EVT-06) |
+| `EVENTO_JA_INICIADO` | 409 | Organizador tenta editar informações gerais, adicionar categoria ou editar categoria após o início do evento (RF-EVT-06/07) |
 | `ORGANIZADOR_INATIVO` | 409 | Compra/anúncio de evento com organizador inativo |
 | `ESTOQUE_INSUFICIENTE` | 409 | Não há estoque para compra solicitada |
 | `TIPO_INGRESSO_COM_VENDAS` | 409 | Categoria vendida não pode ser editada manualmente |
