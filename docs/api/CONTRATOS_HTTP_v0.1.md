@@ -148,15 +148,15 @@ Imagem será tratada pelo contrato de upload; o campo de referência da imagem e
 | POST | `/api/chamados` | **Participante/Organizador** | Abrir ticket de suporte |
 | GET | `/api/me/chamados` | **Participante/Organizador** | Listar apenas próprios chamados |
 | GET | `/api/me/chamados/{ticketId}` | **Solicitante titular** | Consultar detalhes e histórico |
-| POST | `/api/me/chamados/{ticketId}/mensagens` | **Solicitante titular** | Responder/retornar onde estado permitir |
-| POST | `/api/me/chamados/{ticketId}/resolucao` | **Solicitante titular** | Encerrar como resolvido, quando aplicável |
+| POST | `/api/me/chamados/{ticketId}/mensagens` | **Solicitante titular** | Ação **Retornar** somente em `aguardando_usuario`: exige mensagem, registra autor e passa a `em_atendimento` (RF-SUP-04) |
+| POST | `/api/me/chamados/{ticketId}/resolucao` | **Solicitante titular** | Ação **Resolver** somente em `aguardando_usuario`: encerra como `fechado` (RF-SUP-04) |
 | GET | `/api/suporte/chamados?status=&pagina=` | **Suporte** | Listar chamados de todos com filtros |
 | GET | `/api/suporte/chamados/{ticketId}` | **Suporte** | Detalhes, autores e mensagens |
 | PATCH | `/api/suporte/chamados/{ticketId}/associacao` | **Suporte** | Associar atendente para acompanhamento |
 | POST | `/api/suporte/chamados/{ticketId}/mensagens` | **Qualquer suporte autenticado** | Responder mesmo associado a outro; grava autor real; passa a `aguardando_usuario` |
 | POST | `/api/suporte/chamados/{ticketId}/encerramento` | **Suporte** | Fechar apenas onde permitido pelo status |
 
-**Estados:** `aberto`, `em_atendimento`, `aguardando_usuario`, `fechado`. `fechado` é terminal e não permite mensagens. Suporte não fecha `aguardando_usuario`. Solicitante pode resolver ou retornar quando aplicável. **Matriz exata de transições** ainda será homologada antes de implementar handlers; a interface deve preservar os fluxos originais.
+**Estados:** `aberto`, `em_atendimento`, `aguardando_usuario`, `fechado`. `fechado` é terminal e não permite mensagens. Suporte não fecha `aguardando_usuario`; somente o solicitante pode **Resolver** (`→ fechado`) ou **Retornar** com mensagem (`→ em_atendimento`), e **apenas se o estado atual for `aguardando_usuario`**. As transições confirmadas estão documentadas em [RF-SUP-04](../requisitos/ADENDO_RF-SUP-04_TRANSICOES_SOLICITANTE.md). O fluxo aprovado substitui o comportamento original de aceitar retorno/resolução em outros estados.
 
 ## 8. Painéis, arquivos e funções demonstrativas
 
