@@ -50,7 +50,7 @@
 | GET | `/api/artistas?busca=` | Público | Buscar artistas para line-up |
 | GET | `/api/organizador/eventos` | **Organizador** | Lista apenas eventos de sua autoria |
 | POST | `/api/organizador/eventos` | **Organizador** | **Facade** cria evento, lineup, tipos e comunidade em **uma transação**; RF-EVT-H01/H02 |
-| PATCH | `/api/organizador/eventos/{eventoId}` | **Organizador dono, conta ativa** | Edita dados gerais e lineup **somente antes do início do evento**, mesmo após vendas, preservando históricos; RF-EVT-01/02/06 |
+| PATCH | `/api/organizador/eventos/{eventoId}` | **Organizador dono, conta ativa** | Edita dados gerais e lineup **somente antes do início**; se reagendar, exige nova data/hora **estritamente futura**, mesmo com vendas, preservando históricos; RF-EVT-01/02/06/08 |
 | POST | `/api/organizador/eventos/{eventoId}/tipos-ingresso` | **Organizador dono e ativo** | Adiciona categoria **somente antes do início do evento**, inclusive após vendas de outras categorias; RF-EVT-05/07 |
 | PATCH | `/api/organizador/eventos/{eventoId}/tipos-ingresso/{tipoId}` | **Organizador dono e ativo** | Edita nome, preço e quantidade **somente antes do início do evento e se a categoria nunca teve venda**; RF-EVT-03/04/07 |
 
@@ -73,7 +73,7 @@
 }
 ```
 
-Imagem será tratada pelo contrato de upload; o campo de referência da imagem entra em fluxo separado. A edição de dados gerais **não modifica compras anteriores**. **RF-EVT-06:** só aceitar alterações enquanto o evento ainda não começou; rejeitar a partir da data/hora de início cadastrada, inclusive, mesmo por chamada direta da API. Ver [adendo RF-EVT-06](../requisitos/ADENDO_RF-EVT-06_LIMITE_EDICAO_EVENTOS.md). Excluir evento não é uma rota prevista.
+Imagem será tratada pelo contrato de upload; o campo de referência da imagem entra em fluxo separado. A edição de dados gerais **não modifica compras anteriores**. **RF-EVT-06:** só aceitar alterações enquanto o evento ainda não começou; rejeitar a partir da data/hora de início cadastrada, inclusive, mesmo por chamada direta da API. **RF-EVT-08:** ao alterar a data/hora, exigir que o destino seja **estritamente posterior ao instante atual**, com normalização de fuso. Ver [RF-EVT-06](../requisitos/ADENDO_RF-EVT-06_LIMITE_EDICAO_EVENTOS.md) e [RF-EVT-08](../requisitos/ADENDO_RF-EVT-08_REAGENDAMENTO_DATA_FUTURA.md). Excluir evento não é uma rota prevista.
 
 ## 4. Compra direta e meus ingressos
 
@@ -182,6 +182,7 @@ Imagem será tratada pelo contrato de upload; o campo de referência da imagem e
 | `RECURSO_NAO_ENCONTRADO` | 404 | ID inexistente ou inacessível |
 | `EVENTO_ENCERRADO` | 409 | Evento passado na compra/revenda |
 | `EVENTO_JA_INICIADO` | 409 | Organizador tenta editar informações gerais, adicionar categoria ou editar categoria após o início do evento (RF-EVT-06/07) |
+| `DATA_EVENTO_INVALIDA` | 422 | Organizador tenta reagendar evento futuro para instante passado ou atual (RF-EVT-08) |
 | `ORGANIZADOR_INATIVO` | 409 | Compra/anúncio de evento com organizador inativo |
 | `ESTOQUE_INSUFICIENTE` | 409 | Não há estoque para compra solicitada |
 | `TIPO_INGRESSO_COM_VENDAS` | 409 | Categoria vendida não pode ser editada manualmente |
