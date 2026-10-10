@@ -224,8 +224,17 @@ diagrama/relatório integral posterior, sujeito à revisão RA2 do Tech Lead.
 
 ## GitHub / revisão
 
-PR para `main`, **sem merge**. Status/links de CI e commit de implementação serão
-registrados após publicação, com distinção entre resultado local e execução remota.
-O workflow existente continua executando `-Pmysql-it clean verify` com MySQL
-**8.4.0**, sem mock de banco, e publica Surefire/Failsafe/evidência SQL.
-Auditoria do Tech Lead permanece obrigatória antes de integrar.
+- [PR #3 — Entrega 02](https://github.com/ericjs-code/JoinUp-POO/pull/3), aberto
+  para `main`, **sem merge**, na branch `feat/02-eventos-facade`.
+- Base: `921d352e9c9d2dd5ad137c44894cee9b6969bf25`; implementação:
+  `1a10b8fee7297f43025af6406cad757b2c0656bb`.
+- [CI remoto da implementação — execução 38083736991](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38083736991):
+  **success**, em 10/10/2026, job `verificar`, Java 21, container MySQL **8.4.0**.
+  Executou `-Pmysql-it clean verify`: **111 Surefire + 46 Failsafe = 157 testes**,
+  zero falhas, erros ou ignorados, `BUILD SUCCESS`. Publicação das evidências
+  Surefire/Failsafe/SQL também concluída. Esse resultado remoto confirma a
+  execução local descrita acima; não representa aprovação de auditoria.
+
+Este registro acrescenta documentação após o commit de implementação. O estado
+atual dos checks da branch pode ser acompanhado no PR. Auditoria do Tech Lead
+permanece obrigatória antes de integrar; merge não foi executado.
