@@ -1,4 +1,4 @@
-name: Fundação Java 21
+name: Java 21 e autenticação MySQL
 
 on:
   push:
@@ -10,6 +10,29 @@ permissions:
 jobs:
   verificar:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.4.0
+        env:
+          MYSQL_DATABASE: joinup_poo
+          MYSQL_USER: joinup_it
+          MYSQL_PASSWORD: fixture-ci-only
+          MYSQL_ROOT_PASSWORD: root-fixture-ci-only
+          MYSQL_ROOT_HOST: '%'
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot-fixture-ci-only"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=12
+    env:
+      JOINUP_JDBC_URL: jdbc:mysql://127.0.0.1:3306/joinup_poo?connectionTimeZone=UTC&forceConnectionTimeZoneToSession=true&connectTimeout=5000&socketTimeout=10000
+      JOINUP_DB_USER: joinup_it
+      JOINUP_DB_PASSWORD: fixture-ci-only
+      JOINUP_IT_ADMIN_USER: root
+      JOINUP_IT_ADMIN_PASSWORD: root-fixture-ci-only
+      JOINUP_IT_DATABASE: instancia-isolada
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -17,5 +40,14 @@ jobs:
           distribution: temurin
           java-version: '21'
           cache: maven
-      - name: Testar e empacotar (sem MySQL)
-        run: mvn --batch-mode --no-transfer-progress clean verify
+      - name: Testar, empacotar e integrar com MySQL real
+        run: mvn --batch-mode --no-transfer-progress -Pmysql-it clean verify
+      - name: Publicar evidências dos testes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: testes-java21-mysql
+          path: |
+            target/surefire-reports/
+            target/failsafe-reports/
+            target/mysql-validation/

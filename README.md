@@ -1,108 +1,152 @@
 # JoinUp-POO
 
-Entrega 00 — fundação Java 21 puro. Servidor HTTP nativo do JDK, Jackson, JDBC/MySQL Connector/J e testes JUnit 5. O escopo autorizado está em [CODEX_00](docs/prompts/CODEX_00_FUNDACAO_JAVA_PURO.md).
+Java 21 puro com HttpServer do JDK, JDBC/MySQL 8, Jackson e JUnit. Entrega 01:
+cadastros e autenticação por perfil, sessão segura, perfil próprio, desativação
+transacional e reativação por suporte. Factory Method e Template Method estão
+em fluxos executáveis; Singleton configura a aplicação. Facade será implementado
+na Entrega 02.
 
-Esta entrega disponibiliza a página inicial e o diagnóstico HTTP. Cadastros, autenticação, sessões, eventos, compras, revendas, comunidades e suporte serão implementados nas próximas entregas. Singleton está aplicado à configuração; os demais GoF aguardam seus fluxos reais.
+Interface mínima em `/conta.html`, com identidade visual escura/roxa próxima do
+JoinUp PHP. Eventos, compras, comunidades, revendas completas, tickets, uploads
+e dashboards ainda pertencem às próximas entregas. O projeto usa banco próprio
+`joinup_poo`, sem importar registros legados.
 
-## Pré-requisitos e instalação
+## Executar
 
-- JDK **21**, com `JAVA_HOME` apontando para ele e `java` no PATH.
-- Maven **3.9.x**, com `mvn` no PATH; acesso ao Maven Central na primeira execução.
-- MySQL **8.0.16+** somente para validar/integrar banco. A página e `/api/health` funcionam sem MySQL.
+Pré-requisitos: **JDK 21**, Maven **3.9.x**, MySQL **8.0.16+**; os testes reais
+foram executados com MySQL **8.4.0**. JAVA_HOME deve apontar para o JDK 21.
 
 ```powershell
 git clone https://github.com/ericjs-code/JoinUp-POO.git
 cd JoinUp-POO
-git switch feat/00-fundacao-java-puro
-java -version
-mvn --version
-mvn clean test
-mvn package
+git switch main
+mvn clean verify
+```
+
+Para avaliar a Entrega 01 antes do merge, selecione a branch do PR
+`feat/01-usuarios-autenticacao`. Instruções para novos clones continuam na `main`.
+Prepare instância **isolada** de MySQL, aplique os SQLs e configure a conta DML:
+
+```powershell
+mysql --host=127.0.0.1 --port=3306 --user=administrador -p --default-character-set=utf8mb4 --show-warnings --execute="source src/main/resources/db/schema_v0.2.sql"
+mysql --host=127.0.0.1 --port=3306 --user=administrador -p --default-character-set=utf8mb4 --show-warnings --execute="source src/main/resources/db/seed_demo_v0.2.sql"
+# Conferir erros/warnings, não somente o exit code de SOURCE.
+$env:JOINUP_DB_USER = 'joinup_app'
+# Configure JOINUP_DB_PASSWORD no ambiente, sem publicar credenciais.
 java -jar target/joinup-poo.jar
 ```
 
-Abra **http://127.0.0.1:8080/**. O botão verifica `GET /api/health`, cuja resposta é `{"dados":{"status":"UP"}}`. Este endpoint informa apenas que o HTTP responde; **não verifica banco, schema, seed ou autenticação**. Encerre com `Ctrl+C`: shutdown hook para o servidor, encerra o executor e aguarda os recursos.
+A conta da aplicação precisa somente de SELECT/INSERT/UPDATE/DELETE em
+joinup_poo. DDL/seed são tarefas separadas de administração, nunca executadas
+automaticamente no bootstrap. Seed contém credenciais demonstrativas e deve
+ser usado **somente em ambiente de demonstração/teste local**; consulte o SQL
+para e-mails/senha. JOINUP_DEMO continua reservado e não executa carga automática.
 
-Alternativa em desenvolvimento, após compilar:
+Abra [início local](http://127.0.0.1:8080/) ou
+[contas](http://127.0.0.1:8080/conta.html). Cadastros públicos de participante e
+organizador; novos suportes somente em sessão de suporte. A interface oferece
+login por perfil, dados/sessão atual, edição/desativação própria e, para suporte,
+cadastro de suporte e consulta/reativação de contas. Ctrl+C encerra servidor/executor.
+Alternativa: `mvn compile exec:java`.
 
-```powershell
-mvn compile exec:java
-```
+`GET /api/health` informa apenas liveness HTTP: `{"dados":{"status":"UP"}}`.
+Health e estáticos funcionam sem conexão de banco; operações de conta exigem MySQL.
 
-Em Linux/macOS, os mesmos comandos de Maven/JAR se aplicam. Ajuste somente os exemplos de exportação de variáveis abaixo para `export NOME=valor`.
+## Configuração e segurança
 
-## Configuração
+Precedência: propriedade JVM `-D` → ambiente → padrão; snapshot imutável do
+Singleton. `.env.example` é referência, não carregado automaticamente.
 
-Precedência: **propriedade JVM `-D` → variável de ambiente → padrão**. Valores são lidos uma vez, na inicialização do Singleton `ConfiguracaoSistema`, com construtor privado e initialization-on-demand holder. Configurações inválidas impedem a inicialização; mensagens não incluem valores de credenciais. Não há conexão JDBC permanente ou global.
-
-| Variável | Propriedade JVM | Padrão / limite |
+| Ambiente | Propriedade JVM | Padrão / limite |
 | --- | --- | --- |
-| `JOINUP_HTTP_HOST` | `joinup.http.host` | `127.0.0.1` |
-| `JOINUP_HTTP_PORT` | `joinup.http.port` | `8080`; 1–65535 |
-| `JOINUP_HTTP_THREADS` | `joinup.http.threads` | `8`; 1–64, fila de 128 tarefas |
-| `JOINUP_MAX_REQUEST_BYTES` | `joinup.maxRequestBytes` | `65536` (64 KiB); 1–1048576 |
-| `JOINUP_DEMO` | `joinup.demo` | `false`; aceita apenas `true`/`false` |
-| `JOINUP_JDBC_URL` | `joinup.jdbc.url` | `jdbc:mysql://127.0.0.1:3306/joinup_poo?connectionTimeZone=UTC&connectTimeout=5000&socketTimeout=10000` |
-| `JOINUP_DB_USER` | `joinup.db.user` | vazio; obrigatório ao abrir conexão |
-| `JOINUP_DB_PASSWORD` | `joinup.db.password` | vazio; configurar conforme instância local |
+| JOINUP_HTTP_HOST | joinup.http.host | 127.0.0.1 |
+| JOINUP_HTTP_PORT | joinup.http.port | 8080; 1–65535 |
+| JOINUP_HTTP_THREADS | joinup.http.threads | 8; 1–64, fila 128 |
+| JOINUP_MAX_REQUEST_BYTES | joinup.maxRequestBytes | 65536; limite global preservado |
+| JOINUP_DEMO | joinup.demo | false; reservado |
+| JOINUP_JDBC_URL | joinup.jdbc.url | jdbc:mysql://127.0.0.1:3306/joinup_poo?connectionTimeZone=UTC&connectTimeout=5000&socketTimeout=10000 |
+| JOINUP_DB_USER | joinup.db.user | obrigatório ao conectar |
+| JOINUP_DB_PASSWORD | joinup.db.password | segredo no ambiente |
+| JOINUP_PUBLIC_ORIGIN | joinup.public.origin | vazio: http://127.0.0.1:porta efetiva |
+| JOINUP_PBKDF2_ITERATIONS | joinup.pbkdf2.iterations | 600000; 600000–2000000 |
+| JOINUP_SESSION_SECONDS | joinup.session.seconds | 28800 (8h); 60–86400 |
 
-`.env.example` é **referência**, sem leitura automática de `.env`. Não há arquivo de propriedades carregado automaticamente; as propriedades são as da JVM. Prefira ambiente para segredos, evitando senha na linha de comando/histórico. A URL JDBC aceita exclusivamente o banco `joinup_poo`; nunca aponte para `joinup` legado. Sem configuração de usuário, iniciar o HTTP é permitido, e tentar abrir conexão JDBC falha claramente.
+Para HTTPS por proxy, configure `JOINUP_PUBLIC_ORIGIN=https://seu-host` (sem
+barra/caminho/query). O servidor exige Origin exato nas mutações; se ausente,
+Referer da mesma origem. Sem ambos, origem null/distinta ou Sec-Fetch-Site
+incompatível: **403 CSRF_NEGADO**. Clientes de API devem enviar Origin explícito
+e Content-Type application/json para corpos JSON. Sem CORS indiscriminado; Host
+e X-Forwarded-* não decidem a origem. API e frontend devem compartilhar origem.
 
-```powershell
-$env:JOINUP_HTTP_PORT = '8081'
-$env:JOINUP_DEMO = 'false'
-java -jar target/joinup-poo.jar
-# Alternativa para parâmetros não sensíveis (prioridade sobre ambiente):
-java -Djoinup.http.port=8082 -jar target/joinup-poo.jar
-```
+Cookie `joinup_sessao`: HttpOnly, SameSite=Lax, Path=/ e Max-Age, Secure sob
+origem HTTPS configurada. HTTP sem Secure é limitado a **127.0.0.1 local**.
+Nunca guardar token no JavaScript/localStorage nem devolvê-lo em JSON: ele vai
+somente pelo cookie; no MySQL persiste apenas SHA-256. Sessão expirada/revogada
+e conta inativa são verificadas em todos os endpoints protegidos. Novas senhas
+usam PBKDF2-SHA256/salt individual; fixture de 180 mil iterações permanece legível.
 
-`JOINUP_DEMO` reserva a configuração do modo demonstrativo para os próximos incrementos. **Não executa seed automaticamente nesta entrega**, nem habilita login/rotas de negócio. A carga aprovada é aplicada manualmente apenas em instância local de testes.
+Rotas dinâmicas correspondem segmento a segmento, com parâmetros de path/query
+imutáveis, estáticos prioritários e ambiguidades recusadas. 404 para recurso
+desconhecido; 405 com Allow para método inválido. Erros JSON não expõem JDBC,
+senhas ou hashes. IDs positivos, campos extras/IDOR, JSON duplicado/coerções,
+traversal e barras codificadas são rejeitados; limite de corpo 64 KiB inclusive
+chunked. Datas de nascimento usam ISO `yyyy-MM-dd`/LocalDate com Jackson JSR-310.
+Sessões/auditoria/desativação usam UTC no SQL.
 
-## Organização e acesso a dados
+## Endpoints da Entrega 01
 
-- `Main` e `bootstrap/ApplicationBootstrap`: ciclo de vida, composição manual e executor controlado.
-- `config/ConfiguracaoSistema`: configuração única, imutável e thread-safe, consumida pelo bootstrap e pela fábrica JDBC.
-- `http`: roteador exato por método/path, limite comum de corpo, JSON, erro padronizado, health e estáticos.
-- `shared/db/ConnectionFactory`: abre uma nova conexão por chamada. Nenhum SQL é executado na inicialização ou nos handlers.
-- `resources/public`: únicos recursos públicos; schema/seed e demais arquivos do classpath não são expostos.
+| Método e caminho | Permissão |
+| --- | --- |
+| POST /api/participantes, /api/organizadores | Público, com CSRF e JSON |
+| POST /api/auth/participantes/login, /api/auth/organizadores/login, /api/auth/suporte/login | Público, com CSRF e JSON |
+| GET /api/auth/me | Autenticado e ativo |
+| POST /api/auth/logout | Autenticado e ativo, CSRF |
+| GET/PATCH /api/me/perfil | Participante/organizador titular; PATCH com CSRF/JSON |
+| POST /api/me/desativacao | Participante/organizador titular, CSRF |
+| POST /api/suporte/usuarios | Suporte, CSRF/JSON |
+| GET /api/suporte/contas?tipo=participante\|organizador&situacao=inativa | Suporte; pagina/tamanho opcionais (20, até 100) |
+| POST /api/suporte/contas/{tipo}/{id}/reativacao | Suporte, CSRF; tipo participante/organizador |
 
-Exemplo para futuros casos de uso, com responsabilidade de fechamento/transação no chamador:
+PATCH permite nome/e-mail/nova_senha e, para organizador, CNPJ. Não permite
+id/perfil/CPF/data_nascimento. Login retorna id/perfil/nome. Respostas de perfil
+omitem senha/hash; listagem de suporte também omite CPF/CNPJ/nascimento.
+Reativar conta já ativa retorna 409 CONTA_JA_ATIVA; não duplica auditoria.
+Logout/desativação/reativação aceitam corpo vazio ou `{}`.
 
-```java
-try (var conexao = connectionFactory.abrirConexao()) {
-    conexao.setAutoCommit(false);
-    try {
-        // Repositórios JDBC futuros recebem esta conexão e usam PreparedStatement.
-        conexao.commit();
-    } catch (Exception e) {
-        conexao.rollback();
-        throw e;
-    }
-}
-```
+Desativação mantém histórico e revoga **todas** as sessões na mesma transação.
+Para participante, cancela também todos os anúncios disponíveis sem trocar o
+dono do ingresso. Reativação exige suporte, mantém PK e grava autor/timestamp;
+anúncios cancelados permanecem cancelados. Suporte não possui ciclo de desativação.
 
-## HTTP e limites de segurança
-
-- API desconhecida: **404**; método não registrado em rota existente: **405** com `Allow`. Estáticos existentes aceitam `GET`/`HEAD`; recursos ausentes retornam 404 independentemente do método.
-- Erros seguem `{"erro":{"codigo":"...","mensagem":"...","detalhes":{}}}`. Além dos códigos aprovados usados em 400/404, os códigos de transporte desta fundação são `METODO_NAO_PERMITIDO` (405), `REQUISICAO_MUITO_GRANDE` (413) e `ERRO_INTERNO` (500).
-- Limite de corpo aplicado com `Content-Length` ou leitura limitada de corpo chunked. JSON rejeita sintaxe inválida, `null`, chaves duplicadas e tokens excedentes. A Entrega 00 não possui endpoint JSON de escrita; essa infraestrutura é exercitada por rotas exclusivas dos testes.
-- Caminhos com `..`, `.`, barras invertidas, caracteres de controle ou codificação dupla são rejeitados antes do acesso a recursos. Estáticos usam apenas `/public` do classpath, também no JAR; sem fallback de SPA.
-- Mesma origem; sem CORS irrestrito, cookies ou sessões. Respostas incluem `nosniff`, política de conteúdo restrita, `no-store` e `Referrer-Policy`.
-- Próxima entrega de autenticação: cookie `HttpOnly`, `SameSite=Lax`, `Secure` em HTTPS, token imprevisível persistido somente como hash, expiração/revogação; proteção CSRF nas mudanças de estado conforme contrato. **Esses mecanismos ainda não estão implementados.**
-
-O executor tem número de threads e fila limitados; saturação usa o dispatcher para aplicar contrapressão. Proteção contra clientes lentos, limites de cabeçalhos e infraestrutura HTTPS/reverse proxy precisam de validação para exposição pública; esta entrega é uma fundação local, sem teste de carga.
-
-## Banco independente e validação MySQL
-
-**Status real: NÃO EXECUTADO em MySQL.** Não foram encontrados cliente/serviço MySQL ou Docker nesta sessão. Nenhuma conexão efetiva, criação de tabela, FK ou execução/reexecução de seed foi validada. Os arquivos SQL aprovados permanecem intactos. A verificação PBKDF2 dos nove hashes do arquivo foi realizada com o JDK em teste offline, sem constituir teste de banco ou login.
-
-Instruções exatas e verificações pendentes: [VALIDACAO_FUNDACAO_00.md](docs/banco/VALIDACAO_FUNDACAO_00.md). Resultados desta entrega: [ENTREGA_00_RESULTADOS.md](docs/execucao/ENTREGA_00_RESULTADOS.md).
-
-## Testes
+## Testes e integração real
 
 ```powershell
-mvn clean test
-mvn package
+mvn clean verify             # Unitários/HTTP; não atesta banco
+# Somente instância isolada com joinup_it e administrador de fixtures:
+$env:JOINUP_IT_DATABASE = 'instancia-isolada'
+$env:JOINUP_IT_ADMIN_USER = 'administrador_teste'
+# JOINUP_IT_ADMIN_PASSWORD, JOINUP_DB_USER=joinup_it e senhas no ambiente
+mvn -Pmysql-it clean verify  # Inclui MySQL real, falha se não disponível
 ```
 
-O Surefire publica resultados em `target/surefire-reports/`. A suíte cobre identidade concorrente do Singleton, imutabilidade, configuração em JVM isolada, HTTP real em porta efêmera, health, 404/405, estáticos, traversal, erros de JSON/500, limite declarado/chunked, isolamento de corpos concorrentes, fechamento/liberação de porta e hashes PBKDF2 do seed. Ela **não usa nem simula MySQL**. As rotas de teste não são registradas na aplicação.
+Perfil mysql-it aplica/reexecuta schema/seed, verifica 22 tabelas/FKs/CHECKs/
+índices, hashes persistidos e linhas/timestamps idênticos. Exige fixtures sem
+dados de outra origem. Restringe joinup_it a DML, executa HTTP real, permissões,
+CSRF, sessões, IDOR, rollback com triggers de teste e concorrência. **Não usar
+esse perfil contra instalação com dados reais.** Suíte limpa somente suas PKs
+criadas; nenhum DROP DATABASE/TRUNCATE nem remoção de constraints.
+
+GitHub Actions usa service container `mysql:8.4.0`, Java 21 e `-Pmysql-it clean
+verify`. Evidências ficam em target/surefire-reports, target/failsafe-reports e
+target/mysql-validation, publicadas como artefato. Os 52 testes da fundação
+foram preservados. Resultados finais estão nos documentos abaixo.
+
+- [Resultados da Entrega 01](docs/execucao/ENTREGA_01_RESULTADOS.md).
+- [Validação real MySQL](docs/banco/VALIDACAO_INTEGRACAO_01.md).
+- [Correção técnica mínima CHECK/FK](docs/banco/CORRECAO_DDL_01.md).
+- [Contratos baseline](docs/api/CONTRATOS_HTTP_v0.1.md) e [prompt](docs/prompts/CODEX_01_USUARIOS_AUTENTICACAO.md).
+
+SQLs IF NOT EXISTS não migram instalações preexistentes. A correção CHECK/FK
+da Entrega 01 deve ser aplicada em instância nova de desenvolvimento; migração
+de outra instalação requer análise própria. Publicação HTTPS, proteção de borda,
+rate limiting e limpeza operacional de sessões precisam de validação de implantação.

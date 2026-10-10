@@ -8,3 +8,4 @@ button { background: #bea2ff; color: #171026; border: 0; border-radius: .5rem; p
 button:focus-visible { outline: 3px solid white; outline-offset: 4px; }
 button:disabled { opacity: .65; cursor: wait; }
 #status { margin-top: 2rem; }
+.acesso { display: inline-block; color: #171026; background: #bea2ff; padding: .85rem 1.2rem; border-radius: .5rem; font-weight: 700; text-decoration: none; }

@@ -143,13 +143,15 @@ CREATE TABLE IF NOT EXISTS `comunidade_mensagens` (
   CONSTRAINT `fk_comunidade_mensagens_participantes1`
     FOREIGN KEY (`id_participante`)
     REFERENCES `participantes` (`id_participante`)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE,
+    -- CHECK de autoria exige autor existente; MySQL veda SET NULL/CASCADE
+    -- em colunas usadas no CHECK. Preservar autoria e IDs internos estáveis.
+    ON DELETE RESTRICT
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_comunidade_mensagens_organizadores1`
     FOREIGN KEY (`id_organizador`)
     REFERENCES `organizadores` (`id_organizador`)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE,
+    ON DELETE RESTRICT
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_comunidade_mensagens_comunidade_mensagens1`
     FOREIGN KEY (`id_resposta_a`)
     REFERENCES `comunidade_mensagens` (`id_mensagem`)
@@ -473,11 +475,11 @@ CREATE TABLE IF NOT EXISTS `ticket_mensagens` (
   CONSTRAINT `fk_ticket_msg_ticket` FOREIGN KEY (`id_ticket`)
     REFERENCES `ticket` (`id_ticket`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `fk_ticket_msg_participante` FOREIGN KEY (`id_participante`)
-    REFERENCES `participantes` (`id_participante`) ON DELETE RESTRICT ON UPDATE CASCADE,
+    REFERENCES `participantes` (`id_participante`) ON DELETE RESTRICT ON UPDATE NO ACTION,
   CONSTRAINT `fk_ticket_msg_organizador` FOREIGN KEY (`id_organizador`)
-    REFERENCES `organizadores` (`id_organizador`) ON DELETE RESTRICT ON UPDATE CASCADE,
+    REFERENCES `organizadores` (`id_organizador`) ON DELETE RESTRICT ON UPDATE NO ACTION,
   CONSTRAINT `fk_ticket_msg_suporte` FOREIGN KEY (`id_usuario_suporte`)
-    REFERENCES `usuarios_suporte` (`id_usuario_suporte`) ON DELETE RESTRICT ON UPDATE CASCADE
+    REFERENCES `usuarios_suporte` (`id_usuario_suporte`) ON DELETE RESTRICT ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
 
 -- Rastreabilidade de reativação por suporte; sem FK polimórfica frágil.
