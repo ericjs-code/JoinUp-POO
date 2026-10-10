@@ -22,6 +22,8 @@ public final class ExecutorTransacional {
                 throw e;
             }
         } catch (SQLException e) {
+            if (e.getErrorCode() == 1213 || e.getErrorCode() == 1205 || "40001".equals(e.getSQLState()))
+                throw new HttpException(409, "CONCORRENCIA_CONFLITO", "Operação concorrente; atualize os dados e tente novamente");
             if (e.getErrorCode() == 1062) throw new HttpException(409, "CADASTRO_DUPLICADO", "E-mail ou documento já cadastrado");
             // Detalhes JDBC e valores pessoais não são publicados nem registrados.
             throw new HttpException(503, "BANCO_INDISPONIVEL", "Não foi possível concluir a operação no banco");

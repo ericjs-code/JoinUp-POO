@@ -1,0 +1,98 @@
+@startuml
+title JoinUp-POO — Compra direta e transferência de ingresso (Entrega 03)
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide empty members
+
+package "compras.http" {
+  class ComercioRoutes
+}
+package "compras.service" {
+  class CompraService {
+    +comprar(token: String, dados: CompraDados): Map
+    +historico(token: String): Map
+    +ingressos(token: String): List
+    +ingresso(token: String, id: long): Map
+  }
+  class ValidacaoComercio
+}
+package "revendas.service" {
+  class RevendaService {
+    +anunciar(token: String, dados: AnuncioDados): List
+    +comprar(token: String, anuncioId: long): Map
+    +cancelar(token: String, anuncioId: long): Map
+    +listar(token: String, filtro: FiltroRevendas): Map
+    +meus(token: String): List
+    +detalhe(token: String, id: long): Map
+  }
+}
+package "DTOs / domínio" {
+  class CompraDados <<record>>
+  class AnuncioDados <<record>>
+  class FiltroRevendas <<record>>
+  class EventoComercial <<record>>
+  class Ingresso <<record>>
+  class Anuncio <<record>>
+}
+package "repositories JDBC" {
+  class CompraRepositoryJdbc
+  class IngressoRepositoryJdbc
+  class RevendaRepositoryJdbc
+  class TipoIngressoRepositoryJdbc
+  class JdbcComercio
+}
+class ExecutorTransacional
+class GerenciadorSessao {
+  +exigirParticipanteComContas(c: Connection, token: String, participantes: Collection, organizadores: Collection): Usuario
+}
+class ContaService
+class EventoFacade <<Facade>>
+class ApplicationBootstrap
+ApplicationBootstrap --> ComercioRoutes
+ComercioRoutes --> CompraService
+ComercioRoutes --> RevendaService
+ComercioRoutes --> ContaService : autenticação HTTP / CSRF
+CompraService --> ExecutorTransacional
+RevendaService --> ExecutorTransacional
+CompraService --> GerenciadorSessao
+RevendaService --> GerenciadorSessao
+CompraService --> CompraRepositoryJdbc
+CompraService --> IngressoRepositoryJdbc
+CompraService --> TipoIngressoRepositoryJdbc
+CompraService --> RevendaRepositoryJdbc : histórico recebido
+RevendaService --> CompraRepositoryJdbc : evento comercial
+RevendaService --> IngressoRepositoryJdbc : dono / comunidade
+RevendaService --> TipoIngressoRepositoryJdbc
+RevendaService --> RevendaRepositoryJdbc
+CompraService ..> CompraDados
+RevendaService ..> AnuncioDados
+RevendaService ..> FiltroRevendas
+CompraService ..> ValidacaoComercio
+RevendaService ..> ValidacaoComercio
+CompraRepositoryJdbc ..> EventoComercial
+IngressoRepositoryJdbc ..> Ingresso
+RevendaRepositoryJdbc ..> Anuncio
+CompraRepositoryJdbc ..> JdbcComercio
+IngressoRepositoryJdbc ..> JdbcComercio
+RevendaRepositoryJdbc ..> JdbcComercio
+EventoFacade --> TipoIngressoRepositoryJdbc : por TipoIngressoService
+ContaService --> GerenciadorSessao
+note bottom of ExecutorTransacional
+  Uma Connection / READ_COMMITTED / rollback integral.
+  Participantes por ID -> organizadores por ID -> sessão
+  -> eventos por ID -> categorias por ID
+  -> ingressos por ID -> anúncios -> filiação.
+  Compra gera ingresso por unidade; revenda transfere o existente.
+end note
+note bottom of IngressoRepositoryJdbc
+  Publicação mantém o membro e a titularidade.
+  Última venda inativa associação, preservando conteúdo.
+  Elegibilidade comunitária inclui ativo / utilizado.
+  Comprador entra manualmente (Entrega 04).
+end note
+note top of EventoFacade
+  GoF preservado; comércio usa serviços reais,
+  sem introduzir quinto padrão demonstrativo.
+  Demais GoF no diagrama CLASSES_GOF_v0.1.
+end note
+@enduml

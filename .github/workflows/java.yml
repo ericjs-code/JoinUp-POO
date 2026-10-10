@@ -1,4 +1,4 @@
-name: Java 21 e autenticação MySQL
+name: Java 21 e integração MySQL 8.4
 
 on:
   push:

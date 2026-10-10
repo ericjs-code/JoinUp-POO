@@ -1,0 +1,18 @@
+Entrega03 MySQL=8.4.0, banco=joinup_poo, sessão=+00:00
+Compras cruzadas A->B/B->A: [200,200]; contas em ordem crescente evitam ciclo de locks.
+Venda/desativação vendedor concorrentes: [200, 409]; conta inativa, nenhum anúncio disponível, estado/titularidade consistentes.
+Mesmo anúncio: dois compradores -> [200,409]; 1 venda/transferência, sem emissão/compra direta adicional; vendedor sai após último ingresso.
+Rollback revenda: trigger ingressos -> 503; titularidade/anúncio/membership e históricos integralmente preservados.
+Rollback revenda: trigger revenda_anuncios -> 503; titularidade/anúncio/membership e históricos integralmente preservados.
+Rollback revenda: trigger participante_comunidades -> 503; titularidade/anúncio/membership e históricos integralmente preservados.
+Desativação comprador / direta concorrentes: [200, 401]; conta/sessão inativas, estado comercial consistente.
+Desativação comprador / revenda concorrentes: [200, 401]; conta/sessão inativas, estado comercial consistente.
+Espera real FOR UPDATE evento em direta: início alterado durante espera; 409 com comércio integralmente inalterado.
+Espera real FOR UPDATE evento em revenda: início alterado durante espera; 409 com comércio integralmente inalterado.
+Espera real FOR UPDATE evento em publicacao: início alterado durante espera; 409 com comércio integralmente inalterado.
+Compra mult categoria: total 40.45; 3 ingressos; estoque 8/9; vendidos 2/1; snapshots preservados após edição; sem filiação automática.
+Rollback compra: trigger compras depois da baixa -> 503; todas as colunas de estoque/compras/itens/ingressos inalteradas.
+Rollback compra: trigger compra_itens depois da baixa -> 503; todas as colunas de estoque/compras/itens/ingressos inalteradas.
+Rollback compra: trigger ingressos depois da baixa -> 503; todas as colunas de estoque/compras/itens/ingressos inalteradas.
+Lock timeout MySQL 1205 real: HTTP/domínio 409 CONCORRENCIA_CONFLITO; executor fez rollback da alteração anterior.
+Última unidade: dois POST concorrentes -> [201,409]; estoque=0, vendido=1, compra=1, ingresso=1.

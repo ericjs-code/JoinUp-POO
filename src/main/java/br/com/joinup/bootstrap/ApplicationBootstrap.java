@@ -71,6 +71,14 @@ public final class ApplicationBootstrap implements AutoCloseable {
                 new ComunidadeService(new ComunidadeRepositoryJdbc()),
                 java.time.Clock.systemUTC());
         new EventoRoutes(json, respostas, seguranca, contas, eventoFacade).registrar(router);
+        var compras = new br.com.joinup.compras.repository.CompraRepositoryJdbc();
+        var ingressos = new br.com.joinup.compras.repository.IngressoRepositoryJdbc();
+        var tipos = new TipoIngressoRepositoryJdbc();
+        var revendas = new br.com.joinup.revendas.repository.RevendaRepositoryJdbc();
+        var clock = java.time.Clock.systemUTC();
+        new br.com.joinup.compras.http.ComercioRoutes(json, respostas, seguranca, contas,
+                new br.com.joinup.compras.service.CompraService(transacoes, sessoes, compras, tipos, ingressos, revendas, clock),
+                new br.com.joinup.revendas.service.RevendaService(transacoes, sessoes, compras, ingressos, tipos, revendas, clock)).registrar(router);
         router.iniciar();
         int threads = configuracao.getThreadsHttp();
         executor = new ThreadPoolExecutor(threads, threads, 0, TimeUnit.MILLISECONDS,
