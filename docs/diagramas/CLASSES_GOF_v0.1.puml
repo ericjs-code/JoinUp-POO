@@ -1,5 +1,5 @@
 @startuml
-title JoinUp-POO — Classes candidatas dos quatro padrões GoF (v0.1)
+title JoinUp-POO — GoF: Entregas 00/01 implementadas; Facade prevista para 02
 skinparam shadowing false
 skinparam classAttributeIconSize 0
 hide empty members
@@ -36,8 +36,8 @@ package "Facade — Criar e editar evento" {
 
 package "Template Method — Login" {
   abstract class AutenticacaoTemplate <<AbstractClass>> {
-    +{final} autenticar(credenciais): Sessao
-    #buscarUsuario(email): Usuario
+    +{final} autenticar(credenciais: Credenciais): SessaoEmitida
+    #buscarUsuario(conexao: Connection, email: String): Usuario
     #validarRegraDoPerfil(usuario): void
   }
   class AutenticacaoParticipante <<ConcreteClass>>
@@ -47,7 +47,8 @@ package "Template Method — Login" {
     +verificar(senha, hash): boolean
   }
   class GerenciadorSessao {
-    +criar(usuario): Sessao
+    +criar(conexao: Connection, usuario: Usuario): SessaoEmitida
+    +exigir(conexao: Connection, token: String, perfis: Perfil[]): Usuario
   }
   AutenticacaoTemplate <|-- AutenticacaoParticipante
   AutenticacaoTemplate <|-- AutenticacaoOrganizador
@@ -66,14 +67,16 @@ package "Factory Method — Cadastro" {
   class Organizador <<ConcreteProduct>>
   class UsuarioSuporte <<ConcreteProduct>>
   abstract class CadastroUsuarioCreator <<Creator>> {
-    +{final} cadastrar(dados, operador): Usuario
-    #criarUsuario(dados): Usuario
+    +{final} cadastrar(dados: CadastroDados, tokenOperador: String): Usuario
+    #criarUsuario(dados: CadastroDados, hashSenha: String): Usuario
   }
   class CadastroParticipanteCreator <<ConcreteCreator>>
   class CadastroOrganizadorCreator <<ConcreteCreator>>
   class CadastroSuporteCreator <<ConcreteCreator>>
   interface UsuarioRepository {
-    +salvar(usuario): void
+    +salvar(conexao: Connection, usuario: Usuario): long
+    +buscarId(conexao: Connection, id: long, bloquear: boolean): Usuario
+    +buscarEmail(conexao: Connection, email: String, bloquear: boolean): Usuario
   }
   Usuario <|-- Participante
   Usuario <|-- Organizador
@@ -93,7 +96,8 @@ package "Singleton — Configuração" {
     -ConfiguracaoSistema()
     +{static} getInstancia(): ConfiguracaoSistema
     +getPortaHttp(): int
-    +getLimiteUploadBytes(): long
+    +getLimiteRequisicaoBytes(): int
+    +getOrigemPublica(): String
     +isModoDemo(): boolean
   }
   class ApplicationBootstrap
@@ -107,9 +111,14 @@ note bottom of CadastroSuporteCreator
 end note
 
 note bottom of AutenticacaoTemplate
-  Algoritmo final: buscar conta do perfil,
+  Algoritmo final: normalizar, buscar conta do perfil,
   verificar senha e status ativo,
   validar regra específica e criar sessão.
+end note
+
+note top of EventoFacade
+  PROPOSTA para Entrega 02.
+  Nenhuma classe Facade foi criada na Entrega 01.
 end note
 
 note bottom of ConfiguracaoSistema

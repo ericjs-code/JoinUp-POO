@@ -7,6 +7,11 @@ import br.com.joinup.http.JsonCodec;
 import br.com.joinup.http.Router;
 import br.com.joinup.http.StaticFileHandler;
 import br.com.joinup.shared.db.ConnectionFactory;
+import br.com.joinup.shared.db.ExecutorTransacional;
+import br.com.joinup.auth.*;
+import br.com.joinup.usuarios.repository.*;
+import br.com.joinup.usuarios.service.*;
+import br.com.joinup.usuarios.http.UsuarioRoutes;
 import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -34,9 +39,27 @@ public final class ApplicationBootstrap implements AutoCloseable {
     public ApplicationBootstrap(ConfiguracaoSistema configuracao, InetSocketAddress endereco) throws IOException {
         this.endereco = endereco;
         connectionFactory = new ConnectionFactory(configuracao);
-        var respostas = new HttpResponses(new JsonCodec());
+        var json = new JsonCodec();
+        var respostas = new HttpResponses(json);
         router = new Router(respostas, new StaticFileHandler(respostas), configuracao.getLimiteRequisicaoBytes());
         router.registrar("GET", "/api/health", new HealthHandler(respostas));
+        var participantes = new ParticipanteRepositoryJdbc();
+        var organizadores = new OrganizadorRepositoryJdbc();
+        var suportes = new SuporteRepositoryJdbc();
+        var usuarios = new RepositoriosUsuarios(participantes, organizadores, suportes);
+        var transacoes = new ExecutorTransacional(connectionFactory);
+        var senhas = new SenhasPbkdf2(configuracao.getIteracoesPbkdf2());
+        var sessoes = new GerenciadorSessao(new SessaoRepositoryJdbc(), usuarios, configuracao.getDuracaoSessaoSegundos());
+        var contas = new ContaService(transacoes, sessoes, usuarios, new ContaRepositoryJdbc(), senhas);
+        var seguranca = new SegurancaHttp(() -> configuracao.getOrigemPublica().isEmpty()
+                ? "http://127.0.0.1:" + getPortaHttp() : configuracao.getOrigemPublica());
+        new UsuarioRoutes(json, respostas, seguranca, contas).registrar(router,
+                new CadastroParticipanteCreator(transacoes, senhas, participantes),
+                new CadastroOrganizadorCreator(transacoes, senhas, organizadores),
+                new CadastroSuporteCreator(transacoes, senhas, suportes, sessoes),
+                new AutenticacaoParticipante(transacoes, senhas, sessoes, participantes),
+                new AutenticacaoOrganizador(transacoes, senhas, sessoes, organizadores),
+                new AutenticacaoSuporte(transacoes, senhas, sessoes, suportes));
         router.iniciar();
         int threads = configuracao.getThreadsHttp();
         executor = new ThreadPoolExecutor(threads, threads, 0, TimeUnit.MILLISECONDS,

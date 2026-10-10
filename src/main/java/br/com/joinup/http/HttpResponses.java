@@ -28,6 +28,8 @@ public final class HttpResponses {
         if ("HEAD".equals(exchange.getRequestMethod())) {
             exchange.getResponseHeaders().set("Content-Length", Integer.toString(corpo.length));
             exchange.sendResponseHeaders(status, -1);
+        } else if (status == 204) {
+            exchange.sendResponseHeaders(status, -1);
         } else {
             exchange.sendResponseHeaders(status, corpo.length);
             exchange.getResponseBody().write(corpo);

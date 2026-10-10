@@ -12,6 +12,9 @@ public final class ConfiguracaoSistema {
     private final String urlJdbc;
     private final String usuarioBanco;
     private final String senhaBanco;
+    private final String origemPublica;
+    private final int iteracoesPbkdf2;
+    private final int duracaoSessaoSegundos;
 
     private ConfiguracaoSistema() {
         hostHttp = valor("joinup.http.host", "JOINUP_HTTP_HOST", "127.0.0.1");
@@ -29,6 +32,10 @@ public final class ConfiguracaoSistema {
         validarUrlJdbc(urlJdbc);
         usuarioBanco = valor("joinup.db.user", "JOINUP_DB_USER", "");
         senhaBanco = valor("joinup.db.password", "JOINUP_DB_PASSWORD", "");
+        origemPublica = valor("joinup.public.origin", "JOINUP_PUBLIC_ORIGIN", "");
+        if (!origemPublica.isEmpty()) validarOrigemPublica(origemPublica);
+        iteracoesPbkdf2 = inteiro("joinup.pbkdf2.iterations", "JOINUP_PBKDF2_ITERATIONS", 600000, 600000, 2000000);
+        duracaoSessaoSegundos = inteiro("joinup.session.seconds", "JOINUP_SESSION_SECONDS", 28800, 60, 86400);
     }
 
     private static class Holder {
@@ -72,4 +79,16 @@ public final class ConfiguracaoSistema {
     public String getUrlJdbc() { return urlJdbc; }
     public String getUsuarioBanco() { return usuarioBanco; }
     public String getSenhaBanco() { return senhaBanco; }
+    public String getOrigemPublica() { return origemPublica; }
+    public int getIteracoesPbkdf2() { return iteracoesPbkdf2; }
+    public int getDuracaoSessaoSegundos() { return duracaoSessaoSegundos; }
+    public static void validarOrigemPublica(String origem) {
+        try {
+            URI uri = URI.create(origem);
+            String canonica = br.com.joinup.auth.SegurancaHttp.origin(uri);
+            if (!canonica.equals(origem) || uri.getUserInfo() != null || uri.getRawQuery() != null || uri.getFragment() != null
+                    || !uri.getRawPath().isEmpty() || (uri.getPort() != -1 && (uri.getPort() < 1 || uri.getPort() > 65535))
+                    || (uri.getScheme().equals("http") && !uri.getHost().equals("127.0.0.1"))) throw new IllegalArgumentException();
+        } catch (IllegalArgumentException e) { throw new IllegalArgumentException("Origem pública deve ser HTTPS ou HTTP local 127.0.0.1, sem caminho"); }
+    }
 }
