@@ -39,6 +39,30 @@ public final class GerenciadorSessao {
         return usuario;
     }
     public void revogar(Connection c, String token) throws SQLException { sessoes.revogar(c, hashToken(token)); }
+    /** Comércio: todas as contas antes da sessão, participantes/organizadores por ID.
+     * As referências fornecidas são apenas pistas; o serviço revalida recursos sob lock. */
+    public Usuario exigirParticipanteComContas(Connection c, String token, java.util.Collection<Long> participantes,
+                                              java.util.Collection<Long> organizadores) throws SQLException {
+        if (token == null || !token.matches("[A-Za-z0-9_-]{43}")) throw naoAutenticado();
+        String hash = hashToken(token);
+        var titular = sessoes.localizar(c, hash);
+        if (titular == null) throw naoAutenticado();
+        if (titular.perfil() != Perfil.PARTICIPANTE) return exigir(c, token, Perfil.PARTICIPANTE);
+        var ids = new java.util.TreeSet<>(participantes); ids.add(titular.id());
+        Usuario comprador = null;
+        for (long id : ids) {
+            Usuario u = usuarios.de(Perfil.PARTICIPANTE).buscarId(c, id, true);
+            if (id == titular.id()) comprador = u;
+            else if (u == null || !u.ativo()) throw new HttpException(409, "REVENDA_INDISPONIVEL", "Vendedor indisponível");
+        }
+        for (long id : new java.util.TreeSet<>(organizadores)) {
+            Usuario u = usuarios.de(Perfil.ORGANIZADOR).buscarId(c, id, true);
+            if (u == null || !u.ativo()) throw new HttpException(409, "ORGANIZADOR_INATIVO", "Organizador desativado");
+        }
+        if (comprador == null || !sessoes.validarEBloquear(c, hash)) throw naoAutenticado();
+        if (!comprador.ativo()) throw new HttpException(403, "CONTA_INATIVA", "Conta desativada");
+        return comprador;
+    }
     public void revogarTodas(Connection c, Usuario usuario) throws SQLException { sessoes.revogarTodas(c, usuario); }
     public static String hashToken(String token) {
         try { return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(token.getBytes(StandardCharsets.US_ASCII))); }

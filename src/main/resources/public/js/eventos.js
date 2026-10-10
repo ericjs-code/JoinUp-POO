@@ -35,7 +35,25 @@ async function detalhe(id) {
   const c=$('detalhe-conteudo'); c.replaceChildren(imagem(e),el('h2',e.nome),el('p',e.descricao),el('p',`${horario(e.data)} · ${e.localizacao} · ${e.cidade}/${e.estado}`),el('p',`Gênero: ${e.genero.nome}`),el('h3','Lineup'),el('p',e.artistas.map(a=>a.nome).join(' · ')),el('h3','Categorias de ingresso'));
   for(const t of e.tiposIngresso) c.append(el('p',`${t.nome} · ${moeda(t.preco)} · ${t.quantidade} disponível(is)`));
   if(e.comunidade) c.append(el('p',`Comunidade: ${e.comunidade.nome} (referência #${e.comunidade.id})`));
-  c.append(el('p','A consulta é pública. Compra e conteúdo da comunidade estarão disponíveis em próximas etapas.','muted'));
+  c.append(el('p','Pagamento simulado: nenhuma cobrança ou transferência bancária é realizada.','muted'));
+  if(usuario?.perfil==='PARTICIPANTE' && new Date(e.data)>new Date()) {
+    const form=document.createElement('form'), fields=el('fieldset');
+    fields.append(el('h3','Comprar ingressos'));
+    for(const t of e.tiposIngresso) {
+      const label=el('label',`${t.nome} · ${moeda(t.preco)} · ${t.quantidade} disponível(is)`),input=document.createElement('input');
+      input.type='number'; input.min='0'; input.max=t.quantidade; input.step='1'; input.value='0'; input.dataset.tipo=t.id; input.dataset.preco=t.preco; input.disabled=!t.quantidade; input.setAttribute('aria-label',`Quantidade de ingressos ${t.nome}`); label.append(input); fields.append(label);
+    }
+    const resumo=el('p','Selecione a quantidade por categoria.'),botao=el('button','Confirmar compra simulada'); botao.disabled=true;
+    form.addEventListener('input',()=>{const inputs=[...form.querySelectorAll('input')]; const total=inputs.reduce((s,i)=>s+Number(i.value)*Number(i.dataset.preco),0); resumo.textContent=`Total estimado: ${moeda(total)}. O preço e o estoque serão confirmados na compra.`;botao.disabled=!inputs.some(i=>Number(i.value)>0);});
+    fields.append(resumo,botao); form.append(fields); c.append(form);
+    form.addEventListener('submit',async ev=>{
+      ev.preventDefault();fields.disabled=true;
+      const itens=[...form.querySelectorAll('input')].filter(i=>Number(i.value)>0).map(i=>({tipoIngressoId:Number(i.dataset.tipo),quantidade:Number(i.value)}));
+      try { const j=await api('/api/compras','POST',{eventoId:e.id,itens}); await detalhe(id); aviso(`Compra #${j.dados.compraId} confirmada · ${moeda(j.dados.total)} · ${j.dados.ingressoIds.length} ingresso(s). Pagamento simulado.`); }
+      catch(err) { try { await detalhe(id); } catch {} aviso(err.message,true); }
+    });
+    c.append(link('Meus ingressos e histórico →','/ingressos.html'));
+  } else c.append(el('p',new Date(e.data)<=new Date()?'O evento já começou; compras bloqueadas.':'Entre com uma conta de participante para comprar ingressos.','muted'));
 }
 function linhaTipo(t = {}) {
   const row=el('div',undefined,'tipo');

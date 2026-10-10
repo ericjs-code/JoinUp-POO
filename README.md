@@ -137,6 +137,20 @@ anúncios cancelados permanecem cancelados. Suporte não possui ciclo de desativ
 
 ## Testes e integração real
 
+A Entrega 03 acrescenta compra direta e revenda com **pagamento local simulado**.
+Abra `/eventos.html` para comprar e `/ingressos.html` para ingressos, histórico,
+anúncios e revendas. Apenas participantes ativos podem acessar as APIs de
+revenda. Anunciar preserva titularidade; comprar transfere o ingresso e, após a
+última venda elegível, inativa a associação do vendedor à comunidade. A entrada
+do comprador continua manual. Nenhuma cobrança/transferência bancária ocorre.
+
+Roteiro com Ana/Bruno do seed, capturas e ordem de locks:
+[resultados 03](docs/execucao/ENTREGA_03_RESULTADOS.md). Contratos completos:
+[compras/revendas](docs/api/COMPRAS_REVENDA_HTTP_03.md). Classes reais:
+[PlantUML](docs/diagramas/COMPRAS_REVENDA_03.puml).
+Regressão ampliada para **236 testes** (127 Surefire + 109 MySQL/Failsafe), com
+os **157 anteriores preservados**. Exige **MySQL 8.4** real no perfil mysql-it.
+
 ```powershell
 mvn clean verify             # Unitários/HTTP; não atesta banco
 # Somente instância isolada com joinup_it e administrador de fixtures:

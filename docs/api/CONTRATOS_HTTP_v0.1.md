@@ -77,6 +77,8 @@ Imagem será tratada pelo contrato de upload; o campo de referência da imagem e
 
 ## 4. Compra direta e meus ingressos
 
+**Implementado na Entrega 03:** [contratos efetivos, DTOs, limites e códigos de erro](COMPRAS_REVENDA_HTTP_03.md).
+
 | Método | Rota | Acesso | Finalidade / requisito |
 | --- | --- | --- | --- |
 | POST | `/api/compras` | **Participante ativo** | Compra simulada local: estoque, compra, itens, ingressos e baixa em transação |
