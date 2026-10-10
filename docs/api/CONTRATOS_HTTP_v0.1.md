@@ -119,10 +119,12 @@ Imagem será tratada pelo contrato de upload; o campo de referência da imagem e
 
 ## 6. Comunidades, mensagens e feed
 
+**RF-COM-06 — Descoberta pública:** listar comunidades ou consultar seus dados públicos não exige login; restringir a nome, imagem e referência do evento (e outros campos explicitamente classificados como públicos). Não embutir mensagens, posts, comentários ou dados privados. Acesso ao conteúdo requer autorização independente. Ver [adendo aprovado](../requisitos/ADENDO_RF-COM-06_DESCOBERTA_PUBLICA.md).
+
 | Método | Rota | Acesso | Finalidade / requisito |
 | --- | --- | --- | --- |
-| GET | `/api/comunidades` | Autenticado [P] | Descobrir comunidades e indicar elegibilidade de participação |
-| GET | `/api/comunidades/{id}` | Membro habilitado ou organizador dono; metadados públicos [P] | Detalhes, separados do conteúdo protegido |
+| GET | `/api/comunidades` | **Público, inclusive sem login** | Listar comunidades com metadados públicos (nome, imagem, evento); RF-COM-06 |
+| GET | `/api/comunidades/{id}` | **Público, inclusive sem login** | Retornar somente metadados públicos; nunca incluir mensagens/posts privados; RF-COM-06 |
 | POST | `/api/comunidades/{id}/participacao` | **Participante com ingresso válido** | Entrada manual |
 | DELETE | `/api/comunidades/{id}/participacao` | **Participante membro** | Saída voluntária; histórico preservado |
 | GET | `/api/comunidades/{id}/mensagens` | **Membro ativo com ingresso válido**, ou organizador dono | Consultar mensagens |
@@ -202,7 +204,7 @@ Imagem será tratada pelo contrato de upload; o campo de referência da imagem e
 ## 11. Pendências antes de congelar API / Codex
 
 1. **[A] RESOLVIDO:** ingresso `ativo` ou `utilizado` permite acesso à comunidade após o evento, com associação ativa (RF-COM-05).
-2. **[A/P]** Visibilidade de revendas resolvida: apenas participantes autenticados (RF-REV-05). **Pendente:** política de exibição de metadados das comunidades para visitantes sem login.
+2. **[A] RESOLVIDO:** revendas visíveis apenas a participantes autenticados (RF-REV-05), e comunidades descobertas publicamente só por metadados (RF-COM-06); mensagens e feed permanecem protegidos.
 3. **[P]** Fechar todas as transições de status dos tickets conforme PHP e regras aprovadas.
 4. **[T]** Decidir tamanho máximo de payload, upload multipart e persistência de imagens no `HttpServer`.
 5. **[T]** Testar DDL/seed em MySQL 8 real e validar senha PBKDF2 da carga demonstrativa com o Java.
