@@ -134,6 +134,8 @@ git diff --check
 
 Resultado: **236 testes**, **zero falhas, erros ou ignorados**:
 
+Execução local final: **17:56:51 -03:00**, `BUILD SUCCESS`, duração 58.948 s.
+
 | Suíte | Quantidade |
 | --- | --- |
 | Surefire — regressão + ValidacaoComercioTest | 127 (111 preservados + 16 novos) |
@@ -250,7 +252,22 @@ relatório final RA2 permanecem na consolidação.
 - Nenhuma dúvida funcional nova impediu esta entrega; decisões acima são
   técnicas e os limites estão explícitos para auditoria.
 
-CI configurado com Java 21 e container **mysql:8.4.0**, comando
-`-Pmysql-it clean verify`, publicando evidências Surefire/Failsafe/SQL. O resultado
-remoto e URL do PR serão registrados após publicação da branch. **Não fazer
-merge antes da auditoria técnica.**
+## GitHub e evidência remota
+
+- [PR #4 — Entrega 03](https://github.com/ericjs-code/JoinUp-POO/pull/4),
+  branch `feat/03-compras-revendas` → `main`, **aberto, sem merge**.
+- Base: `8cf99740c5d944b9b1c382065b0f0c882ef00bb7`; implementação:
+  `c5daff2ef2a28ccfff8b6f099a195aa3ab16ff1c`.
+- [CI remoto do PR — execução 38085915739](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38085915739):
+  **success**, concluído em **10/10/2026 às 18:02:01 -03:00**. Java 21,
+  container **mysql:8.4.0**, `-Pmysql-it clean verify`.
+- Logs do job confirmararam **127 Surefire + 46 MySqlIntegrationIT + 63
+  ComercioMySqlIT = 236 testes**, zero falhas, erros ou ignorados,
+  `BUILD SUCCESS`, duração Maven 1min21s. Etapa de publicação de evidências
+  Surefire/Failsafe/SQL também concluída com sucesso.
+
+Este registro de resultado remoto foi acrescentado após o commit de
+implementação; não muda fontes executáveis ou testes. Os checks do commit de
+documentação podem ser acompanhados no PR. Resultado verde de CI é evidência
+de execução e **não substitui a auditoria técnica**. **Não fazer merge antes
+da auditoria.**
