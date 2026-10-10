@@ -116,7 +116,32 @@ a execução final está registrada abaixo e nas evidências do PR.
 | Fundação (52 originais) | ConfiguracaoSistema 16, HttpFoundation 33, ApplicationBootstrap 2, SeedDemoPassword 1, intactos |
 | AuthenticationSecurityTest (18) | PBKDF2, salts, senha incorreta, hash inválido/custo excessivo, origem, validação, LocalDate e DTOs |
 | RouterParametersTest (16) | Rotas dinâmicas, 400/404/405, precedência, ambiguidades, IDs/query inválidos, CSRF/Referer, cookie Secure, isolamento concorrente |
-| MySqlIntegrationIT | Schema/seed/idempotência, constraints e hashes persistidos, Factory/Template, HTTP real de todos os perfis, sessões, CSRF, IDOR, rollback de desativação/reativação com triggers de falha, duas disputas concorrentes, DML sem DDL |
+| MySqlIntegrationIT (23) | Schema/seed/idempotência, constraints e hashes persistidos, Factory/Template, HTTP real de todos os perfis, sessões, CSRF, IDOR, rollback de desativação/reativação com triggers de falha, duas disputas concorrentes, DML sem DDL |
+
+**Resultado final local:** `mvn --batch-mode --no-transfer-progress -Pmysql-it clean
+verify`: BUILD SUCCESS, 86 Surefire + 23 Failsafe = **109 testes**, zero falhas,
+erros ou ignorados; 19,904 s, em 10/10/2026 às 16:19:48 (America/Sao_Paulo).
+JAR empacotado e executado em Java 21 para verificação visual.
+
+**Resultado remoto independente:** workflow
+[38079625957](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38079625957),
+commit `fe533890dc8eec85daf207c6e341fbe76c1a15a1`, job `114293668730`: success.
+Linux, Temurin 21, service container MySQL **8.4.0**; logs conferidos:
+86 Surefire e 23 Failsafe, zero falhas/erros/ignorados; BUILD SUCCESS em 40,111 s.
+[Artefato dos relatórios e SQL](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38079625957/artifacts/11679946460)
+publicado. Warnings de Maven Shade (manifests/LICENSE/NOTICE/module-info) são os
+mesmos de classpath da fundação, sem erro. Runner informou migração automática
+de Node 20 para 24 nas actions v4, sem impedir a execução.
+
+**Navegador real:** JAR em 127.0.0.1:8087 conectado à instância MySQL de teste.
+Executados pela interface: cadastro/login de participante e organizador, edição
+de nome e CNPJ, desativação de participante, login do suporte demo, listagem,
+reativação, novo login da conta reativada, cadastro/login de novo suporte e logout.
+Sem alteração de senha pessoal ou dados reais; somente fixtures fictícias.
+Conferidas mensagens de resultado, campos por perfil e sessão identificada;
+cadastro público de suporte indisponível. Evidência visual salva em
+[entrega_01_contas.png](evidencias/entrega_01_contas.png). Não reivindica suíte
+automatizada de navegador, teste mobile completo ou dashboards completos.
 
 Testes de rollback falham deliberadamente **depois** das primeiras alterações
 usando triggers exclusivos da instância de teste; conferem estado ativo,
@@ -137,5 +162,6 @@ de autoria deve receber atenção do Tech Lead. Qualquer futura exclusão físic
 migração de PKs exige projeto/decisão própria. Processo operacional de confirmação
 de desativação e telas completas continuam nas pendências documentais originais.
 
-Aceite e merge dependem da revisão técnica/PO. As evidências finais de CI e de
-navegação serão anexadas ao PR; nenhum resultado pendente é considerado aprovado.
+Aceite e merge dependem da revisão técnica/PO. Evidências de CI e navegação
+estão registradas acima; nenhum merge executado. Não há bloqueio de execução
+local/MySQL/CI no escopo entregue; a homologação técnica permanece com o revisor.

@@ -98,8 +98,14 @@ executa `mvn --batch-mode --no-transfer-progress -Pmysql-it clean verify` e publ
 Surefire/Failsafe e `target/mysql-validation/integracao.txt`. Usuário DML restringido
 pela preparação da suíte, separado de root de teste. O arquivo de evidência
 não contém senha/token/hash; registra versão, inventário, contagens e warnings.
-O resultado remoto será registrado no relatório de execução e no PR após execução.
+Execução remota confirmada:
+[run 38079625957](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38079625957),
+commit `fe533890dc8eec85daf207c6e341fbe76c1a15a1`, job `114293668730`, success.
+Logs mostram MySQL 8.4.0, 86 testes Surefire e 23 Failsafe sem falhas, erros ou
+ignorados. [Artefato 11679946460](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38079625957/artifacts/11679946460)
+contém relatórios e inventário SQL. Execução local final também passou com
+**109 testes** (86 + 23), sem falhas/erros/ignorados.
 
 Não confundir o health liveness UP, hashes offline ou workflow apenas configurado
 com teste de banco. Os resultados acima decorrem da execução **local real**; a
-execução remota precisa de seu próprio status/run e artefatos.
+execução remota possui o status/run e artefato específicos acima.
