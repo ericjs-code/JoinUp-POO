@@ -1,0 +1,21 @@
+name: Fundação Java 21
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Testar e empacotar (sem MySQL)
+        run: mvn --batch-mode --no-transfer-progress clean verify
