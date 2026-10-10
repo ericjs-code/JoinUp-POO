@@ -32,6 +32,6 @@
 - Comparar o instante atual do servidor ao início **persistido** do evento; definir a política de zona horária de forma coerente com o transporte HTTP e o MySQL.
 - O frontend deve explicar por que a edição foi bloqueada; servidor deve retornar resposta de conflito do domínio quando evento tiver iniciado.
 - Validar a condição novamente no contexto da transação ao persistir; evitar checagem apenas no frontend.
-- **Resolvido por RF-EVT-07:** inclusão/edição de categorias após o início do evento são bloqueadas. **Permanece pendente:** tratamento de tentativa de remarcação de evento futuro para horário já passado.
+- **Resolvido por RF-EVT-07:** inclusão/edição de categorias após o início do evento são bloqueadas. **Resolvido por RF-EVT-08:** reagendamento de evento futuro exige nova data/hora também futura; data passada ou igual ao instante atual é rejeitada ([adendo](./ADENDO_RF-EVT-08_REAGENDAMENTO_DATA_FUTURA.md)).
 
 > Nenhum código, script de banco ou teste foi executado por esta aprovação.
