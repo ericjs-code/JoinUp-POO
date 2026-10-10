@@ -9,7 +9,7 @@ public final class StaticFileHandler {
     private static final Map<String, String> TIPOS = Map.of(
             "html", "text/html; charset=utf-8", "css", "text/css; charset=utf-8",
             "js", "text/javascript; charset=utf-8", "png", "image/png",
-            "jpg", "image/jpeg", "ico", "image/x-icon");
+            "jpg", "image/jpeg", "ico", "image/x-icon", "svg", "image/svg+xml");
     private final HttpResponses respostas;
 
     public StaticFileHandler(HttpResponses respostas) { this.respostas = respostas; }

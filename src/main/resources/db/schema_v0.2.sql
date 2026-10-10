@@ -1,4 +1,5 @@
--- JoinUp-POO / DDL v0.2: APROVADO PELO PO PARA DESENVOLVIMENTO. AINDA NÃO EXECUTADO NO MYSQL.
+-- JoinUp-POO / DDL v0.2: APROVADO PELO PO; VALIDADO NO MYSQL 8.4.0 após correção CHECK/FK.
+-- Evidência pós-correção: docs/banco/VALIDACAO_INTEGRACAO_01.md.
 -- Base: construir_banco_joinup_ajustado.sql (enviado pelo PO em 10/10/2026).
 -- MySQL 8.0.16+ (CHECK efetivos) / InnoDB / UTC ou fuso configurado no servidor.
 -- Execute este schema em banco de teste; a carga de demonstração é um arquivo SEPARADO.

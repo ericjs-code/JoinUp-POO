@@ -1,0 +1,14 @@
+MySQL=8.4.0, DATABASE=joinup_poo, UTC=+00:00
+SQL aplicado: schema, warnings=27, códigos permitidos=[1007, 1050, 1681]
+SQL aplicado: seed, warnings=97, códigos permitidos=[1062]
+SQL aplicado: schema, warnings=27, códigos permitidos=[1007, 1050, 1681]
+SQL aplicado: seed, warnings=97, códigos permitidos=[1062]
+22 tabelas; seed/reexecução com linhas integralmente iguais; contagens={artistas=10, auditoria_reativacoes=0, comentarios=1, compra_itens=6, compras=6, comunidade_mensagens=3, comunidades=4, eventos=4, generos_musicais=15, ingressos=7, line_up=6, organizadores=3, participante_comunidades=5, participantes=4, postagem_curtidas=1, postagens=2, revenda_anuncios=4, sessoes=0, ticket=3, ticket_mensagens=5, tipos_ingressos=6, usuarios_suporte=2}
+Entrega02: trigger de falha em line_up após INSERT evento: HTTP 503; contagens evento/lineup/tipos/comunidades inalteradas por rollback.
+Entrega02: trigger de falha em tipos_ingressos após INSERT evento: HTTP 503; contagens evento/lineup/tipos/comunidades inalteradas por rollback.
+Entrega02: trigger de falha em comunidades após INSERT evento: HTTP 503; contagens evento/lineup/tipos/comunidades inalteradas por rollback.
+Entrega02: criação HTTP com evento/2 artistas/2 categorias/comunidade 1:1 persistidos.
+9 hashes PBKDF2 do seed lidos do MySQL: senha correta aceita e errada rejeitada
+Entrega02: edição/reagendamento com vendas preservou todas as colunas de compras/itens/ingressos/comunidades/conteúdo.
+Entrega02: requisição observada esperando SELECT evento FOR UPDATE; data concorrente passa ao início; PATCH revalida e recusa HTTP 409.
+Inventário: FKs=42, CHECKs efetivos=15, índices nomeados=44; UNIQUE gerado e tipos confirmados

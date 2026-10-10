@@ -1,14 +1,13 @@
 # JoinUp-POO
 
-Java 21 puro com HttpServer do JDK, JDBC/MySQL 8, Jackson e JUnit. Entrega 01:
-cadastros e autenticação por perfil, sessão segura, perfil próprio, desativação
-transacional e reativação por suporte. Factory Method e Template Method estão
-em fluxos executáveis; Singleton configura a aplicação. Facade será implementado
-na Entrega 02.
+Java 21 puro com HttpServer do JDK, JDBC/MySQL 8, Jackson e JUnit. Entregas 00–02:
+contas/autenticação, sessão, desativação/reativação e eventos com lineup,
+categorias e comunidade automática. Os quatro GoF estão em fluxos executáveis:
+Singleton, Factory Method, Template Method e Facade transacional.
 
-Interface mínima em `/conta.html`, com identidade visual escura/roxa próxima do
-JoinUp PHP. Eventos, compras, comunidades, revendas completas, tickets, uploads
-e dashboards ainda pertencem às próximas entregas. O projeto usa banco próprio
+Interfaces em `/conta.html` e `/eventos.html`, com identidade visual escura/roxa
+próxima do JoinUp PHP. Compra, conteúdo de comunidades, revendas, tickets,
+uploads e dashboards finais pertencem às próximas entregas. O projeto usa banco próprio
 `joinup_poo`, sem importar registros legados.
 
 ## Executar
@@ -23,8 +22,8 @@ git switch main
 mvn clean verify
 ```
 
-Para avaliar a Entrega 01 antes do merge, selecione a branch do PR
-`feat/01-usuarios-autenticacao`. Instruções para novos clones continuam na `main`.
+Para avaliar a Entrega 02 antes do merge, selecione a branch do PR
+`feat/02-eventos-facade`. O merge depende da auditoria do Tech Lead.
 Prepare instância **isolada** de MySQL, aplique os SQLs e configure a conta DML:
 
 ```powershell
@@ -48,6 +47,24 @@ organizador; novos suportes somente em sessão de suporte. A interface oferece
 login por perfil, dados/sessão atual, edição/desativação própria e, para suporte,
 cadastro de suporte e consulta/reativação de contas. Ctrl+C encerra servidor/executor.
 Alternativa: `mvn compile exec:java`.
+
+Em [eventos](http://127.0.0.1:8080/eventos.html), visitantes exploram os quatro
+eventos demo, filtram e consultam detalhes, lineup e catálogo. Organizadores
+acessam “Meus eventos”, criam evento completo e administram informações,
+artistas e categorias. A criação grava evento, lineup, categorias e comunidade
+em uma transação única; erros revertem todas as etapas. Categorias com qualquer
+venda histórica não são editáveis; todas as mutações são bloqueadas no início
+do evento, inclusive. Eventos futuros com vendas permitem edição geral e
+reagendamento estritamente futuro, mantendo compras e ingressos históricos.
+
+Datas HTTP exigem ISO 8601 com offset. No JDBC de eventos, `DATETIME` é gravado
+e lido como `LocalDateTime` **UTC**, convertido para `Instant`, com precisão de
+segundos; o navegador converte seu horário local ao enviar e exibir. Configure
+a sessão MySQL em UTC, incluindo na URL `forceConnectionTimeZoneToSession=true`.
+Criação exige data futura como validação técnica documentada na Entrega 02.
+Imagem aceita somente referência vazia ou `/assets/evento-placeholder.svg`;
+não há upload nesta etapa. PATCH preserva campos omitidos, recusa `null`
+explícito e limpa a referência de imagem com `"imagem":""`.
 
 `GET /api/health` informa apenas liveness HTTP: `{"dados":{"status":"UP"}}`.
 Health e estáticos funcionam sem conexão de banco; operações de conta exigem MySQL.
@@ -141,6 +158,14 @@ verify`. Evidências ficam em target/surefire-reports, target/failsafe-reports e
 target/mysql-validation, publicadas como artefato. Os 52 testes da fundação
 foram preservados. Resultados finais estão nos documentos abaixo.
 
+A Entrega 02 mantém os **109 testes anteriores** e amplia para **157 testes**
+(111 Surefire + 46 Failsafe/MySQL), incluindo coordenação Facade, autorização,
+UTC, histórico de venda por três fontes, rollback em três etapas e concorrência
+observada sob lock real. Capturas e roteiro de navegador complementam a suíte.
+
+- [Resultados da Entrega 02](docs/execucao/ENTREGA_02_RESULTADOS.md).
+- [Contrato implementado de eventos](docs/api/EVENTOS_HTTP_02.md).
+- [GoF implementados](docs/diagramas/CLASSES_GOF_v0.1.puml) e [fragmento de domínio RA2](docs/diagramas/EVENTOS_DOMINIO_02.puml).
 - [Resultados da Entrega 01](docs/execucao/ENTREGA_01_RESULTADOS.md).
 - [Validação real MySQL](docs/banco/VALIDACAO_INTEGRACAO_01.md).
 - [Correção técnica mínima CHECK/FK](docs/banco/CORRECAO_DDL_01.md).

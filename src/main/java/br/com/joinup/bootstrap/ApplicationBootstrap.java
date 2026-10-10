@@ -12,6 +12,10 @@ import br.com.joinup.auth.*;
 import br.com.joinup.usuarios.repository.*;
 import br.com.joinup.usuarios.service.*;
 import br.com.joinup.usuarios.http.UsuarioRoutes;
+import br.com.joinup.eventos.facade.EventoFacade;
+import br.com.joinup.eventos.http.EventoRoutes;
+import br.com.joinup.eventos.repository.*;
+import br.com.joinup.eventos.service.*;
 import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -60,6 +64,13 @@ public final class ApplicationBootstrap implements AutoCloseable {
                 new AutenticacaoParticipante(transacoes, senhas, sessoes, participantes),
                 new AutenticacaoOrganizador(transacoes, senhas, sessoes, organizadores),
                 new AutenticacaoSuporte(transacoes, senhas, sessoes, suportes));
+        var eventoFacade = new EventoFacade(transacoes, sessoes,
+                new EventoService(new EventoRepositoryJdbc()),
+                new ArtistaService(new ArtistaRepositoryJdbc()),
+                new TipoIngressoService(new TipoIngressoRepositoryJdbc()),
+                new ComunidadeService(new ComunidadeRepositoryJdbc()),
+                java.time.Clock.systemUTC());
+        new EventoRoutes(json, respostas, seguranca, contas, eventoFacade).registrar(router);
         router.iniciar();
         int threads = configuracao.getThreadsHttp();
         executor = new ThreadPoolExecutor(threads, threads, 0, TimeUnit.MILLISECONDS,
