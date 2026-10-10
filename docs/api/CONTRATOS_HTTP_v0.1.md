@@ -133,7 +133,7 @@ Imagem será tratada pelo contrato de upload; o campo de referência da imagem e
 | GET | `/api/postagens/{id}/comentarios` | Acesso autorizado | Listar comentários |
 | POST | `/api/postagens/{id}/comentarios` | **Participante habilitado** | Criar comentário |
 
-**Regra determinante:** autorização de conteúdo comunitário = `membro.ativo == true` **e** existe ingresso válido do evento pertencente ao participante; organizador dono tem acesso por sua titularidade. O estado de ingresso `utilizado` e elegibilidade de comunidades de eventos passados ainda exigem regra do PO: não inventar na implementação.
+**Regra determinante aprovada (RF-COM-05):** autorização de conteúdo comunitário = participante com conta ativa, `membro.ativo == true` **e** ingresso do evento de sua titularidade com status `ativo` **ou** `utilizado`; organizador dono mantém acesso enquanto autenticado e ativo. **O evento ter ocorrido não encerra a comunidade.** Ingresso `cancelado` não dá acesso. Sem mudança nas proibições de compra/revenda após a data do evento. Ver [adendo aprovado](../requisitos/ADENDO_RF-COM-05_COMUNIDADES_POS_EVENTO.md).
 
 **Sem endpoints para editar/excluir publicações**, conforme RF-SOC-01. Compartilhar post é função do frontend. Não criar autoingresso em comunidade após compra ou revenda.
 
@@ -199,7 +199,7 @@ Imagem será tratada pelo contrato de upload; o campo de referência da imagem e
 
 ## 11. Pendências antes de congelar API / Codex
 
-1. **[P]** Definir ingresso válido para comunidade (status `ativo`, `utilizado`, evento passado).
+1. **[A] RESOLVIDO:** ingresso `ativo` ou `utilizado` permite acesso à comunidade após o evento, com associação ativa (RF-COM-05).
 2. **[P]** Confirmar política de visualização pública de revendas e metadados de comunidades conforme frontend original.
 3. **[P]** Fechar todas as transições de status dos tickets conforme PHP e regras aprovadas.
 4. **[T]** Decidir tamanho máximo de payload, upload multipart e persistência de imagens no `HttpServer`.
