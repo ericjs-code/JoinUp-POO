@@ -97,9 +97,11 @@ Imagem será tratada pelo contrato de upload; o campo de referência da imagem e
 
 ## 5. Revenda e transferência
 
+**RF-REV-05 — Acesso restrito:** listagem e detalhes de anúncios de revenda não são públicos; apenas participantes autenticados com conta ativa podem visualizá-los e comprar. A permissão deve ser aplicada no backend, inclusive em APIs acessadas diretamente. Organizador e suporte não herdam esse acesso por terem login de outro perfil. A compra continua sujeita às demais validações.
+
 | Método | Rota | Acesso | Finalidade / requisito |
 | --- | --- | --- | --- |
-| GET | `/api/revendas?eventoId=&pagina=` | Visibilidade [P] | Listar anúncios; indicar/filtrar impossibilidade de compra por organizador inativo |
+| GET | `/api/revendas?eventoId=&pagina=` | **Participante autenticado e ativo** | Listar anúncios; acesso negado a visitantes sem login, organizadores e suporte (RF-REV-05); indicar/filtrar impossibilidade de compra por organizador inativo |
 | GET | `/api/me/revendas` | **Participante** | Meus anúncios, inclusive cancelados e vendidos |
 | POST | `/api/revendas` | **Participante proprietário** | Anunciar um ou vários ingressos elegíveis, sem anúncio disponível duplicado |
 | POST | `/api/revendas/{anuncioId}/cancelamento` | **Vendedor proprietário** | Cancela anúncio ainda disponível; permanece titular do ingresso |
@@ -200,7 +202,7 @@ Imagem será tratada pelo contrato de upload; o campo de referência da imagem e
 ## 11. Pendências antes de congelar API / Codex
 
 1. **[A] RESOLVIDO:** ingresso `ativo` ou `utilizado` permite acesso à comunidade após o evento, com associação ativa (RF-COM-05).
-2. **[P]** Confirmar política de visualização pública de revendas e metadados de comunidades conforme frontend original.
+2. **[A/P]** Visibilidade de revendas resolvida: apenas participantes autenticados (RF-REV-05). **Pendente:** política de exibição de metadados das comunidades para visitantes sem login.
 3. **[P]** Fechar todas as transições de status dos tickets conforme PHP e regras aprovadas.
 4. **[T]** Decidir tamanho máximo de payload, upload multipart e persistência de imagens no `HttpServer`.
 5. **[T]** Testar DDL/seed em MySQL 8 real e validar senha PBKDF2 da carga demonstrativa com o Java.
