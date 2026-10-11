@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Comunidades | JoinUp</title>
+  <link rel="stylesheet" href="/css/conta.css">
+  <link rel="stylesheet" href="/css/comunidades.css">
+  <script src="/js/comunidades.js" defer></script>
+</head>
+<body>
+  <header>
+    <a class="marca" href="/">JoinUp<span>●</span></a>
+    <nav>
+      <a href="/eventos.html">Explorar eventos</a>
+      <a href="/comunidades.html" class="ativo">Comunidades</a>
+      <a href="/eventos.html?meus=1">Meus eventos</a>
+      <a href="/ingressos.html">Meus ingressos</a>
+      <a href="/ingressos.html?aba=revendas">Revendas</a>
+      <a href="/conta.html">Minha conta</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro">
+      <p class="badge">Espaço Social</p>
+      <h1>Comunidades dos seus <span>eventos favoritos.</span></h1>
+      <p>Conecte-se com outros participantes, troque mensagens no chat e compartilhe experiências no feed social.</p>
+    </section>
+
+    <p id="mensagem" role="status" aria-live="polite"></p>
+
+    <!-- Seção de Exploração / Lista de Comunidades -->
+    <section id="secao-lista">
+      <div class="cabecalho-lista">
+        <h2>Comunidades Disponíveis</h2>
+        <form id="form-busca" class="busca-form">
+          <input id="input-busca" name="busca" maxlength="80" placeholder="Buscar por comunidade ou evento...">
+          <button type="submit">Buscar</button>
+        </form>
+      </div>
+      <p id="status-lista" class="muted"></p>
+      <div id="grid-comunidades" class="grid-comunidades"></div>
+    </section>
+
+    <!-- Seção de Detalhe / Sala da Comunidade -->
+    <section id="secao-sala" class="painel-sala" hidden>
+      <div class="sala-topo">
+        <a id="btn-voltar" href="/comunidades.html" class="btn-voltar">← Voltar às comunidades</a>
+        <div class="sala-info">
+          <div class="sala-titulos">
+            <h2 id="sala-nome">Nome da Comunidade</h2>
+            <p id="sala-evento" class="badge-evento">Evento Associado</p>
+            <p id="sala-descricao" class="sala-desc"></p>
+          </div>
+          <div class="sala-acoes" id="sala-acoes">
+            <span id="badge-membro" class="badge-status">Verificando...</span>
+            <button id="btn-participacao" class="btn-participacao" type="button" hidden>Entrar</button>
+          </div>
+        </div>
+        <p id="aviso-acesso" class="aviso-acesso" hidden></p>
+      </div>
+
+      <!-- Abas da Comunidade -->
+      <div class="abas-navegacao">
+        <button id="aba-chat-btn" class="aba-btn ativa" type="button">Chat / Mensagens</button>
+        <button id="aba-feed-btn" class="aba-btn" type="button">Feed Social</button>
+      </div>
+
+      <!-- Conteúdo da Aba: Chat -->
+      <div id="aba-chat" class="aba-conteudo">
+        <div id="chat-mensagens" class="chat-mensagens">
+          <p class="muted">Carregando mensagens...</p>
+        </div>
+        <form id="form-enviar-msg" class="chat-form">
+          <input id="input-msg-texto" name="mensagem" maxlength="1000" placeholder="Digite sua mensagem para a comunidade..." required>
+          <button id="btn-enviar-msg" type="submit">Enviar</button>
+        </form>
+      </div>
+
+      <!-- Conteúdo da Aba: Feed Social -->
+      <div id="aba-feed" class="aba-conteudo" hidden>
+        <div id="box-novo-post" class="box-novo-post">
+          <h3>Nova Publicação</h3>
+          <form id="form-novo-post">
+            <textarea id="input-post-texto" name="descricao" maxlength="500" placeholder="O que você está achando do evento? Compartilhe com a comunidade..." rows="3" required></textarea>
+            <div class="novo-post-rodape">
+              <span class="muted small">Sem edição ou exclusão posterior (RF-SOC-01)</span>
+              <button id="btn-publicar-post" type="submit">Publicar no Feed</button>
+            </div>
+          </form>
+        </div>
+
+        <div id="feed-postagens" class="feed-postagens">
+          <p class="muted">Carregando publicações...</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Comunidades, mensagens e feed social com validações atômicas e elegibilidade pós-evento (RF-COM-05/06).
+    </footer>
+  </main>
+</body>
+</html>
