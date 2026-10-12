@@ -191,10 +191,27 @@ a captura de chat inclui texto + imagem.
 [PR #8](https://github.com/ericjs-code/JoinUp-POO/pull/8) permanece aberto, sem
 merge. A consulta de reviews retornou lista vazia; auditoria técnica do Tech Lead
 continua pendente. A reexecução documental revelou a condição de transporte descrita acima;
-a correção limitada de RequestBody está em nova validação completa. Os runs
-verdes anteriores permanecem evidências históricas, sem substituir o gate do
-código corrigido. A evidência final será acrescentada à descrição do PR e
-conferida antes de devolver a entrega.
+a correção limitada de RequestBody foi validada novamente. Os runs verdes
+anteriores permanecem evidências históricas.
+
+**Gate do código corrigido confirmado verde**, SHA
+`8b9d3bc99edd783aaa2417b80a7ab938855f531e`:
+
+- [CI final do PR 38198694371](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38198694371),
+  job 114647018594: completed/success, **468 testes** (167 Surefire + 301
+  Failsafe), zero falhas/erros/ignorados; logs efetivos conferidos.
+- [CI final do push 38198690322](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38198690322),
+  job 114647006827: completed/success.
+- [Extrato final dos logs](evidencias/entrega_06_ci_final.txt). A suíte inclui
+  upload/JSON excessivos com/sem Content-Length e repetições, sem retry no
+  cliente nem relaxamento do HTTP 413.
+- Localmente, a correção passou pelos 167 unitários/HTTP + 45 mídia e depois
+  pelo recorte HttpFoundationTest (33) + dois cenários de limite com cinco
+  repetições por transporte, concluído em 12/10/2026 às 00:07:06.
+
+Último commit registra somente este relatório e o extrato final. Os checks da
+cabeça documental serão conferidos no PR também. Auditoria técnica externa
+continua pendente; nenhuma operação de merge foi executada.
 
 ## Limites e pendências explícitas
 
