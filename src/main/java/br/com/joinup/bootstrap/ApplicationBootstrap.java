@@ -43,6 +43,7 @@ public final class ApplicationBootstrap implements AutoCloseable {
     public ApplicationBootstrap(ConfiguracaoSistema configuracao, InetSocketAddress endereco) throws IOException {
         this.endereco = endereco;
         connectionFactory = new ConnectionFactory(configuracao);
+        new br.com.joinup.demo.DemoRunner(connectionFactory).executar(configuracao);
         var json = new JsonCodec();
         var respostas = new HttpResponses(json);
         router = new Router(respostas, new StaticFileHandler(respostas), configuracao.getLimiteRequisicaoBytes());
@@ -81,6 +82,10 @@ public final class ApplicationBootstrap implements AutoCloseable {
                 new br.com.joinup.revendas.service.RevendaService(transacoes, sessoes, compras, ingressos, tipos, revendas, clock)).registrar(router);
         var comunidadeSocialRepo = new br.com.joinup.comunidades.repository.ComunidadeSocialRepositoryJdbc();
         var comunidadeSocialService = new br.com.joinup.comunidades.service.ComunidadeSocialService(transacoes, sessoes, comunidadeSocialRepo);
+        var arquivos = new br.com.joinup.arquivos.ArquivoService(transacoes,sessoes,comunidadeSocialService,
+                new EventoService(new EventoRepositoryJdbc()),new br.com.joinup.arquivos.ArmazenamentoLocal(configuracao.getDiretorioArquivos()),clock);
+        comunidadeSocialService.configurarArquivos(arquivos);
+        new br.com.joinup.arquivos.ArquivoRoutes(arquivos,contas,seguranca,respostas).registrar(router);
         new br.com.joinup.comunidades.http.ComunidadeRoutes(json, respostas, seguranca, contas, comunidadeSocialService).registrar(router);
         new br.com.joinup.suporte.http.TicketRoutes(json, respostas, seguranca, contas,
                 new br.com.joinup.suporte.service.TicketService(transacoes, sessoes,

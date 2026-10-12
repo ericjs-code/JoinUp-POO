@@ -11,6 +11,21 @@ jobs:
   verificar:
     runs-on: ubuntu-latest
     services:
+      mysql_demo:
+        image: mysql:8.4.0
+        env:
+          MYSQL_DATABASE: joinup_poo
+          MYSQL_USER: joinup_it
+          MYSQL_PASSWORD: fixture-ci-only
+          MYSQL_ROOT_PASSWORD: root-fixture-ci-only
+          MYSQL_ROOT_HOST: '%'
+        ports:
+          - 3308:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot-fixture-ci-only"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=12
       mysql:
         image: mysql:8.4.0
         env:
@@ -27,6 +42,10 @@ jobs:
           --health-timeout=5s
           --health-retries=12
     env:
+      JOINUP_DEMO: 'false'
+      JOINUP_UPLOAD_DIR: /tmp/joinup-midia-it06
+      JOINUP_DEMO_IT_JDBC_URL: jdbc:mysql://127.0.0.1:3308/joinup_poo?connectionTimeZone=UTC&forceConnectionTimeZoneToSession=true&connectTimeout=5000&socketTimeout=10000
+      JOINUP_DEMO_IT_DB_PASSWORD: fixture-ci-only
       JOINUP_JDBC_URL: jdbc:mysql://127.0.0.1:3306/joinup_poo?connectionTimeZone=UTC&forceConnectionTimeZoneToSession=true&connectTimeout=5000&socketTimeout=10000
       JOINUP_DB_USER: joinup_it
       JOINUP_DB_PASSWORD: fixture-ci-only

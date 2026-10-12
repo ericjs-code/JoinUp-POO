@@ -16,6 +16,12 @@ public final class ComunidadeSocialService {
     private final ExecutorTransacional transacoes;
     private final GerenciadorSessao sessoes;
     private final ComunidadeSocialRepositoryJdbc repository;
+    private br.com.joinup.arquivos.ArquivoService arquivos;
+
+    public void configurarArquivos(br.com.joinup.arquivos.ArquivoService arquivos) {
+        if (this.arquivos != null) throw new IllegalStateException("Mídia já configurada");
+        this.arquivos = java.util.Objects.requireNonNull(arquivos);
+    }
 
     public ComunidadeSocialService(ExecutorTransacional transacoes, GerenciadorSessao sessoes, ComunidadeSocialRepositoryJdbc repository) {
         this.transacoes = transacoes;
@@ -136,10 +142,10 @@ public final class ComunidadeSocialService {
     }
 
     public MensagemComunidade enviarMensagem(Connection c, Usuario u, long comunidadeId, EnviarMensagemRequest req) throws SQLException {
-        if (req == null || req.mensagem() == null || req.mensagem().trim().isEmpty()) {
+        if (req == null || ((req.mensagem() == null || req.mensagem().trim().isEmpty()) && req.imagem()==null)) {
             throw new HttpException(400, "REQUISICAO_INVALIDA", "Mensagem não pode ser vazia");
         }
-        if (req.mensagem().length() > 1000) {
+        if (req.mensagem()!=null && req.mensagem().length() > 1000) {
             throw new HttpException(400, "REQUISICAO_INVALIDA", "Mensagem não pode exceder 1000 caracteres");
         }
         validarImagem(req.imagem());
@@ -154,7 +160,8 @@ public final class ComunidadeSocialService {
         Long partId = u.perfil() == Perfil.PARTICIPANTE ? u.id() : null;
         Long orgId = u.perfil() == Perfil.ORGANIZADOR ? u.id() : null;
 
-        long id = repository.enviarMensagem(c, comunidadeId, autorTipo, partId, orgId, req.mensagem().trim(), req.imagem(), req.idRespostaA());
+        long id = repository.enviarMensagem(c, comunidadeId, autorTipo, partId, orgId, req.mensagem()==null?"":req.mensagem().trim(), req.imagem(), req.idRespostaA());
+        if(req.imagem()!=null) arquivos.vincular(c,u,comunidadeId,"mensagem",req.imagem(),id);
         var todas = repository.listarMensagens(c, comunidadeId, 1, 0, id);
         return todas.stream().filter(m -> m.id() == id).findFirst().orElseThrow();
     }
@@ -183,15 +190,16 @@ public final class ComunidadeSocialService {
         if (u.perfil() != Perfil.PARTICIPANTE) {
             throw new HttpException(403, "PERMISSAO_NEGADA", "Apenas participantes podem criar postagens no feed");
         }
-        if (req == null || req.descricao() == null || req.descricao().trim().isEmpty()) {
+        if (req == null || ((req.descricao() == null || req.descricao().trim().isEmpty()) && req.imagem()==null)) {
             throw new HttpException(400, "REQUISICAO_INVALIDA", "Descrição da postagem não pode ser vazia");
         }
-        if (req.descricao().length() > 500) {
+        if (req.descricao()!=null && req.descricao().length() > 500) {
             throw new HttpException(400, "REQUISICAO_INVALIDA", "Descrição não pode exceder 500 caracteres");
         }
         validarImagem(req.imagem());
         validarAcessoComunidade(c, comunidadeId, u);
-        long id = repository.criarPostagem(c, comunidadeId, u.id(), req.descricao().trim(), req.imagem());
+        long id = repository.criarPostagem(c, comunidadeId, u.id(), req.descricao()==null?"":req.descricao().trim(), req.imagem());
+        if(req.imagem()!=null) arquivos.vincular(c,u,comunidadeId,"postagem",req.imagem(),id);
         return repository.buscarPostagem(c, id, u.id());
     }
 
@@ -297,7 +305,7 @@ public final class ComunidadeSocialService {
         return todos.stream().filter(com -> com.id() == id).findFirst().orElseThrow();
     }
 
-    private void validarAcessoComunidade(Connection c, long comunidadeId, Usuario usuario) throws SQLException {
+    public void validarAcessoComunidade(Connection c, long comunidadeId, Usuario usuario) throws SQLException {
         repository.bloquearAcesso(c, comunidadeId, usuario);
         if (usuario.perfil() == Perfil.PARTICIPANTE) {
             boolean membro = repository.verificarMembroAtivo(c, comunidadeId, usuario.id());
@@ -314,8 +322,10 @@ public final class ComunidadeSocialService {
             throw new HttpException(403, "ACESSO_COMUNIDADE_NEGADO", "Perfil não autorizado para a comunidade");
         }
     }
-    private static void validarImagem(String imagem) {
-        if (imagem != null) throw new HttpException(400, "IMAGEM_NAO_SUPORTADA", "Envio de imagem aguarda upload seguro; use somente texto");
+    private void validarImagem(String imagem) {
+        if(imagem==null) return;
+        if(arquivos==null) throw new HttpException(400,"IMAGEM_NAO_SUPORTADA","Mídia indisponível");
+        br.com.joinup.arquivos.ArquivoService.idReferencia(imagem);
     }
     private static void validarBusca(String busca) {
         if (busca != null && busca.length() > 100) throw new HttpException(400, "REQUISICAO_INVALIDA", "Busca limitada a 100 caracteres");

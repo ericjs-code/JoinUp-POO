@@ -12,7 +12,7 @@ async function api(path, method = 'GET', body) {
 }
 function el(tag, texto, classe) { const n = document.createElement(tag); if (texto !== undefined) n.textContent = texto; if (classe) n.className = classe; return n; }
 function link(texto, href) { const n = el('a', texto); n.href = href; return n; }
-function imagem(e) { const n = document.createElement('img'); n.src = e.imagem === '/assets/evento-placeholder.svg' ? e.imagem : '/assets/evento-placeholder.svg'; n.alt = 'Arte padrão JoinUp'; return n; }
+function imagem(e) { const n = document.createElement('img'); n.src = JoinUpMidia.referencia(e.imagem) || e.imagem === '/assets/evento-placeholder.svg' ? e.imagem : '/assets/evento-placeholder.svg'; n.alt = 'Imagem do evento ' + e.nome; return n; }
 function preencherSelect(select, itens, vazio) { select.replaceChildren(); if(vazio) select.append(new Option(vazio,'')); for(const i of itens) select.append(new Option(i.nome,i.id)); }
 async function listar() {
   const f = new URLSearchParams(new FormData($('filtros'))); f.set('pagina',pagina); f.set('tamanho',6);
@@ -82,7 +82,10 @@ async function editor(id) {
   for(const a of artistas) { const label=el('label',a.nome), input=document.createElement('input'); input.type='checkbox'; input.value=a.id; input.checked=evento?.artistas.some(x=>x.id===a.id)??false; label.prepend(input); $('artistas').append(label); }
   if(evento) {
     $('titulo-editor').textContent='Editar evento'; $('salvar-evento').textContent='Salvar informações e lineup'; $('tipos-criacao').hidden=true;
-    for(const nome of ['nome','descricao','localizacao','cidade','estado','cep','imagem']) form.elements[nome].value=evento[nome]??'';
+    for(const nome of ['nome','descricao','localizacao','cidade','estado','cep']) form.elements[nome].value=evento[nome]??'';
+    form.elements.imagem.value = evento.imagem === '/assets/evento-placeholder.svg' ? evento.imagem : '';
+    if(JoinUpMidia.referencia(evento.imagem)) form.elements.imagem.disabled = true;
+    $('upload-evento').hidden = !evento.editavel; JoinUpMidia.mostrar($('imagem-atual'),evento.imagem,'Imagem pública atual');
     form.elements.data.value=localInput(evento.data); form.elements.generoId.value=evento.genero.id;
     $('campos-evento').disabled=!evento.editavel;
     if(!evento.editavel) $('limite-editor').textContent='Este evento já começou. Informações, lineup e categorias estão bloqueados para edição.';
@@ -106,6 +109,7 @@ $('mais-tipo').addEventListener('click',addTipo);
 $('form-evento').addEventListener('submit',async ev=>{
   ev.preventDefault(); const f=ev.currentTarget, d={};
   for(const n of ['nome','descricao','localizacao','cidade','estado','cep','imagem']) d[n]=f.querySelector(`[name="${n}"]`).value;
+  if(evento && JoinUpMidia.referencia(evento.imagem)) delete d.imagem;
   d.data=new Date(f.elements.data.value).toISOString(); d.generoId=Number(f.elements.generoId.value); d.artistaIds=[...$('artistas').querySelectorAll('input:checked')].map(i=>Number(i.value));
   if(!d.artistaIds.length) return aviso('Selecione ao menos um artista.',true);
   if(!evento) d.tiposIngresso=[...$('categorias-novas').children].map(tipoDados);
@@ -128,3 +132,5 @@ $('nova-categoria').addEventListener('submit',async ev=>{ev.preventDefault();$('
     if(qs.has('criado')) aviso(`Evento #${evento.id} publicado com categorias, lineup e comunidade #${evento.comunidade.id}.`);
   } catch(e) { aviso(e.message,true); }
 })();
+
+$('upload-evento').addEventListener('submit',async ev=>{ ev.preventDefault(); $('enviar-imagem-evento').disabled=true; try { await JoinUpMidia.enviar($('arquivo-evento'),'evento',evento.id); location.href='/eventos.html?editar='+evento.id; } catch(e) { aviso(e.message,true); } finally { $('enviar-imagem-evento').disabled=false; } });

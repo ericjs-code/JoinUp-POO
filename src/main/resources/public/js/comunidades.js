@@ -105,6 +105,7 @@
             <a class="btn-abrir-sala" href="/comunidades.html?id=${c.id}">Acessar Comunidade →</a>
           </div>
         `;
+        JoinUpMidia.mostrar(card,c.imagem,'Imagem pública do evento');
         gridComunidades.appendChild(card);
       });
     } catch (e) {
@@ -270,6 +271,7 @@
           </div>
           <div class="msg-texto">${escapeHtml(m.mensagem)}</div>
         `;
+        JoinUpMidia.mostrar(item,m.imagem);
         chatMensagens.appendChild(item);
       });
 
@@ -282,20 +284,22 @@
   if (formEnviarMsg) {
     formEnviarMsg.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (document.getElementById('btn-enviar-msg').disabled) return;
       const texto = inputMsgTexto.value.trim();
-      if (!texto) return;
+      if (!texto && !document.getElementById('arquivo-mensagem').files[0]) return exibirMensagem('Escreva uma mensagem ou selecione uma imagem.',true);
 
       try {
+        document.getElementById('btn-enviar-msg').disabled=true;
         await api(`/api/comunidades/${comunidadeAtual.id}/mensagens`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ mensagem: texto })
+          body: JSON.stringify({ mensagem: texto, imagem: await JoinUpMidia.enviar(document.getElementById('arquivo-mensagem'),'mensagem',comunidadeAtual.id) })
         });
-        inputMsgTexto.value = '';
+        formEnviarMsg.reset();
         await carregarMensagens(comunidadeAtual.id);
       } catch (err) {
         exibirMensagem(err.message, true);
-      }
+      } finally { document.getElementById('btn-enviar-msg').disabled=false; }
     });
   }
 
@@ -351,6 +355,7 @@
           </div>
         `;
 
+        JoinUpMidia.mostrar(card.querySelector('.post-conteudo'),p.imagem);
         card.querySelector('.btn-compartilhar').addEventListener('click', () => copiarLink(p.id));
         card.tabIndex = -1;
         // Event listener de curtir
@@ -459,21 +464,23 @@
   if (formNovoPost) {
     formNovoPost.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (document.getElementById('btn-publicar-post').disabled) return;
       const texto = inputPostTexto.value.trim();
-      if (!texto) return;
+      if (!texto && !document.getElementById('arquivo-postagem').files[0]) return exibirMensagem('Escreva um texto ou selecione uma imagem.',true);
 
       try {
+        document.getElementById('btn-publicar-post').disabled=true;
         await api(`/api/comunidades/${comunidadeAtual.id}/postagens`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ descricao: texto })
+          body: JSON.stringify({ descricao: texto, imagem: await JoinUpMidia.enviar(document.getElementById('arquivo-postagem'),'postagem',comunidadeAtual.id) })
         });
-        inputPostTexto.value = '';
+        formNovoPost.reset();
         exibirMensagem('Publicação criada no feed!');
         await carregarFeed(comunidadeAtual.id);
       } catch (err) {
         exibirMensagem(err.message, true);
-      }
+      } finally { document.getElementById('btn-publicar-post').disabled=false; }
     });
   }
 

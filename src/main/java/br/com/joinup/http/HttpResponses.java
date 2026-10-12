@@ -23,7 +23,7 @@ public final class HttpResponses {
         exchange.getResponseHeaders().set("X-Content-Type-Options", "nosniff");
         exchange.getResponseHeaders().set("Cache-Control", "no-store");
         exchange.getResponseHeaders().set("Content-Security-Policy",
-                "default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none'");
+                "default-src 'self'; img-src 'self' blob:; script-src 'self'; style-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'none'");
         exchange.getResponseHeaders().set("Referrer-Policy", "no-referrer");
         if ("HEAD".equals(exchange.getRequestMethod())) {
             exchange.getResponseHeaders().set("Content-Length", Integer.toString(corpo.length));

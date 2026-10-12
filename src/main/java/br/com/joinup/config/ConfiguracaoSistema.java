@@ -9,6 +9,8 @@ public final class ConfiguracaoSistema {
     private final int threadsHttp;
     private final int limiteRequisicaoBytes;
     private final boolean modoDemo;
+    private final String ambiente;
+    private final String diretorioArquivos;
     private final String urlJdbc;
     private final String usuarioBanco;
     private final String senhaBanco;
@@ -27,6 +29,8 @@ public final class ConfiguracaoSistema {
             throw new IllegalArgumentException("Modo demo deve ser true ou false");
         }
         modoDemo = Boolean.parseBoolean(demo);
+        ambiente = valor("joinup.environment", "JOINUP_ENV", "local");
+        diretorioArquivos = valor("joinup.upload.dir", "JOINUP_UPLOAD_DIR", java.nio.file.Path.of(System.getProperty("user.home"),".joinup","uploads").toString());
         urlJdbc = valor("joinup.jdbc.url", "JOINUP_JDBC_URL",
                 "jdbc:mysql://127.0.0.1:3306/joinup_poo?connectionTimeZone=UTC&connectTimeout=5000&socketTimeout=10000");
         validarUrlJdbc(urlJdbc);
@@ -76,6 +80,8 @@ public final class ConfiguracaoSistema {
     public int getThreadsHttp() { return threadsHttp; }
     public int getLimiteRequisicaoBytes() { return limiteRequisicaoBytes; }
     public boolean isModoDemo() { return modoDemo; }
+    public String getAmbiente() { return ambiente; }
+    public java.nio.file.Path getDiretorioArquivos() { return java.nio.file.Path.of(diretorioArquivos); }
     public String getUrlJdbc() { return urlJdbc; }
     public String getUsuarioBanco() { return usuarioBanco; }
     public String getSenhaBanco() { return senhaBanco; }
