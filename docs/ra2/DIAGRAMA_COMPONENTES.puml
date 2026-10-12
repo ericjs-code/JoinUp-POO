@@ -1,0 +1,74 @@
+@startuml
+title JoinUp-POO — Componentes lógicos e contratos / main 80a36c4
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam componentStyle uml2
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam nodesep 30
+skinparam ranksep 45
+left to right direction
+
+component "Navegador" as browser <<cliente>>
+package "Monólito Java — um joinup-poo.jar" {
+  component "Frontend estático\nHTML / CSS / JS" as front <<recursos>>
+  interface "API HTTP pública/privada\nJSON, multipart e PNG" as api <<contrato HTTP>>
+  component "Router / Routes HTTP\nStaticFileHandler" as routes <<entrada>>
+  package "Núcleo de aplicação (módulos internos)" as core {
+    component "Autenticação e Contas\ncreators / ContaService\nAutenticacaoTemplate / sessões" as contas
+    component "Eventos\nEventoFacade e subsistemas" as eventos
+    component "Comércio / Revenda\nCompraService / RevendaService" as comercio
+    component "Comunidades\nComunidadeSocialService" as social
+    component "Suporte / Painéis\nTicketService / PainelService" as suporte
+    component "Mídia\nArquivoService / ArmazenamentoLocal" as midia
+  }
+  interface "UsuarioRepository" as users <<interface Java>>
+  interface "VerificadorSenha" as passwords <<interface Java>>
+  component "SenhasPbkdf2" as pbkdf <<implementação>>
+  component "Persistência JDBC\nrepositórios / ExecutorTransacional\nConnectionFactory" as persistence <<infraestrutura>>
+  interface "JDBC / SQL\njava.sql.Connection e PreparedStatement" as jdbc <<contrato biblioteca>>
+  component "MySQL Connector/J 8.4.0" as driver <<biblioteca>>
+}
+database "MySQL 8.4\njoinup_poo" as mysql
+folder "Pasta privada de uploads\nfora da webroot" as storage
+
+browser ..> front : carrega e executa
+routes ..> front : serve classpath
+routes -- api : fornece
+browser ..> api : requer / HTTP
+routes ..> contas
+routes ..> eventos
+routes ..> comercio
+routes ..> social
+routes ..> suporte
+routes ..> midia
+contas ..> users : requer (creators / auth)
+persistence ..|> users : fornece (repos por perfil)
+contas ..> passwords : requer (autenticação)
+pbkdf ..|> passwords : fornece
+core ..> persistence : executor e repositórios
+persistence ..> jdbc : requer
+driver -- jdbc : fornece conexões JDBC
+driver --> mysql : protocolo MySQL / TCP
+social ..[#B42318]> midia : vincular imagem
+midia ..[#B42318]> social : validar acesso
+midia ..> eventos : EventoService
+comercio ..> eventos : TipoIngressoRepositoryJdbc
+midia --> storage : Files / PNG
+
+note bottom of core
+  Todas as seis áreas usam persistência e sessão.
+  Dependências de GerenciadorSessao e utilitários
+  são resumidas aqui; ver pacotes e UML geral.
+  ACOP-01 permanece: ciclo social/mídia.
+end note
+
+legend bottom
+  Componentes são responsabilidades internas; nenhum módulo é implantado separadamente.
+  Interface nomeada: contrato verificável. HTTP é contrato lógico; UsuarioRepository e
+  VerificadorSenha são interfaces Java reais. JDBC é contrato de biblioteca, não IEventoService.
+  Fornece: ligação contínua ou realização ..|>. Requer: dependência ..> consumidor -> contrato.
+  Chamada concreta usa ..> (sem socket fictício). Setas sólidas externas: comunicação/IO.
+  Persistência agrupa repositórios; ArquivoService também executa SQL diretamente.
+endlegend
+@enduml

@@ -1,6 +1,12 @@
 # JoinUp-POO — Roteiro de apresentação RA2
 
-Preparado em 12/10/2026, America/Sao_Paulo. Base: `7efe29c1529a71e3c1a82a52716a5a32947a61fe`, main após Entrega 06. **Roteiro planejado, ainda não executado nesta frente.** Duração proposta: 13 minutos; ajustar para 10–15 minutos depois de confirmar a duração real com o professor. Enunciado integral não encontrado; identificação da equipe ainda deve ser preenchida no relatório.
+Revisado na Entrega 09 em 12/10/2026, America/Sao_Paulo. Base documental:
+`80a36c457ec4e46865ee456f388cb607297c3811`, main após PR #10 (Entrega 08).
+Código idêntico à origem do UML `7efe29c1529a71e3c1a82a52716a5a32947a61fe`.
+**Roteiro coletivo planejado, ainda não executado.** Duração proposta: 13 minutos;
+ajustar depois de confirmar a duração autorizada com a professora. O enunciado
+integral e os 23 GoF já foram recebidos pelo Tech Lead; cinco integrantes,
+PUCPR, 4A noite e docente foram informados pelo PO e registrados no relatório.
 
 ## Preparação do ensaio
 
@@ -64,6 +70,27 @@ Os IDs 1 são **somente da carga original conferida**; ingresso/anúncio/post/ch
 
 Para **10 minutos**, abreviar filtros, comentários/compartilhamento, cadastro extra de suporte e upload de evento, mantendo compra, entrada manual, última revenda, dois autores de suporte e quatro GoF. Para **15 minutos**, incluir logout/negação social, edição de categoria vendida, leitura pública de imagem e comparação de snapshot antes/depois da edição de evento. Não tentar demonstrar concorrência real manualmente em poucos segundos: mostrar o teste e o CI correspondente.
 
+## Articulação entre os conteúdos estudados (bloco opcional: 45–75 s)
+
+Os três UML complementares são material de estudo; o requisito oficial continua
+sendo **diagrama de classes**. Reservar este bloco somente se a duração autorizada
+permitir: após o bloco GoF de 10:30–12:30, acrescentaria 45–75 s à proposta de
+13 min (13:45–14:15). Preservar os dois minutos dos quatro GoF; em tempo curto,
+deixar estes SVGs para a arguição.
+
+| Janela do bloco | Visual e fala sugerida |
+| --- | --- |
+| 0–15 s | [Pacotes](DIAGRAMA_PACOTES.svg) / [fonte](DIAGRAMA_PACOTES.puml): pacotes agrupam tipos e setas apontam para o pacote usado. ACOP-01 mostra social ↔ mídia; o bootstrap é composition root. |
+| 15–35 s | [Componentes](DIAGRAMA_COMPONENTES.svg) / [fonte](DIAGRAMA_COMPONENTES.puml): módulos no mesmo monólito; HTTP lógico, UsuarioRepository/VerificadorSenha Java e JDBC são contratos distintos. Não são novos GoF. |
+| 35–60 s | [Implantação](DIAGRAMA_IMPLANTACAO.svg) / [fonte](DIAGRAMA_IMPLANTACAO.puml): navegador/JVM/MySQL no mesmo host, HTTP loopback, JDBC/TCP, JAR e uploads privados; vista efetiva da 08 em 3315, instalação README em 3306. |
+| Até 75 s, se couber | [Cardinalidades](DIAGRAMA_DOMINIO_CARDINALIDADES.svg) / [fonte](DIAGRAMA_DOMINIO_CARDINALIDADES.puml): fragmento persistido, distinto do UML geral de tipos Java. Evento tem 0..1 comunidade no SQL; a Facade cria uma. compras é tabela, não classe Java Compra. |
+
+Classes descrevem tipos/relacionamentos; pacotes descrevem agrupamento e direção;
+componentes descrevem contratos/módulos; implantação descreve nós/artefatos/
+protocolos; GoF descrevem colaboração entre objetos. Quatro implementados e
+19 justificados continuam os mesmos, sob rubrica **4+2+2+1+1**.
+Rastreabilidade e evidências: [validação 09](VALIDACAO_CONFORMIDADE_AULAS_UML.md).
+
 ## Perguntas prováveis e respostas sustentadas
 
 | Pergunta | Resposta objetiva e ponto para abrir |
@@ -76,6 +103,8 @@ Para **10 minutos**, abreviar filtros, comentários/compartilhamento, cadastro e
 | Por que JDBC e HttpServer? | Decisão ADR-001 de Java puro torna regras/transações explícitas; custa implementar transporte/sessão/CSRF e testar essa infraestrutura |
 | Como evitar estoque negativo e dupla venda? | FOR UPDATE, ordem de locks/revalidação, baixa condicionada e UNIQUE de anúncio disponível; transferência e filiação no mesmo commit. Abrir `ultimaUnidadeDoisCompradoresSomenteUmaCompra` e `doisCompradoresMesmoAnuncioSoUmaTransferenciaSemNovoIngresso` |
 | Facade ou God Object? | A fachada integra quatro subsistemas de eventos; não implementa compras, feed ou suporte. Validações/persistência ficam nos colaboradores. N+1 da listagem é tradeoff reconhecido |
+| Por que o ciclo social/mídia não foi removido? | ACOP-01 combina autorização comunitária e vínculo de imagem com montagem em duas etapas. Não houve defeito operacional bloqueante; a 09 preserva a demo e documenta proposta de refatoração posterior. Abrir pacotes e relatório §7.2 |
+| O fragmento de cardinalidades espelha classes Java? | É visão do domínio persistido: compras/filiação são tabelas, e algumas FKs nem são campos dos records. O UML geral mostra tipos Java; NOT NULL/UNIQUE justificam limites SQL, e notas identificam invariantes dos serviços |
 | Como comprovar rollback? | `EventoFacadeTest` só verifica ordem/conexão/propagação; `MySqlIntegrationIT.falhaSqlAposEventoReverteTodasEtapas` usa triggers em três etapas e confere tabelas no MySQL |
 | Revender o ingresso elimina meus posts? | Não; perde filiação após último elegível, preserva histórico. Comprador entra manualmente; ingresso utilizado ainda permite comunidade pós-evento |
 | Quem encerrou um chamado? | Há autor real de cada mensagem, mas não log separado de ator para fechamento sem texto. Suporte associado não é prova de autor de fechamento |
@@ -90,7 +119,8 @@ Para **10 minutos**, abreviar filtros, comentários/compartilhamento, cadastro e
 - [x] Enunciado e lista dos 23 GoF recebidos pelo Tech Lead; identificação fornecida pelo PO em 12/10/2026 (cinco integrantes, PUCPR, 4A noite, Andeza de Sousa Vieira).
 - [ ] Confirmar duração autorizada e revisar as reflexões com os integrantes.
 - [ ] Conferir eventual auditoria externa da 06 sem inferir aprovação a partir do merge.
-- [ ] Executar V01–V45 da matriz, registrar evidências e anotar falhas/bloqueios sem transformar planejamento em execução.
+- [x] Preservar os 42 casos executados na 08 com evidências reais; conferir a matriz atual sem atribuir execução à frente 09.
+- [ ] Completar V26/V44/V45, registrar evidências e anotar falhas/bloqueios sem transformar planejamento em execução.
 - [ ] Ensaiar a sequência completa com cookies independentes e verificar que os snapshots/IDs pertencem ao ensaio.
 - [ ] Se outro PR alterar main, comparar fontes/testes/contratos, atualizar todos os documentos e regenerar UML/SVG; registrar novo SHA antes de congelar.
 - [ ] Entregar para revisão acadêmica/técnica. Este PR documental permanece sem merge automático.

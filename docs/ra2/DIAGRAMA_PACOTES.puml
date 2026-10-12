@@ -1,0 +1,83 @@
+@startuml
+title JoinUp-POO — Pacotes: dependências selecionadas / main 80a36c4
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam packageStyle rectangle
+skinparam nodesep 35
+skinparam ranksep 45
+top to bottom direction
+
+package "bootstrap" as boot {
+}
+package "http + auth + usuarios" as entrada <<agrupamento visual>> {
+}
+package "eventos" as eventos {
+}
+package "compras + revendas" as comercio <<agrupamento visual>> {
+}
+package "comunidades" as social {
+}
+package "arquivos" as midia {
+}
+package "suporte + paineis" as suporte <<agrupamento visual>> {
+}
+package "shared.db" as db {
+}
+package "config" as config {
+}
+package "demo" as demo {
+}
+
+boot ..> entrada : monta Router e UsuarioRoutes
+boot ..> config : recebe configuração
+boot ..> db : cria conexões/transações
+boot ..> demo : executa antes do HTTP
+entrada ..> db : auth / ContaService
+eventos ..> entrada : sessão, perfis e HTTP
+comercio ..> entrada
+social ..> entrada
+midia ..> entrada
+suporte ..> entrada
+eventos ..> db : EventoFacade
+comercio ..> db
+social ..> db
+midia ..> db
+suporte ..> db
+comercio ..> eventos : categorias e validações
+midia ..> eventos : EventoService
+suporte ..> comercio : JdbcComercio
+social ..[#B42318]> midia : vincular / idReferencia
+midia ..[#B42318]> social : validarAcessoComunidade
+db ..> config : ConnectionFactory
+db ..> entrada : HttpException
+config ..> entrada
+demo ..> db : ConnectionFactory
+demo ..> config : guardas demo
+
+note right of boot
+  ApplicationBootstrap é a composition root.
+  Também cria eventos, comércio, social,
+  suporte/painéis e mídia (arestas omitidas).
+  Conhecer os módulos é esperado neste papel.
+end note
+
+note right of social
+  ACOP-01: ciclo real entre serviços.
+  Mídia valida elegibilidade no social;
+  social vincula imagens pela mídia.
+  Montagem em duas etapas: social -> mídia
+  -> social.configurarArquivos(mídia).
+  Acoplamento e ordem de inicialização;
+  refatoração em entrega separada.
+end note
+
+legend bottom
+  Pacotes relativos a br.com.joinup; '+' agrupa pacotes reais, não cria namespace Java.
+  ..> aponta do consumidor ao pacote usado. Vermelho destaca ACOP-01.
+  Visão seletiva de alto nível: subpacotes/arestas internas estão no UML geral e jdeps.
+  HttpException em serviços/infraestrutura e config -> auth impedem alegar camadas puristas.
+  Fontes por aresta: VALIDACAO_CONFORMIDADE_AULAS_UML.md / evidencias/entrega09/jdeps-pacotes.txt.
+endlegend
+@enduml
