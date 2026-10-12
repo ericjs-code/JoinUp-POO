@@ -28,19 +28,36 @@
 | ID | Prioridade | Lacuna / risco | Ação e evidência |
 | --- | --- | --- | --- |
 | RA2-01 | **P0** | Enunciado anteriormente interpretado como “exatamente quatro”; necessário “no mínimo quatro” | Corrigir terminologia nos materiais ativos e preservar justificativa de pertinência; não impor quinto padrão. |
-| RA2-02 | **P0** | Conjunto de padrões GoF **efetivamente estudados em sala** desconhecido | PO/equipe fornece nomes/slides. Fazer tabela contextual **para cada padrão estudado** não aplicado. Não alegar que a turma estudou todos os 23 sem evidência. |
-| RA2-03 | **P0** | Relatório `§3.5` insuficiente e reflexão não explícita | Complementar análise contextual e seção de dificuldades/decisões/mudanças/lições com evidência real (DDL CHECK/FK, isolamento JDBC, locks revenda/social, HTTP 413, uploads/seed). |
+| RA2-02 | **RESOLVIDO DOCUMENTALMENTE** | O PO forneceu *Padrões de Projetos GoF — Introdução*: slide 12 lista os 23 GoF, slides 13–18 detalham por categoria, e confirmou que todos foram estudados | O relatório §3.5 agora analisa contextualizadamente os **19 padrões não utilizados**, sem criar novas implementações artificiais. |
+| RA2-03 | **RESOLVIDO DOCUMENTALMENTE, A REVISAR PELA EQUIPE** | O relatório §3.5 cobre os 19 GoF restantes e o §8 inclui dificuldades, decisões e lições documentadas | Revisar com a experiência efetiva dos integrantes e conferir aderência final ao código. |
 | RA2-04 | **P0** | Identificação da equipe não preenchida | Informar equipe, integrantes, instituição, turma e professora; conferir os seis participantes exigidos no cronograma. |
 | RA2-05 | **P0** | Arguição coletiva pode comprometer até 2,0 | Todos ensaiam perguntas fora de seus módulos; documentar perguntas e respostas, rodízio aleatório. |
 | RA2-06 | **P0** | Matriz de 45 casos ainda sem ensaio final executado | Executar no ambiente limpo; registrar status real e evidência; priorizar P0 do Prompt 08. |
 | RA2-07 | **P1** | Tempo de apresentação não informado pelo enunciado | Confirmar com professora; adequar 13 minutos propostos. |
 | RA2-08 | **P1** | Atualização do diagrama/relatório depois de correções de release | Revisar assinaturas GoF, refs Git e gerar SVG da versão final se código mudou. |
 
+## 4. Confirmação do conteúdo efetivamente estudado
+
+**Material da professora identificado em 12/10/2026:** *Padrões de Projetos GoF — Introdução*, 22 slides. A classificação dos **23 padrões GoF** aparece no slide **12**, detalhada nos slides **13–18** (5 criação, 7 estrutura, 11 comportamento). O slide **19** agrupa os mesmos padrões por intenção. O PO confirmou: **todos os 23 apresentados nesse material foram estudados**.
+
+| Categoria nos slides | Padrões implementados no JoinUp-POO | Padrões não adotados, analisados no relatório §3.5 |
+| --- | --- | --- |
+| **Criação** | Factory Method, Singleton | Abstract Factory, Builder, Prototype |
+| **Estrutura** | Facade | Adapter, Bridge, Composite, Decorator, Flyweight, Proxy |
+| **Comportamento** | Template Method | Chain of Responsibility, Command, Interpreter, Iterator, Mediator, Memento, Observer, State, Strategy, Visitor |
+| **Total** | **4 implementados** | **19 justificados; 23/23 cobertos** |
+
+**MVC:** os slides **7 a 10** apresentam o modelo arquitetural e um TDE separado. MVC **não integra a lista dos 23 GoF** do slide 12 e não foi contabilizado artificialmente como quinto padrão GoF implementado. A análise de camadas/organização do JoinUp pode citar a distinção MVC sem falsear a arquitetura ou a contagem.
+
+**Fonte disponibilizada:** PDF de slides *Padrões de Projetos_GoF_Introdução.pptx (1)(1).pdf*, recebido do PO nesta conversa. Este resumo documenta a fonte sem colocar o arquivo original (material didático de terceiros) no repositório.
+
 ## 4. Critérios de qualidade da argumentação GoF
 
 Para **cada padrão utilizado**: problema específico de design no JoinUp, intenção, classes/participantes, código real e fluxo concreto, benefício e tradeoff; responder por que a alternativa foi rejeitada.
 
-Para **cada padrão estudado e não utilizado**: apontar um cenário do JoinUp em que **poderia** servir, qual é o mecanismo que o código utiliza hoje, **por que a introdução do GoF agora não traz benefício proporcional**, e em que evolução seria reconsiderado. Exemplo contextual (**não prova que esses padrões foram estudados**): *Strategy* para provedores de pagamento — só há simulação local; criar hierarquia de estratégias sem algoritmos distintos seria decorativo. *Observer* para notificações reais — a plataforma não publica eventos assíncronos/integrações; risco de infraestrutura desnecessária. *State* para tickets — enum `StatusTicket` com transições centralizadas é suficiente para quatro estados e poucas ações; classes por estado acrescentariam custo sem novos comportamentos de objetos. A lista final dependerá da cobertura curricular real.
+Para **cada padrão estudado e não utilizado**: apontar um cenário do JoinUp em que **poderia** servir, qual é o mecanismo que o código utiliza hoje, **por que a introdução do GoF agora não traz benefício proporcional**, e em que evolução seria reconsiderado.
+
+**Status: atendido na seção 3.5 do relatório para os 19 padrões não usados**, sujeito à revisão da equipe sobre as explicações técnicas. Exemplo contextual (**não prova que esses padrões foram estudados**): *Strategy* para provedores de pagamento — só há simulação local; criar hierarquia de estratégias sem algoritmos distintos seria decorativo. *Observer* para notificações reais — a plataforma não publica eventos assíncronos/integrações; risco de infraestrutura desnecessária. *State* para tickets — enum `StatusTicket` com transições centralizadas é suficiente para quatro estados e poucas ações; classes por estado acrescentariam custo sem novos comportamentos de objetos. A lista final dependerá da cobertura curricular real.
 
 ## 5. Não alterar sem aprovação funcional
 
