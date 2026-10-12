@@ -12,7 +12,7 @@
 
 **Base integral examinada:** `7efe29c1529a71e3c1a82a52716a5a32947a61fe`, `main` após PR #8 (Entrega 06). Branch documental: `docs/07-ra2-relatorio-uml`.
 
-O enunciado integral RA2 **não foi encontrado** entre os arquivos rastreados do repositório nem entre os anexos disponibilizados nesta conversa. A especificação cita materiais fornecidos anteriormente, mas esses anexos não estão acessíveis nesta frente. A fundamentação acadêmica usa somente os requisitos já documentados: **exatamente quatro GoF**, classes coerentes com código, justificativas e tradeoffs, sistema executável e apresentação. Pesos, duração definitiva e demais critérios precisam ser conferidos no enunciado original; este relatório não garante todos os critérios de avaliação.
+O **enunciado oficial RA2** (PDF de 3 páginas) e a apresentação **Padrões de Projetos GoF — Introdução** (22 slides) foram disponibilizados ao Tech Lead pelo PO em **12/10/2026**. O enunciado exige **no mínimo quatro GoF**, análise contextual de todos os demais padrões estudados, UML coerente, código executável, reflexão e arguição coletiva; a rubrica tem **4,0 pontos para GoF; 2,0 para código; 2,0 para apresentação; 1,0 para UML; 1,0 para relatório**. A apresentação da disciplina inclui os **23 padrões clássicos** (slides 12–19), conforme confirmação do PO, e este relatório analisa os **19 não usados** no §3.5. A duração da apresentação não está fixada no PDF; integrar nomes/equipe e confirmar tempo com a professora. Esta análise não garante pontuação; ver [confronto com os documentos oficiais](CONFORMIDADE_ENUNCIADO_OFICIAL.md).
 
 ## 1. Problema, objetivos e atores
 
@@ -286,7 +286,7 @@ A Entrega 06 já está integrada na base. A sincronização documental de códig
 | Seed automático preserva dados, não é reset | Datas relativas são calculadas na primeira carga; reinício não renova eventos nem restaura contas/linhas removidas |
 | Avatar/perfil sem campo v0.2 | Fora do incremento 06; contrato inicial de upload de perfil não prova implementação |
 | Mobile, acessibilidade assistiva, duração real de aula e E2E por três perfis | Planejados na matriz, não executados nesta frente |
-| Enunciado/equipe e parecer externo 06 | Confirmar documentos acadêmicos e auditoria; merge não comprova aceite técnico externo |
+| Equipe/tempo da apresentação e parecer de release | Enunciado e 23 GoF já confirmados; faltam nomes, tempo efetivo e homologação final. Merge não comprova aceite técnico externo |
 
 ## 8. Reflexão e lições aprendidas
 
@@ -310,7 +310,7 @@ A reflexão a seguir registra **dificuldades e mudanças técnicas documentadas 
 
 A implementação examinada oferece os quatro GoF em caminhos reais e separa os principais limites de permissão, estado e transação. O CI da base exercita HTTP/JDBC/MySQL e casos de concorrência/rollback; o relatório distingue essa prova automatizada do ensaio manual ainda pendente. Os entregáveis documentais tornam a modelagem e as justificativas revisáveis sem alterar a aplicação.
 
-Antes da entrega acadêmica: confirmar identificação da equipe e lista de GoF ensinados, executar e registrar a matriz no commit final, ensaiar os participantes e suportes em contextos independentes, conferir SVG/UML e obter revisão externa. Evoluções possíveis incluem idempotência de mutações, consultas em lote, auditoria de transições se exigida e manutenção de arquivos. Essas evoluções não são funcionalidades já entregues.
+Antes da entrega acadêmica: confirmar identificação da equipe, revisar as 19 justificativas dos GoF não implementados, executar e registrar a matriz no commit final, ensaiar os participantes e suportes em contextos independentes, conferir SVG/UML e obter revisão externa. Evoluções possíveis incluem idempotência de mutações, consultas em lote, auditoria de transições se exigida e manutenção de arquivos. Essas evoluções não são funcionalidades já entregues.
 
 ## 10. Fontes e convenção de rastreabilidade
 
