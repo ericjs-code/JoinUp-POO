@@ -1,0 +1,27 @@
+CI do PR #6, implementação 96fc1e5a16106cd658291fc611ae51029373d631
+https://github.com/ericjs-code/JoinUp-POO/actions/runs/38191297758
+Job verificar 114624424550; conclusão success; publicação de evidências success.
+2026-10-12T01:17:17.3973103Z ##[command]/usr/bin/docker pull mysql:8.4.0
+2026-10-12T01:17:27.2447445Z Status: Downloaded newer image for mysql:8.4.0
+2026-10-12T01:17:27.2457500Z docker.io/library/mysql:8.4.0
+2026-10-12T01:17:27.2504023Z ##[command]/usr/bin/docker create --name 908368f4516b4c1fa0e2a2bd7a1f74b2_mysql840_3c2858 --label 70b0e5 --network github_network_428c31ae1f0643f19d4b12c01abbd748 --network-alias mysql -p 3306:3306 --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot-fixture-ci-only" --health-interval=10s --health-timeout=5s --health-retries=12 -e "MYSQL_DATABASE=joinup_poo" -e "MYSQL_USER=joinup_it" -e "MYSQL_PASSWORD=fixture-ci-only" -e "MYSQL_ROOT_PASSWORD=root-fixture-ci-only" -e "MYSQL_ROOT_HOST=%" -e GITHUB_ACTIONS=true -e CI=true mysql:8.4.0
+2026-10-12T01:17:43.6233666Z ##[group]Run mvn --batch-mode --no-transfer-progress -Pmysql-it clean verify
+2026-10-12T01:17:43.6234080Z [36;1mmvn --batch-mode --no-transfer-progress -Pmysql-it clean verify[0m
+2026-10-12T01:17:53.8689359Z [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.752 s -- in br.com.joinup.shared.db.SeedDemoPasswordTest
+2026-10-12T01:17:55.6813797Z [INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.817 s -- in br.com.joinup.http.RouterParametersTest
+2026-10-12T01:17:56.3396386Z [INFO] Tests run: 33, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.651 s -- in br.com.joinup.http.HttpFoundationTest
+2026-10-12T01:17:56.3657607Z [INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 s -- in br.com.joinup.compras.ValidacaoComercioTest
+2026-10-12T01:17:58.0023399Z [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.640 s -- in br.com.joinup.bootstrap.ApplicationBootstrapTest
+2026-10-12T01:17:58.6780785Z [INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.675 s -- in br.com.joinup.auth.AuthenticationSecurityTest
+2026-10-12T01:17:59.0031162Z [INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.325 s -- in br.com.joinup.config.ConfiguracaoSistemaTest
+2026-10-12T01:17:59.0184117Z [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in br.com.joinup.eventos.facade.EventoFacadeTest
+2026-10-12T01:17:59.0402924Z [INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 s -- in br.com.joinup.eventos.ValidacaoEventoTest
+2026-10-12T01:17:59.0493098Z [INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in br.com.joinup.comunidades.ComunidadeSocialTest
+2026-10-12T01:17:59.0574496Z [INFO] Tests run: 136, Failures: 0, Errors: 0, Skipped: 0
+2026-10-12T01:18:26.4389169Z [INFO] Tests run: 46, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 25.39 s -- in br.com.joinup.integration.MySqlIntegrationIT
+2026-10-12T01:18:56.5613858Z [INFO] Tests run: 65, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 30.12 s -- in br.com.joinup.integration.ComunidadeMySqlIT
+2026-10-12T01:19:25.8054373Z [INFO] Tests run: 63, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 29.25 s -- in br.com.joinup.integration.ComercioMySqlIT
+2026-10-12T01:19:25.8174982Z [INFO] Tests run: 174, Failures: 0, Errors: 0, Skipped: 0
+2026-10-12T01:19:26.3457810Z [INFO] BUILD SUCCESS
+2026-10-12T01:19:26.3459539Z [INFO] Total time:  01:39 min
+2026-10-12T01:19:26.3460325Z [INFO] Finished at: 2026-10-12T01:19:26Z

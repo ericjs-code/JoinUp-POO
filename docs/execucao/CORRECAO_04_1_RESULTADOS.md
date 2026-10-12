@@ -144,6 +144,12 @@ Capturas reais:
 - [Compartilhamento](evidencias/correcao_04_1_share.jpg).
 - [Dois participantes, curtida e comentário](evidencias/correcao_04_1_dois_participantes.jpg).
 - [Acesso bloqueado após saída](evidencias/correcao_04_1_acesso_negado.jpg).
+- [Foco do post na versão final](evidencias/correcao_04_1_foco.jpg).
+
+Após o ajuste de foco, a versão final foi novamente aberta no navegador com
+fixture própria (comunidade 752/post 280). Consulta do DOM confirmou Feed visível
+e `document.activeElement` no cartão `card-post post-destaque`, com post 280.
+Essa fixture também foi limpa e seu servidor encerrado.
 
 Roteiro reproduzível ampliado: [ENTREGA_04_VERIFICACAO.md](ENTREGA_04_VERIFICACAO.md).
 Sem homologação de celular físico ou matriz completa de breakpoints.
@@ -164,5 +170,22 @@ Sem homologação de celular físico ou matriz completa de breakpoints.
 - Ressalvas COM-01..03 continuam: compra sem chave de idempotência, limites de
   escala e respeito à ordem de locks por futuros módulos. Sem reescrita de comércio.
 
-Evidência GitHub Actions e URL do PR serão acrescentadas após a execução remota.
+## PR e evidência GitHub Actions
+
+- [PR #6 — Correção 04.1](https://github.com/ericjs-code/JoinUp-POO/pull/6):
+  `fix/04-1-comunidades-auditoria` → `main`, **aberto e não mesclado**.
+- Commit de implementação executado: `96fc1e5a16106cd658291fc611ae51029373d631`.
+- [GitHub Actions — execução 38191297758](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38191297758),
+  evento pull_request, job `verificar` **success**. Container **mysql:8.4.0**,
+  Java 21, `mvn --batch-mode --no-transfer-progress -Pmysql-it clean verify`.
+- Logs conferidos: **136 Surefire + 46 MySqlIntegrationIT + 65 ComunidadeMySqlIT
+  + 63 ComercioMySqlIT = 310 testes**, zero falhas/erros/ignorados. **BUILD SUCCESS**,
+  duração Maven **1min39s**, conclusão Maven em **11/10/2026, 22:19:26 -03:00**.
+- Etapa `Publicar evidências dos testes` também **success**. Extrato verificável:
+  [correcao_04_1_ci.txt](evidencias/correcao_04_1_ci.txt). Os XMLs/evidências SQL
+  completos estão no artefato `testes-java21-mysql` da execução.
+
+Este registro e a captura final de foco foram acrescentados depois da execução
+do commit de implementação; não modificam código executável nem testes. A nova
+execução automática desses arquivos documentais pode ser acompanhada no PR.
 **Não fazer merge antes da auditoria do Tech Lead.**
