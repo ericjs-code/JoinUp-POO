@@ -30,7 +30,7 @@ public final class ComunidadeRoutes {
         // Descoberta pública (RF-COM-06)
         router.registrar("GET", "/api/comunidades", (e, b, p) -> {
             String busca = p.query().get("busca");
-            respostas.json(e, 200, Map.of("dados", service.listar(busca)));
+            respostas.json(e, 200, Map.of("dados", service.listar(busca, pagina(p), tamanho(p))));
         });
 
         router.registrar("GET", "/api/comunidades/{comunidadeId}", (e, b, p) -> {
@@ -54,10 +54,11 @@ public final class ComunidadeRoutes {
 
         // Mensagens / Chat da Comunidade (RF-COM-H02, RF-COM-01, RF-COM-05)
         router.registrar("GET", "/api/comunidades/{comunidadeId}/mensagens", (e, b, p) -> {
-            respostas.json(e, 200, Map.of("dados", service.listarMensagens(SegurancaHttp.token(e), id(p, "comunidadeId"))));
+            respostas.json(e, 200, Map.of("dados", service.listarMensagens(SegurancaHttp.token(e), id(p, "comunidadeId"), pagina(p), tamanho(p))));
         });
 
         router.registrar("POST", "/api/comunidades/{comunidadeId}/mensagens", (e, b, p) -> {
+            contas.identificar(SegurancaHttp.token(e), Perfil.PARTICIPANTE, Perfil.ORGANIZADOR);
             seguranca.exigirCsrf(e);
             SegurancaHttp.exigirJson(e);
             var req = payload(b, EnviarMensagemRequest.class);
@@ -66,7 +67,7 @@ public final class ComunidadeRoutes {
 
         // Feed Social / Postagens (RF-SOC-H01 a H04, RF-SOC-01, RF-COM-01B)
         router.registrar("GET", "/api/comunidades/{comunidadeId}/postagens", (e, b, p) -> {
-            respostas.json(e, 200, Map.of("dados", service.listarPostagens(SegurancaHttp.token(e), id(p, "comunidadeId"))));
+            respostas.json(e, 200, Map.of("dados", service.listarPostagens(SegurancaHttp.token(e), id(p, "comunidadeId"), pagina(p), tamanho(p))));
         });
 
         router.registrar("POST", "/api/comunidades/{comunidadeId}/postagens", (e, b, p) -> {
@@ -97,7 +98,7 @@ public final class ComunidadeRoutes {
 
         // Comentários
         router.registrar("GET", "/api/postagens/{postagemId}/comentarios", (e, b, p) -> {
-            respostas.json(e, 200, Map.of("dados", service.listarComentarios(SegurancaHttp.token(e), id(p, "postagemId"))));
+            respostas.json(e, 200, Map.of("dados", service.listarComentarios(SegurancaHttp.token(e), id(p, "postagemId"), pagina(p), tamanho(p))));
         });
 
         router.registrar("POST", "/api/postagens/{postagemId}/comentarios", (e, b, p) -> {
@@ -112,6 +113,10 @@ public final class ComunidadeRoutes {
     private <T> T payload(byte[] b, Class<T> tipo) {
         JsonNode n = json.ler(b, JsonNode.class);
         if (!n.isObject()) throw invalido();
+        if (tipo == EnviarMensagemRequest.class && n.hasNonNull("idRespostaA")) {
+            var id = n.get("idRespostaA");
+            if (!id.isIntegralNumber() || !id.canConvertToInt() || id.intValue() <= 0) throw invalido();
+        }
         return json.ler(b, tipo);
     }
 
@@ -119,6 +124,16 @@ public final class ComunidadeRoutes {
         return RouteParameters.id(p.caminho().get(nome));
     }
 
+    private static int pagina(RouteParameters p) { return numero(p, "pagina", 1, 10000); }
+    private static int tamanho(RouteParameters p) { return numero(p, "tamanho", 50, 100); }
+    private static int numero(RouteParameters p, String nome, int padrao, int maximo) {
+        String valor = p.query().get(nome);
+        if (valor == null) return padrao;
+        if (!valor.matches("[1-9][0-9]{0,4}")) throw invalido();
+        int numero = Integer.parseInt(valor);
+        if (numero > maximo) throw invalido();
+        return numero;
+    }
     private static HttpException invalido() {
         return new HttpException(400, "REQUISICAO_INVALIDA", "Payload ou parâmetros inválidos");
     }

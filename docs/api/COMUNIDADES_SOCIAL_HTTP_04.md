@@ -11,15 +11,15 @@ Data: 11/10/2026. Java 21 / HttpServer / JDBC / MySQL 8. Complementa o
    - `GET /api/comunidades`
    - `GET /api/comunidades/{id}`
    - Visitantes e qualquer perfil podem consultar metadados públicos (nome, descrição, imagem, evento vinculado). Mensagens e feed são estritamente restritos.
-   - Quando o chamador está autenticado como participante ativo, `GET /api/comunidades/{id}` enriquece a resposta com `membroAtivo` e `elegivelParaEntrar` (se possui ingresso com status `ativo` ou `utilizado` no evento).
+   - Quando o chamador está autenticado como participante ativo, `GET /api/comunidades/{id}` enriquece a resposta com `membroAtivo` (associação), `elegivelParaEntrar` (ingresso ativo/utilizado) e `acessoConteudo` (ambas as condições). Para organizador dono, os três indicadores são verdadeiros. A UI usa `acessoConteudo`; o servidor revalida a autorização a cada operação.
 
 2. **Acesso ao Conteúdo Interno (Chat e Feed):**
    - **Participante:** exige autenticação, conta ativa, associação ativa à comunidade (`participante_comunidades.ativo = 1`) e ingresso elegível do evento vinculado (`status IN ('ativo', 'utilizado')`, conforme RF-COM-05).
    - **Organizador dono:** exige autenticação, conta ativa e ser o criador/dono do evento vinculado à comunidade (`eventos.id_organizador = organizador.id`). Possui acesso de leitura a feed e mensagens, e permissão de envio de mensagens no chat como organizador (`autor_tipo = 'organizador'`). Não pode criar posts ou comentários (exclusivos de participantes).
-   - Não membros ou participantes sem ingresso elegível recebem `403 Forbidden` com `codigo: "ACESSO_NEGADO"`.
+   - Não membros ou participantes sem ingresso elegível recebem `403 Forbidden` com `erro.codigo: "ACESSO_COMUNIDADE_NEGADO"`.
 
 3. **Mutações (CSRF e Segurança):**
-   - POST, PUT, DELETE exigem origem/Referer segura (`same-origin`), cookie de sessão `HttpOnly` e `Content-Type: application/json`.
+   - POST, PUT, DELETE exigem origem/Referer segura (`same-origin`) e cookie de sessão `HttpOnly`. Criação de mensagem, publicação e comentário exige `Content-Type: application/json`. Participação e curtida não recebem dados de domínio e podem enviar corpo vazio.
    - IDs de usuário são sempre extraídos da sessão autenticada no servidor (nunca de payload do cliente).
 
 ---
@@ -54,7 +54,12 @@ Data: 11/10/2026. Java 21 / HttpServer / JDBC / MySQL 8. Complementa o
   "idRespostaA": null
 }
 ```
-*Validação:* `mensagem` obrigatória (1 a 1000 caracteres). `imagem` e `idRespostaA` opcionais.
+*Validação:* `mensagem` obrigatória (1 a 1000 caracteres; texto não branco).
+`imagem` deve estar ausente ou `null`. `idRespostaA` opcional/null; quando
+presente deve ser número JSON inteiro positivo até 2147483647 e referenciar
+mensagem da mesma comunidade. ID inválido/coerção/fracionário → 400; mensagem
+inexistente ou de outra comunidade → 404 com a mesma resposta, sem conteúdo
+alheio nem inserção. Comparação JDBC parametrizada na transação sob lock.
 
 ### POST `/api/comunidades/{id}/postagens`
 ```json
@@ -63,7 +68,8 @@ Data: 11/10/2026. Java 21 / HttpServer / JDBC / MySQL 8. Complementa o
   "imagem": null
 }
 ```
-*Validação:* `descricao` obrigatória (1 a 2000 caracteres). `imagem` opcional.
+*Validação:* `descricao` obrigatória (1 a **500** caracteres; texto não branco),
+coerente com `postagens.descricao VARCHAR(500)`. `imagem` ausente ou `null`.
 *Regra RF-SOC-01:* **Sem edição e sem exclusão** de postagens após criação.
 
 ### POST `/api/postagens/{id}/comentarios`
@@ -84,3 +90,45 @@ Data: 11/10/2026. Java 21 / HttpServer / JDBC / MySQL 8. Complementa o
 - `404 Not Found`: Comunidade ou postagem não encontrada.
 - `409 Conflict`: Violação de integridade ou estado de domínio.
 - `500 Internal Server Error`: Erro interno no servidor sem exposição de detalhes de SQL ou banco.
+
+## 5. Paginação e compartilhamento — Correção 04.1
+
+As quatro listas (comunidades, mensagens, postagens, comentários) mantêm o
+envelope `{dados:[]}` e aceitam `pagina` (1..10000, padrão 1) e `tamanho`
+(1..100, padrão 50). SQL usa LIMIT/OFFSET parametrizados. Valores fora da faixa,
+fracionários ou não numéricos retornam 400. `busca` limita-se a 100 caracteres.
+Comunidades, mensagens e comentários ordenam por ID crescente; feed por ID
+decrescente. A interface oferece Anterior/Próxima. Não há contagem total; uma
+página cheia pode ser seguida por página vazia. Não há teste de carga de escala.
+Criação de mensagem/comentário recupera o novo registro por ID, independentemente
+da página atual. Detalhe individual de postagem mantém acesso a posts antigos.
+
+O botão **Copiar link** produz `/comunidades.html?id=<comunidade>&post=<post>`.
+Usa Clipboard API e, se indisponível/negada, prompt para cópia manual. O link
+carrega somente metadados para visitante. O detalhe de post é buscado em
+`GET /api/postagens/{id}` após autorização; o frontend compara a comunidade,
+abre a aba Feed e destaca o post, inclusive fora da página atual.
+
+## 6. Limite de mídia e sincronização
+
+**RF-SOC-H01/RF-COM-H02 continuam parciais:** upload e posts somente com imagem
+aguardam endpoint seguro, armazenamento, limites de tipo/tamanho e autorização
+da leitura do arquivo. Nesta correção, qualquer `imagem != null` retorna
+400 `IMAGEM_NAO_SUPORTADA` antes de persistir. Não há allowlist nem upload
+implementado; URLs externas, `file:`, `data:` e caminhos locais são rejeitados.
+Essa contenção foi prevista no prompt 04.1 e não representa aprovação do PO
+para eliminar o requisito de imagem. A pendência precisa de homologação do PO.
+
+Leituras protegidas e mutações usam a mesma transação. Ordem: conta do ator,
+sessão revalidada, evento, ingressos elegíveis em ID crescente e filiação.
+O social não bloqueia categorias ou anúncios, pois não os altera. Comércio
+mantém contas/organizador/sessão/evento/categorias/ingressos/anúncio/filiação.
+Nenhum lock adicional de conta é adquirido depois do evento; locks são SELECTs
+simples, sem JOIN. A conta e o evento serializam transferência, entrada/saída,
+desativação e publicação. Não se exige evento futuro ou organizador ativo para
+participante no social. Curtidas bloqueiam a postagem antes da linha da curtida
+e atualizam contador na mesma transação. Locks conservadores limitam paralelismo.
+
+MySQL timeout/deadlock → 409 `CONCORRENCIA_CONFLITO`, após rollback. Falha JDBC
+→ 503 `BANCO_INDISPONIVEL`, sem detalhes SQL. Não há retry automático; atualizar
+estado antes de tentar novamente. O contador/linha da curtida são indivisíveis.

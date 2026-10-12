@@ -1,0 +1,136 @@
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ----------------------< br.com.joinup:joinup-poo >----------------------
+[INFO] Building joinup-poo 0.1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- clean:3.2.0:clean (default-clean) @ joinup-poo ---
+[INFO] Deleting C:\Users\ericj\OneDrive\Documentos\JoinUp-POO\target
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ joinup-poo ---
+[INFO] Copying 18 resources from src\main\resources to target\classes
+[INFO]
+[INFO] --- compiler:3.13.0:compile (default-compile) @ joinup-poo ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 96 source files with javac [debug release 21] to target\classes
+[INFO]
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ joinup-poo ---
+[INFO] skip non existing resourceDirectory C:\Users\ericj\OneDrive\Documentos\JoinUp-POO\src\test\resources
+[INFO]
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ joinup-poo ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 13 source files with javac [debug release 21] to target\test-classes
+[INFO]
+[INFO] --- surefire:3.5.2:test (default-test) @ joinup-poo ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running br.com.joinup.auth.AuthenticationSecurityTest
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.226 s -- in br.com.joinup.auth.AuthenticationSecurityTest
+[INFO] Running br.com.joinup.bootstrap.ApplicationBootstrapTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.468 s -- in br.com.joinup.bootstrap.ApplicationBootstrapTest
+[INFO] Running br.com.joinup.compras.ValidacaoComercioTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in br.com.joinup.compras.ValidacaoComercioTest
+[INFO] Running br.com.joinup.comunidades.ComunidadeSocialTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.030 s -- in br.com.joinup.comunidades.ComunidadeSocialTest
+[INFO] Running br.com.joinup.config.ConfiguracaoSistemaTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.659 s -- in br.com.joinup.config.ConfiguracaoSistemaTest
+[INFO] Running br.com.joinup.eventos.facade.EventoFacadeTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in br.com.joinup.eventos.facade.EventoFacadeTest
+[INFO] Running br.com.joinup.eventos.ValidacaoEventoTest
+[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 s -- in br.com.joinup.eventos.ValidacaoEventoTest
+[INFO] Running br.com.joinup.http.HttpFoundationTest
+out. 11, 2026 10:12:47 PM br.com.joinup.http.Router handle
+GRAVE: Falha interna no processamento HTTP
+[INFO] Tests run: 33, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.165 s -- in br.com.joinup.http.HttpFoundationTest
+[INFO] Running br.com.joinup.http.RouterParametersTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.075 s -- in br.com.joinup.http.RouterParametersTest
+[INFO] Running br.com.joinup.shared.db.SeedDemoPasswordTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.628 s -- in br.com.joinup.shared.db.SeedDemoPasswordTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 136, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO]
+[INFO] --- jar:3.4.1:jar (default-jar) @ joinup-poo ---
+[INFO] Building jar: C:\Users\ericj\OneDrive\Documentos\JoinUp-POO\target\joinup-poo.jar
+[INFO]
+[INFO] --- shade:3.6.0:shade (default) @ joinup-poo ---
+[INFO] Including com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.18.3 in the shaded jar.
+[INFO] Including com.fasterxml.jackson.core:jackson-annotations:jar:2.18.3 in the shaded jar.
+[INFO] Including com.fasterxml.jackson.core:jackson-core:jar:2.18.3 in the shaded jar.
+[INFO] Including com.fasterxml.jackson.core:jackson-databind:jar:2.18.3 in the shaded jar.
+[INFO] Including com.mysql:mysql-connector-j:jar:8.4.0 in the shaded jar.
+[INFO] Including com.google.protobuf:protobuf-java:jar:3.25.1 in the shaded jar.
+[WARNING] Discovered module-info.class. Shading will break its strong encapsulation.
+[WARNING] jackson-annotations-2.18.3.jar, jackson-core-2.18.3.jar, jackson-databind-2.18.3.jar, jackson-datatype-jsr310-2.18.3.jar define 2 overlapping resources:
+[WARNING]   - META-INF/LICENSE
+[WARNING]   - META-INF/NOTICE
+[WARNING] jackson-core-2.18.3.jar, jackson-databind-2.18.3.jar, jackson-datatype-jsr310-2.18.3.jar define 1 overlapping classes:
+[WARNING]   - META-INF.versions.9.module-info
+[WARNING] jackson-annotations-2.18.3.jar, jackson-core-2.18.3.jar, jackson-databind-2.18.3.jar, jackson-datatype-jsr310-2.18.3.jar, joinup-poo.jar, mysql-connector-j-8.4.0.jar, protobuf-java-3.25.1.jar define 1 overlapping resource:
+[WARNING]   - META-INF/MANIFEST.MF
+[WARNING] maven-shade-plugin has detected that some files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the file is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] Replacing original artifact with shaded artifact.
+[INFO] Replacing C:\Users\ericj\OneDrive\Documentos\JoinUp-POO\target\joinup-poo.jar with C:\Users\ericj\OneDrive\Documentos\JoinUp-POO\target\joinup-poo-0.1.0-SNAPSHOT-shaded.jar
+[INFO]
+[INFO] --- failsafe:3.5.2:integration-test (default) @ joinup-poo ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running br.com.joinup.integration.ComercioMySqlIT
+[INFO] Tests run: 63, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 27.40 s -- in br.com.joinup.integration.ComercioMySqlIT
+[INFO] Running br.com.joinup.integration.ComunidadeMySqlIT
+[INFO] Tests run: 65, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 27.29 s -- in br.com.joinup.integration.ComunidadeMySqlIT
+[INFO] Running br.com.joinup.integration.MySqlIntegrationIT
+[INFO] Tests run: 46, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 17.59 s -- in br.com.joinup.integration.MySqlIntegrationIT
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 174, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO]
+[INFO] --- failsafe:3.5.2:verify (default) @ joinup-poo ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:21 min
+[INFO] Finished at: 2026-10-11T22:14:02-03:00
+[INFO] ------------------------------------------------------------------------
+Correção04.1 MySQL=8.4.0; banco=joinup_poo
+postagemSocialPrimeiro: dois locks reais observados -> HTTP 201/200.
+postagemVendaPrimeiro: dois locks reais observados -> HTTP 200/403.
+entradaSocialPrimeiro: dois locks reais observados -> HTTP 200/200.
+entradaVendaPrimeiro: dois locks reais observados -> HTTP 200/403.
+FK real erro1452; CHECK autoria e filiação erro3819; constraints intactas.
+Resposta valida -> 201; inserções=1.
+Resposta outraComunidade -> 404; inserções=0.
+Resposta inexistente -> 404; inserções=0.
+Resposta zero -> 400; inserções=0.
+Resposta negativo -> 400; inserções=0.
+Resposta overflow -> 400; inserções=0.
+Resposta fracao -> 400; inserções=0.
+Resposta texto -> 400; inserções=0.
+Venda antes de mensagem: locks reais -> 200/403; conteúdo/curtida históricos preservados.
+Venda antes de comentario: locks reais -> 200/403; conteúdo/curtida históricos preservados.
+Venda antes de curte: locks reais -> 200/403; conteúdo/curtida históricos preservados.
+Venda antes de descurte: locks reais -> 200/403; conteúdo/curtida históricos preservados.
+12 PUT repetidos concorrentes -> contador 2; 12 PUT/DELETE mistos -> COUNT consistente; 8 comentários concorrentes; DELETE repetido -> 0.
+Pós-evento status=ativo: social=200, compra/revenda=409, reentrada manual validada.
+Pós-evento status=utilizado: social=200, compra/revenda=409, reentrada manual validada.
+Pós-evento status=cancelado: social=403, compra/revenda=409, reentrada manual validada.
+Rollback curte: trigger no contador após INSERT/DELETE da curtida -> 503; linha e contador preservados.
+Rollback descurte: trigger no contador após INSERT/DELETE da curtida -> 503; linha e contador preservados.
+Metadados públicos sem conteúdo; cookie HttpOnly; APIs privadas 401/403; entrada/saída/reentrada manuais HTTP.
