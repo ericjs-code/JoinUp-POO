@@ -1,13 +1,14 @@
 # JoinUp-POO
 
-Java 21 puro com HttpServer do JDK, JDBC/MySQL 8, Jackson e JUnit. Entregas 00–06:
+Java 21 puro com HttpServer do JDK, JDBC/MySQL 8, Jackson e JUnit. Entregas 00–07 integradas:
 contas/autenticação, eventos, compra/revenda, comunidades sociais, chamados
 e painéis por perfil. Os quatro GoF estão em fluxos executáveis:
 Singleton, Factory Method, Template Method e Facade transacional.
 
 Interfaces em `/conta.html`, `/eventos.html`, `/ingressos.html`,
 `/comunidades.html` e `/painel.html`, com identidade visual escura/roxa próxima
-do JoinUp PHP. Mídia segura e carga demo automática estão implementadas na Entrega 06; a consolidação RA2 permanece pendente. O projeto usa banco próprio
+do JoinUp PHP. Mídia segura e carga demo automática estão implementadas na Entrega 06;
+relatório e UML RA2 foram integrados na Entrega 07. O projeto usa banco próprio
 `joinup_poo`, sem importar registros legados.
 
 ## Executar
@@ -22,10 +23,12 @@ git switch main
 mvn clean verify
 ```
 
-A `main` já incorpora o PR #7 (Entrega 05). A Entrega 06 está na branch
-`feat/06-midia-demo` e depende de auditoria técnica antes do merge.
-Para executar este incremento antes do merge, use `git switch feat/06-midia-demo`
-e repita `mvn clean verify` antes de preparar a base abaixo.
+A `main` já incorpora os PRs #8 (mídia/demo) e #9 (relatório/UML).
+`mvn clean verify` compila, empacota e executa Surefire; **sem `-Pmysql-it`
+não executa integração Failsafe/MySQL**. A homologação da Entrega 08 está no
+[relatório final](docs/ra2/RELATORIO_HOMOLOGACAO_FINAL.md), com execução por caso,
+SHA, evidências e pendências acadêmicas. Use esta instalação exclusivamente para
+demonstração local; a regressão MySQL deve usar duas instâncias separadas.
 Prepare instância **isolada** de MySQL, aplique os SQLs e configure a conta DML:
 
 ```powershell
@@ -40,6 +43,24 @@ $env:JOINUP_JDBC_URL = 'jdbc:mysql://127.0.0.1:3306/joinup_poo?connectionTimeZon
 # JOINUP_UPLOAD_DIR opcional: diretório privado fora do repositório/webroot.
 java -jar target/joinup-poo.jar
 ```
+
+Não execute manualmente `seed_demo_v0.2.sql` nessa instalação: o recurso é
+empacotado no JAR e aplicado pelo `DemoRunner` após schema e migração, somente
+com demo habilitada e base elegível. Uma carga manual sem marcador é recusada.
+
+Para repetir a homologação HTTP em **nova demo sacrificial**, PowerShell 7:
+
+```powershell
+# Cria contas/evento, compra/revenda simuladas, conteúdo e chamados; não há reset.
+# A imagem é uma fixture local segura; SHA identifica a versão do JAR iniciado.
+./docs/ra2/scripts/homologar-http.ps1 -Confirmacao demo-isolada-entrega08 `
+  -OutputDir "$env:TEMP/joinup-homologacao-nova" -ImagemPng 'C:/fixtures/ensaio.png' `
+  -Sha 'SHA_COMPLETO_DA_VERSAO'
+```
+
+O script recusa sobrescrever evidências e não repete mutações automaticamente.
+Ele verifica HTTP com cookies independentes; não substitui ensaio coletivo,
+validação assistiva nem um roteiro integral operado no navegador.
 
 A conta da aplicação precisa somente de SELECT/INSERT/UPDATE/DELETE em
 joinup_poo. Schema e migração são tarefas administrativas; o bootstrap nunca

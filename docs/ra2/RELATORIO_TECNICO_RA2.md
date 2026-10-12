@@ -4,13 +4,27 @@
 
 **Repositório:** [ericjs-code/JoinUp-POO](https://github.com/ericjs-code/JoinUp-POO).
 
-**Equipe, instituição, professor e turma:** a confirmar com os integrantes; não inferidos do proprietário do repositório.
+**Equipe informada pelo PO em 12/10/2026:** Eric Julio da Silva; Matheus Martins;
+João Pedro Oliveira; Pedro Henrique Rebechi; Kaun de Moraes de Liz.
+
+**Instituição:** PUCPR. **Turma:** 4A noite. **Docente:** Andeza de Sousa Vieira
+(grafia informada pelo PO). São cinco integrantes informados; não foi inventado
+um sexto nome. Duração autorizada e ensaio/arguição coletiva: **PENDENTE DE PO**.
 
 **Entrega prevista nos requisitos:** 15/10/2026; apresentação: 16/10/2026.
 
 **Revisão documental:** 12/10/2026, America/Sao_Paulo.
 
 **Base integral examinada:** `7efe29c1529a71e3c1a82a52716a5a32947a61fe`, `main` após PR #8 (Entrega 06). Branch documental: `docs/07-ra2-relatorio-uml`.
+
+**Atualização da Entrega 08:** homologação técnica executada sobre
+`011ecb2dcdd8f9457d2e1c5eeceb00edee018ffd`. Java, testes, SQL, recursos,
+`pom.xml` e workflow são idênticos à base de código acima. Os resultados
+históricos das seções seguintes conservam sua revisão de origem; os resultados
+novos (468 testes locais, HTTP, navegador e reinício) estão no
+[RELATORIO_HOMOLOGACAO_FINAL.md](RELATORIO_HOMOLOGACAO_FINAL.md). A matriz atual
+distingue 42 casos executados, principalmente automáticos, de três casos sem
+execução integral. Identificação preenchida não comprova participação em ensaio.
 
 O **enunciado oficial RA2** (PDF de 3 páginas) e a apresentação **Padrões de Projetos GoF — Introdução** (22 slides) foram disponibilizados ao Tech Lead pelo PO em **12/10/2026**. O enunciado exige **no mínimo quatro GoF**, análise contextual de todos os demais padrões estudados, UML coerente, código executável, reflexão e arguição coletiva; a rubrica tem **4,0 pontos para GoF; 2,0 para código; 2,0 para apresentação; 1,0 para UML; 1,0 para relatório**. A apresentação da disciplina inclui os **23 padrões clássicos** (slides 12–19), conforme confirmação do PO, e este relatório analisa os **19 não usados** no §3.5. A duração da apresentação não está fixada no PDF; integrar nomes/equipe e confirmar tempo com a professora. Esta análise não garante pontuação; ver [confronto com os documentos oficiais](CONFORMIDADE_ENUNCIADO_OFICIAL.md).
 

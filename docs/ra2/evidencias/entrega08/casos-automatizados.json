@@ -1,0 +1,2810 @@
+[
+  {
+    "suite": "br.com.joinup.arquivos.ImagemSeguraTest",
+    "name": "retiraPayloadAnexadoAoPng",
+    "time": "0.123",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.arquivos.ImagemSeguraTest",
+    "name": "multipartNaoConverteBinarioEmTexto",
+    "time": "0.009",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.arquivos.ImagemSeguraTest",
+    "name": "decodificaTresFormatosENormaliza(String)[1]",
+    "time": "0.015",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.arquivos.ImagemSeguraTest",
+    "name": "decodificaTresFormatosENormaliza(String)[2]",
+    "time": "0.017",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.arquivos.ImagemSeguraTest",
+    "name": "decodificaTresFormatosENormaliza(String)[3]",
+    "time": "0.016",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.arquivos.ImagemSeguraTest",
+    "name": "recusaDimensoesAntesDeDecodificar",
+    "time": "0.004",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.arquivos.ImagemSeguraTest",
+    "name": "nomesSuspeitos(String)[1]",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.arquivos.ImagemSeguraTest",
+    "name": "nomesSuspeitos(String)[2]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.arquivos.ImagemSeguraTest",
+    "name": "nomesSuspeitos(String)[3]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.arquivos.ImagemSeguraTest",
+    "name": "nomesSuspeitos(String)[4]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.arquivos.ImagemSeguraTest",
+    "name": "nomesSuspeitos(String)[5]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.arquivos.ImagemSeguraTest",
+    "name": "nomesSuspeitos(String)[6]",
+    "time": "0.004",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.arquivos.ImagemSeguraTest",
+    "name": "nomesSuspeitos(String)[7]",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.arquivos.ImagemSeguraTest",
+    "name": "arquivoNaoPodeSerSobrescritoNemLidoPorPathTraversal",
+    "time": "0.016",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.arquivos.ImagemSeguraTest",
+    "name": "repositorioNaoPodeSerDiretorioDeUploads",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.arquivos.ImagemSeguraTest",
+    "name": "recusaLinkDeArquivoQuandoSistemaPermiteCriarSymlink",
+    "time": "0.009",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "name": "origemSeguraEValidacaoSemNovasRegrasFuncionais",
+    "time": "0.005",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "name": "origemInvalidaRejeitada(String)[1]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "name": "origemInvalidaRejeitada(String)[2]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "name": "origemInvalidaRejeitada(String)[3]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "name": "origemInvalidaRejeitada(String)[4]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "name": "origemInvalidaRejeitada(String)[5]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "name": "origemInvalidaRejeitada(String)[6]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "name": "origemInvalidaRejeitada(String)[7]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "name": "origemInvalidaRejeitada(String)[8]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "name": "hashIndividualFormatoEVerificacao",
+    "time": "0.628",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "name": "datasIsoSemCoercaoOuCamposDeTitularidade",
+    "time": "0.277",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "name": "hashMalformadoNaoAutentica(String)[1]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "name": "hashMalformadoNaoAutentica(String)[2]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "name": "hashMalformadoNaoAutentica(String)[3]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "name": "hashMalformadoNaoAutentica(String)[4]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "name": "hashMalformadoNaoAutentica(String)[5]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "name": "hashMalformadoNaoAutentica(String)[6]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "name": "hashMalformadoNaoAutentica(String)[7]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.bootstrap.ApplicationBootstrapTest",
+    "name": "fechamentoAntesDeIniciarTambemLiberaPorta",
+    "time": "0.383",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.bootstrap.ApplicationBootstrapTest",
+    "name": "composicaoRealEFechamentoLiberamPorta",
+    "time": "0.411",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.compras.ValidacaoComercioTest",
+    "name": "precoValidoExato(String)[1]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.compras.ValidacaoComercioTest",
+    "name": "precoValidoExato(String)[2]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.compras.ValidacaoComercioTest",
+    "name": "precoValidoExato(String)[3]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.compras.ValidacaoComercioTest",
+    "name": "precoValidoExato(String)[4]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.compras.ValidacaoComercioTest",
+    "name": "precoNaoArredondaNemUltrapassaBanco(String)[1]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.compras.ValidacaoComercioTest",
+    "name": "precoNaoArredondaNemUltrapassaBanco(String)[2]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.compras.ValidacaoComercioTest",
+    "name": "precoNaoArredondaNemUltrapassaBanco(String)[3]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.compras.ValidacaoComercioTest",
+    "name": "precoNaoArredondaNemUltrapassaBanco(String)[4]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.compras.ValidacaoComercioTest",
+    "name": "precoNaoArredondaNemUltrapassaBanco(String)[5]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.compras.ValidacaoComercioTest",
+    "name": "paginacaoNaoEstouraIntNemAceitaExtras",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.compras.ValidacaoComercioTest",
+    "name": "totalExatoEOverflowDecimal",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.compras.ValidacaoComercioTest",
+    "name": "instanteInicioInclusiveBloqueia",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.compras.ValidacaoComercioTest",
+    "name": "ingressosRepetidosNulosEOrdem",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.compras.ValidacaoComercioTest",
+    "name": "quantidadePositiva(int)[1]",
+    "time": "0.004",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.compras.ValidacaoComercioTest",
+    "name": "quantidadePositiva(int)[2]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.compras.ValidacaoComercioTest",
+    "name": "tiposRepetidosRejeitadosEOrdenadosParaLock",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.comunidades.ComunidadeSocialTest",
+    "name": "participanteMembroComIngressoAcessaMensagensEFeed",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.comunidades.ComunidadeSocialTest",
+    "name": "organizadorNaoPodeCriarPostagemOuComentarNoFeed",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.comunidades.ComunidadeSocialTest",
+    "name": "curtirEDescurtirPostagem",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.comunidades.ComunidadeSocialTest",
+    "name": "participanteComIngressoEntraESaiDaComunidade",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.comunidades.ComunidadeSocialTest",
+    "name": "participanteSemIngressoElegivelBloqueadoDeEntrar",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.comunidades.ComunidadeSocialTest",
+    "name": "descobertaPublicaDeComunidadesSemLogin",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.comunidades.ComunidadeSocialTest",
+    "name": "validacaoDeTextoEmMensagensEPostagens",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.comunidades.ComunidadeSocialTest",
+    "name": "participanteNaoMembroBloqueadoDeAcessarMensagensEFeed",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.comunidades.ComunidadeSocialTest",
+    "name": "organizadorDonoAcessaMensagensMasOutroOrganizadorEBloqueado",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.config.ConfiguracaoSistemaTest",
+    "name": "rejeitaConfiguracaoInvalida(String)[1]",
+    "time": "0.111",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.config.ConfiguracaoSistemaTest",
+    "name": "rejeitaConfiguracaoInvalida(String)[2]",
+    "time": "0.085",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.config.ConfiguracaoSistemaTest",
+    "name": "rejeitaConfiguracaoInvalida(String)[3]",
+    "time": "0.089",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.config.ConfiguracaoSistemaTest",
+    "name": "rejeitaConfiguracaoInvalida(String)[4]",
+    "time": "0.091",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.config.ConfiguracaoSistemaTest",
+    "name": "rejeitaConfiguracaoInvalida(String)[5]",
+    "time": "0.091",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.config.ConfiguracaoSistemaTest",
+    "name": "rejeitaConfiguracaoInvalida(String)[6]",
+    "time": "0.088",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.config.ConfiguracaoSistemaTest",
+    "name": "rejeitaConfiguracaoInvalida(String)[7]",
+    "time": "0.084",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.config.ConfiguracaoSistemaTest",
+    "name": "propriedadesTemPrecedenciaESnapshotNaoMuda",
+    "time": "0.105",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.config.ConfiguracaoSistemaTest",
+    "name": "mesmaInstanciaEmChamadasConcorrentes",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.config.ConfiguracaoSistemaTest",
+    "name": "estruturaImutavelEConstrutorPrivado",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.config.ConfiguracaoSistemaTest",
+    "name": "urlNuncaAceitaLegadoOuDestinoAmbiguo(String)[1]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.config.ConfiguracaoSistemaTest",
+    "name": "urlNuncaAceitaLegadoOuDestinoAmbiguo(String)[2]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.config.ConfiguracaoSistemaTest",
+    "name": "urlNuncaAceitaLegadoOuDestinoAmbiguo(String)[3]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.config.ConfiguracaoSistemaTest",
+    "name": "urlNuncaAceitaLegadoOuDestinoAmbiguo(String)[4]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.config.ConfiguracaoSistemaTest",
+    "name": "urlNuncaAceitaLegadoOuDestinoAmbiguo(String)[5]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.config.ConfiguracaoSistemaTest",
+    "name": "urlNuncaAceitaLegadoOuDestinoAmbiguo(String)[6]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.demo.SqlDemoTest",
+    "name": "rejeitaScriptIncompleto",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.demo.SqlDemoTest",
+    "name": "naoDivideStringsComentariosOuIdentificadores",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.facade.EventoFacadeTest",
+    "name": "falhaComunidadePropagaAoExecutorParaRollback",
+    "time": "0.006",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.facade.EventoFacadeTest",
+    "name": "falhaLineupInterrompeCategoriasEComunidade",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.facade.EventoFacadeTest",
+    "name": "coordenaQuatroSubsistemasNaMesmaConexaoEDevolveIdentidades",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.facade.EventoFacadeTest",
+    "name": "falhaCategoriaInterrompeComunidade",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "destinoAtualPassadoOuTruncadoNaoPodeSerPersistido(String)[1]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "destinoAtualPassadoOuTruncadoNaoPodeSerPersistido(String)[2]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "destinoAtualPassadoOuTruncadoNaoPodeSerPersistido(String)[3]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "destinoAtualPassadoOuTruncadoNaoPodeSerPersistido(String)[4]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "offsetNormalizadoESemDependenciaDaZonaDaJvm",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "precoNaoPodeSerNegativoArredondadoOuExcederDecimal(String)[1]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "precoNaoPodeSerNegativoArredondadoOuExcederDecimal(String)[2]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "precoNaoPodeSerNegativoArredondadoOuExcederDecimal(String)[3]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "estoqueZeroPrecoZeroELimitesValidos",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "filtrosInvalidosNaoChegamAoBanco(String)[1]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "filtrosInvalidosNaoChegamAoBanco(String)[2]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "filtrosInvalidosNaoChegamAoBanco(String)[3]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "filtrosInvalidosNaoChegamAoBanco(String)[4]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "filtrosInvalidosNaoChegamAoBanco(String)[5]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "limitesDeTextoCepUfEIds",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "imagensForaDoClasspathPermitidoSaoRecusadas(String)[1]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "imagensForaDoClasspathPermitidoSaoRecusadas(String)[2]",
+    "time": "0.005",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "imagensForaDoClasspathPermitidoSaoRecusadas(String)[3]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "imagensForaDoClasspathPermitidoSaoRecusadas(String)[4]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "imagensForaDoClasspathPermitidoSaoRecusadas(String)[5]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "name": "imagensForaDoClasspathPermitidoSaoRecusadas(String)[6]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "limitaContentLengthEChunked",
+    "time": "0.028",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "jsonInvalidoTemErroPadronizado(String)[1]",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "jsonInvalidoTemErroPadronizado(String)[2]",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "jsonInvalidoTemErroPadronizado(String)[3]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "jsonInvalidoTemErroPadronizado(String)[4]",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "jsonInvalidoTemErroPadronizado(String)[5]",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "jsonInvalidoTemErroPadronizado(String)[6]",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "healthMinimoSemConfiguracao",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "corposConcorrentesPermanecemIsolados",
+    "time": "0.016",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "recursoDesconhecidoNaoVazaArquivos(String)[1]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "recursoDesconhecidoNaoVazaArquivos(String)[2]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "recursoDesconhecidoNaoVazaArquivos(String)[3]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "recursoDesconhecidoNaoVazaArquivos(String)[4]",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "recursoDesconhecidoNaoVazaArquivos(String)[5]",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "recursoDesconhecidoNaoVazaArquivos(String)[6]",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "recursoDesconhecidoNaoVazaArquivos(String)[7]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "recursoDesconhecidoNaoVazaArquivos(String)[8]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "recursoDesconhecidoNaoVazaArquivos(String)[9]",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "metodoInvalidoEmRotaConhecida(String)[1]",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "metodoInvalidoEmRotaConhecida(String)[2]",
+    "time": "0.004",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "metodoInvalidoEmRotaConhecida(String)[3]",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "metodoInvalidoEmRotaConhecida(String)[4]",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "metodoInvalidoEmRotaConhecida(String)[5]",
+    "time": "0.005",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "htmlCssJsEHead",
+    "time": "0.013",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "excecaoInternaNaoRevelaMensagemOriginal",
+    "time": "0.012",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "bloqueiaTraversalSimplesECodificado(String)[1]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "bloqueiaTraversalSimplesECodificado(String)[2]",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "bloqueiaTraversalSimplesECodificado(String)[3]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "bloqueiaTraversalSimplesECodificado(String)[4]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "bloqueiaTraversalSimplesECodificado(String)[5]",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "bloqueiaTraversalSimplesECodificado(String)[6]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "bloqueiaTraversalSimplesECodificado(String)[7]",
+    "time": "0.003",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "name": "bloqueiaTraversalSimplesECodificado(String)[8]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.RouterParametersTest",
+    "name": "cookieSecureERejeicaoDeDuplicata",
+    "time": "0.01",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.RouterParametersTest",
+    "name": "precedenciaEstaticaParametrosE405",
+    "time": "0.01",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.RouterParametersTest",
+    "name": "csrfOriginRefererEFetchSite",
+    "time": "0.014",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.RouterParametersTest",
+    "name": "transporteInvalido(String)[1]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.RouterParametersTest",
+    "name": "transporteInvalido(String)[2]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.RouterParametersTest",
+    "name": "transporteInvalido(String)[3]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.RouterParametersTest",
+    "name": "transporteInvalido(String)[4]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.RouterParametersTest",
+    "name": "transporteInvalido(String)[5]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.RouterParametersTest",
+    "name": "transporteInvalido(String)[6]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.RouterParametersTest",
+    "name": "transporteInvalido(String)[7]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.RouterParametersTest",
+    "name": "transporteInvalido(String)[8]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.RouterParametersTest",
+    "name": "transporteInvalido(String)[9]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.RouterParametersTest",
+    "name": "transporteInvalido(String)[10]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.RouterParametersTest",
+    "name": "transporteInvalido(String)[11]",
+    "time": "0.002",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.RouterParametersTest",
+    "name": "parametrosConcorrentesIsolados",
+    "time": "0.012",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.http.RouterParametersTest",
+    "name": "ambiguidadesRecusadas",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.shared.db.SeedDemoPasswordTest",
+    "name": "todosOsNoveHashesDoSeedConferemComPbkdf2DoJdk",
+    "time": "0.677",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.suporte.StatusTicketTest",
+    "name": "encerramentoPermitido(StatusTicket)[1]",
+    "time": "0.008",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.suporte.StatusTicketTest",
+    "name": "encerramentoPermitido(StatusTicket)[2]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.suporte.StatusTicketTest",
+    "name": "suporteResponde(StatusTicket, StatusTicket)[1]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.suporte.StatusTicketTest",
+    "name": "suporteResponde(StatusTicket, StatusTicket)[2]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.suporte.StatusTicketTest",
+    "name": "suporteResponde(StatusTicket, StatusTicket)[3]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.suporte.StatusTicketTest",
+    "name": "encerramentoBloqueado(StatusTicket)[1]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.suporte.StatusTicketTest",
+    "name": "encerramentoBloqueado(StatusTicket)[2]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.suporte.StatusTicketTest",
+    "name": "mensagemVaziaOuControleInvalida(String)[1]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.suporte.StatusTicketTest",
+    "name": "mensagemVaziaOuControleInvalida(String)[2]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.suporte.StatusTicketTest",
+    "name": "mensagemVaziaOuControleInvalida(String)[3]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.suporte.StatusTicketTest",
+    "name": "solicitanteNaoPodeResolverRetornar(StatusTicket)[1]",
+    "time": "0.001",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.suporte.StatusTicketTest",
+    "name": "solicitanteNaoPodeResolverRetornar(StatusTicket)[2]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.suporte.StatusTicketTest",
+    "name": "solicitanteNaoPodeResolverRetornar(StatusTicket)[3]",
+    "time": "0.0",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "precoEstoqueAtualizadosDuranteEsperaUsamValorPersistido",
+    "time": "0.854",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "comunidadeSomenteSaiAposVendaUltimoElegivel(String)[1]",
+    "time": "0.634",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "comunidadeSomenteSaiAposVendaUltimoElegivel(String)[2]",
+    "time": "0.648",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "comunidadeSomenteSaiAposVendaUltimoElegivel(String)[3]",
+    "time": "0.693",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "comunidadeSomenteSaiAposVendaUltimoElegivel(String)[4]",
+    "time": "0.573",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "limiteDeTotalContadorEEstoqueZeroProtegidos",
+    "time": "0.478",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "precoRevendaDecimalExatoPositivoELimite(String)[1]",
+    "time": "0.413",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "precoRevendaDecimalExatoPositivoELimite(String)[2]",
+    "time": "0.423",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "precoRevendaDecimalExatoPositivoELimite(String)[3]",
+    "time": "0.411",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "precoRevendaDecimalExatoPositivoELimite(String)[4]",
+    "time": "0.416",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "precoRevendaDecimalExatoPositivoELimite(String)[5]",
+    "time": "0.462",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "precoRevendaDecimalExatoPositivoELimite(String)[6]",
+    "time": "0.399",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "precoRevendaDecimalExatoPositivoELimite(String)[7]",
+    "time": "0.448",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "comprasCruzadasEntreParticipantesSemDeadlock",
+    "time": "0.471",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "loteAnuncioAtomicoUniqueMySqlECancelarReanunciarHistorico",
+    "time": "0.615",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "vendedorDesativacaoConcorrenteComVendaCancelaOuConcluiAtomicamente",
+    "time": "0.477",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "doisCompradoresMesmoAnuncioSoUmaTransferenciaSemNovoIngresso",
+    "time": "0.442",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "anuncioSomenteIngressoElegivelProprioSemDuplicacao(String)[1]",
+    "time": "0.453",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "anuncioSomenteIngressoElegivelProprioSemDuplicacao(String)[2]",
+    "time": "0.392",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "anuncioSomenteIngressoElegivelProprioSemDuplicacao(String)[3]",
+    "time": "0.445",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "anuncioSomenteIngressoElegivelProprioSemDuplicacao(String)[4]",
+    "time": "0.395",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "anuncioSomenteIngressoElegivelProprioSemDuplicacao(String)[5]",
+    "time": "0.408",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "anuncioSomenteIngressoElegivelProprioSemDuplicacao(String)[6]",
+    "time": "0.454",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "organizadorInativoPreservaAnuncioCancelarPermitidoReativarSoDisponivel",
+    "time": "0.642",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "rollbackRevendaPorTriggerIncluiTransferenciaAnuncioEMembro(String)[1]",
+    "time": "0.549",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "rollbackRevendaPorTriggerIncluiTransferenciaAnuncioEMembro(String)[2]",
+    "time": "0.486",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "rollbackRevendaPorTriggerIncluiTransferenciaAnuncioEMembro(String)[3]",
+    "time": "0.438",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "compradorDesativacaoConcorrenteSemTransacaoParcial(String)[1]",
+    "time": "0.456",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "compradorDesativacaoConcorrenteSemTransacaoParcial(String)[2]",
+    "time": "0.407",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "autorizacaoTodasRotasCsrfIdorEPrecoNaoControladoPeloCliente",
+    "time": "0.906",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "compraInvalidaNaoMudaNenhumaTabela(String)[1]",
+    "time": "0.349",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "compraInvalidaNaoMudaNenhumaTabela(String)[2]",
+    "time": "0.413",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "compraInvalidaNaoMudaNenhumaTabela(String)[3]",
+    "time": "0.343",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "compraInvalidaNaoMudaNenhumaTabela(String)[4]",
+    "time": "0.348",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "compraInvalidaNaoMudaNenhumaTabela(String)[5]",
+    "time": "0.399",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "compraInvalidaNaoMudaNenhumaTabela(String)[6]",
+    "time": "0.345",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "compraInvalidaNaoMudaNenhumaTabela(String)[7]",
+    "time": "0.383",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "compraInvalidaNaoMudaNenhumaTabela(String)[8]",
+    "time": "0.346",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "compraInvalidaNaoMudaNenhumaTabela(String)[9]",
+    "time": "0.361",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "compraInvalidaNaoMudaNenhumaTabela(String)[10]",
+    "time": "0.433",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "compraInvalidaNaoMudaNenhumaTabela(String)[11]",
+    "time": "0.343",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "compraInvalidaNaoMudaNenhumaTabela(String)[12]",
+    "time": "0.368",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "compraInvalidaNaoMudaNenhumaTabela(String)[13]",
+    "time": "0.359",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "compraInvalidaNaoMudaNenhumaTabela(String)[14]",
+    "time": "0.382",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "compraInvalidaNaoMudaNenhumaTabela(String)[15]",
+    "time": "0.337",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "horarioRevalidadoDepoisDeEsperarLockDoEvento(String)[1]",
+    "time": "0.494",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "horarioRevalidadoDepoisDeEsperarLockDoEvento(String)[2]",
+    "time": "0.432",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "horarioRevalidadoDepoisDeEsperarLockDoEvento(String)[3]",
+    "time": "0.469",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "variosTiposTotalExatoSnapshotsEmissaoEstoqueHistoricoEPrivacidade",
+    "time": "0.416",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "rollbackCompraDepoisDaBaixaPorTrigger(String)[1]",
+    "time": "0.387",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "rollbackCompraDepoisDaBaixaPorTrigger(String)[2]",
+    "time": "0.372",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "rollbackCompraDepoisDaBaixaPorTrigger(String)[3]",
+    "time": "0.389",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "loteComUmIngressoInvalidoNaoPublicaNenhumAnuncio",
+    "time": "0.393",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "timeoutDeLockRetornaConflitoEReverteAtualizacaoAnterior",
+    "time": "1.428",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "organizadorDesativacaoConcorrenteComCompra",
+    "time": "0.364",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "elegibilidadeDiretaRevalidadaNoServidor(String)[1]",
+    "time": "0.351",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "elegibilidadeDiretaRevalidadaNoServidor(String)[2]",
+    "time": "0.417",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "elegibilidadeDiretaRevalidadaNoServidor(String)[3]",
+    "time": "0.346",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "elegibilidadeDiretaRevalidadaNoServidor(String)[4]",
+    "time": "0.399",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "ultimaUnidadeDoisCompradoresSomenteUmaCompra",
+    "time": "0.421",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "participanteInativoESessaoRevogadaNegamListaECompras",
+    "time": "0.417",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "filtrosIdsDadosExtrasEFrontendRealServidos",
+    "time": "0.473",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "name": "passadoBloqueiaCompraERevendaMasPreservaIngressoUtilizadoEMembro",
+    "time": "0.432",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "organizadorDonoMensagemComAutorCorretoEFeedSomenteLeitura",
+    "time": "0.49",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "revendaUltimoIngressoSerializaComSocial(String)[1]",
+    "time": "0.584",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "revendaUltimoIngressoSerializaComSocial(String)[2]",
+    "time": "0.479",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "revendaUltimoIngressoSerializaComSocial(String)[3]",
+    "time": "0.564",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "revendaUltimoIngressoSerializaComSocial(String)[4]",
+    "time": "0.564",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "imagemNaoDisponivelRejeitaReferenciasArbitrarias(String)[1]",
+    "time": "0.399",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "imagemNaoDisponivelRejeitaReferenciasArbitrarias(String)[2]",
+    "time": "0.469",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "imagemNaoDisponivelRejeitaReferenciasArbitrarias(String)[3]",
+    "time": "0.391",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "imagemNaoDisponivelRejeitaReferenciasArbitrarias(String)[4]",
+    "time": "0.484",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "imagemNaoDisponivelRejeitaReferenciasArbitrarias(String)[5]",
+    "time": "0.389",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "imagemNaoDisponivelRejeitaReferenciasArbitrarias(String)[6]",
+    "time": "0.473",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "imagemNaoDisponivelRejeitaReferenciasArbitrarias(String)[7]",
+    "time": "0.524",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "bordasTextoSemEdicaoExclusaoEAutoriaComentarios",
+    "time": "0.501",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "mysqlConstraintsReais",
+    "time": "0.445",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "csrfTodasAsMutacoes(String)[1]",
+    "time": "0.391",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "csrfTodasAsMutacoes(String)[2]",
+    "time": "0.49",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "csrfTodasAsMutacoes(String)[3]",
+    "time": "0.412",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "csrfTodasAsMutacoes(String)[4]",
+    "time": "0.475",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "csrfTodasAsMutacoes(String)[5]",
+    "time": "0.47",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "csrfTodasAsMutacoes(String)[6]",
+    "time": "0.405",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "csrfTodasAsMutacoes(String)[7]",
+    "time": "0.453",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "respostaSempreNaMesmaComunidade(String)[1]",
+    "time": "0.384",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "respostaSempreNaMesmaComunidade(String)[2]",
+    "time": "0.514",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "respostaSempreNaMesmaComunidade(String)[3]",
+    "time": "0.443",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "respostaSempreNaMesmaComunidade(String)[4]",
+    "time": "0.375",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "respostaSempreNaMesmaComunidade(String)[5]",
+    "time": "0.434",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "respostaSempreNaMesmaComunidade(String)[6]",
+    "time": "0.373",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "respostaSempreNaMesmaComunidade(String)[7]",
+    "time": "0.444",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "respostaSempreNaMesmaComunidade(String)[8]",
+    "time": "0.377",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "vendaPrimeiroRevalidaTodasAsMutacoes(String)[1]",
+    "time": "0.535",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "vendaPrimeiroRevalidaTodasAsMutacoes(String)[2]",
+    "time": "0.537",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "vendaPrimeiroRevalidaTodasAsMutacoes(String)[3]",
+    "time": "0.481",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "vendaPrimeiroRevalidaTodasAsMutacoes(String)[4]",
+    "time": "0.56",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "idsInvalidos(String)[1]",
+    "time": "0.319",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "idsInvalidos(String)[2]",
+    "time": "0.394",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "idsInvalidos(String)[3]",
+    "time": "0.322",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "idsInvalidos(String)[4]",
+    "time": "0.388",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "idsInvalidos(String)[5]",
+    "time": "0.322",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "curtidasEComentariosConcorrentesContadorConsistente",
+    "time": "0.675",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "payloadInvalidoNaoInsere(String)[1]",
+    "time": "0.417",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "payloadInvalidoNaoInsere(String)[2]",
+    "time": "0.357",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "payloadInvalidoNaoInsere(String)[3]",
+    "time": "0.42",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "payloadInvalidoNaoInsere(String)[4]",
+    "time": "0.488",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "payloadInvalidoNaoInsere(String)[5]",
+    "time": "0.346",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "payloadInvalidoNaoInsere(String)[6]",
+    "time": "0.428",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "payloadInvalidoNaoInsere(String)[7]",
+    "time": "0.349",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "payloadInvalidoNaoInsere(String)[8]",
+    "time": "0.406",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "permissoesEmTodasAsOperacoes(String)[1]",
+    "time": "0.551",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "permissoesEmTodasAsOperacoes(String)[2]",
+    "time": "0.521",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "permissoesEmTodasAsOperacoes(String)[3]",
+    "time": "0.965",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "permissoesEmTodasAsOperacoes(String)[4]",
+    "time": "0.538",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "permissoesEmTodasAsOperacoes(String)[5]",
+    "time": "0.492",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "inexistentes404EBuscaParametrizada",
+    "time": "0.558",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "posEventoIngressoElegivelEComercioBloqueado(String)[1]",
+    "time": "0.545",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "posEventoIngressoElegivelEComercioBloqueado(String)[2]",
+    "time": "0.543",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "posEventoIngressoElegivelEComercioBloqueado(String)[3]",
+    "time": "0.743",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "rollbackDepoisDeMutarCurtida(String)[1]",
+    "time": "0.416",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "rollbackDepoisDeMutarCurtida(String)[2]",
+    "time": "0.423",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "contaDesativadaDuranteEsperaRevalidaAntesDaPublicacao",
+    "time": "0.389",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "descobertaPublicaNaoVazaConteudoEEntradaSaidaReentrada",
+    "time": "0.512",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "falhaDeInsercaoHttpSemEfeitosParciais(String)[1]",
+    "time": "0.407",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "falhaDeInsercaoHttpSemEfeitosParciais(String)[2]",
+    "time": "0.404",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "falhaDeInsercaoHttpSemEfeitosParciais(String)[3]",
+    "time": "0.411",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "paginasLimitadasSemPerderRespostaDeCriacao",
+    "time": "1.492",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "name": "historicoPreservadoDepoisDaPerdaDoUltimoIngresso",
+    "time": "0.459",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "perfilProprioIdorEAtualizacaoDosCamposHerdados",
+    "time": "1.253",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "edicoesConcorrentesParciaisNaoPerdemNomeOuEstoque",
+    "time": "0.308",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "loginCorretoErradoIdentidadeCookieEHashPersistido(String)[1]",
+    "time": "0.266",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "loginCorretoErradoIdentidadeCookieEHashPersistido(String)[2]",
+    "time": "0.264",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "loginCorretoErradoIdentidadeCookieEHashPersistido(String)[3]",
+    "time": "0.276",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "payloadInvalidoReferenciasDuplicatasEDataCriacaoPassadaNaoPersistem",
+    "time": "0.552",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "destinoPassadoAtualInvalidoEOffsetEquivalentePersistidoEmUtc",
+    "time": "0.337",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "contaInativaNaoAutentica(String)[1]",
+    "time": "0.08",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "contaInativaNaoAutentica(String)[2]",
+    "time": "0.085",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "factoryMethodTresProdutosPersistidosESuporteRevalidaAutorizacao",
+    "time": "0.676",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "falhaNaAuditoriaProvocaRollbackDaReativacao",
+    "time": "0.349",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "falhaSincronizacaoLineupReverteEdicaoGeralERetornaLineupOriginal",
+    "time": "0.311",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "falhaSqlAposEventoReverteTodasEtapas(String)[1]",
+    "time": "0.333",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "falhaSqlAposEventoReverteTodasEtapas(String)[2]",
+    "time": "0.34",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "falhaSqlAposEventoReverteTodasEtapas(String)[3]",
+    "time": "0.361",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "suporte401403CadastroESegundoSuportePodeCadastrar",
+    "time": "0.544",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "concorrenciaReativacaoProduzUmaAuditoria",
+    "time": "0.364",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "edicaoParcialGeneralELineupPreservaCategoriasEComunidade",
+    "time": "0.324",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "usuarioAplicacaoNaoPossuiDdlEConexoesSaoIndependentes",
+    "time": "0.011",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "frontendRealEPlaceholderSeguroServidosPeloJar",
+    "time": "0.006",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "cadastroDuplicadoComprimentosFormatosESqlInjection",
+    "time": "1.118",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "inicioInclusiveBloqueiaEdicaoReagendamentoECategorias(int)[1]",
+    "time": "0.346",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "inicioInclusiveBloqueiaEdicaoReagendamentoECategorias(int)[2]",
+    "time": "0.345",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "sessaoExpiradaRevogadaLogoutEReuso",
+    "time": "0.566",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "idsInexistentesETipoDeOutroEventoNaoSaoEditados",
+    "time": "0.593",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "facadeCriaEventoLineupDuasCategoriasComunidadeUnicaEListaSomenteDono",
+    "time": "0.305",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "falhaIntermediariaDesativacaoProvocaRollbackCompleto",
+    "time": "0.309",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "desativacaoCancelaTodosAnunciosRevogaTodasSessoesPreservaHistoricoEReativacaoAudita",
+    "time": "0.804",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "listagemReativacao401403IdsInvalidosETipoSuporte",
+    "time": "0.248",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "noveHashesDoSeedPersistidosEVerificadosPeloServico",
+    "time": "0.628",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "vendaHistoricaBloqueiaTodosCamposMesmoSemContadorOuComIngressoCancelado(String)[1]",
+    "time": "0.326",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "vendaHistoricaBloqueiaTodosCamposMesmoSemContadorOuComIngressoCancelado(String)[2]",
+    "time": "0.319",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "vendaHistoricaBloqueiaTodosCamposMesmoSemContadorOuComIngressoCancelado(String)[3]",
+    "time": "0.317",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "eventoComVendasPodeEditarReagendarMasSnapshotsIntegraisPermanecem",
+    "time": "0.322",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "templateMethodSequenciaRealInterrompeAntesDaSessao",
+    "time": "0.511",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "concorrenciaRevalidaInicioDepoisDeEsperarLockDeEvento",
+    "time": "0.318",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "csrfNegadoEmTodasAsMutacoesIncluindoLoginECadastro",
+    "time": "0.398",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "categoriaSemVendasEditavelENovaPermitidaMesmoComOutrasVendidas",
+    "time": "0.336",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "concorrenciaLoginDesativacaoNuncaDeixaSessaoValidaEmContaInativa",
+    "time": "0.404",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "eventosCatalogosPublicosSeedFiltrosPaginacaoEPrivacidade",
+    "time": "0.056",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "autorizacao401403TitularidadeTodasMutacoesEContaInativa",
+    "time": "0.785",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "catalogosIncluemNovosRegistrosPersistidosSemExporCpfENaoCriamCompras",
+    "time": "0.063",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "schema22TabelasConstraintsIndicesETiposReais",
+    "time": "0.084",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "csrfEForjaDeOrganizadorIdsPrecoFracionarioEQuantidadeInvalidos",
+    "time": "0.451",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "constraintsRejeitamDadosInvalidosNoMySql",
+    "time": "0.01",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "name": "organizadorDesativadoMantemEventosComunidadesAnuncios",
+    "time": "0.632",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.PaineisMySqlIT",
+    "name": "metricasSuporteGlobalEAutoriaDiferenteDaAssociacao",
+    "time": "0.554",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.PaineisMySqlIT",
+    "name": "perfilExatoVisitanteESessaoInvalida(String)[1]",
+    "time": "0.475",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.PaineisMySqlIT",
+    "name": "perfilExatoVisitanteESessaoInvalida(String)[2]",
+    "time": "0.477",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.PaineisMySqlIT",
+    "name": "perfilExatoVisitanteESessaoInvalida(String)[3]",
+    "time": "0.481",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.PaineisMySqlIT",
+    "name": "dataEventoEContagemSemRestricaoOrganizadorInativoParaComunidade",
+    "time": "0.598",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.PaineisMySqlIT",
+    "name": "organizadoresIsoladosHistoricoSemMultiplicarItensECategorias",
+    "time": "0.751",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.PaineisMySqlIT",
+    "name": "participanteVazioContaPropriaSemInfluenciaDeDemo",
+    "time": "0.45",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.PaineisMySqlIT",
+    "name": "inativaBloqueadaComSessaoExistente(String)[1]",
+    "time": "0.452",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.PaineisMySqlIT",
+    "name": "inativaBloqueadaComSessaoExistente(String)[2]",
+    "time": "0.465",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.PaineisMySqlIT",
+    "name": "indicadoresGlobaisDerivadosDeTimestampsReais",
+    "time": "0.494",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.PaineisMySqlIT",
+    "name": "participantePosCompraRevendaEComunidadeAcessoReal",
+    "time": "0.714",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "listasFiltrosPaginacaoMensagensEIsolamento",
+    "time": "0.942",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "csrfEmCadaMutacao(String)[1]",
+    "time": "0.484",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "csrfEmCadaMutacao(String)[2]",
+    "time": "0.484",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "csrfEmCadaMutacao(String)[3]",
+    "time": "0.487",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "csrfEmCadaMutacao(String)[4]",
+    "time": "0.486",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "csrfEmCadaMutacao(String)[5]",
+    "time": "0.505",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "csrfEmCadaMutacao(String)[6]",
+    "time": "0.487",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "disputaSuporteSolicitanteRevalidaEstadoAtual(String)[1]",
+    "time": "0.553",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "disputaSuporteSolicitanteRevalidaEstadoAtual(String)[2]",
+    "time": "0.543",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "disputaSuporteSolicitanteRevalidaEstadoAtual(String)[3]",
+    "time": "0.551",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "disputaSuporteSolicitanteRevalidaEstadoAtual(String)[4]",
+    "time": "0.548",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "contaInativaBloqueiaLeituraECriacao(String)[1]",
+    "time": "0.498",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "contaInativaBloqueiaLeituraECriacao(String)[2]",
+    "time": "0.493",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "inativacaoDuranteEsperaBloqueiaRetorno",
+    "time": "0.514",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "rollbackTriggerDepoisDeCriarTicketOuTransicionar(String)[1]",
+    "time": "0.486",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "rollbackTriggerDepoisDeCriarTicketOuTransicionar(String)[2]",
+    "time": "0.52",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "rollbackTriggerDepoisDeCriarTicketOuTransicionar(String)[3]",
+    "time": "0.523",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "limitesUnicodeETextoObrigatorio",
+    "time": "0.546",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "suporteNaoAbreChamadoEInexistenteIndistinguivel",
+    "time": "0.528",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "idsInvalidos(String)[1]",
+    "time": "0.466",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "idsInvalidos(String)[2]",
+    "time": "0.448",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "idsInvalidos(String)[3]",
+    "time": "0.447",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "idsInvalidos(String)[4]",
+    "time": "0.444",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "idsInvalidos(String)[5]",
+    "time": "0.451",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "rotasSuporteExigemPerfil(String)[1]",
+    "time": "0.489",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "rotasSuporteExigemPerfil(String)[2]",
+    "time": "0.498",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "rotasSuporteExigemPerfil(String)[3]",
+    "time": "0.498",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "resolverVersusRetornarConcorrentesSoUmaTransicao(String)[1]",
+    "time": "0.612",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "resolverVersusRetornarConcorrentesSoUmaTransicao(String)[2]",
+    "time": "0.61",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "doisSuportesAutoriaRealAssociacaoNaoRestringeENaoMudaEstado",
+    "time": "0.597",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "matrizCompleta(String, String, int, String)[1]",
+    "time": "0.558",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "matrizCompleta(String, String, int, String)[2]",
+    "time": "0.574",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "matrizCompleta(String, String, int, String)[3]",
+    "time": "0.549",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "matrizCompleta(String, String, int, String)[4]",
+    "time": "0.538",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "matrizCompleta(String, String, int, String)[5]",
+    "time": "0.536",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "matrizCompleta(String, String, int, String)[6]",
+    "time": "0.54",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "matrizCompleta(String, String, int, String)[7]",
+    "time": "0.532",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "matrizCompleta(String, String, int, String)[8]",
+    "time": "0.545",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "matrizCompleta(String, String, int, String)[9]",
+    "time": "0.537",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "matrizCompleta(String, String, int, String)[10]",
+    "time": "0.537",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "matrizCompleta(String, String, int, String)[11]",
+    "time": "0.545",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "matrizCompleta(String, String, int, String)[12]",
+    "time": "0.539",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "matrizCompleta(String, String, int, String)[13]",
+    "time": "0.544",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "matrizCompleta(String, String, int, String)[14]",
+    "time": "0.539",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "matrizCompleta(String, String, int, String)[15]",
+    "time": "0.592",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "matrizCompleta(String, String, int, String)[16]",
+    "time": "0.547",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "titularidadeDetalheRetornoResolucaoIDOR(String)[1]",
+    "time": "0.492",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "titularidadeDetalheRetornoResolucaoIDOR(String)[2]",
+    "time": "0.505",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "titularidadeDetalheRetornoResolucaoIDOR(String)[3]",
+    "time": "0.508",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "titularidadeDetalheRetornoResolucaoIDOR(String)[4]",
+    "time": "0.511",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "titularidadeDetalheRetornoResolucaoIDOR(String)[5]",
+    "time": "0.488",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "fechadoTerminalSemRotasDeReaberturaEdicaoOuExclusao",
+    "time": "0.551",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "payloadMensagemInvalido(String)[1]",
+    "time": "0.483",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "payloadMensagemInvalido(String)[2]",
+    "time": "0.488",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "payloadMensagemInvalido(String)[3]",
+    "time": "0.486",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "payloadMensagemInvalido(String)[4]",
+    "time": "0.49",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "payloadMensagemInvalido(String)[5]",
+    "time": "0.49",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "payloadMensagemInvalido(String)[6]",
+    "time": "0.49",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "payloadMensagemInvalido(String)[7]",
+    "time": "0.495",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "payloadMensagemInvalido(String)[8]",
+    "time": "0.482",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "duasRespostasConcorrentesNaoPerdemMensagem",
+    "time": "0.558",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "aberturaAutoriaVinculoUnicoEHistorico(String)[1]",
+    "time": "0.486",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "name": "aberturaAutoriaVinculoUnicoEHistorico(String)[2]",
+    "time": "0.493",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "mensagemComImagem(String)[1]",
+    "time": "0.862",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "mensagemComImagem(String)[2]",
+    "time": "0.661",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "csrfAntesDePersistirEAnonimoBloqueado",
+    "time": "0.536",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "arquivoFaltanteNaoVinculaENaoVazaCaminho",
+    "time": "0.603",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "privadoExigeSessaoFiliacaoIngressoDonoEHeaders",
+    "time": "0.701",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "eventoPublicoCatalogoComunidadeEEdicaoPosterior",
+    "time": "0.652",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "revendaConcorrenteComUploadEVinculacao(String)[1]",
+    "time": "0.699",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "revendaConcorrenteComUploadEVinculacao(String)[2]",
+    "time": "0.689",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "revendaConcorrenteComUploadEVinculacao(String)[3]",
+    "time": "0.698",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "revendaConcorrenteComUploadEVinculacao(String)[4]",
+    "time": "0.703",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "falhaDeFilesystemNaoCriaMetadata",
+    "time": "0.524",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "mimeForjado(String)[1]",
+    "time": "0.524",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "mimeForjado(String)[2]",
+    "time": "0.516",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "mimeForjado(String)[3]",
+    "time": "0.519",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "mimeForjado(String)[4]",
+    "time": "0.53",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "ingressoSemFiliacaoNaoPodeLerOuEnviar",
+    "time": "0.666",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "headersSuspeitos(String)[1]",
+    "time": "0.524",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "headersSuspeitos(String)[2]",
+    "time": "0.52",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "headersSuspeitos(String)[3]",
+    "time": "0.519",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "referenciaArbitrariaNaoEntraNoBanco(String)[1]",
+    "time": "0.579",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "referenciaArbitrariaNaoEntraNoBanco(String)[2]",
+    "time": "0.574",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "referenciaArbitrariaNaoEntraNoBanco(String)[3]",
+    "time": "0.581",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "referenciaArbitrariaNaoEntraNoBanco(String)[4]",
+    "time": "0.569",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "referenciaArbitrariaNaoEntraNoBanco(String)[5]",
+    "time": "0.574",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "limiteMesmoEmChunked(String)[1]",
+    "time": "0.557",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "limiteMesmoEmChunked(String)[2]",
+    "time": "0.58",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "bytesInvalidos(String)[1]",
+    "time": "0.526",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "bytesInvalidos(String)[2]",
+    "time": "0.522",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "bytesInvalidos(String)[3]",
+    "time": "0.541",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "nomesInvalidos(String)[1]",
+    "time": "0.551",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "nomesInvalidos(String)[2]",
+    "time": "0.53",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "nomesInvalidos(String)[3]",
+    "time": "0.53",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "nomesInvalidos(String)[4]",
+    "time": "0.529",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "nomesInvalidos(String)[5]",
+    "time": "0.528",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "nomesInvalidos(String)[6]",
+    "time": "0.53",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "donoEventoFuturoEContaAtivaObrigatorios",
+    "time": "0.577",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "falhaSqlLimpaArquivoESemReferenciaEvento",
+    "time": "0.577",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "ultimaRevendaInvalidaLeituraEVinculacaoDePending",
+    "time": "0.721",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "pendingPreviewApenasDonoEReusoCruzadoRecusado",
+    "time": "0.823",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "jpegWebpUploadHttpNormalizados",
+    "time": "0.599",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "privadoPosEventoComIngressoUtilizado",
+    "time": "0.664",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "postagemSomenteImagemNaoLiberaPostVazio",
+    "time": "0.631",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "arquivoCorrompidoOuPendingExpiradoNaoVincula",
+    "time": "0.66",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "perdaElegibilidadeDuranteUploadRevalidadaAposLock",
+    "time": "0.618",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "name": "falhaVinculacaoRevertePostMantendoPendingCoerente",
+    "time": "0.65",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZDemoMySqlIT",
+    "name": "falseNaoAbreBancoNemAplicaSeed",
+    "time": "0.901",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZDemoMySqlIT",
+    "name": "trueRecusaBasePopuladaSemProveniencia",
+    "time": "0.707",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZDemoMySqlIT",
+    "name": "erroDuranteSeedReverteTudoEMarcador",
+    "time": "0.652",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZDemoMySqlIT",
+    "name": "trueBootstrapCargaAutomaticaEReinicioIdentico",
+    "time": "2.104",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZDemoMySqlIT",
+    "name": "reiniciarPreservaNomeSenhaDesativacaoEDadosRemovidos",
+    "time": "1.073",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZDemoMySqlIT",
+    "name": "perfilProdOuLocalSemMarcadorDeAmbienteRecusados",
+    "time": "0.187",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZDemoMySqlIT",
+    "name": "tresPerfisAutenticamComCargaDoBootstrapReal",
+    "time": "1.612",
+    "aprovado": true
+  },
+  {
+    "suite": "br.com.joinup.integration.ZDemoMySqlIT",
+    "name": "dmlNaoPodeMigrarSchema",
+    "time": "0.008",
+    "aprovado": true
+  }
+]

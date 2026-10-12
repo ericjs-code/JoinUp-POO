@@ -1,0 +1,258 @@
+{"assertiva":"visitante GET / HTTP 200 (observado 200)","instante":"2026-10-12T11:01:54.9806576-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"visitante GET /conta.html HTTP 200 (observado 200)","instante":"2026-10-12T11:01:54.9890520-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"visitante GET /eventos.html HTTP 200 (observado 200)","instante":"2026-10-12T11:01:55.0033814-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"visitante GET /ingressos.html HTTP 200 (observado 200)","instante":"2026-10-12T11:01:55.0119619-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"visitante GET /comunidades.html HTTP 200 (observado 200)","instante":"2026-10-12T11:01:55.0244404-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"visitante GET /painel.html HTTP 200 (observado 200)","instante":"2026-10-12T11:01:55.0340486-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:55.0792989-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"visitante GET /api/health HTTP 200 (observado 200)","instante":"2026-10-12T11:01:55.0813855-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:55.1823081-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"visitante GET /api/eventos HTTP 200 (observado 200)","instante":"2026-10-12T11:01:55.1864557-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"Demo nova possui os quatro eventos do seed","instante":"2026-10-12T11:01:55.1999344-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:55.2496649-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"visitante GET /api/eventos?busca=Aurora&pagina=1&tamanho=1 HTTP 200 (observado 200)","instante":"2026-10-12T11:01:55.2522795-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:55.2840960-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"visitante GET /api/artistas HTTP 200 (observado 200)","instante":"2026-10-12T11:01:55.2866695-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:55.3202933-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"visitante GET /api/generos-musicais HTTP 200 (observado 200)","instante":"2026-10-12T11:01:55.3229379-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:55.3587710-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"visitante GET /api/eventos/1 HTTP 200 (observado 200)","instante":"2026-10-12T11:01:55.3607702-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:55.3958137-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"visitante GET /api/comunidades/1 HTTP 200 (observado 200)","instante":"2026-10-12T11:01:55.3983609-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"Metadados não contêm feed/chat","instante":"2026-10-12T11:01:55.4194455-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:55.4494067-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"visitante GET /api/comunidades/1/postagens HTTP 401 (observado 401)","instante":"2026-10-12T11:01:55.4530232-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:55.4865315-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"visitante GET /api/comunidades/1/mensagens HTTP 401 (observado 401)","instante":"2026-10-12T11:01:55.4889879-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:55.5099351-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"visitante GET /api/revendas HTTP 401 (observado 401)","instante":"2026-10-12T11:01:55.5158220-03:00","aprovado":true,"caso":"V01-V03"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:55.7354916-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"visitante POST /api/participantes HTTP 201 (observado 201)","instante":"2026-10-12T11:01:55.7381610-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:55.8893034-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"visitante POST /api/organizadores HTTP 201 (observado 201)","instante":"2026-10-12T11:01:55.8918277-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:56.0646941-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"P POST /api/auth/participantes/login HTTP 200 (observado 200)","instante":"2026-10-12T11:01:56.0736175-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"Cookie HttpOnly no contexto independente","instante":"2026-10-12T11:01:56.0942863-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:56.1616477-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"C POST /api/auth/participantes/login HTTP 200 (observado 200)","instante":"2026-10-12T11:01:56.1635997-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"Cookie HttpOnly no contexto independente","instante":"2026-10-12T11:01:56.1816387-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:56.3430726-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"O POST /api/auth/organizadores/login HTTP 200 (observado 200)","instante":"2026-10-12T11:01:56.3460103-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"Cookie HttpOnly no contexto independente","instante":"2026-10-12T11:01:56.3627201-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:56.4349505-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"O2 POST /api/auth/organizadores/login HTTP 200 (observado 200)","instante":"2026-10-12T11:01:56.4366258-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"Cookie HttpOnly no contexto independente","instante":"2026-10-12T11:01:56.4559137-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:56.5241140-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"S1 POST /api/auth/suporte/login HTTP 200 (observado 200)","instante":"2026-10-12T11:01:56.5258110-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"Cookie HttpOnly no contexto independente","instante":"2026-10-12T11:01:56.5457000-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:56.6170932-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"S2 POST /api/auth/suporte/login HTTP 200 (observado 200)","instante":"2026-10-12T11:01:56.6190026-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"Cookie HttpOnly no contexto independente","instante":"2026-10-12T11:01:56.6265525-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:56.7818602-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"temporario POST /api/auth/participantes/login HTTP 401 (observado 401)","instante":"2026-10-12T11:01:56.7838056-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:56.8525703-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"temporario POST /api/auth/participantes/login HTTP 403 (observado 403)","instante":"2026-10-12T11:01:56.8629309-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:56.9249256-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"temporario POST /api/auth/organizadores/login HTTP 403 (observado 403)","instante":"2026-10-12T11:01:56.9266066-03:00","aprovado":true,"caso":"V04-V06"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.0104556-03:00","aprovado":true,"caso":"V08"}
+{"assertiva":"O POST /api/organizador/eventos HTTP 201 (observado 201)","instante":"2026-10-12T11:01:57.0124461-03:00","aprovado":true,"caso":"V08"}
+{"assertiva":"Facade cria lineup/categorias/comunidade","instante":"2026-10-12T11:01:57.0376376-03:00","aprovado":true,"caso":"V08"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.0908681-03:00","aprovado":true,"caso":"V12-V14"}
+{"assertiva":"P POST /api/compras HTTP 201 (observado 201)","instante":"2026-10-12T11:01:57.0927893-03:00","aprovado":true,"caso":"V12-V14"}
+{"assertiva":"Preço de banco e pagamento simulado","instante":"2026-10-12T11:01:57.1147824-03:00","aprovado":true,"caso":"V12-V14"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.1505506-03:00","aprovado":true,"caso":"V12-V14"}
+{"assertiva":"P GET /api/me/compras HTTP 200 (observado 200)","instante":"2026-10-12T11:01:57.1522830-03:00","aprovado":true,"caso":"V12-V14"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.1891387-03:00","aprovado":true,"caso":"V12-V14"}
+{"assertiva":"P GET /api/me/ingressos/8 HTTP 200 (observado 200)","instante":"2026-10-12T11:01:57.1908581-03:00","aprovado":true,"caso":"V12-V14"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.2228055-03:00","aprovado":true,"caso":"V12-V14"}
+{"assertiva":"P GET /api/eventos/5/tipos-ingresso HTTP 200 (observado 200)","instante":"2026-10-12T11:01:57.2309533-03:00","aprovado":true,"caso":"V12-V14"}
+{"assertiva":"Baixa única da última unidade","instante":"2026-10-12T11:01:57.2535755-03:00","aprovado":true,"caso":"V12-V14"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.3009799-03:00","aprovado":true,"caso":"V12-V14"}
+{"assertiva":"P POST /api/compras HTTP 409 (observado 409)","instante":"2026-10-12T11:01:57.3027034-03:00","aprovado":true,"caso":"V12-V14"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.3438577-03:00","aprovado":true,"caso":"V12-V14"}
+{"assertiva":"P POST /api/compras HTTP 409 (observado 409)","instante":"2026-10-12T11:01:57.3457278-03:00","aprovado":true,"caso":"V12-V14"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.3808423-03:00","aprovado":true,"caso":"V12-V14"}
+{"assertiva":"P POST /api/compras HTTP 409 (observado 409)","instante":"2026-10-12T11:01:57.3853297-03:00","aprovado":true,"caso":"V12-V14"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.4342891-03:00","aprovado":true,"caso":"V09-V10-V13"}
+{"assertiva":"O PATCH /api/organizador/eventos/5 HTTP 200 (observado 200)","instante":"2026-10-12T11:01:57.4358832-03:00","aprovado":true,"caso":"V09-V10-V13"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.4768363-03:00","aprovado":true,"caso":"V09-V10-V13"}
+{"assertiva":"O PATCH /api/organizador/eventos/5 HTTP 422 (observado 422)","instante":"2026-10-12T11:01:57.4784949-03:00","aprovado":true,"caso":"V09-V10-V13"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.5195945-03:00","aprovado":true,"caso":"V09-V10-V13"}
+{"assertiva":"O PATCH /api/organizador/eventos/5/tipos-ingresso/7 HTTP 409 (observado 409)","instante":"2026-10-12T11:01:57.5214027-03:00","aprovado":true,"caso":"V09-V10-V13"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.5680433-03:00","aprovado":true,"caso":"V09-V10-V13"}
+{"assertiva":"O PATCH /api/organizador/eventos/5/tipos-ingresso/8 HTTP 200 (observado 200)","instante":"2026-10-12T11:01:57.5696818-03:00","aprovado":true,"caso":"V09-V10-V13"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.6103032-03:00","aprovado":true,"caso":"V09-V10-V13"}
+{"assertiva":"O POST /api/organizador/eventos/5/tipos-ingresso HTTP 201 (observado 201)","instante":"2026-10-12T11:01:57.6121017-03:00","aprovado":true,"caso":"V09-V10-V13"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.6534974-03:00","aprovado":true,"caso":"V09-V10-V13"}
+{"assertiva":"O2 PATCH /api/organizador/eventos/5 HTTP 403 (observado 403)","instante":"2026-10-12T11:01:57.6550876-03:00","aprovado":true,"caso":"V09-V10-V13"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.6853247-03:00","aprovado":true,"caso":"V09-V10-V13"}
+{"assertiva":"P GET /api/me/compras HTTP 200 (observado 200)","instante":"2026-10-12T11:01:57.6926169-03:00","aprovado":true,"caso":"V09-V10-V13"}
+{"assertiva":"Histórico não reescrito após edição","instante":"2026-10-12T11:01:57.7126059-03:00","aprovado":true,"caso":"V09-V10-V13"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.7427571-03:00","aprovado":true,"caso":"V09-V10-V13"}
+{"assertiva":"P GET /api/me/ingressos/8 HTTP 200 (observado 200)","instante":"2026-10-12T11:01:57.7519380-03:00","aprovado":true,"caso":"V09-V10-V13"}
+{"assertiva":"Catálogo atual e snapshot original separados","instante":"2026-10-12T11:01:57.7730895-03:00","aprovado":true,"caso":"V09-V10-V13"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.8050701-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"P GET /api/comunidades/5/postagens HTTP 403 (observado 403)","instante":"2026-10-12T11:01:57.8083394-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.8546692-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"P POST /api/comunidades/5/participacao HTTP 200 (observado 200)","instante":"2026-10-12T11:01:57.8594169-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.8821392-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"P GET /api/comunidades/5/postagens HTTP 200 (observado 200)","instante":"2026-10-12T11:01:57.8846734-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.9339019-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"P DELETE /api/comunidades/5/participacao HTTP 200 (observado 200)","instante":"2026-10-12T11:01:57.9358817-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:57.9711984-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"P GET /api/comunidades/5/mensagens HTTP 403 (observado 403)","instante":"2026-10-12T11:01:57.9734789-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.0191600-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"P POST /api/comunidades/5/participacao HTTP 200 (observado 200)","instante":"2026-10-12T11:01:58.0207052-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.1425974-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"P POST /api/arquivos HTTP 201 (observado 201)","instante":"2026-10-12T11:01:58.1442603-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.2049812-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"P POST /api/comunidades/5/postagens HTTP 201 (observado 201)","instante":"2026-10-12T11:01:58.2067573-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"P GET /api/arquivos/737b57007a6f42c7b917fe91bb0e336c HTTP 200 (observado 200)","instante":"2026-10-12T11:01:58.2485226-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.2835689-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"P PUT /api/postagens/3/curtida HTTP 200 (observado 200)","instante":"2026-10-12T11:01:58.2857764-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.3206415-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"P PUT /api/postagens/3/curtida HTTP 200 (observado 200)","instante":"2026-10-12T11:01:58.3225821-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Curtida idempotente","instante":"2026-10-12T11:01:58.3435201-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.3764405-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"P DELETE /api/postagens/3/curtida HTTP 200 (observado 200)","instante":"2026-10-12T11:01:58.3806157-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.4257215-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"P POST /api/postagens/3/comentarios HTTP 201 (observado 201)","instante":"2026-10-12T11:01:58.4274520-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.4734478-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"P POST /api/arquivos HTTP 201 (observado 201)","instante":"2026-10-12T11:01:58.4762510-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.5163103-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"P POST /api/comunidades/5/mensagens HTTP 201 (observado 201)","instante":"2026-10-12T11:01:58.5178411-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.5618929-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"P POST /api/comunidades/5/mensagens HTTP 201 (observado 201)","instante":"2026-10-12T11:01:58.5637974-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.6054665-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"P POST /api/comunidades/5/mensagens HTTP 404 (observado 404)","instante":"2026-10-12T11:01:58.6071269-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.6484023-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"P POST /api/comunidades/5/postagens HTTP 404 (observado 404)","instante":"2026-10-12T11:01:58.6500857-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.6778510-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"visitante GET /api/arquivos/737b57007a6f42c7b917fe91bb0e336c HTTP 401 (observado 401)","instante":"2026-10-12T11:01:58.6877597-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.7166080-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"visitante GET /api/postagens/3 HTTP 401 (observado 401)","instante":"2026-10-12T11:01:58.7243998-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.7534239-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"S1 GET /api/arquivos/737b57007a6f42c7b917fe91bb0e336c HTTP 403 (observado 403)","instante":"2026-10-12T11:01:58.7639520-03:00","aprovado":true,"caso":"V23-V25-V26-V29"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.8158957-03:00","aprovado":true,"caso":"V28"}
+{"assertiva":"O POST /api/arquivos HTTP 201 (observado 201)","instante":"2026-10-12T11:01:58.8174795-03:00","aprovado":true,"caso":"V28"}
+{"assertiva":"visitante GET /api/arquivos/f61932c4827f437f8c07ce187e670040 HTTP 200 (observado 200)","instante":"2026-10-12T11:01:58.8549377-03:00","aprovado":true,"caso":"V28"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.8814842-03:00","aprovado":true,"caso":"V28"}
+{"assertiva":"O2 POST /api/arquivos HTTP 403 (observado 403)","instante":"2026-10-12T11:01:58.8832908-03:00","aprovado":true,"caso":"V28"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.9246077-03:00","aprovado":true,"caso":"V28"}
+{"assertiva":"O POST /api/arquivos HTTP 403 (observado 403)","instante":"2026-10-12T11:01:58.9262878-03:00","aprovado":true,"caso":"V28"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:58.9733669-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"P POST /api/revendas HTTP 201 (observado 201)","instante":"2026-10-12T11:01:58.9750924-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.0187202-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"P POST /api/revendas HTTP 409 (observado 409)","instante":"2026-10-12T11:01:59.0202870-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.0602115-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"P POST /api/revendas/5/compra HTTP 403 (observado 403)","instante":"2026-10-12T11:01:59.0617472-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.0949532-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"P GET /api/comunidades/5/postagens HTTP 200 (observado 200)","instante":"2026-10-12T11:01:59.1003881-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.1442016-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"P POST /api/revendas/5/cancelamento HTTP 200 (observado 200)","instante":"2026-10-12T11:01:59.1457039-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.1915583-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"P POST /api/revendas HTTP 201 (observado 201)","instante":"2026-10-12T11:01:59.1932368-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Reanúncio conserva linha cancelada","instante":"2026-10-12T11:01:59.2107647-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.2446861-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"P GET /api/me/revendas HTTP 200 (observado 200)","instante":"2026-10-12T11:01:59.2516332-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.2834202-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"O GET /api/revendas HTTP 403 (observado 403)","instante":"2026-10-12T11:01:59.2938628-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.3246002-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"S1 GET /api/revendas HTTP 403 (observado 403)","instante":"2026-10-12T11:01:59.3351728-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.3673344-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"C GET /api/revendas HTTP 200 (observado 200)","instante":"2026-10-12T11:01:59.3735882-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.4149298-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"C POST /api/revendas/6/compra HTTP 200 (observado 200)","instante":"2026-10-12T11:01:59.4164276-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Mesmo ingresso transferido, sem nova emissão","instante":"2026-10-12T11:01:59.4369798-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.4647746-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"C GET /api/me/ingressos/8 HTTP 200 (observado 200)","instante":"2026-10-12T11:01:59.4737559-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.5054002-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"C GET /api/comunidades/5/postagens HTTP 403 (observado 403)","instante":"2026-10-12T11:01:59.5157937-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.5581948-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"C POST /api/comunidades/5/participacao HTTP 200 (observado 200)","instante":"2026-10-12T11:01:59.5597456-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.5899866-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"C GET /api/postagens/3 HTTP 200 (observado 200)","instante":"2026-10-12T11:01:59.5919307-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.6219600-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"P GET /api/me/ingressos/8 HTTP 404 (observado 404)","instante":"2026-10-12T11:01:59.6335752-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.6665206-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"P GET /api/comunidades/5/postagens HTTP 403 (observado 403)","instante":"2026-10-12T11:01:59.6754131-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.7098887-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"P GET /api/arquivos/737b57007a6f42c7b917fe91bb0e336c HTTP 403 (observado 403)","instante":"2026-10-12T11:01:59.7168225-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.7475864-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"P GET /api/me/compras HTTP 200 (observado 200)","instante":"2026-10-12T11:01:59.7537556-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Compra original preservada após transferência","instante":"2026-10-12T11:01:59.7749646-03:00","aprovado":true,"caso":"V17-V20"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.8230401-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"P POST /api/chamados HTTP 201 (observado 201)","instante":"2026-10-12T11:01:59.8246536-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.8578812-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"P POST /api/me/chamados/4/resolucao HTTP 409 (observado 409)","instante":"2026-10-12T11:01:59.8595282-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.9025074-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"O POST /api/chamados HTTP 201 (observado 201)","instante":"2026-10-12T11:01:59.9045669-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.9373248-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"O GET /api/me/chamados/4 HTTP 404 (observado 404)","instante":"2026-10-12T11:01:59.9394651-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:01:59.9814711-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"S1 PATCH /api/suporte/chamados/4/associacao HTTP 200 (observado 200)","instante":"2026-10-12T11:01:59.9830993-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.0302262-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"S1 POST /api/suporte/chamados/4/mensagens HTTP 200 (observado 200)","instante":"2026-10-12T11:02:00.0321398-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.0747229-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"S2 POST /api/suporte/chamados/4/mensagens HTTP 200 (observado 200)","instante":"2026-10-12T11:02:00.0763941-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.1147455-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"S2 POST /api/suporte/chamados/4/encerramento HTTP 409 (observado 409)","instante":"2026-10-12T11:02:00.1162361-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.1409577-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"S2 GET /api/suporte/chamados/4 HTTP 200 (observado 200)","instante":"2026-10-12T11:02:00.1439549-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Histórico conserva autores reais de dois suportes","instante":"2026-10-12T11:02:00.1696032-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.2020156-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"P POST /api/me/chamados/4/mensagens HTTP 200 (observado 200)","instante":"2026-10-12T11:02:00.2036523-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.2335280-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"P POST /api/me/chamados/4/resolucao HTTP 409 (observado 409)","instante":"2026-10-12T11:02:00.2350224-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.2762071-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"S2 POST /api/suporte/chamados/4/mensagens HTTP 200 (observado 200)","instante":"2026-10-12T11:02:00.2779267-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.3209808-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"P POST /api/me/chamados/4/resolucao HTTP 200 (observado 200)","instante":"2026-10-12T11:02:00.3231628-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resolução fecha aguardando_usuario","instante":"2026-10-12T11:02:00.3426052-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.3810301-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"P POST /api/me/chamados/4/mensagens HTTP 409 (observado 409)","instante":"2026-10-12T11:02:00.3834401-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.4217924-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"S1 POST /api/suporte/chamados/4/mensagens HTTP 409 (observado 409)","instante":"2026-10-12T11:02:00.4260858-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.4674038-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"S1 POST /api/suporte/chamados/5/encerramento HTTP 200 (observado 200)","instante":"2026-10-12T11:02:00.4688882-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.5062195-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"S1 POST /api/suporte/chamados/5/encerramento HTTP 409 (observado 409)","instante":"2026-10-12T11:02:00.5103226-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.5405610-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"S1 PATCH /api/suporte/chamados/5/associacao HTTP 200 (observado 200)","instante":"2026-10-12T11:02:00.5425667-03:00","aprovado":true,"caso":"V31-V34"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.5784287-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"P GET /api/participante/painel HTTP 200 (observado 200)","instante":"2026-10-12T11:02:00.5805772-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.6130838-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"C GET /api/participante/painel HTTP 200 (observado 200)","instante":"2026-10-12T11:02:00.6185551-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"Vendedor sem ingresso conserva compra histórica","instante":"2026-10-12T11:02:00.6414344-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"Comprador recebe ingresso no painel","instante":"2026-10-12T11:02:00.6617363-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.6948344-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"O GET /api/organizador/painel HTTP 200 (observado 200)","instante":"2026-10-12T11:02:00.7033815-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"Organizador recebe somente seu evento/compra direta","instante":"2026-10-12T11:02:00.7256344-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.7568675-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"O2 GET /api/organizador/painel HTTP 200 (observado 200)","instante":"2026-10-12T11:02:00.7659584-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.7989907-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"S1 GET /api/suporte/painel HTTP 200 (observado 200)","instante":"2026-10-12T11:02:00.8077138-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.8401051-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"S2 GET /api/suporte/painel HTTP 200 (observado 200)","instante":"2026-10-12T11:02:00.8419881-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.8722322-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"P GET /api/organizador/painel HTTP 403 (observado 403)","instante":"2026-10-12T11:02:00.8836630-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.9039715-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"P GET /api/participante/painel?id=1 HTTP 200 (observado 200)","instante":"2026-10-12T11:02:00.9130931-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"ID extra não troca escopo do painel","instante":"2026-10-12T11:02:00.9317308-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:00.9625890-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"P POST /api/chamados HTTP 403 (observado 403)","instante":"2026-10-12T11:02:00.9729577-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:01.0040146-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"P POST /api/chamados HTTP 403 (observado 403)","instante":"2026-10-12T11:02:01.0158518-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:01.0499629-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"P POST /api/chamados HTTP 400 (observado 400)","instante":"2026-10-12T11:02:01.0571565-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:01.0793274-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"P GET /api/recurso-inexistente HTTP 404 (observado 404)","instante":"2026-10-12T11:02:01.0996691-03:00","aprovado":true,"caso":"V37-V39"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:01.1472886-03:00","aprovado":true,"caso":"V06-logout"}
+{"assertiva":"P POST /api/auth/logout HTTP 204 (observado 204)","instante":"2026-10-12T11:02:01.1497886-03:00","aprovado":true,"caso":"V06-logout"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:01.1685610-03:00","aprovado":true,"caso":"V06-logout"}
+{"assertiva":"P GET /api/auth/me HTTP 401 (observado 401)","instante":"2026-10-12T11:02:01.1798232-03:00","aprovado":true,"caso":"V06-logout"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:01.2121117-03:00","aprovado":true,"caso":"V06-logout"}
+{"assertiva":"temporario GET /api/auth/me HTTP 401 (observado 401)","instante":"2026-10-12T11:02:01.2196489-03:00","aprovado":true,"caso":"V06-logout"}
+{"assertiva":"Resposta sem senha/hash/token","instante":"2026-10-12T11:02:01.3642893-03:00","aprovado":true,"caso":"V06-logout"}
+{"assertiva":"P POST /api/auth/participantes/login HTTP 200 (observado 200)","instante":"2026-10-12T11:02:01.3657963-03:00","aprovado":true,"caso":"V06-logout"}
+{"assertiva":"Cookie HttpOnly no contexto independente","instante":"2026-10-12T11:02:01.3863108-03:00","aprovado":true,"caso":"V06-logout"}

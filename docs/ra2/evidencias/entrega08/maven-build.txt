@@ -1,0 +1,102 @@
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ----------------------< br.com.joinup:joinup-poo >----------------------
+[INFO] Building joinup-poo 0.1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- clean:3.2.0:clean (default-clean) @ joinup-poo ---
+[INFO]
+[INFO] --- resources:3.3.1:resources (default-resources) @ joinup-poo ---
+[INFO] Copying 24 resources from src\main\resources to target\classes
+[INFO]
+[INFO] --- compiler:3.13.0:compile (default-compile) @ joinup-poo ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 117 source files with javac [debug release 21] to target\classes
+[INFO]
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ joinup-poo ---
+[INFO] skip non existing resourceDirectory C:\Users\ericj\AppData\Local\JoinUp-POO\entrega08-011ecb2\checkout\src\test\resources
+[INFO]
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ joinup-poo ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 21 source files with javac [debug release 21] to target\test-classes
+[INFO]
+[INFO] --- surefire:3.5.2:test (default-test) @ joinup-poo ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO]
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running br.com.joinup.arquivos.ImagemSeguraTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.426 s -- in br.com.joinup.arquivos.ImagemSeguraTest
+[INFO] Running br.com.joinup.auth.AuthenticationSecurityTest
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.268 s -- in br.com.joinup.auth.AuthenticationSecurityTest
+[INFO] Running br.com.joinup.bootstrap.ApplicationBootstrapTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.940 s -- in br.com.joinup.bootstrap.ApplicationBootstrapTest
+[INFO] Running br.com.joinup.compras.ValidacaoComercioTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.033 s -- in br.com.joinup.compras.ValidacaoComercioTest
+[INFO] Running br.com.joinup.comunidades.ComunidadeSocialTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in br.com.joinup.comunidades.ComunidadeSocialTest
+[INFO] Running br.com.joinup.config.ConfiguracaoSistemaTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.768 s -- in br.com.joinup.config.ConfiguracaoSistemaTest
+[INFO] Running br.com.joinup.demo.SqlDemoTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in br.com.joinup.demo.SqlDemoTest
+[INFO] Running br.com.joinup.eventos.facade.EventoFacadeTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in br.com.joinup.eventos.facade.EventoFacadeTest
+[INFO] Running br.com.joinup.eventos.ValidacaoEventoTest
+[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.027 s -- in br.com.joinup.eventos.ValidacaoEventoTest
+[INFO] Running br.com.joinup.http.HttpFoundationTest
+out. 12, 2026 10:54:41 AM br.com.joinup.http.Router handle
+GRAVE: Falha interna no processamento HTTP
+[INFO] Tests run: 33, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.173 s -- in br.com.joinup.http.HttpFoundationTest
+[INFO] Running br.com.joinup.http.RouterParametersTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.081 s -- in br.com.joinup.http.RouterParametersTest
+[INFO] Running br.com.joinup.shared.db.SeedDemoPasswordTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.673 s -- in br.com.joinup.shared.db.SeedDemoPasswordTest
+[INFO] Running br.com.joinup.suporte.StatusTicketTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.046 s -- in br.com.joinup.suporte.StatusTicketTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 167, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO]
+[INFO] --- jar:3.4.1:jar (default-jar) @ joinup-poo ---
+[INFO] Building jar: C:\Users\ericj\AppData\Local\JoinUp-POO\entrega08-011ecb2\checkout\target\joinup-poo.jar
+[INFO]
+[INFO] --- shade:3.6.0:shade (default) @ joinup-poo ---
+[INFO] Including com.twelvemonkeys.imageio:imageio-webp:jar:3.12.0 in the shaded jar.
+[INFO] Including com.twelvemonkeys.imageio:imageio-core:jar:3.12.0 in the shaded jar.
+[INFO] Including com.twelvemonkeys.imageio:imageio-metadata:jar:3.12.0 in the shaded jar.
+[INFO] Including com.twelvemonkeys.common:common-lang:jar:3.12.0 in the shaded jar.
+[INFO] Including com.twelvemonkeys.common:common-io:jar:3.12.0 in the shaded jar.
+[INFO] Including com.twelvemonkeys.common:common-image:jar:3.12.0 in the shaded jar.
+[INFO] Including com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.18.3 in the shaded jar.
+[INFO] Including com.fasterxml.jackson.core:jackson-annotations:jar:2.18.3 in the shaded jar.
+[INFO] Including com.fasterxml.jackson.core:jackson-core:jar:2.18.3 in the shaded jar.
+[INFO] Including com.fasterxml.jackson.core:jackson-databind:jar:2.18.3 in the shaded jar.
+[INFO] Including com.mysql:mysql-connector-j:jar:8.4.0 in the shaded jar.
+[INFO] Including com.google.protobuf:protobuf-java:jar:3.25.1 in the shaded jar.
+[WARNING] Discovered module-info.class. Shading will break its strong encapsulation.
+[WARNING] jackson-annotations-2.18.3.jar, jackson-core-2.18.3.jar, jackson-databind-2.18.3.jar, jackson-datatype-jsr310-2.18.3.jar define 2 overlapping resources:
+[WARNING]   - META-INF/LICENSE
+[WARNING]   - META-INF/NOTICE
+[WARNING] jackson-core-2.18.3.jar, jackson-databind-2.18.3.jar, jackson-datatype-jsr310-2.18.3.jar define 1 overlapping classes:
+[WARNING]   - META-INF.versions.9.module-info
+[WARNING] common-image-3.12.0.jar, common-io-3.12.0.jar, common-lang-3.12.0.jar, imageio-core-3.12.0.jar, imageio-metadata-3.12.0.jar, imageio-webp-3.12.0.jar, jackson-annotations-2.18.3.jar, jackson-core-2.18.3.jar, jackson-databind-2.18.3.jar, jackson-datatype-jsr310-2.18.3.jar, joinup-poo.jar, mysql-connector-j-8.4.0.jar, protobuf-java-3.25.1.jar define 1 overlapping resource:
+[WARNING]   - META-INF/MANIFEST.MF
+[WARNING] maven-shade-plugin has detected that some files are
+[WARNING] present in two or more JARs. When this happens, only one
+[WARNING] single version of the file is copied to the uber jar.
+[WARNING] Usually this is not harmful and you can skip these warnings,
+[WARNING] otherwise try to manually exclude artifacts based on
+[WARNING] mvn dependency:tree -Ddetail=true and the above output.
+[WARNING] See https://maven.apache.org/plugins/maven-shade-plugin/
+[INFO] Replacing original artifact with shaded artifact.
+[INFO] Replacing C:\Users\ericj\AppData\Local\JoinUp-POO\entrega08-011ecb2\checkout\target\joinup-poo.jar with C:\Users\ericj\AppData\Local\JoinUp-POO\entrega08-011ecb2\checkout\target\joinup-poo-0.1.0-SNAPSHOT-shaded.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  17.169 s
+[INFO] Finished at: 2026-10-12T10:54:44-03:00
+[INFO] ------------------------------------------------------------------------

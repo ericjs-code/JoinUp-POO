@@ -1,0 +1,162 @@
+[
+  {
+    "suite": "br.com.joinup.arquivos.ImagemSeguraTest",
+    "tests": 16,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "0.292"
+  },
+  {
+    "suite": "br.com.joinup.auth.AuthenticationSecurityTest",
+    "tests": 18,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "1.245"
+  },
+  {
+    "suite": "br.com.joinup.bootstrap.ApplicationBootstrapTest",
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "0.797"
+  },
+  {
+    "suite": "br.com.joinup.compras.ValidacaoComercioTest",
+    "tests": 16,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "0.03"
+  },
+  {
+    "suite": "br.com.joinup.comunidades.ComunidadeSocialTest",
+    "tests": 9,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "0.021"
+  },
+  {
+    "suite": "br.com.joinup.config.ConfiguracaoSistemaTest",
+    "tests": 16,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "0.761"
+  },
+  {
+    "suite": "br.com.joinup.demo.SqlDemoTest",
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "0.004"
+  },
+  {
+    "suite": "br.com.joinup.eventos.facade.EventoFacadeTest",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "0.011"
+  },
+  {
+    "suite": "br.com.joinup.eventos.ValidacaoEventoTest",
+    "tests": 21,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "0.03"
+  },
+  {
+    "suite": "br.com.joinup.http.HttpFoundationTest",
+    "tests": 33,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "0.178"
+  },
+  {
+    "suite": "br.com.joinup.http.RouterParametersTest",
+    "tests": 16,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "0.082"
+  },
+  {
+    "suite": "br.com.joinup.shared.db.SeedDemoPasswordTest",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "0.678"
+  },
+  {
+    "suite": "br.com.joinup.suporte.StatusTicketTest",
+    "tests": 13,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "0.043"
+  },
+  {
+    "suite": "br.com.joinup.integration.ComercioMySqlIT",
+    "tests": 63,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "30.901"
+  },
+  {
+    "suite": "br.com.joinup.integration.ComunidadeMySqlIT",
+    "tests": 65,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "32.529"
+  },
+  {
+    "suite": "br.com.joinup.integration.MySqlIntegrationIT",
+    "tests": 46,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "18.028"
+  },
+  {
+    "suite": "br.com.joinup.integration.PaineisMySqlIT",
+    "tests": 11,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "6.077"
+  },
+  {
+    "suite": "br.com.joinup.integration.SuporteMySqlIT",
+    "tests": 63,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "33.201"
+  },
+  {
+    "suite": "br.com.joinup.integration.ZArquivosMySqlIT",
+    "tests": 45,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "27.277"
+  },
+  {
+    "suite": "br.com.joinup.integration.ZDemoMySqlIT",
+    "tests": 8,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "time": "7.951"
+  }
+]

@@ -5,7 +5,7 @@ Preparado em 12/10/2026, America/Sao_Paulo. Base: `7efe29c1529a71e3c1a82a52716a5
 ## Preparação do ensaio
 
 1. Usar uma instância local de demonstração separada da regressão, banco `joinup_poo`, Java 21/MySQL 8.4.0. O administrador prepara schema v0.2 e migração 06; a aplicação recebe conta somente DML. Não executar testes de integração contra o banco da apresentação e não apagar dados para repetir o roteiro.
-2. Para carga nova, conferir base vazia, `JOINUP_ENV=demo`, `JOINUP_DEMO=true`, JDBC loopback e HTTP `127.0.0.1`. `DemoRunner` aplica o seed empacotado e marcador; reinício não reseta dados. Uma base já populada sem marcador é recusada. Conferir instruções e guardas em `README.md`, `DemoRunner` e `ARQUIVOS_HTTP_06.md`; o trecho do README que situa a 06 fora da main é histórico e não exige trocar para a branch antiga.
+2. Para carga nova, conferir base vazia, `JOINUP_ENV=demo`, `JOINUP_DEMO=true`, JDBC loopback e HTTP `127.0.0.1`. `DemoRunner` aplica o seed empacotado e marcador; reinício não reseta dados. Uma base já populada sem marcador é recusada. Conferir instruções e guardas em `README.md`, `DemoRunner` e `ARQUIVOS_HTTP_06.md`. A instalação usa `main`, que já inclui mídia/demo e documentação RA2.
 3. Fixar o commit/JAR usado no ensaio. Registrar origem real (padrão `http://127.0.0.1:8080`), porta MySQL, navegador, data/hora e versões, sem credenciais de banco ou cookies. Conferir que Festival Aurora ainda é futuro: as datas relativas vêm da primeira carga, não são renovadas no reinício.
 4. Abrir contextos de navegador **com cookies independentes**: P (participante de ensaio), C (Carla compradora), O (Aurora) e S (atendimento; alternar suporte1/suporte2 por logout). Duas abas do mesmo contexto compartilham sessão e não representam dois usuários independentes.
 5. Preparar uma imagem PNG/JPEG/WebP sem dados pessoais, até 1 MiB, 4096 px/dimensão e 4 milhões de pixels. Conferir upload e leitura na instância do ensaio. Não há imagem no seed nem avatar de perfil; a mídia de demonstração é criada pelo upload autorizado.
@@ -87,7 +87,8 @@ Para **10 minutos**, abreviar filtros, comentários/compartilhamento, cadastro e
 
 - [x] Usar main que já inclui o PR #8 e incorporar classes de mídia/demo ao UML e relatório.
 - [x] Conferir CI da base e preservar link/SHA/totais dos logs efetivos.
-- [ ] Confirmar enunciado, integrantes, professor e duração.
+- [x] Enunciado e lista dos 23 GoF recebidos pelo Tech Lead; identificação fornecida pelo PO em 12/10/2026 (cinco integrantes, PUCPR, 4A noite, Andeza de Sousa Vieira).
+- [ ] Confirmar duração autorizada e revisar as reflexões com os integrantes.
 - [ ] Conferir eventual auditoria externa da 06 sem inferir aprovação a partir do merge.
 - [ ] Executar V01–V45 da matriz, registrar evidências e anotar falhas/bloqueios sem transformar planejamento em execução.
 - [ ] Ensaiar a sequência completa com cookies independentes e verificar que os snapshots/IDs pertencem ao ensaio.
@@ -95,3 +96,18 @@ Para **10 minutos**, abreviar filtros, comentários/compartilhamento, cadastro e
 - [ ] Entregar para revisão acadêmica/técnica. Este PR documental permanece sem merge automático.
 
 Os detalhes de rastreabilidade e resultados estão em [RELATORIO_TECNICO_RA2.md](RELATORIO_TECNICO_RA2.md), [MATRIZ_VALIDACAO_FINAL.md](MATRIZ_VALIDACAO_FINAL.md) e [VALIDACAO_DOCUMENTAL.md](VALIDACAO_DOCUMENTAL.md).
+
+## Registro técnico da Entrega 08 (não é ensaio coletivo)
+
+Em 12/10/2026, Codex executou HTTP com cookies independentes e sanidade visual
+dos três perfis por login/logout sequencial no navegador do Codex. Evento 5,
+comunidade 5, ingresso 8, postagem 3 e chamados 4/5 pertencem somente à instância
+de homologação, MySQL em loopback 3315. Esses IDs não substituem os do próximo
+ensaio. [Resultados, capturas e limites](RELATORIO_HOMOLOGACAO_FINAL.md).
+
+O roteiro integral de 13 minutos e a arguição aleatória entre os cinco integrantes
+**não foram realizados nesta execução**. V45 permanece NÃO EXECUTADO. Os
+integrantes informados são Eric Julio da Silva, Matheus Martins, João Pedro
+Oliveira, Pedro Henrique Rebechi e Kaun de Moraes de Liz. Duração permitida e
+experiências individuais continuam PENDENTE DE PO; não atribuir domínio coletivo
+à execução técnica automatizada.
