@@ -9,7 +9,7 @@
 ## 0. Leia integralmente
 
 1. `docs/execucao/AUDITORIA_ESTADO_ATUAL_PR08_PR09.md`, `docs/execucao/AUDITORIA_ENTREGA_05_PR07.md`, resultados e auditorias precedentes.
-2. `docs/ra2/MATRIZ_VALIDACAO_FINAL.md`, `docs/ra2/ROTEIRO_APRESENTACAO.md`, `docs/ra2/RELATORIO_TECNICO_RA2.md`, `docs/ra2/DIAGRAMA_CLASSES_GERAL.puml` e `docs/ra2/VISAO_ARQUITETURA.puml`.
+2. `docs/ra2/MATRIZ_VALIDACAO_FINAL.md`, `docs/ra2/ROTEIRO_APRESENTACAO.md`, `docs/ra2/RELATORIO_TECNICO_RA2.md`, **`docs/ra2/CONFORMIDADE_ENUNCIADO_OFICIAL.md`**, `docs/ra2/DIAGRAMA_CLASSES_GERAL.puml` e `docs/ra2/VISAO_ARQUITETURA.puml`.
 3. Requisitos em `docs/requisitos/ESPECIFICACAO_FUNCIONAL_v0.1.md` e **todos** os adendos.
 4. `docs/api/`, `README.md`, `pom.xml`, `.github/workflows/java.yml`, `src/main/resources/db/schema_v0.2.sql`, `seed_demo_v0.2.sql`, `migration_06_midia_demo.sql`.
 5. Código e testes implementados: fundação, usuários/auth, eventos, compras/revendas, comunidades/social, arquivos/demo, suporte/painéis. Repositório PHP original **somente leitura** para referência de UX.
@@ -63,12 +63,17 @@ Evidências: SHA/JAR, ambiente, data/hora, passos executados, status HTTP quando
 - Não começar otimização N+1, rate limiting de produção, novo gateway, redesign completo, novos padrões GoF, avatar ou sistema de push; todos estão fora deste gate sem exigência formal.
 - Uma falha de UX/small-screen deve ser avaliada pela severidade à demonstração; priorizar evitar quebra de navegação no tamanho de tela usado na apresentação.
 
-## 5. Fechamento acadêmico e ensaio
+## 5. Fechamento acadêmico e ensaio — critérios OFICIAIS
 
-- Confirmar **enunciado original RA2, número de integrantes, nomes acadêmicos, turma, professor e duração permitida**. Enquanto usuário não fornecer, sinalizar esses campos **PENDENTE DE PO**, não inventar. Redigir versão neutra que possa ser entregue e indicar os pontos a preencher.
-- Auditar consistência UML ↔ classes `main` **do commit final**, lista de quatro GoF, nomes reais de classes, assinaturas e testes. O UML geral de 123 tipos pode ser grande: garantir visão resumida legível e fragmento GoF para apresentar.
+- **Enunciado oficial RA2 recebido em 12/10/2026**, comparado e sintetizado em `docs/ra2/CONFORMIDADE_ENUNCIADO_OFICIAL.md`. Não afirmar que o enunciado está indisponível: o PDF original foi fornecido ao Tech Lead; o repositório preserva a síntese rastreada por páginas. Pesos: **4,0 GoF; 2,0 código/qualidade; 2,0 apresentação/arguição coletiva; 1,0 UML; 1,0 relatório**. A avaliação exige **no mínimo quatro padrões GoF, não exatamente quatro**; quatro já implementados são a solução atual, mas o mínimo não garante nota máxima. Não adicionar novos padrões artificialmente nem sem aprovação do PO.
+- **Lacuna acadêmica P0:** analisar **cada outro padrão GoF efetivamente estudado em sala**, justificando por que não se aplica proporcionalmente ao JoinUp. O relatório foi ampliado com **exemplos de alternativas**, mas essa tabela é provisória até equipe/professora indicar a lista real de padrões estudados. **Não alegar que todos os 23 GoF foram estudados** sem evidência. Não classificar exemplos genéricos como matéria comprovada.
+- O relatório deve conter explicitamente **identificação da equipe**, funcionalidades, cada padrão (intenção, problema, classes, código, benefícios), **análise contextual dos não utilizados** e **reflexão/lições aprendidas** (seções 4.1–4.5 do enunciado). Já existe rascunho da reflexão baseado em problemas comprovados de SQL, concorrência, HTTP e UML, mas a equipe precisa confirmar vivências individuais.
+- **Formato:** até seis estudantes indicado na página 1; cronograma oficial da página 3 aponta **equipe de seis estudantes**. Confirmar nomes completos dos integrantes, instituição, turma, professora e duração permitida. Datas oficiais: **entrega 15/10/2026; apresentação 16/10/2026**. A duração de 13 minutos do roteiro é proposta, não duração fixada pelo PDF.
+- **Arguição coletiva vale 2,0 pontos:** todos os integrantes devem conhecer **o projeto inteiro**, não apenas seu módulo; a professora pode perguntar a qualquer integrante sobre padrões, classes, alternativas e decisões. Realizar ensaio com **rodízio de perguntas aleatórias** entre todos e registrar lacunas; não declarar domínio coletivo sem participação real de cada um.
+- Campos de integrantes, docente, turma, conteúdo de aula e duração que o PO ainda não forneceu devem permanecer **PENDENTE DE PO**, jamais ser inventados.
+- Auditar consistência UML ↔ classes `main` **do commit final**, os **quatro GoF efetivamente implementados** (mínimo oficial, não máximo), nomes reais de classes, assinaturas e testes. O UML geral de 123 tipos pode ser grande: garantir visão resumida legível e fragmento GoF para apresentar; não anunciar GoF não implementado como aplicado.
 - Ensaiar `docs/ra2/ROTEIRO_APRESENTACAO.md` com cronômetro (planejado ~13min, ajustar ao professor), sem criar dependência de internet. Preparar plano B com capturas e logs **da versão testada**, sem vendê-los como execução ao vivo.
-- Gerar `docs/ra2/RELATORIO_HOMOLOGACAO_FINAL.md`: versão/hash, P0 e V01–V45 aprovados/reprovados/não realizados, evidências, riscos, comandos realmente executados, CI, UML/renderização, tempo de apresentação, campos faltantes e recomendação **GO/NO-GO**.
+- Gerar `docs/ra2/RELATORIO_HOMOLOGACAO_FINAL.md`: versão/hash, P0 e V01–V45 aprovados/reprovados/não realizados, evidências, riscos, comandos realmente executados, CI, UML/renderização, tempo de apresentação, **rubrica oficial 4+2+2+1+1 e cobertura dos requisitos acadêmicos**, campos faltantes e recomendação **GO/NO-GO**.
 
 ## 6. Entregáveis e limites de atuação
 
