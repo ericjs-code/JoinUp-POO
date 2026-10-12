@@ -72,7 +72,8 @@ Binários oficiais locais já existentes em `%LOCALAPPDATA%/JoinUp-POO/tools`.
 Regressão usa instância isolada em 3307. Seed automático usa uma segunda
 instância nova em 3309, sempre banco joinup_poo; navegador usa terceira
 instância de demonstração em 3308, sem disputar fixtures da regressão.
-Conta HTTP/testes joinup_it exclusivamente DML; root local apenas fixtures e
+Conta HTTP/testes joinup_it exclusivamente DML nas duas instâncias (administração
+revoga o ALL inicial que MYSQL_USER recebe no container oficial); root local apenas fixtures e
 triggers. Credenciais desses ambientes são descartáveis e não de produção.
 
 Comando completo executado:
@@ -164,10 +165,25 @@ a captura de chat inclui texto + imagem.
 
 ## CI remoto e gate
 
-**Pendente neste primeiro registro:** workflow completo do PR em Java 21 e
-dois serviços mysql:8.4.0. Relatórios Surefire/Failsafe e inventário MySQL serão
-publicados pelo workflow. Inserir run, SHA e resultado efetivamente consultados
-antes de concluir a entrega. Não confundir configuração de CI com execução.
+**Confirmado completed/success** no código final `fe66b03aa5cdca035fc35845222bb33421e66384`:
+
+- [CI do PR, run 38197405445](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38197405445),
+  job 114643047450: **468 testes**, 167 Surefire + 301 Failsafe; zero falhas/erros/
+  ignorados. BUILD SUCCESS às **23:55:06 de 11/10/2026** (America/Sao_Paulo),
+  duração Maven 3min27s. Totais conferidos nos logs efetivos do job.
+- [CI do push, run 38197403293](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38197403293),
+  job 114643040203: completed/success no mesmo SHA.
+- Java 21, dois serviços **mysql:8.4.0**, comando integral
+  `mvn --batch-mode --no-transfer-progress -Pmysql-it clean verify`.
+- [Extrato dos logs conferidos](evidencias/entrega_06_ci.txt) e
+  [evidência local](evidencias/entrega_06_local.txt). Relatórios Surefire/Failsafe
+  e inventário MySQL publicados como artefato pelo workflow. Symlink real Linux
+  foi exercitado no teste, além do fallback de diretório não regular no Windows.
+
+[PR #8](https://github.com/ericjs-code/JoinUp-POO/pull/8) permanece aberto, sem
+merge. A consulta de reviews retornou lista vazia; auditoria técnica do Tech Lead
+continua pendente. O commit subsequente registra somente documentação/evidências;
+o CI da cabeça documental final será conferido também, sem alterar código.
 
 ## Limites e pendências explícitas
 
@@ -178,7 +194,7 @@ antes de concluir a entrega. Não confundir configuração de CI com execução.
   prometer coletor automático. Erros SQL normais e falhas físicas foram testados.
 - Diretório deve ser exclusivo e protegido pelo SO. Windows local não permitiu
   criar symlink no teste; fallback testou arquivo/diretório não regular. CI Linux
-  exercitará symlink real; não afirmar privilégio Windows que não foi concedido.
+  exercitou symlink real; não afirmar privilégio Windows que não foi concedido.
 - Sem rate limiting/quota total, antivírus, benchmark, CDN/cache público ou
   garantia contra administrador local. Escopo é demonstração acadêmica local.
 - Não há campo/avatar de perfil v0.2; mantido fora deste incremento. UI de criação

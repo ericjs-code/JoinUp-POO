@@ -24,6 +24,8 @@ mvn clean verify
 
 A `main` já incorpora o PR #7 (Entrega 05). A Entrega 06 está na branch
 `feat/06-midia-demo` e depende de auditoria técnica antes do merge.
+Para executar este incremento antes do merge, use `git switch feat/06-midia-demo`
+e repita `mvn clean verify` antes de preparar a base abaixo.
 Prepare instância **isolada** de MySQL, aplique os SQLs e configure a conta DML:
 
 ```powershell
