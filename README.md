@@ -1,13 +1,13 @@
 # JoinUp-POO
 
-Java 21 puro com HttpServer do JDK, JDBC/MySQL 8, Jackson e JUnit. Entregas 00–02:
-contas/autenticação, sessão, desativação/reativação e eventos com lineup,
-categorias e comunidade automática. Os quatro GoF estão em fluxos executáveis:
+Java 21 puro com HttpServer do JDK, JDBC/MySQL 8, Jackson e JUnit. Entregas 00–05:
+contas/autenticação, eventos, compra/revenda, comunidades sociais, chamados
+e painéis por perfil. Os quatro GoF estão em fluxos executáveis:
 Singleton, Factory Method, Template Method e Facade transacional.
 
-Interfaces em `/conta.html` e `/eventos.html`, com identidade visual escura/roxa
-próxima do JoinUp PHP. Compra, conteúdo de comunidades, revendas, tickets,
-uploads e dashboards finais pertencem às próximas entregas. O projeto usa banco próprio
+Interfaces em `/conta.html`, `/eventos.html`, `/ingressos.html`,
+`/comunidades.html` e `/painel.html`, com identidade visual escura/roxa próxima
+do JoinUp PHP. Uploads e consolidação RA2 permanecem pendentes. O projeto usa banco próprio
 `joinup_poo`, sem importar registros legados.
 
 ## Executar
@@ -22,8 +22,8 @@ git switch main
 mvn clean verify
 ```
 
-Para avaliar a Entrega 02 antes do merge, selecione a branch do PR
-`feat/02-eventos-facade`. O merge depende da auditoria do Tech Lead.
+Para avaliar a Entrega 05 antes do merge, selecione a branch do PR
+`feat/05-suporte-paineis`. O merge depende da auditoria do Tech Lead.
 Prepare instância **isolada** de MySQL, aplique os SQLs e configure a conta DML:
 
 ```powershell
@@ -136,6 +136,21 @@ dono do ingresso. Reativação exige suporte, mantém PK e grava autor/timestamp
 anúncios cancelados permanecem cancelados. Suporte não possui ciclo de desativação.
 
 ## Testes e integração real
+
+A Entrega 05 disponibiliza `/painel.html` com indicadores reais por perfil e
+`/painel.html?aba=chamados` com abertura/atendimento/histórico. Solicitantes
+Resolvem ou Retornam somente em `aguardando_usuario`; fechado é terminal.
+Qualquer suporte responde a chamado associado a outro, preservando autoria
+individual. Contagens de comunidade usam acesso efetivo; valores de vendas
+são históricos de compras confirmadas, sem prometer recebimento financeiro.
+
+Contratos, limites e comandos: [API 05](docs/api/SUPORTE_PAINEIS_HTTP_05.md),
+[resultados 05](docs/execucao/ENTREGA_05_RESULTADOS.md) e
+[UML 05](docs/diagramas/SUPORTE_PAINEIS_05.puml). O perfil mysql-it inclui
+`SuporteMySqlIT`, `PaineisMySqlIT` e todas as integrações anteriores, inclusive
+os 65 cenários `ComunidadeMySqlIT` da correção 04.1. Execute a suíte num banco
+isolado sem sessões/ações de navegador simultâneas; a sanidade visual deve ser
+feita separadamente, pois a suíte de fundação exige a fixture original intacta.
 
 A Entrega 03 acrescenta compra direta e revenda com **pagamento local simulado**.
 Abra `/eventos.html` para comprar e `/ingressos.html` para ingressos, histórico,

@@ -1,0 +1,115 @@
+@startuml
+title JoinUp-POO — Suporte e painéis (classes reais, Entrega 05)
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide empty members
+package suporte.http {
+  class TicketRoutes {
+    +registrar(router: Router): void
+  }
+}
+package suporte.service {
+  class TicketService {
+    +criar(token: String, dados: AbrirTicketDados): Ticket
+    +listar(token: String, suporte: boolean, status: StatusTicket, pagina: int, tamanho: int): PaginaTickets
+    +detalhe(token: String, suporte: boolean, id: long, pagina: int, tamanho: int): TicketDetalhe
+    +associar(token: String, id: long): Ticket
+    +responder(token: String, id: long, dados: MensagemTicketDados): Ticket
+    +retornar(token: String, id: long, dados: MensagemTicketDados): Ticket
+    +resolver(token: String, id: long): Ticket
+    +encerrar(token: String, id: long): Ticket
+  }
+}
+package suporte.repository {
+  class TicketRepositoryJdbc {
+    +buscar(c: Connection, id: long, bloquear: boolean): Ticket
+    +mensagem(c: Connection, id: long, u: Usuario, texto: String): void
+    +transicionar(c: Connection, id: long, destino: StatusTicket, texto: String, resposta: boolean): void
+    +associar(c: Connection, id: long, suporteId: long): void
+  }
+}
+package "suporte.domain / dto" {
+  enum StatusTicket {
+    aberto
+    em_atendimento
+    aguardando_usuario
+    fechado
+    +responder(): StatusTicket
+    +retornar(): StatusTicket
+    +resolver(): StatusTicket
+    +encerrar(): StatusTicket
+  }
+  class Ticket <<record>>
+  class MensagemTicket <<record>>
+  class AbrirTicketDados <<record>>
+  class MensagemTicketDados <<record>>
+  class PaginaTickets <<record>>
+  class TicketDetalhe <<record>>
+}
+package paineis.http {
+  class PainelRoutes {
+    +registrar(router: Router): void
+  }
+}
+package paineis.service {
+  class PainelService {
+    +consultar(token: String, perfil: Perfil): PainelView
+  }
+}
+package paineis.repository {
+  class PainelRepositoryJdbc {
+    +participante(c: Connection, id: long, agora: Instant): Map
+    +organizador(c: Connection, id: long, agora: Instant): Map
+    +suporte(c: Connection, id: long): Map
+    +chamados(c: Connection, u: Usuario): Map
+    +proximos(c: Connection, id: long, agora: Instant): List
+    +eventos(c: Connection, id: long, agora: Instant): List
+  }
+}
+package paineis.dto {
+  class PainelView <<record>>
+}
+class ExecutorTransacional {
+  +executar(operacao: Operacao): T
+}
+class GerenciadorSessao {
+  +exigir(c: Connection, token: String, permitidos: Perfil[]): Usuario
+}
+class SegurancaHttp
+class ContaService
+class ApplicationBootstrap
+TicketRoutes --> TicketService
+TicketRoutes --> ContaService
+TicketRoutes --> SegurancaHttp
+TicketService --> TicketRepositoryJdbc
+TicketService --> ExecutorTransacional
+TicketService --> GerenciadorSessao
+TicketService ..> StatusTicket : valida sob lock
+TicketRepositoryJdbc ..> Ticket
+TicketRepositoryJdbc ..> MensagemTicket
+TicketDetalhe *-- "1" Ticket
+TicketDetalhe *-- "0..*" MensagemTicket : página
+Ticket --> StatusTicket
+PaginaTickets *-- "0..*" Ticket
+TicketService ..> AbrirTicketDados
+TicketService ..> MensagemTicketDados
+PainelRoutes --> PainelService
+PainelService --> PainelRepositoryJdbc
+PainelService --> ExecutorTransacional
+PainelService --> GerenciadorSessao
+PainelService ..> PainelView
+ApplicationBootstrap ..> TicketRoutes : composição manual
+ApplicationBootstrap ..> PainelRoutes : composição manual
+note bottom of TicketRepositoryJdbc
+  Ticket bloqueado FOR UPDATE na mesma Connection
+  que modifica estado e insere mensagem.
+  Autor da mensagem vem da sessão.
+  Associação não modifica estado nem autoria.
+end note
+note bottom of PainelRepositoryJdbc
+  Projeções agregadas do banco, sem N+1 no Java.
+  Histórico de compra difere de titularidade atual.
+  Sem dados de conta nos payloads dos painéis.
+end note
+note "Quatro GoF existentes preservados:\nEventoFacade (Facade), AutenticacaoTemplate (Template Method),\nCadastroUsuarioCreator (Factory Method), ConfiguracaoSistema (Singleton).\nNenhum novo padrão GoF é reivindicado por este módulo." as GOF
+@enduml

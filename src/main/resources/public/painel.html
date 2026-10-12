@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meu painel | JoinUp</title>
+  <link rel="stylesheet" href="/css/conta.css"><link rel="stylesheet" href="/css/paineis.css">
+  <script src="/js/paineis.js" defer></script>
+</head>
+<body>
+  <header><a class="marca" href="/">JoinUp<span>●</span></a><nav id="nav-perfil"><a href="/conta.html">Minha conta</a></nav></header>
+  <main>
+    <div class="cabecalho intro"><div><p class="badge" id="perfil">Seu espaço JoinUp</p><h1 id="titulo">Painéis e chamados</h1><p id="saudacao">Verificando sua sessão…</p></div><button id="atualizar" type="button" hidden>Atualizar</button></div>
+    <p id="mensagem" role="status" aria-live="polite"></p>
+    <section id="acesso" class="painel" hidden><h2>Entre para acessar seu painel</h2><p>Os indicadores e conversas são exclusivos do seu perfil.</p><a href="/conta.html">Entrar na minha conta</a></section>
+    <div id="conteudo" hidden>
+      <nav class="abas" aria-label="Seções do painel"><button id="aba-painel" type="button">Indicadores</button><button id="aba-chamados" type="button">Chamados</button></nav>
+      <section id="resumo" aria-labelledby="titulo-resumo">
+        <h2 id="titulo-resumo">Seu panorama</h2><p id="consulta" class="muted"></p>
+        <div id="indicadores" class="indicadores"></div>
+        <h3>Chamados por status</h3><div id="estados" class="indicadores"></div>
+        <section id="eventos-painel" class="painel" hidden><h3 id="titulo-eventos">Eventos</h3><p id="limite-eventos" class="muted"></p><ul id="eventos"></ul></section>
+        <section class="painel"><h3>Informações e demonstração</h3><p>Os indicadores refletem os registros atuais. Valores de compras são históricos de confirmação local simulada.</p><p>Saques, push e notificações externas são demonstrativos, sem integração. Base de conhecimento e preferências de suporte são seções informativas.</p></section>
+      </section>
+      <section id="chamados" hidden aria-labelledby="titulo-chamados">
+        <h2 id="titulo-chamados">Meus chamados</h2>
+        <section id="abertura" class="painel" hidden><h3>Abrir novo chamado</h3><form id="form-abertura"><label>Título<input name="titulo" maxlength="100" required></label><label>Descreva o problema<textarea name="descricao" maxlength="500" rows="4" required></textarea></label><button>Abrir chamado</button></form></section>
+        <form id="filtros" class="filtros"><label>Status<select id="filtro-status"><option value="">Todos</option><option value="aberto">Aberto</option><option value="em_atendimento">Em atendimento</option><option value="aguardando_usuario">Aguardando usuário</option><option value="fechado">Fechado</option></select></label><button>Filtrar</button></form>
+        <p id="lista-status" role="status"></p><div id="lista" class="lista-tickets"></div>
+        <div class="paginacao"><button id="anterior" type="button" class="secundario">Anterior</button><button id="proxima" type="button" class="secundario">Próxima</button></div>
+        <section id="detalhe" class="painel" hidden tabindex="-1" aria-labelledby="detalhe-titulo">
+          <div class="cabecalho"><div><p class="badge" id="detalhe-id"></p><h3 id="detalhe-titulo"></h3></div><button id="voltar" type="button" class="secundario">Fechar detalhe</button></div>
+          <p id="detalhe-estado"></p><p id="detalhe-associacao"></p><p id="detalhe-regra"></p>
+          <h4>Histórico da conversa</h4><ol id="conversa" class="conversa"></ol>
+          <div class="paginacao"><button id="mensagens-anterior" class="secundario" type="button">Mensagens anteriores</button><span id="mensagens-status"></span><button id="mensagens-proxima" class="secundario" type="button">Mais mensagens</button></div>
+          <form id="form-mensagem" hidden><label id="label-mensagem">Mensagem<textarea name="mensagem" rows="4" maxlength="500" required></textarea></label><button id="enviar-mensagem">Enviar</button></form>
+          <div class="acoes"><button id="associar" type="button" class="secundario" hidden>Associar a mim</button><button id="resolver" type="button" hidden>Resolver chamado</button><button id="encerrar" type="button" class="secundario" hidden>Encerrar chamado</button></div>
+        </section>
+      </section>
+    </div>
+  </main>
+</body></html>
