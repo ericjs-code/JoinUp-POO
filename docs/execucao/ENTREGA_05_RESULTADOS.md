@@ -4,8 +4,8 @@
 > Branch: `feat/05-suporte-paineis`, criada da `main` atualizada em
 > **cdf4207**, após merge da correção 04.1 e auditoria do PR #6.
 > Situação: implementação e verificação local concluídas; **aguarda auditoria
-> do Tech Lead e aceite antes de qualquer merge**. O status remoto de CI será
-> registrado abaixo depois da abertura do PR.
+> do Tech Lead e aceite antes de qualquer merge**. PR #7 aberto e CI confirmado
+> conforme registro abaixo.
 
 ## Escopo entregue
 
@@ -212,12 +212,23 @@ fictícias do seed. Resultado observado em 11/10/2026 entre 22:46 e 22:48 -03:00
 
 O workflow existente continua usando Java 21, service container `mysql:8.4.0`
 e `mvn --batch-mode --no-transfer-progress -Pmysql-it clean verify`, sem
-alterações de workflow ou seleção/exclusão de suítes. PR será aberto contra
-`main` e permanecerá **não mesclado**, aguardando revisão do Tech Lead.
+alterações de workflow ou seleção/exclusão de suítes.
+[PR #7](https://github.com/ericjs-code/JoinUp-POO/pull/7) aberto contra `main`,
+**não mesclado**, aguardando revisão do Tech Lead.
 
-**Status remoto inicial:** aguardando publicação da branch/PR. Resultado local
-acima não é apresentado como execução de GitHub Actions. Atualização com run,
-SHA e conclusão será acrescentada após consulta remota.
+**CI remoto confirmado: completed / success.**
+[Run 38193962732](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38193962732),
+evento pull_request, SHA `bb926ca1602f57d37079112dd492c3d5c42ef996`, job `verificar`
+`114632476996`. A consulta à API e aos logs confirmou Java 21/MySQL 8.4.0,
+**149 Surefire + 248 Failsafe = 397 testes**, zero falhas/erros/ignorados,
+BUILD SUCCESS às **23:02:15 -03:00 de 11/10/2026**. Inclui 65 testes sociais,
+63 de suporte e 11 de painéis. Publicação das evidências também concluiu com
+sucesso. Trechos verificáveis:
+[entrega_05_ci.txt](evidencias/entrega_05_ci.txt).
+
+O commit posterior a esse run registra esta evidência e normaliza apenas
+espaços finais do log local; não muda código, testes ou workflow. O CI desse
+commit documental será novamente acompanhado, sem fazer merge.
 
 ## Riscos, limites e pendências
 
