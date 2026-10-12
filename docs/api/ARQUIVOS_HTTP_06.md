@@ -89,7 +89,11 @@ anexados. O módulo WebP usa apenas o decoder puro Java
 Arquivo recebido e PNG resultante: até **1.048.576 bytes** cada. PNG normalizado
 maior que o limite é recusado, mesmo que a entrada comprimida seja menor.
 Corpo multipart: até **1.064.960 bytes**, lido por `readNBytes(limite+1)` na
-origem, com ou sem Content-Length/chunked. JSON continua em **65.536 bytes**.
+origem, com ou sem Content-Length/chunked. Mesmo quando Content-Length já
+indica excesso, a leitura da aplicação fica em limite+1 antes de recusar,
+evita fechamento antecipado com corpo marginalmente acima do limite e não
+aumenta o payload aceito. Corpos muito maiores ainda podem encerrar a conexão;
+não há leitura/drenagem ilimitada. JSON continua em **65.536 bytes**.
 Só POST da rota de upload tem exceção de limite; outros métodos mantêm o global.
 
 Parser opera sobre bytes binários; apenas cabeçalhos e campos pequenos viram

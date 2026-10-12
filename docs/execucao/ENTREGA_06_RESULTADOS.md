@@ -1,6 +1,6 @@
 # Entrega 06 — mídia segura e demo automática
 
-Data: 11/10/2026 (America/Sao_Paulo). Base `main` atualizada `2f7c53e` após
+Execução: 11–12/10/2026 (America/Sao_Paulo). Base `main` atualizada `2f7c53e` após
 PR #7; branch `feat/06-midia-demo`. **PR deve aguardar auditoria técnica;
 nenhum merge autorizado ou executado.**
 
@@ -130,11 +130,19 @@ Tentativas intermediárias registradas: expectativa de FKs no teste corrigida
 de sete para seis; teste de revenda corrigido para enviar `{}` conforme contrato
 existente. Um clean local foi recusado pelo Windows porque o JAR estava aberto
 no processo do navegador; a sanidade passou a usar cópia fora de target.
-Teste adicional de excesso declarado de corpo revelou TCP reset quando o cliente
-Java continuava escrevendo após a resposta antecipada 413. A validação desse
-caso passou a usar socket HTTP enviando somente headers; chunked continua
-usando stream real. Ambos atestam recusa antes de persistir, sem aumentar limites.
-Nenhuma alteração de regra de produção foi feita para contornar esses casos.
+Teste adicional de excesso declarado de corpo inicialmente revelou TCP reset
+quando o cliente Java continuava escrevendo após 413; uma tentativa inicial
+de teste apenas por headers passou, mas não cobriu o corpo JSON marginalmente
+acima de 64 KiB. Os runs documentais finais
+[38197866695](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38197866695) e
+[38197863736](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38197863736)
+falharam nesse caso de transporte (00:02 de 12/10/2026), com 467 casos verdes
+e um erro de conexão. A correção em RequestBody mantém a leitura estritamente
+limitada a limite+1 mesmo quando Content-Length indica excesso; evita fechar
+com >64 KiB pendentes no caso marginal, sem ampliar JSON/upload nem drenar
+indefinidamente. Teste voltou a enviar o corpo multipart completo com/sem
+Content-Length e repete o JSON excessivo cinco vezes, seguido de GET válido.
+Não foi removido nem relaxado o teste de HTTP 413.
 Shade mantém warnings usuais de manifests/licenças/module-info; BUILD SUCCESS.
 
 ## Sanidade de navegador realizada
@@ -165,7 +173,7 @@ a captura de chat inclui texto + imagem.
 
 ## CI remoto e gate
 
-**Confirmado completed/success** no código final `fe66b03aa5cdca035fc35845222bb33421e66384`:
+**Primeira revisão confirmada completed/success** no código `fe66b03aa5cdca035fc35845222bb33421e66384`:
 
 - [CI do PR, run 38197405445](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38197405445),
   job 114643047450: **468 testes**, 167 Surefire + 301 Failsafe; zero falhas/erros/
@@ -182,8 +190,11 @@ a captura de chat inclui texto + imagem.
 
 [PR #8](https://github.com/ericjs-code/JoinUp-POO/pull/8) permanece aberto, sem
 merge. A consulta de reviews retornou lista vazia; auditoria técnica do Tech Lead
-continua pendente. O commit subsequente registra somente documentação/evidências;
-o CI da cabeça documental final será conferido também, sem alterar código.
+continua pendente. A reexecução documental revelou a condição de transporte descrita acima;
+a correção limitada de RequestBody está em nova validação completa. Os runs
+verdes anteriores permanecem evidências históricas, sem substituir o gate do
+código corrigido. A evidência final será acrescentada à descrição do PR e
+conferida antes de devolver a entrega.
 
 ## Limites e pendências explícitas
 

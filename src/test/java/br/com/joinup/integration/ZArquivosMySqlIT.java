@@ -137,19 +137,14 @@ class ZArquivosMySqlIT extends MySql05Fixture {
     }
     @ParameterizedTest @ValueSource(strings={"false","true"}) void limiteMesmoEmChunked(String chunked) throws Exception {
         long e=evento(co);status(413,upload(e,"evento",co,"a.png","image/png",new byte[1048577],"","self",Boolean.parseBoolean(chunked)));
-        if(Boolean.parseBoolean(chunked)) status(413,upload(e,"evento",co,"a.png","image/png",new byte[MultipartImagem.MAX_CORPO+1],"","self",true));
-        else {
-            // Excesso declarado é recusado antes de ler o corpo: verificar resposta sem
-            // HttpClient continuar escrevendo 1 MiB depois do 413 e provocar TCP reset.
-            try(var socket=new Socket("127.0.0.1",app.getPortaHttp())) {
-                socket.setSoTimeout(5000);
-                String headers="POST /api/arquivos HTTP/1.1\r\nHost: 127.0.0.1:"+app.getPortaHttp()+"\r\nContent-Type: multipart/form-data; boundary=JoinUp06\r\nContent-Length: "+(MultipartImagem.MAX_CORPO+1)+"\r\nOrigin: "+base+"\r\nCookie: "+co+"\r\nConnection: close\r\n\r\n";
-                socket.getOutputStream().write(headers.getBytes(StandardCharsets.US_ASCII));socket.getOutputStream().flush();socket.shutdownOutput();
-                var reader=new java.io.BufferedReader(new java.io.InputStreamReader(socket.getInputStream(),StandardCharsets.US_ASCII));
-                assertTrue(reader.readLine().contains("413"));
-            }
+        status(413,upload(e,"evento",co,"a.png","image/png",new byte[MultipartImagem.MAX_CORPO+1],"","self",Boolean.parseBoolean(chunked)));
+        byte[] jsonGrande=JSON.escrever(Map.of("descricao","x".repeat(65536)));
+        for(int tentativa=0;tentativa<5;tentativa++) {
+            var body=Boolean.parseBoolean(chunked)?HttpRequest.BodyPublishers.ofInputStream(()->new java.io.ByteArrayInputStream(jsonGrande)):HttpRequest.BodyPublishers.ofByteArray(jsonGrande);
+            var q=HttpRequest.newBuilder(URI.create(base+"/api/organizador/eventos/"+e)).header("Content-Type","application/json").header("Cookie",co).header("Origin",base).method("PATCH",body);
+            status(413,client.send(q.build(),HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8)));
         }
-        status(413,pedir("PATCH","/api/organizador/eventos/"+e,Map.of("descricao","x".repeat(65536)),co));
+        status(200,pedir("GET","/api/eventos/"+e,null,null));
     }
     @Test void csrfAntesDePersistirEAnonimoBloqueado() throws Exception {
         long e=evento(co);status(403,upload(e,"evento",co,"a.png","image/png",ImagemSeguraTest.png(),"","https://alheio.test",false));status(401,upload(e,"evento",null));
