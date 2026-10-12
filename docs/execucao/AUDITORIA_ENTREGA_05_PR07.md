@@ -10,7 +10,7 @@
 
 - PR #7: 39 arquivos alterados, 1.842 adições/13 remoções. Implementação em `suporte/`, `paineis/`, interface `painel.html`/`paineis.js`, integração no bootstrap, testes e documentação.
 - [CI do PR final, run 38194306803](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38194306803): **completed/success**, Java 21 + MySQL 8.4.0 e perfil `-Pmysql-it clean verify`; relatório `docs/execucao/ENTREGA_05_RESULTADOS.md` informa **397 testes** aprovados (149 Surefire + 248 Failsafe), sem falhas/erros/ignorados. 310 casos anteriores preservados; 13 unitários e 74 integrações novos: 63 suporte + 11 painéis.
-- O [run da `main` após merge, 38194687005](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38194687005) foi consultado e estava **in_progress** à hora desta auditoria; verificar sua conclusão antes do release final. Aprovação técnica se apoia no CI verde do PR final.
+- O [run da `main` após merge, 38194687005](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38194687005) **concluiu com sucesso**; conferência posterior confirmou `completed/success` após o merge do PR #7.
 - `SuporteMySqlIT` contém matriz de 16 ações/estados para participante e organizador, testes de IDOR, CSRF, texto inválido, conta inativa, autoria entre dois suportes, rollback com trigger e casos de concorrência com espera real de lock; `PaineisMySqlIT` cobre os três perfis, dados históricos, titularidade após revenda e métricas globais.
 
 ## 2. Achados conformes
@@ -49,6 +49,6 @@
 
 **Próxima execução prioritária:** `docs/prompts/CODEX_06_MIDIA_DEMO.md` — tratamento seguro de imagem (SOC-06 e eventos/perfis previstos), carga de demonstração idempotente opt-in (BD-02), e testes integrais desses fluxos. **Em paralelo** preparar documentação RA2 e planejar bateria end-to-end; não esperar o último commit para começar relatório/UML.
 
-**Gate:** exigir CI da main verde e depois PR da Entrega 06 sem merge automático; nova auditoria antes de integrar. Programar ensaio e congelamento de funcionalidades antes da entrega acadêmica de 15/10.
+**Gate:** CI pós-merge da main já confirmado verde; exigir PR da Entrega 06 sem merge automático; nova auditoria antes de integrar. Programar ensaio e congelamento de funcionalidades antes da entrega acadêmica de 15/10.
 
 **Não foi alterado código de produção nesta auditoria; esta página é o parecer de revisão.**
