@@ -1,8 +1,8 @@
 # Entrega 05 — Suporte e painéis: resultados para auditoria
 
-> Data: **11/10/2026**, America/Sao_Paulo.  
+> Data: **11/10/2026**, America/Sao_Paulo.
 > Branch: `feat/05-suporte-paineis`, criada da `main` atualizada em
-> **cdf4207**, após merge da correção 04.1 e auditoria do PR #6.  
+> **cdf4207**, após merge da correção 04.1 e auditoria do PR #6.
 > Situação: implementação e verificação local concluídas; **aguarda auditoria
 > do Tech Lead e aceite antes de qualquer merge**. O status remoto de CI será
 > registrado abaixo depois da abertura do PR.
