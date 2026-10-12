@@ -24,6 +24,16 @@ class ZDemoMySqlIT {
         assertNotEquals(ConfiguracaoSistema.getInstancia().getUrlJdbc(),url);
         try(var c=admin()) {
             assertTrue(escalar(c,"SELECT VERSION()").startsWith("8.4."));
+            assertEquals("joinup_it",System.getenv("JOINUP_DB_USER"));
+            // MYSQL_USER do container oficial começa com ALL no banco. Restringir
+            // a segunda instância pela administração, tal como a regressão original.
+            var hosts=new ArrayList<String>();
+            try(var s=c.createStatement();var r=s.executeQuery("SELECT host FROM mysql.user WHERE user='joinup_it' AND host IN('%','127.0.0.1')")){while(r.next())hosts.add(r.getString(1));}
+            assertFalse(hosts.isEmpty());
+            for(String host:hosts)try(var s=c.createStatement()) {
+                s.execute("REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'joinup_it'@'"+host+"'");
+                s.execute("GRANT SELECT,INSERT,UPDATE,DELETE ON joinup_poo.* TO 'joinup_it'@'"+host+"'");
+            }
             for(String recurso:List.of("schema_v0.2.sql","migration_06_midia_demo.sql"))try(var in=ZDemoMySqlIT.class.getResourceAsStream("/db/"+recurso)) {
                 for(String s:SqlDemo.separar(new String(Objects.requireNonNull(in).readAllBytes(),StandardCharsets.UTF_8)))try(var st=c.createStatement()){st.execute(s);}
             }
