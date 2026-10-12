@@ -57,7 +57,7 @@ Para **cada padrão utilizado**: problema específico de design no JoinUp, inten
 
 Para **cada padrão estudado e não utilizado**: apontar um cenário do JoinUp em que **poderia** servir, qual é o mecanismo que o código utiliza hoje, **por que a introdução do GoF agora não traz benefício proporcional**, e em que evolução seria reconsiderado.
 
-**Status: atendido na seção 3.5 do relatório para os 19 padrões não usados**, sujeito à revisão da equipe sobre as explicações técnicas. Exemplo contextual (**não prova que esses padrões foram estudados**): *Strategy* para provedores de pagamento — só há simulação local; criar hierarquia de estratégias sem algoritmos distintos seria decorativo. *Observer* para notificações reais — a plataforma não publica eventos assíncronos/integrações; risco de infraestrutura desnecessária. *State* para tickets — enum `StatusTicket` com transições centralizadas é suficiente para quatro estados e poucas ações; classes por estado acrescentariam custo sem novos comportamentos de objetos. A lista final dependerá da cobertura curricular real.
+**Status: coberto documentalmente no §3.5 do relatório para os 19 padrões não utilizados**, em três tabelas correspondentes às categorias da disciplina. A equipe deve validar a fundamentação técnica de cada justificativa na arguição, especialmente os casos discutíveis de *Strategy* (pagamento ainda simulado), *Observer* (ausência de distribuição real de eventos/notificações) e *State* (matriz pequena de transições já centralizada em `StatusTicket`). **A lista dos 23 padrões estudados já foi confirmada pelo PO e pelos slides fornecidos.**
 
 ## 5. Não alterar sem aprovação funcional
 
