@@ -1,0 +1,116 @@
+[
+  {
+    "execucao": "http-p0",
+    "falhaRoteiro": {
+      "sha": "011ecb2dcdd8f9457d2e1c5eeceb00edee018ffd",
+      "falha": "Falhou: P POST /api/arquivos HTTP 201 (observado 400)",
+      "fim": "2026-10-12T10:57:51.0668234-03:00",
+      "caso": "V23-V25-V26-V29",
+      "resultado": "REPROVADO",
+      "checks": 107
+    },
+    "ultimaRequisicao": {
+      "resposta": {
+        "erro": {
+          "mensagem": "Use contexto, alvoId e um arquivo PNG/JPEG/WebP válido",
+          "detalhes": {},
+          "codigo": "MULTIPART_INVALIDO"
+        }
+      },
+      "cookie": null,
+      "instante": "2026-10-12T10:57:51.0347457-03:00",
+      "path": "/api/arquivos",
+      "ator": "P",
+      "http": 400,
+      "caso": "V23-V25-V26-V29",
+      "esperado": 201,
+      "metodo": "POST",
+      "sha": "011ecb2dcdd8f9457d2e1c5eeceb00edee018ffd"
+    },
+    "classificacao": "Erro do roteiro de teste; ver relatório para diagnóstico/correção"
+  },
+  {
+    "execucao": "http-final",
+    "falhaRoteiro": {
+      "resultado": "REPROVADO",
+      "caso": "V37-V39",
+      "checks": 240,
+      "falha": "Falhou: P GET /api/participante/painel?id=1 HTTP 400 (observado 200)",
+      "sha": "011ecb2dcdd8f9457d2e1c5eeceb00edee018ffd",
+      "fim": "2026-10-12T10:59:57.4054869-03:00"
+    },
+    "ultimaRequisicao": {
+      "esperado": 400,
+      "instante": "2026-10-12T10:59:57.3728887-03:00",
+      "sha": "011ecb2dcdd8f9457d2e1c5eeceb00edee018ffd",
+      "cookie": null,
+      "ator": "P",
+      "metodo": "GET",
+      "http": 200,
+      "caso": "V37-V39",
+      "path": "/api/participante/painel?id=1",
+      "resposta": {
+        "dados": {
+          "perfil": "PARTICIPANTE",
+          "consultadoEm": "2026-10-12T13:59:57.364966600Z",
+          "indicadores": {
+            "ingressos": 0,
+            "proximosIngressos": 0,
+            "proximosEventos": 0,
+            "comprasConfirmadas": 1,
+            "valorHistoricoCompras": 25.5,
+            "anunciosDisponiveis": 0,
+            "anunciosVendidos": 1,
+            "anunciosCancelados": 1,
+            "comunidadesAcessiveis": 0
+          },
+          "chamadosPorStatus": {
+            "aberto": 0,
+            "em_atendimento": 0,
+            "aguardando_usuario": 0,
+            "fechado": 1
+          },
+          "eventos": []
+        }
+      }
+    },
+    "classificacao": "Erro do roteiro de teste; ver relatório para diagnóstico/correção"
+  },
+  {
+    "execucao": "http-homologada",
+    "falhaRoteiro": {
+      "resultado": "REPROVADO",
+      "falha": "Falhou: P POST /api/chamados HTTP 403 (observado 201)",
+      "checks": 243,
+      "caso": "V37-V39",
+      "sha": "011ecb2dcdd8f9457d2e1c5eeceb00edee018ffd",
+      "fim": "2026-10-12T11:00:45.333859-03:00"
+    },
+    "ultimaRequisicao": {
+      "esperado": 403,
+      "cookie": null,
+      "sha": "011ecb2dcdd8f9457d2e1c5eeceb00edee018ffd",
+      "path": "/api/chamados",
+      "http": 201,
+      "caso": "V37-V39",
+      "instante": "2026-10-12T11:00:45.3017992-03:00",
+      "metodo": "POST",
+      "ator": "P",
+      "resposta": {
+        "dados": {
+          "id": 6,
+          "titulo": "Indevido",
+          "descricao": "Sem origem",
+          "status": "aberto",
+          "participanteId": 5,
+          "organizadorId": null,
+          "suporteId": null,
+          "criadoEm": "2026-10-12T14:00:45Z",
+          "atualizadoEm": "2026-10-12T14:00:45Z",
+          "fechadoEm": null
+        }
+      }
+    },
+    "classificacao": "Erro do roteiro de teste; ver relatório para diagnóstico/correção"
+  }
+]

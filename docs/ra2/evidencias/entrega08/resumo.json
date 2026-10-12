@@ -1,0 +1,20 @@
+{
+  "ticketParticipanteId": 4,
+  "participanteEmail": "p1791813715@joinup.test",
+  "fim": "2026-10-12T11:02:01.4045797-03:00",
+  "eventoId": 5,
+  "organizadorId": 4,
+  "postagemId": 3,
+  "sha": "011ecb2dcdd8f9457d2e1c5eeceb00edee018ffd",
+  "participanteId": 5,
+  "anuncioCanceladoId": 5,
+  "anuncioVendidoId": 6,
+  "ingressoId": 8,
+  "imagemSocial": "/api/arquivos/737b57007a6f42c7b917fe91bb0e336c",
+  "organizadorEmail": "o1791813715@joinup.test",
+  "comunidadeId": 5,
+  "ticketOrganizadorId": 5,
+  "checks": 258,
+  "resultado": "APROVADO",
+  "imagemEvento": "/api/arquivos/f61932c4827f437f8c07ce187e670040"
+}

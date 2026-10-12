@@ -1,0 +1,13 @@
+openjdk version "21.0.12.1" 2026-08-18 LTS
+OpenJDK Runtime Environment Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS)
+OpenJDK 64-Bit Server VM Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS, mixed mode, sharing)
+Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)
+Maven home: C:\Users\ericj\AppData\Local\JoinUp-POO\tools\apache-maven-3.9.9
+Java version: 21.0.12.1, vendor: Eclipse Adoptium, runtime: C:\Users\ericj\AppData\Local\JoinUp-POO\tools\jdk-21.0.12.1+1
+Default locale: pt_BR, platform encoding: UTF-8
+OS name: "windows 11", version: "10.0", arch: "amd64", family: "windows"
+JAR_SHA256=106B4E2CF437AB8594F4845214C4FE0B1BACAFE5F3B4773685EFB61754EB0BBD
+JAR_BYTES=7756460
+Demo MySQL=3315; I=3311/3312; HTTP=127.0.0.1:8080; navegador Codex desktop=1265x713; viewport móvel=390x844
+runtime_diff_from_7efe29c=0
+SCRIPT_SHA256=9A9B304BA27FC6A2C32785A29FB26B05C326D129FED4CA673F8995CC45055EB6

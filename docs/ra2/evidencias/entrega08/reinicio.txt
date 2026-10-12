@@ -1,0 +1,10 @@
+SHA=011ecb2dcdd8f9457d2e1c5eeceb00edee018ffd
+Instante=2026-10-12T11:11:10.3139681-03:00
+MySQL=8.4.0 loopback 3315; Java=21.0.12.1
+Snapshot completo das 24 tabelas antes=2351C5B3657E6BEE1672962869CA02E7E97B74BF811F7918D3215B05F6E81FA9
+Snapshot completo das 24 tabelas depois=2351C5B3657E6BEE1672962869CA02E7E97B74BF811F7918D3215B05F6E81FA9
+Snapshot idêntico; conteúdo SQL e hashes de autenticação não publicados.
+Arquivos antes/depois idênticos=True; quantidade=10
+Imagem evento após upload UI=/api/arquivos/34c1c72ea9bd49b8b8826eebd3f3d905 HTTP=200
+Imagem social com Carla HTTP=200; visitante HTTP=401
+Resultado=APROVADO

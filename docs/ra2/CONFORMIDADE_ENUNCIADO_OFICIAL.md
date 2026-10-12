@@ -9,7 +9,7 @@
 3. **Relatório: identificação/contexto, funcionalidades, cada padrão, análise dos demais GoF vistos em sala e reflexão/lições aprendidas (p. 2).** Antes desta revisão, o relatório detalhava bem os quatro utilizados, mas `§3.5` tinha justificativa genérica para os não utilizados e `§8` era conclusão sem reflexão específica. São lacunas acadêmicas a corrigir.
 4. **Código completo executável + instruções (p. 2)**. Não basta citar padrões no UML/relatório; devem aparecer e atuar nos fluxos de produção. Repositório contém Java 21/JDBC/HttpServer e quatro padrões exercitados por testes; validar instalação limpa e demo real da mesma versão.
 5. **Arguição coletiva (p. 2)**: a professora pode perguntar aleatoriamente sobre qualquer módulo/padrão para **qualquer integrante**. Todos precisam compreender o sistema como um todo; dividir apresentações por módulo sem estudo cruzado não basta.
-6. **Equipe: até 6 estudantes na instrução de formato da p. 1; “Equipe: 6 estudantes” no cronograma da p. 3.** Confirmar seis integrantes e seus nomes para o relatório; não os deduzir do GitHub.
+6. **Equipe: até 6 estudantes na instrução de formato da p. 1; “Equipe: 6 estudantes” no cronograma da p. 3.** PO informou cinco integrantes em 12/10/2026, registrados no relatório. Confirmar o formato diante dessa diferença do enunciado; não deduzir nomes do GitHub nem inventar sexto integrante.
 7. **Cronograma (p. 3)**: entrega em **15/10/2026**, apresentação em **16/10/2026**. O enunciado não fixa duração em minutos; roteiro atual de 13 min é **proposta**, a confirmar com a professora.
 
 ## 2. Critérios e pesos oficiais (p. 2–3)
@@ -19,8 +19,8 @@
 | Aplicação de padrões GoF: quantidade, pertinência, qualidade, classes e responsabilidades | **4,0** | Quatro padrões reais presentes; argumentar escolha e não adoção dos outros estudados. Mínimo não assegura 4,0. |
 | Diagrama de classes completo/coerente | **1,0** | PR #9 publicou UML integral e visão resumida; sincronizar com código entregue. |
 | Relatório e justificativas técnicas | **1,0** | Complementar aplicabilidade dos padrões não usados e reflexão; inserir identificação da equipe. |
-| Código-fonte e qualidade da implementação | **2,0** | CI MySQL real reportou 468 testes; falta homologação E2E de release/instalação nova. |
-| Apresentação, arguição e domínio técnico coletivo | **2,0** | Ensaiar com todos os seis estudantes, perguntas aleatórias, mapa mental dos quatro GoF e fluxo completo. |
+| Código-fonte e qualidade da implementação | **2,0** | Entrega 08 executou instalação nova, 468 testes locais MySQL, HTTP com cookies independentes e sanidade visual; [evidências/limites](RELATORIO_HOMOLOGACAO_FINAL.md). |
+| Apresentação, arguição e domínio técnico coletivo | **2,0** | Ensaiar com todos os integrantes confirmados, perguntas aleatórias, mapa mental dos quatro GoF e fluxo completo. PO informou cinco integrantes; confirmar o formato “até seis”/“seis” do enunciado. |
 | **Total** | **10,0** | Pontos são rubrica oficial, **não nota estimada**. |
 
 ## 3. Gap assessment e ordem prática
@@ -30,9 +30,9 @@
 | RA2-01 | **P0** | Enunciado anteriormente interpretado como “exatamente quatro”; necessário “no mínimo quatro” | Corrigir terminologia nos materiais ativos e preservar justificativa de pertinência; não impor quinto padrão. |
 | RA2-02 | **RESOLVIDO DOCUMENTALMENTE** | O PO forneceu *Padrões de Projetos GoF — Introdução*: slide 12 lista os 23 GoF, slides 13–18 detalham por categoria, e confirmou que todos foram estudados | O relatório §3.5 agora analisa contextualizadamente os **19 padrões não utilizados**, sem criar novas implementações artificiais. |
 | RA2-03 | **RESOLVIDO DOCUMENTALMENTE, A REVISAR PELA EQUIPE** | O relatório §3.5 cobre os 19 GoF restantes e o §8 inclui dificuldades, decisões e lições documentadas | Revisar com a experiência efetiva dos integrantes e conferir aderência final ao código. |
-| RA2-04 | **P0** | Identificação da equipe não preenchida | Informar equipe, integrantes, instituição, turma e professora; conferir os seis participantes exigidos no cronograma. |
+| RA2-04 | **IDENTIFICAÇÃO PREENCHIDA; FORMATO A CONFIRMAR** | PO informou cinco integrantes, PUCPR, turma 4A noite, docente Andeza de Sousa Vieira em 12/10/2026 | Nomes no relatório técnico; confirmar formato diante de “até seis” na p. 1 e “seis” na p. 3, sem inventar sexto nome. |
 | RA2-05 | **P0** | Arguição coletiva pode comprometer até 2,0 | Todos ensaiam perguntas fora de seus módulos; documentar perguntas e respostas, rodízio aleatório. |
-| RA2-06 | **P0** | Matriz de 45 casos ainda sem ensaio final executado | Executar no ambiente limpo; registrar status real e evidência; priorizar P0 do Prompt 08. |
+| RA2-06 | **P0; HOMOLOGAÇÃO TÉCNICA PARCIAL** | Entrega 08: 42 casos executados/aprovados, principalmente automáticos; V26/V44/V45 sem execução integral | Consultar matriz/registro atual; completar fallback de compartilhamento, acessibilidade e ensaio coletivo. Não equiparar testes automáticos a arguição. |
 | RA2-07 | **P1** | Tempo de apresentação não informado pelo enunciado | Confirmar com professora; adequar 13 minutos propostos. |
 | RA2-08 | **P1** | Atualização do diagrama/relatório depois de correções de release | Revisar assinaturas GoF, refs Git e gerar SVG da versão final se código mudou. |
 

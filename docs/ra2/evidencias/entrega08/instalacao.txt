@@ -1,0 +1,13 @@
+Warning (Code 1681): Integer display width is deprecated and will be removed in a future release.
+Warning (Code 1681): Integer display width is deprecated and will be removed in a future release.
+Warning (Code 1681): Integer display width is deprecated and will be removed in a future release.
+Warning (Code 1681): Integer display width is deprecated and will be removed in a future release.
+VERSION()
+8.4.0
+Grants for joinup_it@127.0.0.1
+GRANT USAGE ON *.* TO `joinup_it`@`127.0.0.1`
+GRANT SELECT, INSERT, UPDATE, DELETE ON `joinup_poo`.* TO `joinup_it`@`127.0.0.1`
+participantes_antes_boot
+0
+tabelas
+24
