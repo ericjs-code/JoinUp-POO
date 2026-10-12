@@ -1,0 +1,41 @@
+Consulta em 12/10/2026 (America/Sao_Paulo).
+Commit: 7efe29c1529a71e3c1a82a52716a5a32947a61fe (main após PR #8).
+Run: https://github.com/ericjs-code/JoinUp-POO/actions/runs/38247779976
+Job: 114805929131, verificar, completed/success.
+Origem: API GitHub Actions + logs efetivos do job, consultados nesta frente.
+Extrato de ambiente, comando, totais e conclusão; não contém credenciais.
+2026-10-12T12:14:30.6170462Z ##[command]/usr/bin/docker pull mysql:8.4.0
+2026-10-12T12:14:41.4601940Z Status: Downloaded newer image for mysql:8.4.0
+2026-10-12T12:14:41.4610753Z docker.io/library/mysql:8.4.0
+2026-10-12T12:14:41.7573866Z ##[command]/usr/bin/docker pull mysql:8.4.0
+2026-10-12T12:14:41.9165555Z Status: Image is up to date for mysql:8.4.0
+2026-10-12T12:14:41.9166551Z docker.io/library/mysql:8.4.0
+2026-10-12T12:14:58.1473765Z ##[group]Run mvn --batch-mode --no-transfer-progress -Pmysql-it clean verify
+2026-10-12T12:14:58.1474409Z mvn --batch-mode --no-transfer-progress -Pmysql-it clean verify
+2026-10-12T12:14:58.1686806Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64
+2026-10-12T12:15:15.1269778Z [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.080 s -- in br.com.joinup.shared.db.SeedDemoPasswordTest
+2026-10-12T12:15:17.1151810Z [INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.993 s -- in br.com.joinup.http.RouterParametersTest
+2026-10-12T12:15:17.8413964Z [INFO] Tests run: 33, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.724 s -- in br.com.joinup.http.HttpFoundationTest
+2026-10-12T12:15:17.8868506Z [INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.050 s -- in br.com.joinup.compras.ValidacaoComercioTest
+2026-10-12T12:15:19.7272197Z [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.836 s -- in br.com.joinup.bootstrap.ApplicationBootstrapTest
+2026-10-12T12:15:19.7341387Z [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s -- in br.com.joinup.demo.SqlDemoTest
+2026-10-12T12:15:20.6726175Z [INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.945 s -- in br.com.joinup.auth.AuthenticationSecurityTest
+2026-10-12T12:15:21.1064454Z [INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.433 s -- in br.com.joinup.config.ConfiguracaoSistemaTest
+2026-10-12T12:15:21.5667907Z [INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.458 s -- in br.com.joinup.arquivos.ImagemSeguraTest
+2026-10-12T12:15:21.6012129Z [INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 s -- in br.com.joinup.suporte.StatusTicketTest
+2026-10-12T12:15:21.6193727Z [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in br.com.joinup.eventos.facade.EventoFacadeTest
+2026-10-12T12:15:21.6402937Z [INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s -- in br.com.joinup.eventos.ValidacaoEventoTest
+2026-10-12T12:15:21.6529281Z [INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in br.com.joinup.comunidades.ComunidadeSocialTest
+2026-10-12T12:15:21.6688260Z [INFO] Tests run: 167, Failures: 0, Errors: 0, Skipped: 0
+2026-10-12T12:16:07.4912958Z [INFO] Tests run: 63, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 42.71 s -- in br.com.joinup.integration.ComercioMySqlIT
+2026-10-12T12:16:46.9088502Z [INFO] Tests run: 65, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 39.42 s -- in br.com.joinup.integration.ComunidadeMySqlIT
+2026-10-12T12:17:16.0501422Z [INFO] Tests run: 46, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 29.15 s -- in br.com.joinup.integration.MySqlIntegrationIT
+2026-10-12T12:17:27.7298205Z [INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.68 s -- in br.com.joinup.integration.PaineisMySqlIT
+2026-10-12T12:18:13.7432902Z [INFO] Tests run: 63, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 46.01 s -- in br.com.joinup.integration.SuporteMySqlIT
+2026-10-12T12:18:52.6671951Z [INFO] Tests run: 45, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 38.93 s -- in br.com.joinup.integration.ZArquivosMySqlIT
+2026-10-12T12:19:00.8218148Z [INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.152 s -- in br.com.joinup.integration.ZDemoMySqlIT
+2026-10-12T12:19:00.8545417Z [INFO] Tests run: 301, Failures: 0, Errors: 0, Skipped: 0
+2026-10-12T12:19:01.4949370Z [INFO] BUILD SUCCESS
+2026-10-12T12:19:01.4951743Z [INFO] Total time:  03:59 min
+2026-10-12T12:19:01.4953635Z [INFO] Finished at: 2026-10-12T12:19:01Z
+2026-10-12T12:19:01.5280794Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/21.0.12-1/x64

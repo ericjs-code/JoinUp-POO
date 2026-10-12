@@ -1,5 +1,5 @@
 @startuml
-title JoinUp-POO — Quatro GoF implementados nas Entregas 00/01/02
+title JoinUp-POO — Quatro GoF / conferência RA2 na main 7efe29c (pós-06)
 skinparam shadowing false
 skinparam classAttributeIconSize 0
 hide empty members
@@ -62,7 +62,7 @@ package "Template Method — Login" {
   abstract class AutenticacaoTemplate <<AbstractClass>> {
     +{final} autenticar(credenciais: Credenciais): SessaoEmitida
     #buscarUsuario(conexao: Connection, email: String): Usuario
-    #validarRegraDoPerfil(usuario): void
+    #validarRegraDoPerfil(usuario: Usuario): void
   }
   class AutenticacaoParticipante <<ConcreteClass>>
   class AutenticacaoOrganizador <<ConcreteClass>>
@@ -83,16 +83,19 @@ package "Template Method — Login" {
 
 package "Factory Method — Cadastro" {
   abstract class Usuario <<Product>> {
-    +id: Long
-    +email: String
-    +ativo: boolean
+    -id: long
+    -email: String
+    -ativo: boolean
+    +id(): long
+    +email(): String
+    +ativo(): boolean
   }
   class Participante <<ConcreteProduct>>
   class Organizador <<ConcreteProduct>>
   class UsuarioSuporte <<ConcreteProduct>>
   abstract class CadastroUsuarioCreator <<Creator>> {
     +{final} cadastrar(dados: CadastroDados, tokenOperador: String): Usuario
-    #criarUsuario(dados: CadastroDados, hashSenha: String): Usuario
+    #{abstract} criarUsuario(dados: CadastroDados, hashSenha: String): Usuario
   }
   class CadastroParticipanteCreator <<ConcreteCreator>>
   class CadastroOrganizadorCreator <<ConcreteCreator>>
@@ -125,7 +128,9 @@ package "Singleton — Configuração" {
     +isModoDemo(): boolean
   }
   class ApplicationBootstrap
-  ApplicationBootstrap ..> ConfiguracaoSistema : obtém única instância
+  class Main
+  Main ..> ConfiguracaoSistema : obtém única instância
+  ApplicationBootstrap ..> ConfiguracaoSistema : consome configuração recebida
 }
 
 note bottom of CadastroSuporteCreator

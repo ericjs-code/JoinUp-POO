@@ -1,0 +1,21 @@
+{
+  "types": 123,
+  "sources": 117,
+  "local_links": 155,
+  "literal_snippets": 5,
+  "test_method_references": 26,
+  "planned_cases": 45,
+  "sql_static": {
+    "migration_06_midia_demo.sql": {
+      "tables": 2,
+      "foreign_keys": 6,
+      "checks": 4
+    },
+    "schema_v0.2.sql": {
+      "tables": 22,
+      "foreign_keys": 42,
+      "checks": 15
+    }
+  },
+  "failures": []
+}
