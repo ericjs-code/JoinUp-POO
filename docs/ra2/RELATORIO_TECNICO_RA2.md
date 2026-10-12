@@ -146,9 +146,23 @@ Fonte S5: [EventoFacade.java](../../src/main/java/br/com/joinup/eventos/facade/E
 
 **Alternativa não adotada:** encadear quatro chamadas HTTP ou inserir todas as tabelas no handler aumentaria acoplamento e permitiria estado parcial. Um serviço de aplicação com outra nomenclatura poderia executar a mesma coordenação; a justificativa GoF está na interface simplificada e nos subsistemas independentes, não no sufixo do nome.
 
-### 3.5 Padrões não reivindicados
+### 3.5 Análise de aplicabilidade dos padrões GoF não adotados
 
-Não há necessidade demonstrada de aplicar os outros GoF só para aumentar a lista. Exemplos de alternativas discutidas acima servem como comparação técnica, não como implementação adicional. O conjunto efetivamente estudado em sala não está integralmente disponível; confirmar PEN-11 com professor/equipe antes de exigir análise de todos os 23. A seleção aprovada permanece exatamente quatro (S1).
+**Critério oficial (RA2, seção 4.4):** apresentar **todos os demais padrões efetivamente estudados em sala** e justificar objetivamente a não aplicação com base no contexto do JoinUp-POO. **A lista da disciplina ainda não foi fornecida à equipe de documentação.** A tabela a seguir é uma análise técnica preliminar de alternativas GoF relevantes; **não afirma que todos esses padrões foram ensinados**. A equipe deve confrontá-la com os slides/aulas e acrescentar qualquer padrão estudado que esteja ausente antes de entregar o relatório. O enunciado exige **no mínimo quatro GoF**, não exatamente quatro; a decisão atual de implementar quatro não impede um quinto, mas a aplicação artificial é penalizável.
+
+| Padrão GoF alternativo | Possível aplicação no JoinUp | Por que não foi adotado no produto efetivo | Quando reconsiderar |
+| --- | --- | --- | --- |
+| **Strategy** | Alternar algoritmos/provedores para efetivar o pagamento de ingressos | Compras e revendas têm **pagamento local simulado**, sem vários algoritmos reais para intercambiar; subclasses vazias seriam decorativas | Se surgir mais de um meio de pagamento com regras distintas |
+| **Observer** | Notificar atores quando uma compra ou resposta de suporte ocorrer | Notificações são demonstrativas e não há subsistema assíncrono de subscrição/entrega; adicionar observadores complicaria a consistência do commit JDBC | Com notificações reais, eventos de domínio e consumidores múltiplos |
+| **State** | Encapsular por classe as transições de tickets `aberto`, `em_atendimento`, `aguardando_usuario` e `fechado` | `StatusTicket` já centraliza regras finitas e testadas de transição; objetos por estado acrescentariam classes sem variação de comportamento proporcional | Com fluxos de atendimento mais complexos e lógica extensa por estado |
+| **Abstract Factory** | Criar famílias relacionadas de cadastro/autenticação/repositório por perfil | No caso atual, o ponto relevante de variabilidade é a **criação de usuário**, atendida por Factory Method; não há famílias independentes de múltiplos produtos trocadas em conjunto | Se produtos/serviços correlacionados fossem instanciados por configuração de cada perfil |
+| **Builder** | Montar solicitações de eventos com artistas, ingressos e dados opcionais | Dados de requisição são DTOs/records; validação e transação ficam em serviços/Facade. Uma montagem incremental fluente não reduziria complexidade do caso | Com formulários altamente configuráveis e muitos estados válidos de montagem |
+| **Adapter** | Integrar gateways de pagamento ou plataformas externas de eventos | Não há integração externa em produção; JDBC usa a interface padronizada e o Connector/J, sem necessidade de adaptador autoral extra | Ao conectar provedores com contratos incompatíveis com a API interna |
+| **Decorator** | Empilhar comportamentos opcionais de auditoria/cache em handlers HTTP | Segurança e erros possuem pontos fixos de verificação; decorar dinamicamente muitas combinações de comportamento não é exigido | Quando a composição dinâmica de filtros independentes se justificar por múltiplas rotas |
+| **Command** | Enfileirar compra, suporte ou ações reversíveis para execução posterior | As mutações atuais são HTTP/JDBC síncronas, exigem confirmação ou rollback imediato e **não** possuem fila/undo | Para processamento assíncrono confiável e histórico de execução de comandos |
+| **Proxy** | Mediar a leitura das imagens privadas da comunidade | `ArquivoService.ler` já faz verificação de sessão, elegibilidade e vínculo antes da leitura; criar proxy separado duplicaria a barreira sem abstração adicional útil | Com cache remoto, armazenamento externo ou acesso transparente por mais de uma origem |
+
+**Conclusão contextual:** esses padrões representam possibilidades, não um catálogo de padrões implementados ou estudados. As quatro aplicações concretas e comprovadas permanecem **Singleton, Factory Method, Template Method e Facade**. Ver [confronto com a rubrica oficial](CONFORMIDADE_ENUNCIADO_OFICIAL.md). **PENDENTE ACADÊMICO:** confirmar a lista real da disciplina e completar esta análise para cada padrão estudado, sem inventar conteúdo de aula.
 
 ## 4. Modelo MySQL e regras de consistência
 
@@ -246,13 +260,31 @@ A Entrega 06 já está integrada na base. A sincronização documental de códig
 | Mobile, acessibilidade assistiva, duração real de aula e E2E por três perfis | Planejados na matriz, não executados nesta frente |
 | Enunciado/equipe e parecer externo 06 | Confirmar documentos acadêmicos e auditoria; merge não comprova aceite técnico externo |
 
-## 8. Conclusão e evolução
+## 8. Reflexão e lições aprendidas
+
+A reflexão a seguir registra **dificuldades e mudanças técnicas documentadas nos PRs e nos relatórios de execução**. A equipe deverá revisá-la para acrescentar as experiências reais de seus integrantes, sem atribuir a alguém dificuldades que não tenha vivenciado.
+
+| Dificuldade evidenciada | Decisão/mudança realizada | Aprendizado de design |
+| --- | --- | --- |
+| MySQL rejeitou combinações de `CHECK`/ação referencial no DDL inicial | Correção compatível de FKs, sem descartar integridade ou histórico (Entrega 01) | Um esquema aparentemente correto precisa ser executado no SGBD real; restrições são parte do contrato do domínio |
+| Criação integrada de evento poderia deixar dados parciais após erro em lineup/categoria/comunidade | `EventoFacade` coordena serviços com uma só `Connection` e rollback atômico (Entrega 02) | Facade simplifica a entrada e permite preservar transação sem concentrar SQL em handler |
+| Compras e revendas concorrentes poderiam superar estoque ou transferir um ingresso duas vezes | Locks e revalidação sob JDBC, transações e testes de concorrência (Entrega 03) | Consultar o estado antes de bloquear a linha não substitui revalidação no instante de persistência |
+| A primeira entrega social tinha cobertura unitária sem MySQL e permitia risco de elegibilidade ultrapassada | Testes HTTP/MySQL reais, validação de resposta na mesma comunidade e locks coordenados com revenda (Correção 04.1) | Testes mockados e CI de regressão não comprovam a consistência de um módulo novo; regras entre módulos devem ser testadas juntas |
+| Upload de imagens e JSON acima do limite produziram falhas intermediárias de transporte HTTP 413 | Leitura limitada por rota, verificação de MIME/conteúdo, normalização para PNG e reexecução de testes do transporte (Entrega 06) | Restrições de segurança e transporte exigem testes com bytes reais, não apenas validação de cabeçalhos |
+| Um seed manual era difícil de reproduzir sem contaminar a apresentação | `DemoRunner` com opt-in local, base vazia, lock, marcador e idempotência sem reset (Entrega 06) | Reprodutibilidade e isolamento são atributos de qualidade; automação de demonstração deve ser deliberadamente segura |
+| UML e documentação poderiam divergir da implementação conforme novos módulos fossem incorporados | Inventário extraído de declarações Java, diagramas regenerados, evidências por SHA e revisão documental após PR #8 (Entrega 07) | O diagrama é artefato sincronizado com classes executáveis, não uma proposta arquitetural sem vínculo com o código |
+
+**Limitações reconhecidas:** a solução Java 21 puro facilita rastrear o fluxo HTTP e JDBC, mas implica implementação manual de roteamento, segurança e transações. Os quatro GoF melhoraram organização em pontos de variabilidade identificados, mas nenhum deles substitui testes de integração, disciplina transacional ou validação de permissões. O sistema não é certificado para produção e o ensaio RA2 final ainda deve ser registrado.
+
+**PENDENTE DA EQUIPE:** confirmar detalhes vivenciados durante programação, distribuição de responsabilidades e aprendizados individuais/coletivos para que esta seção represente a experiência dos estudantes — e não apenas inferências técnicas extraídas dos commits.
+
+## 9. Conclusão e evolução
 
 A implementação examinada oferece os quatro GoF em caminhos reais e separa os principais limites de permissão, estado e transação. O CI da base exercita HTTP/JDBC/MySQL e casos de concorrência/rollback; o relatório distingue essa prova automatizada do ensaio manual ainda pendente. Os entregáveis documentais tornam a modelagem e as justificativas revisáveis sem alterar a aplicação.
 
-Antes da entrega acadêmica: confirmar enunciado/identificação/duração, executar e registrar a matriz no commit final, ensaiar as duas sessões de participante e as duas contas de suporte, conferir SVG/UML e obter revisão externa. Evoluções possíveis incluem idempotência de mutações, consultas em lote, auditoria de transições se exigida e manutenção de arquivos. Essas evoluções não são funcionalidades já entregues.
+Antes da entrega acadêmica: confirmar identificação da equipe e lista de GoF ensinados, executar e registrar a matriz no commit final, ensaiar os participantes e suportes em contextos independentes, conferir SVG/UML e obter revisão externa. Evoluções possíveis incluem idempotência de mutações, consultas em lote, auditoria de transições se exigida e manutenção de arquivos. Essas evoluções não são funcionalidades já entregues.
 
-## 9. Fontes e convenção de rastreabilidade
+## 10. Fontes e convenção de rastreabilidade
 
 **Convenção:** todas as fontes S1–S10 abaixo são os caminhos no commit `7efe29c1529a71e3c1a82a52716a5a32947a61fe`. Assim, cada remissão Sx vincula alegação a caminho e revisão, sem depender da futura movimentação de `main`. [Árvore congelada](https://github.com/ericjs-code/JoinUp-POO/tree/7efe29c1529a71e3c1a82a52716a5a32947a61fe). S11 contém avaliações/resultados históricos com seus commits explicitados no texto e nos próprios documentos.
 
