@@ -82,6 +82,12 @@ public final class ApplicationBootstrap implements AutoCloseable {
         var comunidadeSocialRepo = new br.com.joinup.comunidades.repository.ComunidadeSocialRepositoryJdbc();
         var comunidadeSocialService = new br.com.joinup.comunidades.service.ComunidadeSocialService(transacoes, sessoes, comunidadeSocialRepo);
         new br.com.joinup.comunidades.http.ComunidadeRoutes(json, respostas, seguranca, contas, comunidadeSocialService).registrar(router);
+        new br.com.joinup.suporte.http.TicketRoutes(json, respostas, seguranca, contas,
+                new br.com.joinup.suporte.service.TicketService(transacoes, sessoes,
+                        new br.com.joinup.suporte.repository.TicketRepositoryJdbc())).registrar(router);
+        new br.com.joinup.paineis.http.PainelRoutes(respostas,
+                new br.com.joinup.paineis.service.PainelService(transacoes, sessoes,
+                        new br.com.joinup.paineis.repository.PainelRepositoryJdbc(), clock)).registrar(router);
         router.iniciar();
         int threads = configuracao.getThreadsHttp();
         executor = new ThreadPoolExecutor(threads, threads, 0, TimeUnit.MILLISECONDS,
