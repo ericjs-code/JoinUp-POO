@@ -5,6 +5,61 @@ Branch `docs/09-conformidade-aulas-uml`, criada de `main` atualizada no SHA
 **`80a36c457ec4e46865ee456f388cb607297c3811`**, após integração da Entrega 08
 pelo PR #10. PR documental para **auditoria técnica, sem merge**.
 
+## Revisão solicitada pelo Tech Lead no mesmo PR #11
+
+O [comentário de auditoria](https://github.com/ericjs-code/JoinUp-POO/pull/11#issuecomment-6127161117)
+foi lido integralmente. A revisão parte do head auditado
+`860492cc5b4eadee07adcb05dd9cd94c2e6cc189`; main/código continuam em `80a36c4`.
+O parecer solicitou aproximação didática aos slides, sem defeito funcional
+crítico ou alteração de cardinalidades. Este registro descreve as correções
+e suas novas evidências; os registros iniciais abaixo conservam seu contexto.
+
+| Pedido da auditoria | Correção / artefato para nova revisão |
+| --- | --- |
+| Pacotes com conteúdo, pastas e menos cruzamentos | Vista [PUML](DIAGRAMA_PACOTES.puml) / [SVG](DIAGRAMA_PACOTES.svg): **20 classes + 1 interface** dentro de nove pacotes Java reais, dez dependências selecionadas, notação de pasta e duas setas ACOP-01. Sem namespace artificial `http + auth + usuarios` |
+| Fonte completa como anexo | [Pacotes — PUML](DIAGRAMA_PACOTES_ANEXO.puml) / [SVG](DIAGRAMA_PACOTES_ANEXO.svg): 14 pacotes reais, **38 classes + 1 interface** representativas e **62 dependências agregadas**, todas confrontadas com jdeps. Consulta com zoom; a vista reduzida é a de apresentação |
+| Contrato real com interface fornecida e requerida | Vista [PUML](DIAGRAMA_COMPONENTES.puml) / [SVG](DIAGRAMA_COMPONENTES.svg): duas conexões **bola/encaixe**. SenhasPbkdf2 fornece VerificadorSenha e AutenticacaoTemplate requer; repositórios concretos fornecem UsuarioRepository por herança de UsuarioRepositoryJdbc, e CadastroUsuarioCreator requer |
+| Separar contexto HTTP da vista nuclear | [Componentes — anexo PUML](DIAGRAMA_COMPONENTES_ANEXO.puml) / [SVG](DIAGRAMA_COMPONENTES_ANEXO.svg): navegador/frontend/HTTP, seis áreas, JDBC/IO e ACOP-01. Consumo por dependência no contexto; fornecimento/requisição explícitos no recorte nuclear. Sem socket para chamada concreta |
+| Dispositivo, ambiente, software e artefato distintos | [Implantação](DIAGRAMA_IMPLANTACAO.svg): computador `<<device>>`, **Windows/JVM** `<<executionEnvironment>>`, navegador/JoinUp/MySQL como programas/serviço, JAR/HTML/CSS/JS/SQL/PNG/dados como artefatos. Um único host; sem caminho absoluto de teste; 3315 somente como configuração da homologação 08 |
+| Cardinalidades aceitas com identificação do escopo | Título/legenda: **visão conceitual da persistência**, não espelho dos campos Java. Dez associações, extremos e rótulos preservados integralmente do head auditado. O fragmento não substitui DIAGRAMA_CLASSES_GERAL.svg |
+
+As vinte classes adotam como referência didática a organização mostrada na
+atividade de pacotes, **sem tornar esse exercício um requisito obrigatório da
+RA2**. O UML geral de classes obrigatório, os quatro GoF e os 19 não adotados
+continuam preservados. O anexo de pacotes inclui todos os pares entre os 14
+agrupamentos do extrato jdeps; dependências internas continuam no UML geral.
+
+Verificação de elementos: o script confere cada caminho Java/namespace dos
+dois diagramas de pacotes, cada seta de pacote contra jdeps e igualdade das dez
+cardinalidades com o head auditado. O bytecode original continua aplicável:
+`git diff 860492c -- src pom.xml .github` é vazio; `mvn -q test` foi reexecutado
+após a revisão. Nenhuma alegação de classes/contratos novos foi acrescentada.
+
+A notação de conexão `-0)-` foi verificada na
+[referência oficial de sintaxe PlantUML](https://plantuml.com/deployment-diagram),
+e a notação de componentes na [documentação oficial](https://plantuml.com/component-diagram).
+A fonte pedagógica é a síntese dos slides no parecer do Tech Lead; não se
+afirma ter aberto PDFs indisponíveis. A bola está no fornecedor e o encaixe
+no consumidor; as assinaturas exibidas são operações reais dos contratos.
+
+**Evidências da revisão:** [validação de seis fontes, links e modelagem](evidencias/entrega09/revisao-auditoria/validacao-documental.txt),
+[inspeção visual](evidencias/entrega09/revisao-auditoria/inspecao-visual.md),
+[hashes dos seis pares](evidencias/entrega09/revisao-auditoria/sha256-diagramas.txt),
+[Maven local](evidencias/entrega09/revisao-auditoria/maven-test.txt) e
+[resumo dos 167 testes](evidencias/entrega09/revisao-auditoria/surefire-resumo.json).
+O resultado do CI será registrado no próprio PR vinculado ao novo head/run;
+o CI verde anterior não comprova o novo commit. Sem merge: pronto para nova
+auditoria somente após os gates de validação e CI, sem antecipar aprovação.
+
+Comando de revisão (preserva os logs iniciais):
+
+```powershell
+./docs/ra2/scripts/validar-uml09.ps1 -Java $taskJava -PlantUml $taskPlantuml `
+  -EvidenceDir docs/ra2/evidencias/entrega09/revisao-auditoria
+# -checkonly/-tsvg em quatro vistas + dois anexos, XML, elementos/arestas,
+# cardinalidades, links e escopo protegido; inspeção visual separada.
+```
+
 Foram lidos integralmente o [prompt 09](../prompts/CODEX_09_CONFORMIDADE_AULAS_UML.md)
 e a [auditoria das aulas](AUDITORIA_CONFORMIDADE_AULAS_12-10-2026.md).
 Confrontados enunciado, relatório, roteiro, matriz, diagramas anteriores,
@@ -36,13 +91,19 @@ indisponíveis nesta execução.
 
 | Conteúdo | Fonte e render | Alcance |
 | --- | --- | --- |
-| Pacotes, direção das dependências e baixo acoplamento | [PUML](DIAGRAMA_PACOTES.puml) / [SVG](DIAGRAMA_PACOTES.svg) | Dez nós de alto nível; '+' é agrupamento visual de namespaces reais; dependências selecionadas e ACOP-01 explícito |
-| Componentes e interfaces fornecidas/requeridas | [PUML](DIAGRAMA_COMPONENTES.puml) / [SVG](DIAGRAMA_COMPONENTES.svg) | Monólito com frontend, entrada HTTP, seis áreas de aplicação, persistência, contratos reais e IO privado |
-| Implantação, nós, ambientes, artefatos e protocolos | [PUML](DIAGRAMA_IMPLANTACAO.puml) / [SVG](DIAGRAMA_IMPLANTACAO.svg) | Mesmo dispositivo local; topologia efetiva D da 08: HTTP 8080, MySQL 8.4.0 em 3315, filesystem privado; README exemplifica 3306 |
+| Pacotes, direção das dependências e baixo acoplamento | [PUML](DIAGRAMA_PACOTES.puml) / [SVG](DIAGRAMA_PACOTES.svg) | Nove pastas reais contendo vinte classes e uma interface; dez setas selecionadas, ACOP-01 explícito e anexo completo |
+| Componentes e interfaces fornecidas/requeridas | [PUML](DIAGRAMA_COMPONENTES.puml) / [SVG](DIAGRAMA_COMPONENTES.svg) | Recorte nuclear com dois contratos Java em bola/encaixe; contexto HTTP e demais áreas no anexo |
+| Implantação, nós, ambientes, artefatos e protocolos | [PUML](DIAGRAMA_IMPLANTACAO.puml) / [SVG](DIAGRAMA_IMPLANTACAO.svg) | Um dispositivo; Windows/JVM ambientes, navegador/MySQL programas/serviço; JAR/recursos/dados/SQL/PNG artefatos; protocolos loopback |
 | Classes e multiplicidades da Aula01 | [PUML](DIAGRAMA_DOMINIO_CARDINALIDADES.puml) / [SVG](DIAGRAMA_DOMINIO_CARDINALIDADES.svg) | Fragmento de persistência, distinto das dependências de tipos do UML geral; tabelas sem classe marcadas `<<table>>` |
 | GoF / MVC | [relatório §3 e §7](RELATORIO_TECNICO_RA2.md) / [roteiro](ROTEIRO_APRESENTACAO.md) | Quatro GoF reais e 19 alternativas; camadas/MVC não contam como GoF; bloco UML opcional 45–75 s sem reduzir os dois minutos dos padrões |
 
-## Rastreabilidade das dependências de pacotes
+## Rastreabilidade inicial das dependências de pacotes (head 860492c)
+
+A tabela desta seção descreve a primeira vista de 25 setas, conservada como
+registro do head auditado. A revisão passou a pacotes reais com elementos e
+vista reduzida + anexo, como documentado acima; o extrato jdeps do código
+inalterado sustenta também todas as novas setas. As capturas/validação inicial
+não são apresentadas como prova visual dos renders revisados.
 
 Prefixo dos caminhos Java abaixo: `src/main/java/br/com/joinup/` na base
 `80a36c4`. Cada seta desenhada é consumidor → dependência, conferida no fonte
@@ -138,7 +199,7 @@ sem apagar histórico, outro elegível conserva acesso. O comprador entra
 manualmente. CASCADE da comunidade/filiação é ação referencial de banco, não
 composição Java ou endpoint de exclusão de evento aprovado.
 
-## Execução PlantUML, conferência e regressão
+## Execução inicial PlantUML, conferência e regressão (head 860492c)
 
 Ferramentas existentes no host: Temurin **21.0.12.1+1**, Maven **3.9.9**,
 PlantUML **1.2025.2** e Graphviz **2.44.1**. Não se adicionou dependência ao pom.

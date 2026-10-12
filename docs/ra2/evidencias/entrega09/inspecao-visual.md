@@ -1,5 +1,9 @@
 # Inspeção visual — Entrega 09
 
+**Registro histórico do primeiro head 860492c.** As capturas abaixo preservam
+a execução inicial; a revisão solicitada pelo Tech Lead tem
+[novas capturas e conferência](revisao-auditoria/inspecao-visual.md).
+
 12/10/2026, America/Sao_Paulo. Codex inspecionou individualmente os quatro SVGs
 gerados pelo PlantUML/Graphviz por rasterização Sharp e abertura dos PNGs em
 resolução nativa. Os PNGs abaixo são evidência da vista final, não substituem

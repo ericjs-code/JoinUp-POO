@@ -1,52 +1,37 @@
 @startuml
-title JoinUp-POO — Implantação local homologada na Entrega 08 / main 80a36c4
+title JoinUp-POO — Implantação: dispositivo, ambientes, programas e artefatos
 skinparam shadowing false
 skinparam backgroundColor white
 skinparam defaultFontName Arial
-skinparam defaultFontSize 14
-skinparam nodesep 35
-skinparam ranksep 45
+skinparam defaultFontSize 16
+skinparam nodesep 30
+skinparam ranksep 40
 left to right direction
-
-node "Dispositivo do aluno / host de demonstração\nMesmo computador Windows; todos os processos locais" as host <<device>> {
-  node "Navegador local" as browser <<executionEnvironment>> {
-    artifact "HTML / CSS / JS\ncarregados na mesma origem" as client <<recursos cliente>>
+node "Computador local do aluno" as host <<device>> {
+  node "Windows" as os <<executionEnvironment>> {
+    component "Navegador local" as browser <<programa>>
+    artifact "HTML / CSS / JS" as client <<recursos cliente>>
+    node "JVM Java 21" as jvm <<executionEnvironment>> {
+      artifact "joinup-poo.jar" as jar <<executable>>
+      component "JoinUp / HttpServer do JDK\n127.0.0.1:8080" as app <<programa em execução>>
+    }
+    component "MySQL 8.4.0\nserviço local" as mysql <<serviço em execução>>
+    artifact "joinup_poo\nbanco isolado" as db <<dados persistidos>>
+    artifact "{id}.png\npasta privada fora da webroot" as png <<file>>
+    artifact "schema_v0.2.sql\nmigration_06_midia_demo.sql" as ddl <<scripts administrativos>>
   }
-  node "JVM / Java 21" as jvm <<executionEnvironment>> {
-    artifact "joinup-poo.jar\nMain + bibliotecas + public/ + db/seed" as jar <<executable>>
-    component "HttpServer do JDK\n127.0.0.1:8080" as http <<runtime>>
-    jar ..> http : ApplicationBootstrap inicia
-  }
-  node "Processo MySQL 8.4.0\n127.0.0.1:3315 (demo D da 08)" as mysql <<executionEnvironment>> {
-    database "joinup_poo\n24 tabelas com a migração 06" as db
-  }
-  folder "Filesystem privado\n%LOCALAPPDATA%/JoinUp-POO/\nentrega08-011ecb2/uploads-demo-final\nfora do projeto e da webroot" as fs {
-    artifact "{id}.png\nimagens normalizadas" as png <<file>>
-  }
-  artifact "schema_v0.2.sql\n1º passo administrativo" as schema <<file>>
-  artifact "migration_06_midia_demo.sql\n2º passo administrativo" as migration <<file>>
 }
-
-browser --> http : HTTP / TCP loopback\nHTML, JSON, multipart, PNG
-jvm --> mysql : JDBC Connector/J / protocolo MySQL\nTCP loopback 127.0.0.1:3315 / conta DML
-jvm --> fs : java.nio.file.Files / IO local
-schema ..> db : administração aplica primeiro
-migration ..> db : administração aplica depois
-
-note bottom of jvm
-  JOINUP_ENV=demo + JOINUP_DEMO=true;
-  JDBC loopback e HTTP 127.0.0.1.
-  DemoRunner aplica seed empacotado só em base
-  elegível; marcador preserva dados no reinício.
-  A aplicação nunca executa DDL.
-end note
-
+browser ..> client : carrega / executa
+browser --> app : HTTP / TCP loopback
+jar ..> app : executado na JVM
+app --> mysql : JDBC / protocolo MySQL / TCP loopback
+mysql -- db : mantém
+app --> png : IO local / Files
+ddl ..> db : administração: schema -> migração
 legend bottom
-  Nó externo = dispositivo; nós internos = ambientes/processos; artefatos = arquivos executados/carregados.
-  Vista efetiva da homologação 08: RELATORIO_HOMOLOGACAO_FINAL.md, ambiente D (3315).
-  O README usa 3306 como configuração de instalação; não é uma segunda máquina/instância nesta vista.
-  Setas contínuas = protocolos/IO; tracejadas = início/aplicação administrativa de artefatos.
-  Uploads não são servidos como estáticos: ArquivoService autoriza a leitura via /api/arquivos/{id}.
-  CI usa outras instâncias isoladas e não integra esta topologia de demonstração.
+  <<device>> = host físico; <<executionEnvironment>> = Windows/JVM.
+  Componentes = programas/serviço em execução; artefatos = JAR, recursos, SQL, imagens e dados.
+  Todos no mesmo computador. 3315 foi a porta MySQL da homologação 08; README exemplifica 3306.
+  Seed elegível via DemoRunner (DML); schema/migração administrativos. CI pertence a outro ambiente.
 endlegend
 @enduml

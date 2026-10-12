@@ -1,5 +1,5 @@
 @startuml
-title JoinUp-POO — Cardinalidades do domínio persistido / main 80a36c4
+title JoinUp-POO — Visão conceitual da persistência: cardinalidades / main 80a36c4
 skinparam shadowing false
 skinparam backgroundColor white
 skinparam defaultFontName Arial
@@ -56,6 +56,8 @@ note bottom of Filiacao
 end note
 
 legend bottom
+  Visão conceitual do domínio persistido: mistura projeções Java e tabelas, não espelha campos Java.
+  Não substitui DIAGRAMA_CLASSES_GERAL.svg, UML de classes obrigatório da RA2.
   Associações sem navegação/diamantes: cardinalidades SQL, não referências entre objetos Java.
   '1' vem de FK NOT NULL; '0..*' não exige filhos; '0..1' soma FK e UNIQUE.
   Notas separam garantias de serviço (1..*) de limites SQL; não há ORM.

@@ -309,9 +309,9 @@ Cada visão responde a uma pergunta diferente:
 | --- | --- | --- |
 | Classes — Aula01, slides 7–19 | Tipos, visibilidade, herança, interfaces e dependências Java; o integral exige zoom | [geral SVG](DIAGRAMA_CLASSES_GERAL.svg) / [fonte](DIAGRAMA_CLASSES_GERAL.puml); [resumo SVG](VISAO_ARQUITETURA.svg) |
 | Cardinalidades — Aula01 | Relações do **domínio persistido** e opcionalidade verificadas por FK/NOT NULL/UNIQUE; notas distinguem invariantes dos serviços | [fragmento SVG](DIAGRAMA_DOMINIO_CARDINALIDADES.svg) / [fonte](DIAGRAMA_DOMINIO_CARDINALIDADES.puml) |
-| Pacotes — slides 14–19 | Agrupamento real e direção das dependências entre consumidores; destaca o ciclo ACOP-01 | [pacotes SVG](DIAGRAMA_PACOTES.svg) / [fonte](DIAGRAMA_PACOTES.puml) |
-| Componentes — slides 10–24 | Responsabilidades internas do monólito e contratos fornecidos/requeridos: HTTP, UsuarioRepository, VerificadorSenha e JDBC | [componentes SVG](DIAGRAMA_COMPONENTES.svg) / [fonte](DIAGRAMA_COMPONENTES.puml) |
-| Implantação — slides 4–13 | Um dispositivo local, processos/ambientes, JAR/recursos/SQL/PNG e HTTP/JDBC/TCP/IO; demo D da 08 em MySQL 3315 | [implantação SVG](DIAGRAMA_IMPLANTACAO.svg) / [fonte](DIAGRAMA_IMPLANTACAO.puml) |
+| Pacotes — slides 14–19 | Pastas contendo 20 classes + 1 interface reais e dez dependências selecionadas; destaca ACOP-01 | [pacotes SVG](DIAGRAMA_PACOTES.svg) / [fonte](DIAGRAMA_PACOTES.puml); [anexo completo](DIAGRAMA_PACOTES_ANEXO.svg) / [fonte](DIAGRAMA_PACOTES_ANEXO.puml) |
+| Componentes — slides 10–24 | Interfaces fornecidas/requeridas em bola/encaixe: SenhasPbkdf2 → VerificadorSenha → autenticação e repositórios → UsuarioRepository → cadastro | [componentes SVG](DIAGRAMA_COMPONENTES.svg) / [fonte](DIAGRAMA_COMPONENTES.puml); [contexto HTTP/módulos](DIAGRAMA_COMPONENTES_ANEXO.svg) / [fonte](DIAGRAMA_COMPONENTES_ANEXO.puml) |
+| Implantação — slides 4–13 | Um dispositivo local, Windows/JVM ambientes, navegador/JoinUp/MySQL programas/serviço, JAR/recursos/SQL/PNG/dados artefatos e protocolos HTTP/JDBC/TCP/IO | [implantação SVG](DIAGRAMA_IMPLANTACAO.svg) / [fonte](DIAGRAMA_IMPLANTACAO.puml) |
 | GoF — introdução slides 12–19, Facade e Singleton | Soluções de colaboração entre objetos; quatro implementados + 19 justificados no §3.5, rubrica **4+2+2+1+1** preservada | [fragmento GoF SVG](../diagramas/CLASSES_GOF_v0.1.svg) / [fonte](../diagramas/CLASSES_GOF_v0.1.puml); §3 deste relatório |
 
 O UML geral mostra relações entre **tipos Java**. O fragmento de cardinalidades
@@ -320,6 +320,9 @@ somente IDs ou não projeta a FK: `TipoIngresso` não possui `eventoId` e `Ingre
 não possui `compraId`. `compras` e `participante_comunidades` aparecem como
 `<<table>>`; não existem classes Java `Compra` ou `ParticipanteComunidade`.
 `CompraDados` é DTO de requisição. Nenhuma FK vira automaticamente composição.
+O fragmento está identificado como **visão conceitual da persistência** e não
+substitui o UML geral de classes obrigatório. Sua identificação foi reforçada
+após a auditoria do PR #11, preservando todas as dez associações verificadas.
 
 SQL permite evento com 0..1 comunidade, enquanto `EventoFacade.criarIntegrado`
 confirma uma comunidade e ao menos uma categoria na criação. SQL permite compra
@@ -336,6 +339,12 @@ o ambiente local realmente homologado: navegador no mesmo host, Java 21,
 HttpServer em 127.0.0.1:8080, MySQL 8.4.0 em 3315 e uploads privados. O README
 exemplifica 3306; o CI usa instâncias próprias e não integra essa vista.
 Schema e migração são administrativos; o runner só aplica DML do seed elegível.
+Após a auditoria didática do Tech Lead, a vista nuclear mostra bola no fornecedor
+e encaixe no consumidor em dois contratos reais; contexto HTTP e demais módulos
+ficaram no anexo. As implementações de UsuarioRepository são herdadas pelos
+três repositórios concretos de UsuarioRepositoryJdbc, e o consumidor exibido é
+CadastroUsuarioCreator. Na implantação, somente Windows/JVM recebem o estereótipo
+de ambiente de execução; navegador e MySQL são software no mesmo host físico.
 
 ### 7.2 ACOP-01 — acoplamento circular reconhecido
 

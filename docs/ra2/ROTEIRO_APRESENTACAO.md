@@ -80,16 +80,19 @@ deixar estes SVGs para a arguição.
 
 | Janela do bloco | Visual e fala sugerida |
 | --- | --- |
-| 0–15 s | [Pacotes](DIAGRAMA_PACOTES.svg) / [fonte](DIAGRAMA_PACOTES.puml): pacotes agrupam tipos e setas apontam para o pacote usado. ACOP-01 mostra social ↔ mídia; o bootstrap é composition root. |
-| 15–35 s | [Componentes](DIAGRAMA_COMPONENTES.svg) / [fonte](DIAGRAMA_COMPONENTES.puml): módulos no mesmo monólito; HTTP lógico, UsuarioRepository/VerificadorSenha Java e JDBC são contratos distintos. Não são novos GoF. |
-| 35–60 s | [Implantação](DIAGRAMA_IMPLANTACAO.svg) / [fonte](DIAGRAMA_IMPLANTACAO.puml): navegador/JVM/MySQL no mesmo host, HTTP loopback, JDBC/TCP, JAR e uploads privados; vista efetiva da 08 em 3315, instalação README em 3306. |
-| Até 75 s, se couber | [Cardinalidades](DIAGRAMA_DOMINIO_CARDINALIDADES.svg) / [fonte](DIAGRAMA_DOMINIO_CARDINALIDADES.puml): fragmento persistido, distinto do UML geral de tipos Java. Evento tem 0..1 comunidade no SQL; a Facade cria uma. compras é tabela, não classe Java Compra. |
+| 0–15 s | [Pacotes](DIAGRAMA_PACOTES.svg) / [fonte](DIAGRAMA_PACOTES.puml): pastas reais contêm vinte classes e uma interface; dez setas consumidor → pacote usado. Mostrar as duas setas ACOP-01; demais módulos no anexo. |
+| 15–35 s | [Componentes](DIAGRAMA_COMPONENTES.svg) / [fonte](DIAGRAMA_COMPONENTES.puml): bola no fornecedor SenhasPbkdf2, encaixe na autenticação que requer VerificadorSenha. Repositórios fornecem UsuarioRepository e cadastro requer. Ambos são contratos Java reais. |
+| 35–60 s | [Implantação](DIAGRAMA_IMPLANTACAO.svg) / [fonte](DIAGRAMA_IMPLANTACAO.puml): host físico, Windows/JVM ambientes, navegador/MySQL software, JAR/SQL/PNG artefatos. HTTP/JDBC loopback; 3315 foi somente a configuração da homologação 08. |
+| Até 75 s, se couber | [Cardinalidades](DIAGRAMA_DOMINIO_CARDINALIDADES.svg) / [fonte](DIAGRAMA_DOMINIO_CARDINALIDADES.puml): visão conceitual da persistência, não substitui UML geral. Evento tem 0..1 comunidade no SQL; a Facade cria uma. compras é tabela, não classe Java Compra. |
 
 Classes descrevem tipos/relacionamentos; pacotes descrevem agrupamento e direção;
 componentes descrevem contratos/módulos; implantação descreve nós/artefatos/
 protocolos; GoF descrevem colaboração entre objetos. Quatro implementados e
 19 justificados continuam os mesmos, sob rubrica **4+2+2+1+1**.
 Rastreabilidade e evidências: [validação 09](VALIDACAO_CONFORMIDADE_AULAS_UML.md).
+Anexos para consulta/zoom, fora do bloco de projeção:
+[pacotes completos](DIAGRAMA_PACOTES_ANEXO.svg) e
+[contexto de componentes/HTTP](DIAGRAMA_COMPONENTES_ANEXO.svg).
 
 ## Perguntas prováveis e respostas sustentadas
 
