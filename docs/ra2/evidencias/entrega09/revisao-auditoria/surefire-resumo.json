@@ -1,0 +1,102 @@
+{
+  "revisionBase": "860492cc5b4eadee07adcb05dd9cd94c2e6cc189",
+  "command": "mvn -q test",
+  "exitCode": 0,
+  "tests": 167.0,
+  "failures": 0.0,
+  "errors": 0.0,
+  "skipped": 0.0,
+  "suites": [
+    {
+      "name": "br.com.joinup.arquivos.ImagemSeguraTest",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "br.com.joinup.auth.AuthenticationSecurityTest",
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "br.com.joinup.bootstrap.ApplicationBootstrapTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "br.com.joinup.compras.ValidacaoComercioTest",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "br.com.joinup.comunidades.ComunidadeSocialTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "br.com.joinup.config.ConfiguracaoSistemaTest",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "br.com.joinup.demo.SqlDemoTest",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "br.com.joinup.eventos.facade.EventoFacadeTest",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "br.com.joinup.eventos.ValidacaoEventoTest",
+      "tests": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "br.com.joinup.http.HttpFoundationTest",
+      "tests": 33,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "br.com.joinup.http.RouterParametersTest",
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "br.com.joinup.shared.db.SeedDemoPasswordTest",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "br.com.joinup.suporte.StatusTicketTest",
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ]
+}

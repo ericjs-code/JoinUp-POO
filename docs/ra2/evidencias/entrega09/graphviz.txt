@@ -1,0 +1,2 @@
+Dot version: dot - graphviz version 2.44.1 (20200629.0846)
+Installation seems OK. File generation OK

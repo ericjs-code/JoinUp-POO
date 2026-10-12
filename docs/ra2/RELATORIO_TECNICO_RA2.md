@@ -26,6 +26,14 @@ novos (468 testes locais, HTTP, navegador e reinício) estão no
 distingue 42 casos executados, principalmente automáticos, de três casos sem
 execução integral. Identificação preenchida não comprova participação em ensaio.
 
+**Atualização da Entrega 09:** base documental `80a36c457ec4e46865ee456f388cb607297c3811`,
+`main` após PR #10 (Entrega 08), branch `docs/09-conformidade-aulas-uml`.
+As novas visões de pacotes, componentes, implantação e cardinalidades foram
+confrontadas com essa base. O código continua idêntico ao inventário da 07;
+Java, testes, SQL, frontend, `pom.xml` e workflow foram preservados. Comandos,
+rastreabilidade, inspeção visual e limites estão em
+[VALIDACAO_CONFORMIDADE_AULAS_UML.md](VALIDACAO_CONFORMIDADE_AULAS_UML.md).
+
 O **enunciado oficial RA2** (PDF de 3 páginas) e a apresentação **Padrões de Projetos GoF — Introdução** (22 slides) foram disponibilizados ao Tech Lead pelo PO em **12/10/2026**. O enunciado exige **no mínimo quatro GoF**, análise contextual de todos os demais padrões estudados, UML coerente, código executável, reflexão e arguição coletiva; a rubrica tem **4,0 pontos para GoF; 2,0 para código; 2,0 para apresentação; 1,0 para UML; 1,0 para relatório**. A apresentação da disciplina inclui os **23 padrões clássicos** (slides 12–19), conforme confirmação do PO, e este relatório analisa os **19 não usados** no §3.5. A duração da apresentação não está fixada no PDF; integrar nomes/equipe e confirmar tempo com a professora. Esta análise não garante pontuação; ver [confronto com os documentos oficiais](CONFORMIDADE_ENUNCIADO_OFICIAL.md).
 
 ## 1. Problema, objetivos e atores
@@ -283,13 +291,78 @@ Totais são resultados associados a revisões, não cobertura percentual de requ
 
 A auditoria cruzada PR4+PR5 identificou falta de integração social real, resposta entre comunidades e corrida de autorização. A Correção 04.1 adicionou prova HTTP/JDBC e locks; a mídia permaneceu pendente até 06. Isso demonstra por que um CI verde com testes antigos não atesta um módulo novo. A falha intermediária de 413 da 06 está registrada e foi corrigida, sem excluir o teste; usar evidência final, não os runs que falharam (S11).
 
-**Testes manuais históricos:** relatórios 03, 04.1, 05 e 06 contêm capturas/ambientes próprios. A sanidade 06 cobre post somente-imagem, chat com texto+imagem, upload de evento/catálogo, suporte e visitante após logout. `ERR_BLOCKED_BY_CLIENT` de navegação privada não é medição de status 401; esse status vem de teste HTTP. As capturas são sanidade desktop e não homologação móvel, leitor de tela ou roteiro integral RA2. A [matriz final](MATRIZ_VALIDACAO_FINAL.md) mantém seus casos como **NÃO EXECUTADO**, mesmo quando há evidência automatizada/histórica relacionada.
+**Testes manuais históricos:** relatórios 03, 04.1, 05 e 06 contêm capturas/ambientes próprios. A sanidade 06 cobre post somente-imagem, chat com texto+imagem, upload de evento/catálogo, suporte e visitante após logout. `ERR_BLOCKED_BY_CLIENT` de navegação privada não é medição de status 401; esse status vem de teste HTTP. As capturas são sanidade desktop e não homologação móvel, leitor de tela ou roteiro integral RA2. Na frente 07, a matriz tinha todos os casos **NÃO EXECUTADO**. A [matriz final atual](MATRIZ_VALIDACAO_FINAL.md) conserva a execução real da 08: 42 aprovados, principalmente automáticos; V26/V44/V45 sem execução integral. A Entrega 09 não modifica esses status.
 
 ## 7. UML, sincronização e limitações abertas
 
 O [diagrama integral](DIAGRAMA_CLASSES_GERAL.puml) representa **123 tipos nomeados em 117 fontes Java**, incluindo seis tipos internos. O [inventário](INVENTARIO_CLASSES.md) e seu [JSON de assinaturas](evidencias/INVENTARIO_JAVA_7efe29c.json) permitem conferência por arquivo/linha. A [visão resumida](VISAO_ARQUITETURA.puml) serve à apresentação; o [registro de validação](VALIDACAO_DOCUMENTAL.md) documenta geração, conferência e renderização. Campos que guardam objetos não recebem automaticamente diamante de composição; IDs SQL não viram grafo ORM. As multiplicidades publicadas são apenas as justificadas por coleções/FKs/contratos reais.
 
-A Entrega 06 já está integrada na base. A sincronização documental de código/mídia/demo foi feita a partir dessa main, mas ainda faltam validação manual integral, revisão acadêmica e identificação da equipe. O relatório 06 descreve o PR aberto no momento de sua autoria: esse texto é registro histórico, não o estado atual do PR #8. Não alterar README nem os registros históricos nesta frente.
+A Entrega 06 já está integrada e a 08 preencheu identificação e homologação técnica com ressalvas. Permanecem ensaio coletivo, revisão acadêmica, duração autorizada e V26/V44/V45. O relatório 06 descreve o PR aberto no momento de sua autoria: é registro histórico, não o estado atual do PR #8. O README foi corrigido na 08 e conferido na 09, sem nova edição. A auditoria das aulas também conserva seu baseline histórico; os novos resultados estão no registro da 09.
+
+### 7.1 Articulação entre os conteúdos estudados
+
+O enunciado RA2 exige **diagrama de classes**. Pacotes, componentes e implantação
+são complementos de estudo das aulas, não novos requisitos oficiais nem GoF.
+Cada visão responde a uma pergunta diferente:
+
+| Conteúdo / visão | O que explica no sistema | Artefato para consulta |
+| --- | --- | --- |
+| Classes — Aula01, slides 7–19 | Tipos, visibilidade, herança, interfaces e dependências Java; o integral exige zoom | [geral SVG](DIAGRAMA_CLASSES_GERAL.svg) / [fonte](DIAGRAMA_CLASSES_GERAL.puml); [resumo SVG](VISAO_ARQUITETURA.svg) |
+| Cardinalidades — Aula01 | Relações do **domínio persistido** e opcionalidade verificadas por FK/NOT NULL/UNIQUE; notas distinguem invariantes dos serviços | [fragmento SVG](DIAGRAMA_DOMINIO_CARDINALIDADES.svg) / [fonte](DIAGRAMA_DOMINIO_CARDINALIDADES.puml) |
+| Pacotes — slides 14–19 | Pastas contendo 20 classes + 1 interface reais e dez dependências selecionadas; destaca ACOP-01 | [pacotes SVG](DIAGRAMA_PACOTES.svg) / [fonte](DIAGRAMA_PACOTES.puml); [anexo completo](DIAGRAMA_PACOTES_ANEXO.svg) / [fonte](DIAGRAMA_PACOTES_ANEXO.puml) |
+| Componentes — slides 10–24 | Interfaces fornecidas/requeridas em bola/encaixe: SenhasPbkdf2 → VerificadorSenha → autenticação e repositórios → UsuarioRepository → cadastro | [componentes SVG](DIAGRAMA_COMPONENTES.svg) / [fonte](DIAGRAMA_COMPONENTES.puml); [contexto HTTP/módulos](DIAGRAMA_COMPONENTES_ANEXO.svg) / [fonte](DIAGRAMA_COMPONENTES_ANEXO.puml) |
+| Implantação — slides 4–13 | Um dispositivo local, Windows/JVM ambientes, navegador/JoinUp/MySQL programas/serviço, JAR/recursos/SQL/PNG/dados artefatos e protocolos HTTP/JDBC/TCP/IO | [implantação SVG](DIAGRAMA_IMPLANTACAO.svg) / [fonte](DIAGRAMA_IMPLANTACAO.puml) |
+| GoF — introdução slides 12–19, Facade e Singleton | Soluções de colaboração entre objetos; quatro implementados + 19 justificados no §3.5, rubrica **4+2+2+1+1** preservada | [fragmento GoF SVG](../diagramas/CLASSES_GOF_v0.1.svg) / [fonte](../diagramas/CLASSES_GOF_v0.1.puml); §3 deste relatório |
+
+O UML geral mostra relações entre **tipos Java**. O fragmento de cardinalidades
+mostra relações entre **registros persistidos**, mesmo quando um record mantém
+somente IDs ou não projeta a FK: `TipoIngresso` não possui `eventoId` e `Ingresso`
+não possui `compraId`. `compras` e `participante_comunidades` aparecem como
+`<<table>>`; não existem classes Java `Compra` ou `ParticipanteComunidade`.
+`CompraDados` é DTO de requisição. Nenhuma FK vira automaticamente composição.
+O fragmento está identificado como **visão conceitual da persistência** e não
+substitui o UML geral de classes obrigatório. Sua identificação foi reforçada
+após a auditoria do PR #11, preservando todas as dez associações verificadas.
+
+SQL permite evento com 0..1 comunidade, enquanto `EventoFacade.criarIntegrado`
+confirma uma comunidade e ao menos uma categoria na criação. SQL permite compra
+sem filhos; o fluxo confirmado de `CompraService` exige itens não vazios e emite
+um ingresso por unidade, portanto 1..* nessa operação. Filiação é manual;
+titular atual pode mudar na revenda e comprador original/histórico permanecem.
+As associações e o acesso pós-evento estão justificados no
+[registro de rastreabilidade](VALIDACAO_CONFORMIDADE_AULAS_UML.md).
+
+Os componentes são módulos lógicos no **mesmo JAR/processo**, sem contratos Java
+inventados para serviços concretos. HTTP é interface lógica, distinta das
+interfaces Java `UsuarioRepository` e `VerificadorSenha`. A implantação mostra
+o ambiente local realmente homologado: navegador no mesmo host, Java 21,
+HttpServer em 127.0.0.1:8080, MySQL 8.4.0 em 3315 e uploads privados. O README
+exemplifica 3306; o CI usa instâncias próprias e não integra essa vista.
+Schema e migração são administrativos; o runner só aplica DML do seed elegível.
+Após a auditoria didática do Tech Lead, a vista nuclear mostra bola no fornecedor
+e encaixe no consumidor em dois contratos reais; contexto HTTP e demais módulos
+ficaram no anexo. As implementações de UsuarioRepository são herdadas pelos
+três repositórios concretos de UsuarioRepositoryJdbc, e o consumidor exibido é
+CadastroUsuarioCreator. Na implantação, somente Windows/JVM recebem o estereótipo
+de ambiente de execução; navegador e MySQL são software no mesmo host físico.
+
+### 7.2 ACOP-01 — acoplamento circular reconhecido
+
+`ArquivoService` conserva `ComunidadeSocialService` e chama
+`validarAcessoComunidade` no upload/leitura. O social conserva referência mutável
+a `ArquivoService`, valida a referência e chama `vincular` após INSERT de
+postagem/mensagem na mesma transação. O bootstrap constrói social, depois mídia
+e finalmente chama `configurarArquivos`. Isso combina validação de elegibilidade
+e vínculo de imagens, mas exige inicialização em duas etapas e dificulta
+substituição/testes isolados dos serviços. As duas setas estão visíveis nos
+novos diagramas, além do UML geral.
+
+A auditoria não comprovou falha operacional causada pelo ciclo. Extrair um
+contrato mínimo de acesso/vínculo ou deslocar a coordenação para caso de uso
+é proposta posterior, sujeita a preservar locks, permissões e atomicidade.
+A Entrega 09 é documental: refatorar agora ampliaria o risco sobre a demo
+homologada. `ApplicationBootstrap` conhecer os módulos é esperado como
+composition root; essa responsabilidade não constitui o achado ACOP-01.
 
 | Limitação/achado preservado | Consequência / próximo passo |
 | --- | --- |
@@ -299,8 +372,9 @@ A Entrega 06 já está integrada na base. A sincronização documental de códig
 | Mídia, filesystem e base após crash | Reconciliação offline; sem coletor automático/antivírus/CDN/quota global |
 | Seed automático preserva dados, não é reset | Datas relativas são calculadas na primeira carga; reinício não renova eventos nem restaura contas/linhas removidas |
 | Avatar/perfil sem campo v0.2 | Fora do incremento 06; contrato inicial de upload de perfil não prova implementação |
-| Mobile, acessibilidade assistiva, duração real de aula e E2E por três perfis | Planejados na matriz, não executados nesta frente |
-| Equipe/tempo da apresentação e parecer de release | Enunciado e 23 GoF já confirmados; faltam nomes, tempo efetivo e homologação final. Merge não comprova aceite técnico externo |
+| Mobile, acessibilidade assistiva, duração real de aula e E2E por três perfis | Inspeção parcial/HTTP registrados na 08; V26/V44/V45 e ensaio coletivo continuam pendentes |
+| Equipe/tempo da apresentação e parecer de release | Cinco nomes/turma/docente informados pelo PO na 08 e preservados; formato, tempo efetivo e aceite acadêmico pendentes. Merge não comprova aceite técnico externo |
+| ACOP-01: social ↔ mídia | Inicialização em duas etapas e referências mútuas; proposta posterior no §7.2, sem refatoração nesta entrega |
 
 ## 8. Reflexão e lições aprendidas
 
@@ -324,7 +398,7 @@ A reflexão a seguir registra **dificuldades e mudanças técnicas documentadas 
 
 A implementação examinada oferece os quatro GoF em caminhos reais e separa os principais limites de permissão, estado e transação. O CI da base exercita HTTP/JDBC/MySQL e casos de concorrência/rollback; o relatório distingue essa prova automatizada do ensaio manual ainda pendente. Os entregáveis documentais tornam a modelagem e as justificativas revisáveis sem alterar a aplicação.
 
-Antes da entrega acadêmica: confirmar identificação da equipe, revisar as 19 justificativas dos GoF não implementados, executar e registrar a matriz no commit final, ensaiar os participantes e suportes em contextos independentes, conferir SVG/UML e obter revisão externa. Evoluções possíveis incluem idempotência de mutações, consultas em lote, auditoria de transições se exigida e manutenção de arquivos. Essas evoluções não são funcionalidades já entregues.
+Antes da entrega acadêmica: confirmar formato/duração com a equipe já identificada, revisar as 19 justificativas dos GoF não implementados, completar V26/V44/V45 preservando as evidências da 08, ensaiar os participantes e suportes em contextos independentes e obter revisão externa. Evoluções possíveis incluem remoção de ACOP-01, idempotência de mutações, consultas em lote, auditoria de transições se exigida e manutenção de arquivos. Essas evoluções não são funcionalidades já entregues.
 
 ## 10. Fontes e convenção de rastreabilidade
 

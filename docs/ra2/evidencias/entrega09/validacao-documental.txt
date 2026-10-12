@@ -1,0 +1,14 @@
+Baseline documental: 80a36c457ec4e46865ee456f388cb607297c3811
+Data/hora: 2026-10-12T12:01:54.6473078-03:00
+java -jar plantuml -charset UTF-8 -checkonly <quatro fontes>
+checkonly exit: 0
+java -jar plantuml -charset UTF-8 -tsvg <quatro fontes>
+tsvg exit: 0
+docs/ra2/DIAGRAMA_PACOTES.svg : XML SVG válido, 1339px x 895px, sem marcador de erro
+docs/ra2/DIAGRAMA_COMPONENTES.svg : XML SVG válido, 1679px x 1186px, sem marcador de erro
+docs/ra2/DIAGRAMA_IMPLANTACAO.svg : XML SVG válido, 1076px x 1256px, sem marcador de erro
+docs/ra2/DIAGRAMA_DOMINIO_CARDINALIDADES.svg : XML SVG válido, 1747px x 643px, sem marcador de erro
+Links locais existentes: 97
+git diff baseline -- src pom.xml .github : vazio
+README, matriz e evidências 08 preservados; conferir com git diff --name-only.
+Inspeção visual humana/assistida é etapa separada: este script não prova legibilidade.

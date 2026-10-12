@@ -1,0 +1,29 @@
+@startuml
+title JoinUp-POO — Componentes: interfaces fornecidas e requeridas / main 80a36c4
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam componentStyle uml2
+skinparam defaultFontName Arial
+skinparam defaultFontSize 18
+skinparam nodesep 40
+skinparam ranksep 65
+top to bottom direction
+frame "Recorte nuclear — módulos lógicos do mesmo monólito Java" {
+  component "SenhasPbkdf2" as senhas <<fornece>>
+  component "Autenticação\nAutenticacaoTemplate" as auth <<requer>>
+  component "Repositórios de usuários\nParticipanteRepositoryJdbc\nOrganizadorRepositoryJdbc\nSuporteRepositoryJdbc" as repos <<fornece>>
+  component "Cadastro\nCadastroUsuarioCreator" as cadastro <<requer>>
+  senhas -0)- auth : VerificadorSenha\nverificar(senha, hash): boolean
+  repos -0)- cadastro : UsuarioRepository\nsalvar(Connection, Usuario): long
+  auth -[hidden]down- cadastro
+  senhas -[hidden]down- repos
+}
+legend bottom
+  SenhasPbkdf2 implementa VerificadorSenha; AutenticacaoTemplate recebe esse contrato.
+  Os repositórios herdam UsuarioRepositoryJdbc (implements UsuarioRepository); cadastro recebe a interface.
+  Bola no fornecedor + encaixe no consumidor = conexão de contrato Java real.
+  Os componentes representam responsabilidades internas, não processos implantáveis separados.
+  HTTP/navegador, demais áreas, JDBC e ACOP-01 estão na vista de contexto ANEXO.
+  Chamadas sem interface continuam dependências concretas; nenhum socket fictício foi criado.
+endlegend
+@enduml

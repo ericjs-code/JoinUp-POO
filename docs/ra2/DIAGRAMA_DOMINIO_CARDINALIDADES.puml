@@ -1,0 +1,67 @@
+@startuml
+title JoinUp-POO — Visão conceitual da persistência: cardinalidades / main 80a36c4
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam classAttributeIconSize 0
+skinparam nodesep 45
+skinparam ranksep 45
+hide empty members
+top to bottom direction
+
+class "Evento\n(eventos.domain.Evento)" as Evento <<projeção Java>>
+class "TipoIngresso\n(eventos.domain.TipoIngresso)" as Tipo <<projeção Java>>
+class "Ingresso\n(compras.domain.Ingresso)" as Ingresso <<projeção Java>>
+class "Participante\n(usuarios.domain.Participante)" as Participante <<classe Java>>
+class "Comunidade\n(eventos.domain.Comunidade)" as Comunidade <<projeção Java>>
+class "compras" as Compra <<table>>
+class "participante_comunidades" as Filiacao <<table>> {
+  id_participante + id_comunidade: PK
+  ativo / data_entrada / data_saida
+}
+
+Evento "1" -- "0..*" Tipo : categorias
+Evento "1" -- "0..*" Ingresso : emissões
+Evento "1" -- "0..*" Compra : vendas históricas
+Evento "1" -- "0..1" Comunidade : FK NOT NULL + UNIQUE
+Tipo "1" -- "0..*" Ingresso : categoria da emissão
+Participante "1" -- "0..*" Ingresso : titular atual
+Participante "1" -- "0..*" Compra : comprador original
+Compra "1" -- "0..*" Ingresso : origem da emissão (SQL)
+Participante "1" -- "0..*" Filiacao : histórico de filiação
+Comunidade "1" -- "0..*" Filiacao : membros históricos
+
+note right of Comunidade
+  SQL admite evento sem comunidade (0..1).
+  EventoFacade.criarIntegrado confirma exatamente
+  uma comunidade e 1..* categorias na criação.
+  FK com CASCADE não prova composição Java.
+end note
+
+note bottom of Compra
+  compras não é classe Java Compra: histórico retorna Map.
+  CompraDados é DTO de entrada, não entidade persistida.
+  SQL permite compra com 0 ingressos; compra direta
+  confirmada pelo serviço emite 1..* (um por unidade).
+  quantidade por item != número histórico de compras.
+end note
+
+note bottom of Filiacao
+  PK composta: no máximo uma linha por par participante/comunidade.
+  Entrada é manual; acesso exige conta/filiação ativas
+  e ingresso ativo ou utilizado, inclusive pós-evento.
+  Última revenda elegível inativa filiação, preserva histórico;
+  comprador entra manualmente. Compra original não muda.
+end note
+
+legend bottom
+  Visão conceitual do domínio persistido: mistura projeções Java e tabelas, não espelha campos Java.
+  Não substitui DIAGRAMA_CLASSES_GERAL.svg, UML de classes obrigatório da RA2.
+  Associações sem navegação/diamantes: cardinalidades SQL, não referências entre objetos Java.
+  '1' vem de FK NOT NULL; '0..*' não exige filhos; '0..1' soma FK e UNIQUE.
+  Notas separam garantias de serviço (1..*) de limites SQL; não há ORM.
+  TipoIngresso não armazena eventoId; Ingresso não armazena compraId: relações vêm das tabelas.
+  Schema + migração 06 + serviços conferidos; rastreabilidade em VALIDACAO_CONFORMIDADE_AULAS_UML.md.
+endlegend
+@enduml

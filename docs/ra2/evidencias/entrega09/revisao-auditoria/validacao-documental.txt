@@ -1,0 +1,19 @@
+Baseline documental: 80a36c457ec4e46865ee456f388cb607297c3811
+Data/hora: 2026-10-12T12:34:56.1552817-03:00
+java -jar plantuml -charset UTF-8 -checkonly <seis fontes: quatro vistas e dois anexos>
+checkonly exit: 0
+java -jar plantuml -charset UTF-8 -tsvg <seis fontes: quatro vistas e dois anexos>
+tsvg exit: 0
+docs/ra2/DIAGRAMA_PACOTES.svg : XML SVG válido, 2128px x 921px, sem marcador de erro
+docs/ra2/DIAGRAMA_COMPONENTES.svg : XML SVG válido, 721px x 784px, sem marcador de erro
+docs/ra2/DIAGRAMA_PACOTES_ANEXO.svg : XML SVG válido, 1574px x 2170px, sem marcador de erro
+docs/ra2/DIAGRAMA_COMPONENTES_ANEXO.svg : XML SVG válido, 1679px x 1202px, sem marcador de erro
+docs/ra2/DIAGRAMA_IMPLANTACAO.svg : XML SVG válido, 1770px x 635px, sem marcador de erro
+docs/ra2/DIAGRAMA_DOMINIO_CARDINALIDADES.svg : XML SVG válido, 1747px x 676px, sem marcador de erro
+docs/ra2/DIAGRAMA_PACOTES.puml : 20 classes + 1 interfaces em namespaces reais; 10 arestas confirmadas no jdeps
+docs/ra2/DIAGRAMA_PACOTES_ANEXO.puml : 38 classes + 1 interfaces em namespaces reais; 62 arestas confirmadas no jdeps
+Dez associações/cardinalidades idênticas ao head auditado 860492c
+Links locais existentes: 128
+git diff baseline -- src pom.xml .github : vazio
+README, matriz e evidências 08 preservados; conferir com git diff --name-only.
+Inspeção visual humana/assistida é etapa separada: este script não prova legibilidade.

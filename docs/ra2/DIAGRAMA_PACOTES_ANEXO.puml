@@ -1,0 +1,147 @@
+@startuml
+title JoinUp-POO — Anexo: pacotes reais, elementos e dependências agregadas completas
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam packageStyle folder
+hide members
+hide circle
+left to right direction
+package "bootstrap" as boot {
+  class "ApplicationBootstrap" as boot_type0
+}
+package "http" as http {
+  class "Router" as http_type0
+  class "StaticFileHandler" as http_type1
+  class "HttpException" as http_type2
+}
+package "auth" as auth {
+  abstract class "AutenticacaoTemplate" as auth_type0
+  class "AutenticacaoParticipante" as auth_type1
+  class "SenhasPbkdf2" as auth_type2
+  class "GerenciadorSessao" as auth_type3
+  interface "VerificadorSenha" as auth_type4
+}
+package "usuarios" as users {
+  abstract class "service.CadastroUsuarioCreator" as users_type0
+  class "service.ContaService" as users_type1
+  abstract class "domain.Usuario" as users_type2
+  class "domain.Participante" as users_type3
+  class "repository.ParticipanteRepositoryJdbc" as users_type4
+  class "repository.OrganizadorRepositoryJdbc" as users_type5
+  class "repository.SuporteRepositoryJdbc" as users_type6
+}
+package "eventos" as eventos {
+  class "facade.EventoFacade" as eventos_type0
+  class "service.EventoService" as eventos_type1
+  class "service.ArtistaService" as eventos_type2
+  class "service.TipoIngressoService" as eventos_type3
+  class "service.ComunidadeService" as eventos_type4
+}
+package "compras" as compras {
+  class "service.CompraService" as compras_type0
+  class "repository.JdbcComercio" as compras_type1
+}
+package "revendas" as revendas {
+  class "service.RevendaService" as revendas_type0
+  class "repository.RevendaRepositoryJdbc" as revendas_type1
+}
+package "comunidades" as social {
+  class "service.ComunidadeSocialService" as social_type0
+  class "repository.ComunidadeSocialRepositoryJdbc" as social_type1
+}
+package "arquivos" as midia {
+  class "ArquivoService" as midia_type0
+  class "ArmazenamentoLocal" as midia_type1
+  class "ArquivoRoutes" as midia_type2
+}
+package "suporte" as suporte {
+  class "service.TicketService" as suporte_type0
+  class "repository.TicketRepositoryJdbc" as suporte_type1
+}
+package "paineis" as paineis {
+  class "service.PainelService" as paineis_type0
+  class "repository.PainelRepositoryJdbc" as paineis_type1
+}
+package "shared.db" as db {
+  class "ExecutorTransacional" as db_type0
+  class "ConnectionFactory" as db_type1
+}
+package "config" as config {
+  class "ConfiguracaoSistema" as config_type0
+}
+package "demo" as demo {
+  class "DemoRunner" as demo_type0
+  class "SqlDemo" as demo_type1
+}
+auth ..> db
+auth ..> http
+auth ..> users
+boot ..> auth
+boot ..> compras
+boot ..> config
+boot ..> db
+boot ..> demo
+boot ..> eventos
+boot ..> http
+boot ..> midia
+boot ..> paineis
+boot ..> revendas
+boot ..> social
+boot ..> suporte
+boot ..> users
+compras ..> auth
+compras ..> db
+compras ..> eventos
+compras ..> http
+compras ..> revendas
+compras ..> users
+config ..> auth
+db ..> config
+db ..> http
+demo ..> config
+demo ..> db
+eventos ..> auth
+eventos ..> db
+eventos ..> http
+eventos ..> users
+midia ..> auth
+midia ..> db
+midia ..> eventos
+midia ..> http
+midia ..> users
+midia ..[#B42318]> social
+paineis ..> auth
+paineis ..> compras
+paineis ..> db
+paineis ..> http
+paineis ..> suporte
+paineis ..> users
+revendas ..> auth
+revendas ..> compras
+revendas ..> db
+revendas ..> eventos
+revendas ..> http
+revendas ..> users
+social ..> auth
+social ..> db
+social ..> http
+social ..> users
+social ..[#B42318]> midia
+suporte ..> auth
+suporte ..> compras
+suporte ..> db
+suporte ..> http
+suporte ..> users
+users ..> auth
+users ..> db
+users ..> http
+legend bottom
+  Anexo de consulta com zoom; não usar como lâmina de projeção.
+  Pacotes reais relativos a br.com.joinup; prefixos dos elementos indicam subpacotes reais.
+  Todas as 62 dependências entre estes agrupamentos do jdeps estão presentes; arestas internas omitidas.
+  Vermelho = ACOP-01 social/mídia; fonte e caminhos em VALIDACAO_CONFORMIDADE_AULAS_UML.md.
+  A vista didática DIAGRAMA_PACOTES seleciona 20 classes + 1 interface e 10 arestas.
+endlegend
+@enduml

@@ -1,0 +1,86 @@
+@startuml
+title JoinUp-POO — Pacotes com classes reais: recorte didático / main 80a36c4
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 16
+skinparam packageStyle folder
+skinparam nodesep 20
+skinparam ranksep 20
+hide members
+hide circle
+top to bottom direction
+package "bootstrap" as boot {
+  class ApplicationBootstrap
+}
+package "http" as http {
+  class Router
+  class StaticFileHandler
+}
+package "config" as config {
+  class ConfiguracaoSistema
+}
+package "auth" as auth {
+  abstract class AutenticacaoTemplate
+  class AutenticacaoParticipante
+  class SenhasPbkdf2
+  class GerenciadorSessao
+  interface VerificadorSenha
+}
+package "usuarios.service" as users {
+  abstract class CadastroUsuarioCreator
+  class CadastroParticipanteCreator
+  class ContaService
+}
+package "usuarios.domain" as domain {
+  abstract class Usuario
+  class Participante
+}
+package "shared.db" as db {
+  class ExecutorTransacional
+  class ConnectionFactory
+}
+package "comunidades.service" as social {
+  class ComunidadeSocialService
+}
+package "arquivos" as midia {
+  class ArquivoService
+  class ArmazenamentoLocal
+  class ArquivoRoutes
+  class ImagemSegura
+}
+boot ..> http : monta Router
+boot ..> auth : monta login
+boot ..> social : monta social
+boot ..> config : recebe
+auth ..> users : ValidacaoUsuario
+users ..> domain : produto Usuario
+auth ..> db : transações
+db ..> config : conexão configurada
+social ..[#B42318]> midia : vincular imagem
+midia ..[#B42318]> social : validar acesso
+' Restrições invisíveis servem apenas à disposição, não são dependências.
+Router -[hidden]down- StaticFileHandler
+AutenticacaoTemplate -[hidden]down- AutenticacaoParticipante
+AutenticacaoParticipante -[hidden]down- SenhasPbkdf2
+SenhasPbkdf2 -[hidden]down- GerenciadorSessao
+GerenciadorSessao -[hidden]down- VerificadorSenha
+CadastroUsuarioCreator -[hidden]down- CadastroParticipanteCreator
+CadastroParticipanteCreator -[hidden]down- ContaService
+Usuario -[hidden]down- Participante
+ExecutorTransacional -[hidden]down- ConnectionFactory
+ArquivoService -[hidden]down- ArmazenamentoLocal
+ArmazenamentoLocal -[hidden]down- ArquivoRoutes
+ArquivoRoutes -[hidden]down- ImagemSegura
+note bottom of social
+  ACOP-01: referências mútuas entre serviços.
+  Bootstrap: social -> mídia -> configurarArquivos.
+  Refatoração posterior; comportamento preservado.
+end note
+legend bottom
+  Pastas = pacotes Java relativos a br.com.joinup; elementos internos = 20 classes + 1 interface reais.
+  ..> consumidor -> pacote usado. Apenas 10 dependências selecionadas; não é inventário completo.
+  ApplicationBootstrap é a composition root: montar módulos é esperado.
+  Outros módulos e dependências: DIAGRAMA_PACOTES_ANEXO e UML de classes geral.
+endlegend
+@enduml
