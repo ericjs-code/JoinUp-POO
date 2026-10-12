@@ -556,3 +556,12 @@
   font-weight: 600;
   cursor: pointer;
 }
+
+.btn-compartilhar, .paginacao-social button {
+  border: 1px solid #8b5cf6; border-radius: 8px; padding: 8px 12px;
+  color: #ede9fe; background: #242036; cursor: pointer;
+}
+.post-destaque { outline: 2px solid #a78bfa; outline-offset: 3px; }
+.paginacao-social { display: flex; gap: 12px; align-items: center; margin: 12px 0; }
+.paginacao-social[hidden] { display: none; }
+.paginacao-social button:disabled { opacity: .45; cursor: default; }

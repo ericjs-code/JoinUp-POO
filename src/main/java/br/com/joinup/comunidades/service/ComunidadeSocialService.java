@@ -28,6 +28,7 @@ public final class ComunidadeSocialService {
     }
 
     public List<ComunidadeResumo> listar(Connection c, String busca) throws SQLException {
+        validarBusca(busca);
         return repository.listarComunidades(c, busca);
     }
 
@@ -70,7 +71,8 @@ public final class ComunidadeSocialService {
                 com.eventoNome(),
                 com.dataCriacao(),
                 membro,
-                elegivel
+                elegivel,
+                membro && elegivel
         );
     }
 
@@ -83,6 +85,8 @@ public final class ComunidadeSocialService {
     }
 
     public void entrar(Connection c, Usuario u, long comunidadeId) throws SQLException {
+        if (u.perfil() != Perfil.PARTICIPANTE) throw new HttpException(403, "PERMISSAO_NEGADA", "Apenas participantes podem alterar filiação");
+        repository.bloquearAcesso(c, comunidadeId, u);
         var com = repository.buscarComunidade(c, comunidadeId);
         if (com == null) {
             throw new HttpException(404, "RECURSO_NAO_ENCONTRADO", "Comunidade não encontrada");
@@ -103,6 +107,8 @@ public final class ComunidadeSocialService {
     }
 
     public void sair(Connection c, Usuario u, long comunidadeId) throws SQLException {
+        if (u.perfil() != Perfil.PARTICIPANTE) throw new HttpException(403, "PERMISSAO_NEGADA", "Apenas participantes podem alterar filiação");
+        repository.bloquearAcesso(c, comunidadeId, u);
         var com = repository.buscarComunidade(c, comunidadeId);
         if (com == null) {
             throw new HttpException(404, "RECURSO_NAO_ENCONTRADO", "Comunidade não encontrada");
@@ -136,13 +142,20 @@ public final class ComunidadeSocialService {
         if (req.mensagem().length() > 1000) {
             throw new HttpException(400, "REQUISICAO_INVALIDA", "Mensagem não pode exceder 1000 caracteres");
         }
+        validarImagem(req.imagem());
         validarAcessoComunidade(c, comunidadeId, u);
+        if (req.idRespostaA() != null) {
+            if (req.idRespostaA() <= 0 || req.idRespostaA() > Integer.MAX_VALUE)
+                throw new HttpException(400, "REQUISICAO_INVALIDA", "ID de resposta inválido");
+            if (!repository.respostaNaComunidade(c, comunidadeId, req.idRespostaA()))
+                throw new HttpException(404, "RECURSO_NAO_ENCONTRADO", "Mensagem de resposta não encontrada nesta comunidade");
+        }
         String autorTipo = u.perfil() == Perfil.ORGANIZADOR ? "organizador" : "participante";
         Long partId = u.perfil() == Perfil.PARTICIPANTE ? u.id() : null;
         Long orgId = u.perfil() == Perfil.ORGANIZADOR ? u.id() : null;
 
         long id = repository.enviarMensagem(c, comunidadeId, autorTipo, partId, orgId, req.mensagem().trim(), req.imagem(), req.idRespostaA());
-        var todas = repository.listarMensagens(c, comunidadeId);
+        var todas = repository.listarMensagens(c, comunidadeId, 1, 0, id);
         return todas.stream().filter(m -> m.id() == id).findFirst().orElseThrow();
     }
 
@@ -176,6 +189,7 @@ public final class ComunidadeSocialService {
         if (req.descricao().length() > 500) {
             throw new HttpException(400, "REQUISICAO_INVALIDA", "Descrição não pode exceder 500 caracteres");
         }
+        validarImagem(req.imagem());
         validarAcessoComunidade(c, comunidadeId, u);
         long id = repository.criarPostagem(c, comunidadeId, u.id(), req.descricao().trim(), req.imagem());
         return repository.buscarPostagem(c, id, u.id());
@@ -279,11 +293,12 @@ public final class ComunidadeSocialService {
         }
         validarAcessoComunidade(c, comId, u);
         long id = repository.adicionarComentario(c, postagemId, u.id(), req.texto().trim());
-        var todos = repository.listarComentarios(c, postagemId);
+        var todos = repository.listarComentarios(c, postagemId, 1, 0, id);
         return todos.stream().filter(com -> com.id() == id).findFirst().orElseThrow();
     }
 
     private void validarAcessoComunidade(Connection c, long comunidadeId, Usuario usuario) throws SQLException {
+        repository.bloquearAcesso(c, comunidadeId, usuario);
         if (usuario.perfil() == Perfil.PARTICIPANTE) {
             boolean membro = repository.verificarMembroAtivo(c, comunidadeId, usuario.id());
             boolean ingresso = repository.verificarIngressoElegivel(c, comunidadeId, usuario.id());
@@ -299,4 +314,46 @@ public final class ComunidadeSocialService {
             throw new HttpException(403, "ACESSO_COMUNIDADE_NEGADO", "Perfil não autorizado para a comunidade");
         }
     }
+    private static void validarImagem(String imagem) {
+        if (imagem != null) throw new HttpException(400, "IMAGEM_NAO_SUPORTADA", "Envio de imagem aguarda upload seguro; use somente texto");
+    }
+    private static void validarBusca(String busca) {
+        if (busca != null && busca.length() > 100) throw new HttpException(400, "REQUISICAO_INVALIDA", "Busca limitada a 100 caracteres");
+    }
+    private static int deslocamento(int pagina, int tamanho) {
+        if (pagina < 1 || pagina > 10000 || tamanho < 1 || tamanho > 100)
+            throw new HttpException(400, "REQUISICAO_INVALIDA", "Página ou tamanho inválido");
+        return (pagina - 1) * tamanho;
+    }
+    public List<ComunidadeResumo> listar(String busca, int pagina, int tamanho) {
+        validarBusca(busca); int offset = deslocamento(pagina, tamanho);
+        return transacoes.executar(c -> repository.listarComunidades(c, busca, tamanho, offset));
+    }
+    public List<MensagemComunidade> listarMensagens(String token, long comunidadeId, int pagina, int tamanho) {
+        int offset = deslocamento(pagina, tamanho);
+        return transacoes.executar(c -> {
+            Usuario u = sessoes.exigir(c, token, Perfil.PARTICIPANTE, Perfil.ORGANIZADOR);
+            validarAcessoComunidade(c, comunidadeId, u);
+            return repository.listarMensagens(c, comunidadeId, tamanho, offset);
+        });
+    }
+    public List<Postagem> listarPostagens(String token, long comunidadeId, int pagina, int tamanho) {
+        int offset = deslocamento(pagina, tamanho);
+        return transacoes.executar(c -> {
+            Usuario u = sessoes.exigir(c, token, Perfil.PARTICIPANTE, Perfil.ORGANIZADOR);
+            validarAcessoComunidade(c, comunidadeId, u);
+            return repository.listarPostagens(c, comunidadeId, u.perfil() == Perfil.PARTICIPANTE ? u.id() : null, tamanho, offset);
+        });
+    }
+    public List<Comentario> listarComentarios(String token, long postagemId, int pagina, int tamanho) {
+        int offset = deslocamento(pagina, tamanho);
+        return transacoes.executar(c -> {
+            Usuario u = sessoes.exigir(c, token, Perfil.PARTICIPANTE, Perfil.ORGANIZADOR);
+            Long comunidadeId = repository.buscarComunidadeIdDaPostagem(c, postagemId);
+            if (comunidadeId == null) throw new HttpException(404, "RECURSO_NAO_ENCONTRADO", "Postagem não encontrada");
+            validarAcessoComunidade(c, comunidadeId, u);
+            return repository.listarComentarios(c, postagemId, tamanho, offset);
+        });
+    }
+
 }

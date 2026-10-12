@@ -35,6 +35,10 @@ class ComunidadeSocialTest {
     void setup() {
         repo = new ComunidadeSocialRepositoryJdbc() {
             private boolean p1Membro = true;
+            @Override
+            public void bloquearAcesso(Connection c, long comunidadeId, br.com.joinup.usuarios.domain.Usuario u) {
+                // O lock JDBC real é exercitado em ComunidadeMySqlIT; preservar os cenários unitários.
+            }
 
             @Override
             public List<ComunidadeResumo> listarComunidades(Connection c, String busca) {

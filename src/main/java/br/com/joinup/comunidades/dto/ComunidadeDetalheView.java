@@ -11,5 +11,6 @@ public record ComunidadeDetalheView(
         String eventoNome,
         Instant dataCriacao,
         boolean membroAtivo,
-        boolean elegivelParaEntrar
+        boolean elegivelParaEntrar,
+        boolean acessoConteudo
 ) {}

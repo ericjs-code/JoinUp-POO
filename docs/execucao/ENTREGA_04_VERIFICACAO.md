@@ -1,66 +1,50 @@
-# Verificação da Entrega 04 – Comunidades e Social
+# Verificação de Comunidades/Social — Correção 04.1
 
-## 1. Pré‑requisitos
-- **MySQL 8** rodando na máquina local (porta **3306**).
-- Usuário **root** sem senha (ou ajuste `JOINUP_DB_PASSWORD` no `launch.json`).
-- Banco **`joinup_poo`** já criado e com o schema `src/main/resources/db/schema_v0.2.sql` carregado.
+Usar Java 21, Maven e **MySQL 8.4.0 isolado**. A aplicação usa `joinup_it` com
+somente SELECT/INSERT/UPDATE/DELETE; usuário administrativo separado serve para
+schema, fixtures e triggers. Nunca apontar a suíte ao banco PHP ou a produção.
+O workflow `.github/workflows/java.yml` já provisiona `mysql:8.4.0` e executa
+o perfil completo; inclui automaticamente `ComunidadeMySqlIT`.
 
-## 2. Como iniciar o banco de testes
-```bash
-# Caso já tenha o serviço MySQL instalado como Windows Service
-net start MySQL80
-# ou, usando Docker (mais rápido para ambientes de desenvolvimento)
-docker run -d --name joinup-mysql \
-  -e MYSQL_ROOT_PASSWORD=\"\" \
-  -p 3306:3306 mysql:8.0 \
-  --default-authentication-plugin=mysql_native_password
-```
+No ambiente local previamente provisionado, carregar as credenciais exclusivas
+da instância pelo ambiente, sem versioná-las. Exemplo de configuração (senha
+DML/admin deve ser fornecida por configuração local):
 
-### Carregar o schema
-```bash
-mysql -u root < src/main/resources/db/schema_v0.2.sql
-# (opcional) carregar dados de demonstração se existir
-# mysql -u root joinup_poo < src/main/resources/db/seed_demo_v0.2.sql
-```
-
-## 3. Iniciar a aplicação
 ```powershell
-# Parar eventual instância anterior
-# (PID 27268 já foi finalizado anteriormente)
-
-# Iniciar com o Java 21 configurado no launch.json
-mvnw.cmd exec:java -Dexec.mainClass=br.com.joinup.Main
+$env:JAVA_HOME = "$env:LOCALAPPDATA/JoinUp-POO/tools/jdk-21.0.12.1+1"
+$env:PATH = "$env:JAVA_HOME/bin;$env:PATH"
+$env:JOINUP_JDBC_URL = 'jdbc:mysql://127.0.0.1:3307/joinup_poo?connectionTimeZone=UTC&forceConnectionTimeZoneToSession=true&connectTimeout=5000&socketTimeout=10000'
+$env:JOINUP_DB_USER = 'joinup_it'
+$env:JOINUP_IT_ADMIN_USER = 'root'
+$env:JOINUP_IT_DATABASE = 'instancia-isolada'
+# JOINUP_DB_PASSWORD e JOINUP_IT_ADMIN_PASSWORD: configuração secreta local.
+mvn --batch-mode --no-transfer-progress -Pmysql-it clean verify
+node --check src/main/resources/public/js/comunidades.js
 ```
-A aplicação ficará disponível em **http://127.0.0.1:8080**.
 
-## 4. Testes de sanidade (cURL)
-```bash
-# Lista pública de comunidades (não requer autenticação)
-curl -s http://127.0.0.1:8080/api/comunidades
+As suítes exigem o marcador de instância isolada e versão real do banco. Não
+desabilitam FKs, não usam DROP DATABASE/TRUNCATE e não removem fixtures seed.
+A suíte social limpa por IDs exatos das próprias contas/eventos e hashes de
+suas sessões; cascatas normais do schema removem comentários/curtidas/filiação.
+Relatórios: `target/surefire-reports`, `target/failsafe-reports` e
+`target/mysql-validation/comunidade041.txt`.
 
-# Endpoints que requerem login – usar a API de login primeiro
-# (exemplo simplificado, requer sessão cookie)
-# 1) Login como participante (deve retornarr cookie HttpOnly)
-# 2) GET detalhes da comunidade com participação
-#    curl -b cookies.txt http://127.0.0.1:8080/api/comunidades/1
-```
-Esperado: JSON com lista vazia (`[]`) ou com objetos `{"id":...}`; nenhum erro *BANCO_INDISPONIVEL*.
+Para verificar o frontend, executar `java -jar target/joinup-poo.jar` com a
+configuração DML e abrir `/comunidades.html`. Num evento próprio de teste:
 
-## 5. Verificação da UI
-Abra no navegador:
-- `http://127.0.0.1:8080/comunidades.html`
-- Navegue pelas abas **Comunidades**, **Chat**, **Feed**.
-- Teste entrar/sair da comunidade, criar post, curtir e comentar.
+1. Dois participantes compram seus ingressos e entram manualmente.
+2. Primeiro publica texto e copia o link; o segundo abre o link e vê o destaque,
+   curte e comenta. Testar cópia manual se Clipboard estiver indisponível.
+3. Segundo sai; o link mostra metadados e acesso bloqueado até reentrada.
+4. Primeiro anuncia seu último ingresso; segundo compra a revenda. A associação
+   do primeiro fica inativa e o link não permite ler ou escrever. Histórico
+   continua disponível ao segundo, depois de sua entrada manual.
+5. Após logout, abrir o mesmo link: sem conteúdo protegido. Tentar APIs diretas:
+   mensagens, posts, detalhe e comentários retornam 401 sem sessão.
+6. Verificar Anterior/Próxima em listas com mais de 50 registros. Upload não está
+   disponível; qualquer referência de imagem enviada à API deve ser rejeitada.
 
-## 6. Resultado esperado
-- Todos os **136 testes** (`mvnw.cmd test`) passam.
-- As rotas da comunidade retornam **200** quando autorizadas e **403/401** quando não.
-- Não há rotas para edição ou exclusão de postagens (conforme **RF‑SOC‑01**).
-- As curtidas são idempotentes e o contador não fica negativo.
-
-## 7. Próximos passos
-- Revisão do Tech Lead (PR já aberto na branch `feat/04-comunidades-social`).
-- Iniciar a **Entrega 05 – Suporte e Painéis** seguindo o próximo prompt.
-
----
-*Documento criado automaticamente para auditoria da entrega 04.*
+As contagens, capturas e execução efetiva estão em
+[CORRECAO_04_1_RESULTADOS.md](CORRECAO_04_1_RESULTADOS.md). O relatório antigo
+com 136 unitários não é evidência HTTP/MySQL do módulo social. CI verde não
+substitui a auditoria do Tech Lead. **Não fazer merge antes dessa auditoria.**

@@ -6,6 +6,7 @@
 
   const urlParams = new URLSearchParams(window.location.search);
   const comunidadeIdParam = urlParams.get('id');
+  const postagemParam = urlParams.get('post');
 
   const elMensagem = document.getElementById('mensagem');
   const secaoLista = document.getElementById('secao-lista');
@@ -73,15 +74,16 @@
   }
 
   // LISTAGEM DE COMUNIDADES
-  async function carregarLista(busca = '') {
+  async function carregarLista(busca = '', pagina = 1) {
     secaoLista.hidden = false;
     secaoSala.hidden = true;
     statusLista.textContent = 'Carregando comunidades...';
     gridComunidades.innerHTML = '';
 
     try {
-      const url = busca ? `/api/comunidades?busca=${encodeURIComponent(busca)}` : '/api/comunidades';
+      const url = `/api/comunidades?busca=${encodeURIComponent(busca)}&pagina=${pagina}`;
       const lista = await api(url);
+      paginacao(gridComunidades, pagina, lista.length, (p) => carregarLista(busca, p));
       statusLista.textContent = '';
 
       if (!lista || lista.length === 0) {
@@ -115,6 +117,10 @@
     secaoLista.hidden = true;
     secaoSala.hidden = false;
     avisoAcesso.hidden = true;
+    for (const container of [chatMensagens, feedPostagens]) {
+      container.replaceChildren();
+      if (container.controlePaginas) container.controlePaginas.hidden = true;
+    }
 
     try {
       comunidadeAtual = await api(`/api/comunidades/${id}`);
@@ -125,9 +131,17 @@
       atualizarStatusParticipacao();
 
       // Carregar conteúdo inicial
-      if (comunidadeAtual.membroAtivo) {
-        carregarMensagens(id);
-        carregarFeed(id);
+      if (comunidadeAtual.acessoConteudo) {
+        await carregarMensagens(id);
+        await carregarFeed(id);
+        if (postagemParam) {
+          abaFeedBtn.click();
+          const destaque = feedPostagens.querySelector('.post-destaque');
+          if (destaque) {
+            destaque.scrollIntoView({ block: 'center' });
+            destaque.focus({ preventScroll: true });
+          }
+        }
       } else {
         chatMensagens.innerHTML = '<p class="muted">Você precisa ser membro da comunidade para visualizar as mensagens.</p>';
         feedPostagens.innerHTML = '<p class="muted">Você precisa ser membro da comunidade para visualizar o feed.</p>';
@@ -174,9 +188,14 @@
       btnParticipacao.hidden = false;
       btnParticipacao.onclick = sairDaComunidade;
 
-      boxNovoPost.hidden = false;
-      formEnviarMsg.hidden = false;
-      avisoAcesso.hidden = true;
+      boxNovoPost.hidden = !comunidadeAtual.acessoConteudo;
+      formEnviarMsg.hidden = !comunidadeAtual.acessoConteudo;
+      avisoAcesso.hidden = comunidadeAtual.acessoConteudo;
+      if (!comunidadeAtual.acessoConteudo) {
+        badgeMembro.textContent = 'Associado sem ingresso elegível';
+        badgeMembro.className = 'badge-status';
+        avisoAcesso.textContent = 'Sua associação está registrada, mas o conteúdo exige ingresso ativo ou utilizado.';
+      }
     } else if (comunidadeAtual.elegivelParaEntrar) {
       badgeMembro.textContent = 'Ingresso Elegível';
       badgeMembro.className = 'badge-status';
@@ -229,9 +248,10 @@
   }
 
   // MENSAGENS / CHAT
-  async function carregarMensagens(comunidadeId) {
+  async function carregarMensagens(comunidadeId, pagina = 1) {
     try {
-      const mensagens = await api(`/api/comunidades/${comunidadeId}/mensagens`);
+      const mensagens = await api(`/api/comunidades/${comunidadeId}/mensagens?pagina=${pagina}`);
+      paginacao(chatMensagens, pagina, mensagens.length, (p) => carregarMensagens(comunidadeId, p));
       chatMensagens.innerHTML = '';
       if (!mensagens || mensagens.length === 0) {
         chatMensagens.innerHTML = '<p class="muted">Nenhuma mensagem enviada ainda. Seja o primeiro a falar!</p>';
@@ -280,9 +300,18 @@
   }
 
   // FEED SOCIAL
-  async function carregarFeed(comunidadeId) {
+  async function carregarFeed(comunidadeId, pagina = 1) {
     try {
-      const posts = await api(`/api/comunidades/${comunidadeId}/postagens`);
+      const posts = await api(`/api/comunidades/${comunidadeId}/postagens?pagina=${pagina}`);
+      paginacao(feedPostagens, pagina, posts.length, (p) => carregarFeed(comunidadeId, p));
+      let destaque = null;
+      if (postagemParam && /^[1-9][0-9]{0,9}$/.test(postagemParam)) {
+        // Sempre autorizar o detalhe no backend, inclusive quando está fora da página.
+        const post = await api(`/api/postagens/${postagemParam}`);
+        if (post.comunidadeId !== comunidadeAtual.id) throw new Error('Publicação não pertence a esta comunidade.');
+        destaque = post.id;
+        if (!posts.some((p) => p.id === post.id)) posts.unshift(post);
+      }
       feedPostagens.innerHTML = '';
       if (!posts || posts.length === 0) {
         feedPostagens.innerHTML = '<p class="muted">Nenhuma publicação no feed ainda. Compartilhe algo!</p>';
@@ -300,6 +329,7 @@
           </div>
           <div class="post-conteudo">${escapeHtml(p.descricao)}</div>
           <div class="post-interacoes">
+            <button class="btn-compartilhar" type="button">Copiar link</button>
             <button class="btn-curtir ${p.curtidoPeloUsuario ? 'curtido' : ''}" type="button" data-post-id="${p.id}">
               <span>♥</span>
               <span class="qtd-curtidas">${p.curtidas || 0}</span>
@@ -312,7 +342,7 @@
             <div class="lista-comentarios" id="comentarios-${p.id}">
               <p class="muted small">Carregando comentários...</p>
             </div>
-            ${usuarioAtual && usuarioAtual.perfil === 'PARTICIPANTE' && comunidadeAtual.membroAtivo ? `
+            ${usuarioAtual && usuarioAtual.perfil === 'PARTICIPANTE' && comunidadeAtual.acessoConteudo ? `
               <form class="form-novo-comentario" data-post-id="${p.id}">
                 <input name="texto" maxlength="500" placeholder="Escreva um comentário..." required>
                 <button type="submit">Comentar</button>
@@ -321,8 +351,11 @@
           </div>
         `;
 
+        card.querySelector('.btn-compartilhar').addEventListener('click', () => copiarLink(p.id));
+        card.tabIndex = -1;
         // Event listener de curtir
         const btnCurtir = card.querySelector('.btn-curtir');
+        btnCurtir.disabled = usuarioAtual?.perfil !== 'PARTICIPANTE';
         btnCurtir.addEventListener('click', () => alternarCurtida(p.id, btnCurtir));
 
         // Event listener de comentários
@@ -337,6 +370,11 @@
         }
 
         feedPostagens.appendChild(card);
+        if (p.id === destaque) {
+          card.classList.add('post-destaque');
+          card.scrollIntoView({ block: 'center' });
+          card.focus({ preventScroll: true });
+        }
       });
     } catch (e) {
       feedPostagens.innerHTML = `<p class="erro">${escapeHtml(e.message)}</p>`;
@@ -360,14 +398,18 @@
     }
   }
 
-  async function alternarThreadComentarios(postId, threadEl) {
+  async function alternarThreadComentarios(postId, threadEl, pagina = 1) {
     const hidden = threadEl.hidden;
     threadEl.hidden = !hidden;
     if (!hidden) return;
 
     const listaEl = threadEl.querySelector(`#comentarios-${postId}`);
     try {
-      const comentarios = await api(`/api/postagens/${postId}/comentarios`);
+      const comentarios = await api(`/api/postagens/${postId}/comentarios?pagina=${pagina}`);
+      paginacao(listaEl, pagina, comentarios.length, (p) => {
+        threadEl.hidden = true;
+        alternarThreadComentarios(postId, threadEl, p);
+      });
       listaEl.innerHTML = '';
       if (!comentarios || comentarios.length === 0) {
         listaEl.innerHTML = '<p class="muted small">Nenhum comentário ainda.</p>';
@@ -404,7 +446,7 @@
       });
       input.value = '';
       const thread = card.querySelector(`#thread-${postId}`);
-      thread.hidden = false;
+      thread.hidden = true;
       await alternarThreadComentarios(postId, thread);
       // Atualizar contagem
       const spanQtd = card.querySelector('.qtd-comentarios');
@@ -458,6 +500,42 @@
       e.preventDefault();
       carregarLista(inputBusca.value.trim());
     });
+  }
+
+  async function copiarLink(postId) {
+    const url = new URL('/comunidades.html', window.location.origin);
+    url.searchParams.set('id', comunidadeAtual.id);
+    url.searchParams.set('post', postId);
+    try {
+      if (!navigator.clipboard) throw new Error('Clipboard indisponível');
+      await navigator.clipboard.writeText(url.href);
+      exibirMensagem('Link copiado. O conteúdo exige acesso à comunidade.');
+    } catch {
+      window.prompt('Copie o link da publicação:', url.href);
+    }
+  }
+
+  function paginacao(container, pagina, quantidade, carregar) {
+    if (!container.controlePaginas) {
+      const nav = document.createElement('nav');
+      nav.className = 'paginacao-social';
+      nav.setAttribute('aria-label', 'Paginação');
+      container.after(nav);
+      container.controlePaginas = nav;
+    }
+    const nav = container.controlePaginas;
+    nav.replaceChildren();
+    nav.hidden = pagina === 1 && quantidade < 50;
+    for (const [texto, destino, desabilitado] of [
+      ['Anterior', pagina - 1, pagina === 1],
+      ['Próxima', pagina + 1, quantidade < 50]
+    ]) {
+      const btn = document.createElement('button');
+      btn.type = 'button'; btn.textContent = texto; btn.disabled = desabilitado;
+      btn.addEventListener('click', () => carregar(destino)); nav.appendChild(btn);
+    }
+    const status = document.createElement('span');
+    status.textContent = `Página ${pagina}`; nav.appendChild(status);
   }
 
   function escapeHtml(str) {

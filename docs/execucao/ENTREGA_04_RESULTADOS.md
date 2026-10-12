@@ -19,7 +19,7 @@ do Tech Lead **antes do merge**, conforme plano orientado por Codex.
 
 - **Restrições respeitadas:**
   - Nenhum framework externo (sem Spring Boot, Javalin, Hibernate/JPA, external DI).
-  - **Preservação exata dos 4 padrões GoF:** Singleton (ConfiguracaoSistema), Factory Method (CriadorUsuario), Template Method (AutenticadorBase) e Facade (EventoFacade). **Nenhum 5º padrão GoF introduzido**.
+  - **Preservação exata dos 4 padrões GoF:** Singleton (ConfiguracaoSistema), Factory Method (CadastroUsuarioCreator), Template Method (AutenticacaoTemplate) e Facade (EventoFacade). **Nenhum 5º padrão GoF introduzido**.
   - Proibição absoluta de endpoints para alteração ou exclusão de postagens (**RF-SOC-01**).
   - Transações atômicas com `ExecutorTransacional` e isolamento READ_COMMITTED.
   - Segurança server-side: autorização em todas as rotas protegidas por perfil, titularidade e integridade de sessão.
@@ -51,7 +51,7 @@ do Tech Lead **antes do merge**, conforme plano orientado por Codex.
 - **`dto.EnviarMensagemRequest`**, **`dto.CriarPostagemRequest`**, **`dto.CriarComentarioRequest`**: DTOs validados para payloads de entrada.
 
 ### 3.2 Persistência e Repositório (`br.com.joinup.comunidades.repository`)
-- **`JdbcComunidades`**: Interface pura que define os contratos de persistência JDBC.
+- **`JdbcComunidades`**: Classe utilitária com métodos estáticos de inserção, execução e mapeamento JDBC.
 - **`ComunidadeSocialRepositoryJdbc`**: Implementação JDBC pura com queries parametrizadas (`PreparedStatement`), mapeamento de `ResultSet` seguro e controle transacional. Inclui:
   - Checagem de elegibilidade por ingresso (`status IN ('ativo', 'utilizado')`).
   - Checagem de propriedade de evento para organizadores donos.
@@ -65,7 +65,7 @@ do Tech Lead **antes do merge**, conforme plano orientado por Codex.
   - Restrição de postagens e comentários exclusivamente a participantes ativos (organizadores têm acesso de leitura ao feed e participação no chat).
 
 ### 3.4 Rotas HTTP (`br.com.joinup.comunidades.http`)
-- **`ComunidadeRoutes`**: Registro no `Router` de todos os 13 endpoints sob `/api/comunidades` e `/api/postagens`. Validação de sessões através de `GerenciadorSessao` e respostas padronizadas em JSON com `EnvelopeResposta`.
+- **`ComunidadeRoutes`**: Registro no `Router` de todos os 13 endpoints sob `/api/comunidades` e `/api/postagens`. Validação de sessões através de `GerenciadorSessao` e respostas padronizadas em JSON com `HttpResponses`.
 
 ### 3.5 Integração no Bootstrap (`br.com.joinup.bootstrap`)
 - Composição de instâncias no `ApplicationBootstrap`: injeção de `ComunidadeSocialRepositoryJdbc`, `ComunidadeSocialService` e registro de `ComunidadeRoutes`.
@@ -117,6 +117,10 @@ mvnw.cmd test
 ---
 
 ## 5. Próximos Passos Recomendados
+
+O resultado de 136 testes acima é histórico de testes unitários, não evidência
+HTTP/MySQL do módulo. A homologação está condicionada à Correção 04.1, incluindo
+compartilhamento e pendências de mídia; ver [resultados](CORRECAO_04_1_RESULTADOS.md).
 
 1. **Revisão e Auditoria pelo Tech Lead** da branch `feat/04-comunidades-social`.
 2. Após aprovação técnica, integração na `main`.
