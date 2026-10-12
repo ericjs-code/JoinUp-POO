@@ -10,7 +10,7 @@
 
 - PR #6 está efetivamente merged. 20 arquivos alterados; classes relevantes: `ComunidadeSocialRepositoryJdbc`, `ComunidadeSocialService`, `ComunidadeRoutes`, `ComunidadeDetalheView`, UI e teste novo `ComunidadeMySqlIT`.
 - [Workflow do PR final](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38191563910) — **completed: success** para commit `232e06ce2f13f6f1aa4391002aab4098f06d92d3`.
-- A execução sobre `main` mergeada, [run 38191964982](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38191964982), estava **in_progress** na consulta efetuada durante esta auditoria. Confirmar que terminou `success` antes de usar a `main` como baseline de integração seguinte.
+- A execução sobre `main` mergeada, [run 38191964982](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38191964982), **concluiu com sucesso** após o merge do PR #6. Consultas posteriores confirmaram o status `completed / success`.
 - Relatório `docs/execucao/CORRECAO_04_1_RESULTADOS.md` e evidências `docs/execucao/evidencias/correcao_04_1_ci.txt`: **310 testes** (136 Surefire + 46 `MySqlIntegrationIT` + 63 `ComercioMySqlIT` + 65 `ComunidadeMySqlIT`), sem falhas/erros/ignorado, com Java 21 e MySQL 8.4.0 real. O status do workflow confirma sucesso; os totais seguem o relatório e as evidências do Codex.
 - Nenhum código de compras, revenda, autenticação ou schema/seed foi alterado no PR #6. Os quatro GoF permanecem presentes e a regressão existente integra o CI.
 
@@ -39,7 +39,7 @@
 
 **ACEITAR TECNICAMENTE a Correção 04.1 COM RESSALVA SOC-06.** Os gates técnicos prioritários de integridade e acesso social foram tratados, incluindo teste real MySQL, resposta parent da própria comunidade e concorrência de revenda; nenhuma regressão crítica comprovada nesta auditoria.
 
-**LIBERAR Entrega 05 — Suporte e Painéis** usando `docs/prompts/CODEX_05_SUPORTE_PAINEIS.md`, a partir da `main` mergeada, **após conferir a conclusão verde do CI pós-merge**. Não reabrir o PR #6 para adicionar novas funcionalidades; controlar SOC-06 na estabilização/mídia.
+**LIBERAR Entrega 05 — Suporte e Painéis** usando `docs/prompts/CODEX_05_SUPORTE_PAINEIS.md`, a partir da `main` mergeada, **com CI pós-merge confirmado verde**. Não reabrir o PR #6 para adicionar novas funcionalidades; controlar SOC-06 na estabilização/mídia.
 
 **Planejamento até 15/10:** Entrega 05 → demonstrativo automático BD-02 e política segura de imagens (escopo autorizado pelo PO) → relatório/UML RA2 e testes completos → apresentação. A cobertura integral da plataforma ainda depende dessas etapas.
 
