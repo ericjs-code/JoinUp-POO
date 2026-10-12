@@ -13,6 +13,7 @@ public final class Router implements HttpHandler {
     private final HttpResponses respostas;
     private final StaticFileHandler estaticos;
     private final int limiteCorpo;
+    private final Map<String,Integer> limitesPorRota = new HashMap<>();
     private boolean iniciado;
     public Router(HttpResponses respostas, StaticFileHandler estaticos, int limiteCorpo) {
         this.respostas = respostas; this.estaticos = estaticos; this.limiteCorpo = limiteCorpo;
@@ -41,6 +42,11 @@ public final class Router implements HttpHandler {
         if (rota.metodos().putIfAbsent(metodo, handler) != null) throw new IllegalArgumentException("Rota duplicada");
     }
     public synchronized void iniciar() { iniciado = true; }
+    public synchronized void registrarComLimite(String metodo, String caminho, int limite, ParameterizedRouteHandler handler) {
+        if (limite < 1 || limite > 1064960) throw new IllegalArgumentException("Limite inválido");
+        registrar(metodo,caminho,handler);
+        limitesPorRota.put(metodo+" "+caminho,limite);
+    }
     private static List<String> segmentos(String caminho) { return List.of(caminho.substring(1).split("/", -1)); }
     private static boolean variavel(String s) { return s.matches("\\{[A-Za-z][A-Za-z0-9]*}"); }
     private static boolean ambigua(List<String> a, List<String> b) {
@@ -76,7 +82,6 @@ public final class Router implements HttpHandler {
         try {
             String caminho = RequestPath.validar(exchange.getRequestURI());
             Map<String, String> query = RouteParameters.lerQuery(exchange.getRequestURI());
-            byte[] corpo = RequestBody.ler(exchange, limiteCorpo);
             Rota selecionada = null; Map<String, String> parametros = null;
             for (Rota rota : rotas) {
                 parametros = corresponder(rota, segmentos(caminho));
@@ -88,10 +93,12 @@ public final class Router implements HttpHandler {
                     exchange.getResponseHeaders().set("Allow", String.join(", ", selecionada.metodos().keySet()));
                     throw new HttpException(405, "METODO_NAO_PERMITIDO", "Método não permitido para esta rota");
                 }
+                byte[] corpo = RequestBody.ler(exchange, limitesPorRota.getOrDefault(exchange.getRequestMethod()+" "+selecionada.padrao(),limiteCorpo));
                 handler.handle(exchange, corpo, new RouteParameters(parametros, query));
             } else if (caminho.equals("/api") || caminho.startsWith("/api/")) {
+                RequestBody.ler(exchange,limiteCorpo);
                 throw new HttpException(404, "RECURSO_NAO_ENCONTRADO", "Recurso não encontrado");
-            } else estaticos.servir(exchange);
+            } else { RequestBody.ler(exchange,limiteCorpo); estaticos.servir(exchange); }
         } catch (HttpException e) {
             respostas.erro(exchange, e.status(), e.codigo(), e.getMessage());
         } catch (Exception e) {

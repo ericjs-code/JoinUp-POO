@@ -39,7 +39,10 @@ public final class EventoService {
     public long contar(Connection c,FiltroEventos f,Long dono) throws SQLException { return eventos.contar(c,f,dono); }
     private Evento validar(Connection c,long id,String nome,String descricao,Instant data,String imagem,String local,String cidade,String uf,String cep,Long genero,long dono) throws SQLException {
         long g=id(genero,"generoId"); if(!eventos.generoExiste(c,g)) throw invalido("generoId inexistente");
-        return new Evento(id,texto(nome,45,"nome"),data,texto(descricao,450,"descricao"),imagem(imagem),texto(local,45,"localizacao"),texto(cidade,60,"cidade"),uf(uf),cep(cep),dono,g,null);
+        String imagemValidada;
+        if(id>0 && imagem!=null && imagem.matches("/api/arquivos/[a-f0-9]{32}") && imagem.equals(buscar(c,id).imagem())) imagemValidada=imagem;
+        else imagemValidada=imagem(imagem);
+        return new Evento(id,texto(nome,45,"nome"),data,texto(descricao,450,"descricao"),imagemValidada,texto(local,45,"localizacao"),texto(cidade,60,"cidade"),uf(uf),cep(cep),dono,g,null);
     }
     private static String ou(String novo,String atual) { return novo==null?atual:novo; }
 }

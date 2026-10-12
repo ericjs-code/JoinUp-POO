@@ -1,0 +1,53 @@
+Entrega 06 — CI GitHub Actions
+PR=https://github.com/ericjs-code/JoinUp-POO/pull/8
+SHA=fe66b03aa5cdca035fc35845222bb33421e66384
+PR run=https://github.com/ericjs-code/JoinUp-POO/actions/runs/38197405445
+Push run=https://github.com/ericjs-code/JoinUp-POO/actions/runs/38197403293
+Ambos completed/success. Java 21, dois serviços mysql:8.4.0, 468 testes (167 Surefire + 301 Failsafe), 0 falhas/erros/ignorados.
+Comando: mvn --batch-mode --no-transfer-progress -Pmysql-it clean verify
+Horários das linhas a seguir são UTC; término corresponde a 11/10/2026 23:55:06 America/Sao_Paulo.
+2026-10-12T02:51:50.8783174Z [INFO] Running br.com.joinup.shared.db.SeedDemoPasswordTest
+2026-10-12T02:51:51.7830368Z [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.890 s -- in br.com.joinup.shared.db.SeedDemoPasswordTest
+2026-10-12T02:51:51.7874973Z [INFO] Running br.com.joinup.http.RouterParametersTest
+2026-10-12T02:51:53.5692166Z [INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.795 s -- in br.com.joinup.http.RouterParametersTest
+2026-10-12T02:51:53.5693854Z [INFO] Running br.com.joinup.http.HttpFoundationTest
+2026-10-12T02:51:54.2234801Z [INFO] Tests run: 33, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.646 s -- in br.com.joinup.http.HttpFoundationTest
+2026-10-12T02:51:54.2244403Z [INFO] Running br.com.joinup.compras.ValidacaoComercioTest
+2026-10-12T02:51:54.2528722Z [INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.036 s -- in br.com.joinup.compras.ValidacaoComercioTest
+2026-10-12T02:51:54.2554551Z [INFO] Running br.com.joinup.bootstrap.ApplicationBootstrapTest
+2026-10-12T02:51:54.8644982Z [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.609 s -- in br.com.joinup.bootstrap.ApplicationBootstrapTest
+2026-10-12T02:51:54.8684598Z [INFO] Running br.com.joinup.demo.SqlDemoTest
+2026-10-12T02:51:54.8685418Z [INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in br.com.joinup.demo.SqlDemoTest
+2026-10-12T02:51:54.8686365Z [INFO] Running br.com.joinup.auth.AuthenticationSecurityTest
+2026-10-12T02:51:55.6683861Z [INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.795 s -- in br.com.joinup.auth.AuthenticationSecurityTest
+2026-10-12T02:51:55.6697048Z [INFO] Running br.com.joinup.config.ConfiguracaoSistemaTest
+2026-10-12T02:51:56.0171635Z [INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.354 s -- in br.com.joinup.config.ConfiguracaoSistemaTest
+2026-10-12T02:51:56.0172924Z [INFO] Running br.com.joinup.arquivos.ImagemSeguraTest
+2026-10-12T02:51:56.4435068Z [INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.424 s -- in br.com.joinup.arquivos.ImagemSeguraTest
+2026-10-12T02:51:56.4436415Z [INFO] Running br.com.joinup.suporte.StatusTicketTest
+2026-10-12T02:51:56.4743849Z [INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.032 s -- in br.com.joinup.suporte.StatusTicketTest
+2026-10-12T02:51:56.4744790Z [INFO] Running br.com.joinup.eventos.facade.EventoFacadeTest
+2026-10-12T02:51:56.4900577Z [INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.014 s -- in br.com.joinup.eventos.facade.EventoFacadeTest
+2026-10-12T02:51:56.4922951Z [INFO] Running br.com.joinup.eventos.ValidacaoEventoTest
+2026-10-12T02:51:56.5071598Z [INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in br.com.joinup.eventos.ValidacaoEventoTest
+2026-10-12T02:51:56.5072632Z [INFO] Running br.com.joinup.comunidades.ComunidadeSocialTest
+2026-10-12T02:51:56.5154453Z [INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in br.com.joinup.comunidades.ComunidadeSocialTest
+2026-10-12T02:51:56.5244626Z [INFO] Tests run: 167, Failures: 0, Errors: 0, Skipped: 0
+2026-10-12T02:51:59.4421349Z [INFO] Running br.com.joinup.integration.ComercioMySqlIT
+2026-10-12T02:52:35.6065282Z [INFO] Tests run: 63, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 36.16 s -- in br.com.joinup.integration.ComercioMySqlIT
+2026-10-12T02:52:35.6094859Z [INFO] Running br.com.joinup.integration.ComunidadeMySqlIT
+2026-10-12T02:53:09.3540354Z [INFO] Tests run: 65, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 33.75 s -- in br.com.joinup.integration.ComunidadeMySqlIT
+2026-10-12T02:53:09.3541688Z [INFO] Running br.com.joinup.integration.MySqlIntegrationIT
+2026-10-12T02:53:34.3202103Z [INFO] Tests run: 46, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 24.96 s -- in br.com.joinup.integration.MySqlIntegrationIT
+2026-10-12T02:53:34.3207740Z [INFO] Running br.com.joinup.integration.PaineisMySqlIT
+2026-10-12T02:53:44.4610395Z [INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.15 s -- in br.com.joinup.integration.PaineisMySqlIT
+2026-10-12T02:53:44.4611611Z [INFO] Running br.com.joinup.integration.SuporteMySqlIT
+2026-10-12T02:54:21.7895820Z [INFO] Tests run: 63, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 37.33 s -- in br.com.joinup.integration.SuporteMySqlIT
+2026-10-12T02:54:21.7897169Z [INFO] Running br.com.joinup.integration.ZArquivosMySqlIT
+2026-10-12T02:54:59.8320826Z [INFO] Tests run: 45, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 38.04 s -- in br.com.joinup.integration.ZArquivosMySqlIT
+2026-10-12T02:54:59.8322040Z [INFO] Running br.com.joinup.integration.ZDemoMySqlIT
+2026-10-12T02:55:05.9646067Z [INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.132 s -- in br.com.joinup.integration.ZDemoMySqlIT
+2026-10-12T02:55:05.9869134Z [INFO] Tests run: 301, Failures: 0, Errors: 0, Skipped: 0
+2026-10-12T02:55:06.5299179Z [INFO] BUILD SUCCESS
+2026-10-12T02:55:06.5315231Z [INFO] Total time:  03:27 min
+2026-10-12T02:55:06.5316553Z [INFO] Finished at: 2026-10-12T02:55:06Z

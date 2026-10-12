@@ -13,7 +13,7 @@ public class ComunidadeSocialRepositoryJdbc {
 
     public List<ComunidadeResumo> listarComunidades(Connection c, String busca, int tamanho, int deslocamento) throws SQLException {
         String sql = """
-            SELECT cm.id_comunidade, cm.nome, cm.descricao, cm.imagem, cm.id_evento, e.nome AS evento_nome, cm.data_criacao
+            SELECT cm.id_comunidade, cm.nome, cm.descricao, e.imagem AS imagem, cm.id_evento, e.nome AS evento_nome, cm.data_criacao
             FROM comunidades cm
             JOIN eventos e ON e.id_evento = cm.id_evento
             WHERE (? IS NULL OR ? = '' OR cm.nome LIKE ? OR e.nome LIKE ?)
@@ -47,7 +47,7 @@ public class ComunidadeSocialRepositoryJdbc {
 
     public ComunidadeResumo buscarComunidade(Connection c, long id) throws SQLException {
         String sql = """
-            SELECT cm.id_comunidade, cm.nome, cm.descricao, cm.imagem, cm.id_evento, e.nome AS evento_nome, cm.data_criacao
+            SELECT cm.id_comunidade, cm.nome, cm.descricao, e.imagem AS imagem, cm.id_evento, e.nome AS evento_nome, cm.data_criacao
             FROM comunidades cm
             JOIN eventos e ON e.id_evento = cm.id_evento
             WHERE cm.id_comunidade = ?

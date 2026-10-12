@@ -1,6 +1,10 @@
 # Comunidades e feed social — contratos efetivos da Entrega 04
 
-Data: 11/10/2026. Java 21 / HttpServer / JDBC / MySQL 8. Complementa o
+Data: 11/10/2026. **Mídia evoluída na Entrega 06:** os limites textuais permanecem;
+texto e/ou imagem local autorizada são aceitos no feed e chat, conforme
+[ARQUIVOS_HTTP_06.md](ARQUIVOS_HTTP_06.md). As restrições de imagem abaixo
+descrevem o estado histórico da Correção 04.1.
+ Java 21 / HttpServer / JDBC / MySQL 8. Complementa o
 [contrato aprovado](CONTRATOS_HTTP_v0.1.md) e adendos RF-COM-05 e RF-COM-06.
 
 ---

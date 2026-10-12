@@ -6,7 +6,7 @@
   <title>Comunidades | JoinUp</title>
   <link rel="stylesheet" href="/css/conta.css">
   <link rel="stylesheet" href="/css/comunidades.css">
-  <script src="/js/comunidades.js" defer></script>
+  <link rel="stylesheet" href="/css/midia.css"><script src="/js/midia.js" defer></script><script src="/js/comunidades.js" defer></script>
 </head>
 <body>
   <header>
@@ -73,8 +73,8 @@
           <p class="muted">Carregando mensagens...</p>
         </div>
         <form id="form-enviar-msg" class="chat-form">
-          <input id="input-msg-texto" name="mensagem" maxlength="1000" placeholder="Digite sua mensagem para a comunidade..." required>
-          <button id="btn-enviar-msg" type="submit">Enviar</button>
+          <input id="input-msg-texto" name="mensagem" maxlength="1000" placeholder="Digite sua mensagem para a comunidade...">
+          <label>Imagem opcional (até 1 MiB)<input id="arquivo-mensagem" type="file" accept="image/png,image/jpeg,image/webp" data-midia></label><button id="btn-enviar-msg" type="submit">Enviar</button>
         </form>
       </div>
 
@@ -83,7 +83,7 @@
         <div id="box-novo-post" class="box-novo-post">
           <h3>Nova Publicação</h3>
           <form id="form-novo-post">
-            <textarea id="input-post-texto" name="descricao" maxlength="500" placeholder="O que você está achando do evento? Compartilhe com a comunidade..." rows="3" required></textarea>
+            <textarea id="input-post-texto" name="descricao" maxlength="500" placeholder="O que você está achando do evento? Compartilhe com a comunidade..." rows="3"></textarea><label>Imagem opcional (até 1 MiB)<input id="arquivo-postagem" type="file" accept="image/png,image/jpeg,image/webp" data-midia></label>
             <div class="novo-post-rodape">
               <span class="muted small">Sem edição ou exclusão posterior (RF-SOC-01)</span>
               <button id="btn-publicar-post" type="submit">Publicar no Feed</button>

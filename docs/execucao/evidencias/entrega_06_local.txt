@@ -1,0 +1,21 @@
+Entrega 06: Java 21 / MySQL 8.4.0 real, joinup_poo isolado.
+Execução completa local: -Pmysql-it clean verify; BUILD SUCCESS em 2026-10-11 23:36:31 America/Sao_Paulo; 468 testes (167 + 301), 0 falhas/erros/ignorados.
+Suítes completas: MySqlIntegrationIT=46; ComercioMySqlIT=63; ComunidadeMySqlIT=65; SuporteMySqlIT=63; PaineisMySqlIT=11; ZArquivosMySqlIT=45; ZDemoMySqlIT=8.
+Regressão antiga=397; adição=71. Schema/seed v0.2 e arquivos dos testes antigos intactos.
+Após refinamentos, mídia + unitários reexecutados com clean; abaixo resultados extraídos dos XML finais desta execução focada:
+br.com.joinup.arquivos.ImagemSeguraTest: {'tests': 16, 'failures': 0, 'errors': 0, 'skipped': 0}; timestamp=None; seconds=0.225
+br.com.joinup.auth.AuthenticationSecurityTest: {'tests': 18, 'failures': 0, 'errors': 0, 'skipped': 0}; timestamp=None; seconds=1.029
+br.com.joinup.bootstrap.ApplicationBootstrapTest: {'tests': 2, 'failures': 0, 'errors': 0, 'skipped': 0}; timestamp=None; seconds=0.487
+br.com.joinup.compras.ValidacaoComercioTest: {'tests': 16, 'failures': 0, 'errors': 0, 'skipped': 0}; timestamp=None; seconds=0.024
+br.com.joinup.comunidades.ComunidadeSocialTest: {'tests': 9, 'failures': 0, 'errors': 0, 'skipped': 0}; timestamp=None; seconds=0.02
+br.com.joinup.config.ConfiguracaoSistemaTest: {'tests': 16, 'failures': 0, 'errors': 0, 'skipped': 0}; timestamp=None; seconds=0.644
+br.com.joinup.demo.SqlDemoTest: {'tests': 2, 'failures': 0, 'errors': 0, 'skipped': 0}; timestamp=None; seconds=0.003
+br.com.joinup.eventos.facade.EventoFacadeTest: {'tests': 4, 'failures': 0, 'errors': 0, 'skipped': 0}; timestamp=None; seconds=0.01
+br.com.joinup.eventos.ValidacaoEventoTest: {'tests': 21, 'failures': 0, 'errors': 0, 'skipped': 0}; timestamp=None; seconds=0.031
+br.com.joinup.http.HttpFoundationTest: {'tests': 33, 'failures': 0, 'errors': 0, 'skipped': 0}; timestamp=None; seconds=0.155
+br.com.joinup.http.RouterParametersTest: {'tests': 16, 'failures': 0, 'errors': 0, 'skipped': 0}; timestamp=None; seconds=0.074
+br.com.joinup.shared.db.SeedDemoPasswordTest: {'tests': 1, 'failures': 0, 'errors': 0, 'skipped': 0}; timestamp=None; seconds=0.608
+br.com.joinup.suporte.StatusTicketTest: {'tests': 13, 'failures': 0, 'errors': 0, 'skipped': 0}; timestamp=None; seconds=0.026
+surefire-reports: {'tests': 167, 'failures': 0, 'errors': 0, 'skipped': 0}
+br.com.joinup.integration.ZArquivosMySqlIT: {'tests': 45, 'failures': 0, 'errors': 0, 'skipped': 0}; timestamp=None; seconds=30.145
+failsafe-reports: {'tests': 45, 'failures': 0, 'errors': 0, 'skipped': 0}
