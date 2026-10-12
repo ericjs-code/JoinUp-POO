@@ -90,10 +90,10 @@ EventoRepositoryJdbc ..> JdbcEventos
 ArtistaRepositoryJdbc ..> JdbcEventos
 TipoIngressoRepositoryJdbc ..> JdbcEventos
 ComunidadeRepositoryJdbc ..> JdbcEventos
-EventoView *-- "1" ItemCatalogo : genero
-EventoView *-- "1..*" ItemCatalogo : artistas
-EventoView *-- "1..*" TipoIngresso : tiposIngresso
-EventoView o-- "0..1" Comunidade : referência pública
+EventoView --> "1" ItemCatalogo : genero (view produzida pela Facade)
+EventoView --> "0..*" ItemCatalogo : artistas (List)
+EventoView --> "0..*" TipoIngresso : tiposIngresso (List)
+EventoView --> "0..1" Comunidade : referência pública nullable
 Evento ..> Organizador : organizadorId (FK)
 Comunidade ..> Evento : eventoId (FK UNIQUE)
 note bottom of Evento

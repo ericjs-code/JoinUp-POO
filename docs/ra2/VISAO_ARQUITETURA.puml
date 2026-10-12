@@ -1,0 +1,117 @@
+@startuml
+title JoinUp-POO — Visão para apresentação / main 7efe29c
+' Layout Graphviz par défaut, validé avec PlantUML 1.2025.2
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam defaultFontName Arial
+hide members
+left to right direction
+package bootstrap {
+  class Main
+  class ApplicationBootstrap
+}
+package config {
+  class ConfiguracaoSistema <<Singleton>>
+}
+package http {
+  class Router
+}
+package "usuarios / auth" {
+  class UsuarioRoutes
+  abstract class CadastroUsuarioCreator <<Factory Method>> {
+    +{final} cadastrar(dados: CadastroDados, tokenOperador: String): Usuario
+    #{abstract} criarUsuario(dados: CadastroDados, hashSenha: String): Usuario
+  }
+  abstract class AutenticacaoTemplate <<Template Method>> {
+    +{final} autenticar(credenciais: Credenciais): SessaoEmitida
+    #{abstract} buscarUsuario(c: Connection, email: String): Usuario
+  }
+}
+package eventos {
+  class EventoRoutes
+  class EventoFacade <<Facade>> {
+    +criarEvento(token: String, dados: CriarEventoDados): EventoView
+  }
+  class EventoService
+  class ArtistaService
+  class TipoIngressoService
+  class ComunidadeService
+}
+package "compras / revendas" {
+  class ComercioRoutes
+  class CompraService
+  class RevendaService
+}
+package comunidades {
+  class ComunidadeRoutes
+  class ComunidadeSocialService
+}
+package "suporte / paineis" {
+  class TicketRoutes
+  class TicketService
+  class PainelRoutes
+  class PainelService
+}
+package "arquivos / demo" {
+  class ArquivoRoutes
+  class ArquivoService
+  class ArmazenamentoLocal
+  class DemoRunner
+}
+package "shared/db" {
+  class ExecutorTransacional {
+    +executar(operacao: Operacao<T>): T
+  }
+  class ConnectionFactory {
+    +abrirConexao(): Connection
+  }
+}
+Main ..> ConfiguracaoSistema
+Main ..> ApplicationBootstrap
+ApplicationBootstrap --> ConfiguracaoSistema
+ApplicationBootstrap --> Router
+ApplicationBootstrap ..> DemoRunner : antes de iniciar HTTP
+ApplicationBootstrap ..> UsuarioRoutes
+ApplicationBootstrap ..> EventoRoutes
+ApplicationBootstrap ..> ComercioRoutes
+ApplicationBootstrap ..> ComunidadeRoutes
+ApplicationBootstrap ..> TicketRoutes
+ApplicationBootstrap ..> PainelRoutes
+ApplicationBootstrap ..> ArquivoRoutes
+UsuarioRoutes ..> CadastroUsuarioCreator
+UsuarioRoutes ..> AutenticacaoTemplate
+EventoRoutes --> EventoFacade
+EventoFacade --> EventoService
+EventoFacade --> ArtistaService
+EventoFacade --> TipoIngressoService
+EventoFacade --> ComunidadeService
+ComercioRoutes --> CompraService
+ComercioRoutes --> RevendaService
+ComunidadeRoutes --> ComunidadeSocialService
+TicketRoutes --> TicketService
+PainelRoutes --> PainelService
+ArquivoRoutes --> ArquivoService
+ArquivoService --> ArmazenamentoLocal
+EventoFacade --> ExecutorTransacional
+CadastroUsuarioCreator --> ExecutorTransacional
+AutenticacaoTemplate --> ExecutorTransacional
+CompraService --> ExecutorTransacional
+RevendaService --> ExecutorTransacional
+ComunidadeSocialService --> ExecutorTransacional
+TicketService --> ExecutorTransacional
+PainelService --> ExecutorTransacional
+ArquivoService --> ExecutorTransacional
+ExecutorTransacional --> ConnectionFactory
+note bottom of ExecutorTransacional
+  Também usado em contas (tipo omitido).
+  Connection compartilhada entre repositórios na operação.
+  Repositórios e DTOs estão no diagrama integral.
+end note
+legend bottom
+Visão resumida: tipos representativos reais; não é inventário completo.
+Bootstrap monta rotas e colaboradores manualmente (arestas de criação parciais).
+Social e mídia dependem mutuamente para autorização/vínculo (setas omitidas).
+Rotas registram handlers no Router. Somente os quatro GoF marcados são reivindicados.
+endlegend
+@enduml

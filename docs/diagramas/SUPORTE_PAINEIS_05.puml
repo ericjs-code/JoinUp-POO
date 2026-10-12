@@ -87,10 +87,10 @@ TicketService --> GerenciadorSessao
 TicketService ..> StatusTicket : valida sob lock
 TicketRepositoryJdbc ..> Ticket
 TicketRepositoryJdbc ..> MensagemTicket
-TicketDetalhe *-- "1" Ticket
-TicketDetalhe *-- "0..*" MensagemTicket : página
+TicketDetalhe --> "1" Ticket : referência na projeção
+TicketDetalhe --> "0..*" MensagemTicket : página (List)
 Ticket --> StatusTicket
-PaginaTickets *-- "0..*" Ticket
+PaginaTickets --> "0..*" Ticket : dados (List)
 TicketService ..> AbrirTicketDados
 TicketService ..> MensagemTicketDados
 PainelRoutes --> PainelService

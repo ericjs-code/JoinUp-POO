@@ -1,0 +1,1659 @@
+@startuml
+title JoinUp-POO — Classes reais / main 7efe29c (12/10/2026)
+' Layout Graphviz par défaut, validé avec PlantUML 1.2025.2
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam defaultFontName Arial
+skinparam linetype ortho
+skinparam defaultFontSize 12
+hide empty members
+left to right direction
+package "arquivos" {
+  class "ArmazenamentoLocal" as br_com_joinup_arquivos_ArmazenamentoLocal {
+    -raiz: Path
+    +ArmazenamentoLocal(raiz: Path)
+    +gravar(id: String, b: byte[]): void
+    +ler(id: String): byte[]
+    +apagar(id: String): void
+  }
+  class "ArquivoRoutes" as br_com_joinup_arquivos_ArquivoRoutes {
+    -service: ArquivoService
+    -contas: ContaService
+    -seguranca: SegurancaHttp
+    -respostas: HttpResponses
+    +ArquivoRoutes(s: ArquivoService, c: ContaService, h: SegurancaHttp, r: HttpResponses)
+    +registrar(router: Router): void
+  }
+  class "ArquivoService" as br_com_joinup_arquivos_ArquivoService {
+    -transacoes: ExecutorTransacional
+    -sessoes: GerenciadorSessao
+    -social: ComunidadeSocialService
+    -eventos: EventoService
+    -armazenamento: ArmazenamentoLocal
+    -clock: Clock
+    +ArquivoService(t: ExecutorTransacional, s: GerenciadorSessao, social: ComunidadeSocialService, eventos: EventoService, a: ArmazenamentoLocal, clock: Clock)
+    +enviar(token: String, m: MultipartImagem): ArquivoView
+    +vincular(c: Connection, u: Usuario, comunidade: long, contexto: String, imagem: String, entidade: long): void
+    +ler(token: String, id: String): byte[]
+    +{static} idReferencia(imagem: String): String
+  }
+  class "ArquivoService.ArquivoView" as br_com_joinup_arquivos_ArquivoService_ArquivoView <<record>> {
+    -id: String
+    -imagem: String
+  }
+  class "ImagemSegura" as br_com_joinup_arquivos_ImagemSegura {
+    +{static} normalizar(m: MultipartImagem): byte[]
+  }
+  class "MultipartImagem" as br_com_joinup_arquivos_MultipartImagem <<record>> {
+    -contexto: String
+    -alvoId: long
+    -nome: String
+    -mime: String
+    -bytes: byte[]
+    +{static} MAX_IMAGEM: int
+    +{static} MAX_CORPO: int
+    -{static} TIPO: Pattern
+    -{static} DISPOSICAO: Pattern
+    +{static} ler(tipo: String, corpo: byte[]): MultipartImagem
+  }
+}
+package "auth" {
+  class "AutenticacaoOrganizador" as br_com_joinup_auth_AutenticacaoOrganizador {
+    -usuarios: OrganizadorRepositoryJdbc
+    +AutenticacaoOrganizador(t: ExecutorTransacional, v: VerificadorSenha, s: GerenciadorSessao, usuarios: OrganizadorRepositoryJdbc)
+    #buscarUsuario(c: Connection, email: String): Usuario
+    #validarRegraDoPerfil(usuario: Usuario): void
+  }
+  class "AutenticacaoParticipante" as br_com_joinup_auth_AutenticacaoParticipante {
+    -usuarios: ParticipanteRepositoryJdbc
+    +AutenticacaoParticipante(t: ExecutorTransacional, v: VerificadorSenha, s: GerenciadorSessao, usuarios: ParticipanteRepositoryJdbc)
+    #buscarUsuario(c: Connection, email: String): Usuario
+    #validarRegraDoPerfil(usuario: Usuario): void
+  }
+  class "AutenticacaoSuporte" as br_com_joinup_auth_AutenticacaoSuporte {
+    -usuarios: SuporteRepositoryJdbc
+    +AutenticacaoSuporte(t: ExecutorTransacional, v: VerificadorSenha, s: GerenciadorSessao, usuarios: SuporteRepositoryJdbc)
+    #buscarUsuario(c: Connection, email: String): Usuario
+    #validarRegraDoPerfil(usuario: Usuario): void
+  }
+  abstract class "AutenticacaoTemplate" as br_com_joinup_auth_AutenticacaoTemplate <<Template Method>> {
+    -transacoes: ExecutorTransacional
+    -senhas: VerificadorSenha
+    -sessoes: GerenciadorSessao
+    #AutenticacaoTemplate(transacoes: ExecutorTransacional, senhas: VerificadorSenha, sessoes: GerenciadorSessao)
+    +{final} autenticar(credenciais: Credenciais): SessaoEmitida
+    #{abstract} buscarUsuario(c: Connection, email: String): Usuario
+    #{abstract} validarRegraDoPerfil(usuario: Usuario): void
+  }
+  class "GerenciadorSessao" as br_com_joinup_auth_GerenciadorSessao {
+    -random: SecureRandom
+    -sessoes: SessaoRepositoryJdbc
+    -usuarios: RepositoriosUsuarios
+    -duracaoSegundos: long
+    +GerenciadorSessao(sessoes: SessaoRepositoryJdbc, usuarios: RepositoriosUsuarios, duracaoSegundos: long)
+    +criar(c: Connection, usuario: Usuario): SessaoEmitida
+    +exigir(c: Connection, token: String, permitidos: Perfil[]): Usuario
+    +revogar(c: Connection, token: String): void
+    +exigirParticipanteComContas(c: Connection, token: String, participantes: java.util.Collection<Long>, organizadores: java.util.Collection<Long>): Usuario
+    +revogarTodas(c: Connection, usuario: Usuario): void
+    +{static} hashToken(token: String): String
+    +{static} naoAutenticado(): HttpException
+  }
+  class "SegurancaHttp" as br_com_joinup_auth_SegurancaHttp {
+    +{static} COOKIE: String
+    -origem: Supplier<String>
+    +SegurancaHttp(origem: Supplier<String>)
+    +exigirCsrf(exchange: HttpExchange): void
+    +{static} origin(uri: URI): String
+    +{static} token(exchange: HttpExchange): String
+    +emitirCookie(exchange: HttpExchange, sessao: SessaoEmitida): void
+    +limparCookie(exchange: HttpExchange): void
+    +{static} exigirJson(exchange: HttpExchange): void
+  }
+  class "SenhasPbkdf2" as br_com_joinup_auth_SenhasPbkdf2 {
+    -random: SecureRandom
+    -iteracoes: int
+    -hashAusente: String
+    +SenhasPbkdf2(iteracoes: int)
+    +gerar(senha: String): String
+    +verificar(senha: String, hash: String): boolean
+  }
+  class "SessaoEmitida" as br_com_joinup_auth_SessaoEmitida <<record>> {
+    -token: String
+    -usuario: Usuario
+    -duracaoSegundos: long
+    +toString(): String
+  }
+  class "SessaoRepositoryJdbc" as br_com_joinup_auth_SessaoRepositoryJdbc {
+    +criar(c: Connection, hash: String, usuario: Usuario, segundos: long): void
+    +localizar(c: Connection, hash: String): Titular
+    +validarEBloquear(c: Connection, hash: String): boolean
+    +revogar(c: Connection, hash: String): void
+    +revogarTodas(c: Connection, usuario: Usuario): void
+  }
+  class "SessaoRepositoryJdbc.Titular" as br_com_joinup_auth_SessaoRepositoryJdbc_Titular <<record>> {
+    -id: long
+    -perfil: Perfil
+  }
+  interface "VerificadorSenha" as br_com_joinup_auth_VerificadorSenha {
+    +verificar(senha: String, hash: String): boolean
+  }
+}
+package "bootstrap" {
+  class "ApplicationBootstrap" as br_com_joinup_bootstrap_ApplicationBootstrap {
+    -servidor: HttpServer
+    -endereco: InetSocketAddress
+    -router: Router
+    -executor: ThreadPoolExecutor
+    -connectionFactory: ConnectionFactory
+    -encerramento: CountDownLatch
+    -iniciado: boolean
+    -fechado: boolean
+    +ApplicationBootstrap(configuracao: ConfiguracaoSistema)
+    +ApplicationBootstrap(configuracao: ConfiguracaoSistema, endereco: InetSocketAddress)
+    +iniciar(): void
+    +getPortaHttp(): int
+    +getConnectionFactory(): ConnectionFactory
+    +aguardarEncerramento(): void
+    +close(): void
+  }
+}
+package "br.com.joinup" {
+  class "Main" as br_com_joinup_Main {
+    +{static} main(args: String[]): void
+  }
+}
+package "compras.domain" {
+  class "EventoComercial" as br_com_joinup_compras_domain_EventoComercial <<record>> {
+    -id: long
+    -organizadorId: long
+    -nome: String
+    -data: Instant
+    -local: String
+  }
+  class "Ingresso" as br_com_joinup_compras_domain_Ingresso <<record>> {
+    -id: long
+    -participanteId: long
+    -eventoId: long
+    -tipoIngressoId: long
+    -status: String
+  }
+}
+package "compras.dto" {
+  class "CompraDados" as br_com_joinup_compras_dto_CompraDados <<record>> {
+    -eventoId: Long
+    -itens: List<Item>
+  }
+  class "CompraDados.Item" as br_com_joinup_compras_dto_CompraDados_Item <<record>> {
+    -tipoIngressoId: Long
+    -quantidade: Integer
+  }
+}
+package "compras.http" {
+  class "ComercioRoutes" as br_com_joinup_compras_http_ComercioRoutes {
+    -json: JsonCodec
+    -respostas: HttpResponses
+    -seguranca: SegurancaHttp
+    -contas: ContaService
+    -compras: CompraService
+    -revendas: RevendaService
+    +ComercioRoutes(j: JsonCodec, r: HttpResponses, s: SegurancaHttp, c: ContaService, compras: CompraService, revendas: RevendaService)
+    +registrar(router: Router): void
+  }
+}
+package "compras.repository" {
+  class "CompraRepositoryJdbc" as br_com_joinup_compras_repository_CompraRepositoryJdbc {
+    +evento(c: Connection, id: long, lock: boolean): EventoComercial
+    +baixarEstoque(c: Connection, tipo: long, quantidade: int): void
+    +criar(c: Connection, participante: long, e: EventoComercial, total: BigDecimal): long
+    +item(c: Connection, compra: long, tipo: long, quantidade: int, preco: BigDecimal, subtotal: BigDecimal): void
+    +emitir(c: Connection, compra: long, participante: long, evento: long, tipo: long): long
+    +historico(c: Connection, participante: long): List<Map<String, Object>>
+  }
+  class "IngressoRepositoryJdbc" as br_com_joinup_compras_repository_IngressoRepositoryJdbc {
+    +buscar(c: Connection, id: long, lock: boolean): Ingresso
+    +transferir(c: Connection, i: Ingresso, comprador: long): void
+    +sairSemIngressoElegivel(c: Connection, vendedor: long, evento: long): void
+    +listar(c: Connection, titular: long, ingresso: Long): List<Map<String, Object>>
+  }
+  class "JdbcComercio" as br_com_joinup_compras_repository_JdbcComercio {
+    +{static} preencher(ps: PreparedStatement, args: Object[]): void
+    +{static} executar(c: Connection, sql: String, args: Object[]): int
+    +{static} inserir(c: Connection, sql: String, args: Object[]): long
+    +{static} instante(rs: ResultSet, campo: String): Instant
+  }
+}
+package "compras.service" {
+  class "CompraService" as br_com_joinup_compras_service_CompraService {
+    -transacoes: ExecutorTransacional
+    -sessoes: GerenciadorSessao
+    -compras: CompraRepositoryJdbc
+    -tipos: TipoIngressoRepositoryJdbc
+    -ingressos: IngressoRepositoryJdbc
+    -revendas: RevendaRepositoryJdbc
+    -clock: Clock
+    +CompraService(t: ExecutorTransacional, s: GerenciadorSessao, c: CompraRepositoryJdbc, tipos: TipoIngressoRepositoryJdbc, i: IngressoRepositoryJdbc, r: RevendaRepositoryJdbc, clock: Clock)
+    +comprar(token: String, dados: CompraDados): Map<String, Object>
+    +historico(token: String): Map<String, Object>
+    +ingressos(token: String): List<Map<String, Object>>
+    +ingresso(token: String, id: long): Map<String, Object>
+  }
+  class "ValidacaoComercio" as br_com_joinup_compras_service_ValidacaoComercio {
+    +{static} itens(dados: CompraDados): List<CompraDados.Item>
+    +{static} ingressos(ids: List<Long>): List<Long>
+    +{static} precoRevenda(preco: BigDecimal): BigDecimal
+    +{static} total(total: BigDecimal): BigDecimal
+    +{static} antesInicio(data: Instant, agora: Instant): void
+    +{static} indisponivel(): HttpException
+  }
+}
+package "comunidades.domain" {
+  class "Comentario" as br_com_joinup_comunidades_domain_Comentario <<record>> {
+    -id: long
+    -postagemId: long
+    -participanteId: long
+    -autorNome: String
+    -texto: String
+    -dataComentario: Instant
+  }
+  class "ComunidadeResumo" as br_com_joinup_comunidades_domain_ComunidadeResumo <<record>> {
+    -id: long
+    -nome: String
+    -descricao: String
+    -imagem: String
+    -eventoId: long
+    -eventoNome: String
+    -dataCriacao: Instant
+  }
+  class "MensagemComunidade" as br_com_joinup_comunidades_domain_MensagemComunidade <<record>> {
+    -id: long
+    -comunidadeId: long
+    -autorTipo: String
+    -participanteId: Long
+    -organizadorId: Long
+    -autorNome: String
+    -mensagem: String
+    -imagem: String
+    -idRespostaA: Long
+    -dataEnvio: Instant
+  }
+  class "Postagem" as br_com_joinup_comunidades_domain_Postagem <<record>> {
+    -id: long
+    -comunidadeId: long
+    -participanteId: long
+    -autorNome: String
+    -descricao: String
+    -imagem: String
+    -curtidas: int
+    -totalComentarios: int
+    -dataPostagem: Instant
+    -curtidoPeloUsuario: boolean
+  }
+}
+package "comunidades.dto" {
+  class "ComunidadeDetalheView" as br_com_joinup_comunidades_dto_ComunidadeDetalheView <<record>> {
+    -id: long
+    -nome: String
+    -descricao: String
+    -imagem: String
+    -eventoId: long
+    -eventoNome: String
+    -dataCriacao: Instant
+    -membroAtivo: boolean
+    -elegivelParaEntrar: boolean
+    -acessoConteudo: boolean
+  }
+  class "CriarComentarioRequest" as br_com_joinup_comunidades_dto_CriarComentarioRequest <<record>> {
+    -texto: String
+  }
+  class "CriarPostagemRequest" as br_com_joinup_comunidades_dto_CriarPostagemRequest <<record>> {
+    -descricao: String
+    -imagem: String
+  }
+  class "EnviarMensagemRequest" as br_com_joinup_comunidades_dto_EnviarMensagemRequest <<record>> {
+    -mensagem: String
+    -imagem: String
+    -idRespostaA: Long
+  }
+}
+package "comunidades.http" {
+  class "ComunidadeRoutes" as br_com_joinup_comunidades_http_ComunidadeRoutes {
+    -json: JsonCodec
+    -respostas: HttpResponses
+    -seguranca: SegurancaHttp
+    -contas: ContaService
+    -service: ComunidadeSocialService
+    +ComunidadeRoutes(json: JsonCodec, respostas: HttpResponses, seguranca: SegurancaHttp, contas: ContaService, service: ComunidadeSocialService)
+    +registrar(router: Router): void
+  }
+}
+package "comunidades.repository" {
+  class "ComunidadeSocialRepositoryJdbc" as br_com_joinup_comunidades_repository_ComunidadeSocialRepositoryJdbc {
+    +listarComunidades(c: Connection, busca: String): List<ComunidadeResumo>
+    +listarComunidades(c: Connection, busca: String, tamanho: int, deslocamento: int): List<ComunidadeResumo>
+    +buscarComunidade(c: Connection, id: long): ComunidadeResumo
+    +verificarMembroAtivo(c: Connection, comunidadeId: long, participanteId: long): boolean
+    +verificarIngressoElegivel(c: Connection, comunidadeId: long, participanteId: long): boolean
+    +verificarOrganizadorDono(c: Connection, comunidadeId: long, organizadorId: long): boolean
+    +entrarComunidade(c: Connection, comunidadeId: long, participanteId: long): void
+    +sairComunidade(c: Connection, comunidadeId: long, participanteId: long): void
+    +listarMensagens(c: Connection, comunidadeId: long): List<MensagemComunidade>
+    +listarMensagens(c: Connection, comunidadeId: long, tamanho: int, deslocamento: int): List<MensagemComunidade>
+    +listarMensagens(c: Connection, comunidadeId: long, tamanho: int, deslocamento: int, id: Long): List<MensagemComunidade>
+    +enviarMensagem(c: Connection, comunidadeId: long, autorTipo: String, participanteId: Long, organizadorId: Long, texto: String, imagem: String, idRespostaA: Long): long
+    +listarPostagens(c: Connection, comunidadeId: long, participanteIdLogado: Long): List<Postagem>
+    +listarPostagens(c: Connection, comunidadeId: long, participanteIdLogado: Long, tamanho: int, deslocamento: int): List<Postagem>
+    +buscarPostagem(c: Connection, postagemId: long, participanteIdLogado: Long): Postagem
+    +criarPostagem(c: Connection, comunidadeId: long, participanteId: long, descricao: String, imagem: String): long
+    +curtirPostagem(c: Connection, postagemId: long, participanteId: long): void
+    +descurtirPostagem(c: Connection, postagemId: long, participanteId: long): void
+    +listarComentarios(c: Connection, postagemId: long): List<Comentario>
+    +listarComentarios(c: Connection, postagemId: long, tamanho: int, deslocamento: int): List<Comentario>
+    +listarComentarios(c: Connection, postagemId: long, tamanho: int, deslocamento: int, id: Long): List<Comentario>
+    +adicionarComentario(c: Connection, postagemId: long, participanteId: long, texto: String): long
+    +buscarComunidadeIdDaPostagem(c: Connection, postagemId: long): Long
+    +bloquearAcesso(c: Connection, comunidadeId: long, u: br.com.joinup.usuarios.domain.Usuario): void
+    +respostaNaComunidade(c: Connection, comunidadeId: long, mensagemId: long): boolean
+  }
+  class "JdbcComunidades" as br_com_joinup_comunidades_repository_JdbcComunidades {
+    +{static} preencher(ps: PreparedStatement, args: Object[]): void
+    +{static} executar(c: Connection, sql: String, args: Object[]): int
+    +{static} inserir(c: Connection, sql: String, args: Object[]): long
+    +{static} instante(rs: ResultSet, campo: String): Instant
+  }
+}
+package "comunidades.service" {
+  class "ComunidadeSocialService" as br_com_joinup_comunidades_service_ComunidadeSocialService {
+    -transacoes: ExecutorTransacional
+    -sessoes: GerenciadorSessao
+    -repository: ComunidadeSocialRepositoryJdbc
+    -arquivos: br.com.joinup.arquivos.ArquivoService
+    +configurarArquivos(arquivos: br.com.joinup.arquivos.ArquivoService): void
+    +ComunidadeSocialService(transacoes: ExecutorTransacional, sessoes: GerenciadorSessao, repository: ComunidadeSocialRepositoryJdbc)
+    +listar(busca: String): List<ComunidadeResumo>
+    +listar(c: Connection, busca: String): List<ComunidadeResumo>
+    +detalhe(tokenOpcional: String, comunidadeId: long): ComunidadeDetalheView
+    +detalhe(c: Connection, usuarioOpcional: Usuario, comunidadeId: long): ComunidadeDetalheView
+    +entrar(token: String, comunidadeId: long): void
+    +entrar(c: Connection, u: Usuario, comunidadeId: long): void
+    +sair(token: String, comunidadeId: long): void
+    +sair(c: Connection, u: Usuario, comunidadeId: long): void
+    +listarMensagens(token: String, comunidadeId: long): List<MensagemComunidade>
+    +listarMensagens(c: Connection, u: Usuario, comunidadeId: long): List<MensagemComunidade>
+    +enviarMensagem(token: String, comunidadeId: long, req: EnviarMensagemRequest): MensagemComunidade
+    +enviarMensagem(c: Connection, u: Usuario, comunidadeId: long, req: EnviarMensagemRequest): MensagemComunidade
+    +listarPostagens(token: String, comunidadeId: long): List<Postagem>
+    +listarPostagens(c: Connection, u: Usuario, comunidadeId: long): List<Postagem>
+    +criarPostagem(token: String, comunidadeId: long, req: CriarPostagemRequest): Postagem
+    +criarPostagem(c: Connection, u: Usuario, comunidadeId: long, req: CriarPostagemRequest): Postagem
+    +detalhePostagem(token: String, postagemId: long): Postagem
+    +detalhePostagem(c: Connection, u: Usuario, postagemId: long): Postagem
+    +curtir(token: String, postagemId: long): Postagem
+    +curtir(c: Connection, u: Usuario, postagemId: long): Postagem
+    +descurtir(token: String, postagemId: long): Postagem
+    +descurtir(c: Connection, u: Usuario, postagemId: long): Postagem
+    +listarComentarios(token: String, postagemId: long): List<Comentario>
+    +listarComentarios(c: Connection, u: Usuario, postagemId: long): List<Comentario>
+    +adicionarComentario(token: String, postagemId: long, req: CriarComentarioRequest): Comentario
+    +adicionarComentario(c: Connection, u: Usuario, postagemId: long, req: CriarComentarioRequest): Comentario
+    +validarAcessoComunidade(c: Connection, comunidadeId: long, usuario: Usuario): void
+    +listar(busca: String, pagina: int, tamanho: int): List<ComunidadeResumo>
+    +listarMensagens(token: String, comunidadeId: long, pagina: int, tamanho: int): List<MensagemComunidade>
+    +listarPostagens(token: String, comunidadeId: long, pagina: int, tamanho: int): List<Postagem>
+    +listarComentarios(token: String, postagemId: long, pagina: int, tamanho: int): List<Comentario>
+  }
+}
+package "config" {
+  class "ConfiguracaoSistema" as br_com_joinup_config_ConfiguracaoSistema <<Singleton>> {
+    -hostHttp: String
+    -portaHttp: int
+    -threadsHttp: int
+    -limiteRequisicaoBytes: int
+    -modoDemo: boolean
+    -ambiente: String
+    -diretorioArquivos: String
+    -urlJdbc: String
+    -usuarioBanco: String
+    -senhaBanco: String
+    -origemPublica: String
+    -iteracoesPbkdf2: int
+    -duracaoSessaoSegundos: int
+    -ConfiguracaoSistema()
+    +{static} getInstancia(): ConfiguracaoSistema
+    +{static} validarUrlJdbc(url: String): void
+    +getHostHttp(): String
+    +getPortaHttp(): int
+    +getThreadsHttp(): int
+    +getLimiteRequisicaoBytes(): int
+    +isModoDemo(): boolean
+    +getAmbiente(): String
+    +getDiretorioArquivos(): java.nio.file.Path
+    +getUrlJdbc(): String
+    +getUsuarioBanco(): String
+    +getSenhaBanco(): String
+    +getOrigemPublica(): String
+    +getIteracoesPbkdf2(): int
+    +getDuracaoSessaoSegundos(): int
+    +{static} validarOrigemPublica(origem: String): void
+  }
+  class "ConfiguracaoSistema.Holder" as br_com_joinup_config_ConfiguracaoSistema_Holder {
+    -{static} INSTANCIA: ConfiguracaoSistema
+  }
+}
+package "demo" {
+  class "DemoRunner" as br_com_joinup_demo_DemoRunner {
+    +{static} TABELAS: List<String>
+    -conexoes: ConnectionFactory
+    +DemoRunner(c: ConnectionFactory)
+    +executar(config: ConfiguracaoSistema): void
+    +{static} aplicar(c: Connection): void
+  }
+  class "SqlDemo" as br_com_joinup_demo_SqlDemo {
+    +{static} separar(sql: String): List<String>
+  }
+}
+package "eventos.domain" {
+  class "Comunidade" as br_com_joinup_eventos_domain_Comunidade <<record>> {
+    -id: long
+    -nome: String
+    -imagem: String
+    -eventoId: long
+  }
+  class "Evento" as br_com_joinup_eventos_domain_Evento <<record>> {
+    -id: long
+    -nome: String
+    -data: Instant
+    -descricao: String
+    -imagem: String
+    -localizacao: String
+    -cidade: String
+    -estado: String
+    -cep: String
+    -organizadorId: long
+    -generoId: long
+    -genero: String
+  }
+  class "ItemCatalogo" as br_com_joinup_eventos_domain_ItemCatalogo <<record>> {
+    -id: long
+    -nome: String
+  }
+  class "TipoIngresso" as br_com_joinup_eventos_domain_TipoIngresso <<record>> {
+    -id: long
+    -nome: String
+    -preco: BigDecimal
+    -quantidade: int
+    -quantidadeVendida: int
+    -temVendas: boolean
+  }
+}
+package "eventos.dto" {
+  class "CriarEventoDados" as br_com_joinup_eventos_dto_CriarEventoDados <<record>> {
+    -nome: String
+    -descricao: String
+    -data: OffsetDateTime
+    -imagem: String
+    -localizacao: String
+    -cidade: String
+    -estado: String
+    -cep: String
+    -generoId: Long
+    -artistaIds: List<Long>
+    -tiposIngresso: List<TipoIngressoDados>
+  }
+  class "EditarEventoDados" as br_com_joinup_eventos_dto_EditarEventoDados <<record>> {
+    -nome: String
+    -descricao: String
+    -data: OffsetDateTime
+    -imagem: String
+    -localizacao: String
+    -cidade: String
+    -estado: String
+    -cep: String
+    -generoId: Long
+    -artistaIds: List<Long>
+    +vazio(): boolean
+  }
+  class "EventoView" as br_com_joinup_eventos_dto_EventoView <<record>> {
+    -id: long
+    -nome: String
+    -data: Instant
+    -descricao: String
+    -imagem: String
+    -localizacao: String
+    -cidade: String
+    -estado: String
+    -cep: String
+    -genero: ItemCatalogo
+    -artistas: List<ItemCatalogo>
+    -tiposIngresso: List<TipoIngresso>
+    -comunidade: Comunidade
+    -editavel: boolean
+    +{static} de(e: Evento, a: List<ItemCatalogo>, t: List<TipoIngresso>, c: Comunidade, agora: Instant): EventoView
+  }
+  class "FiltroEventos" as br_com_joinup_eventos_dto_FiltroEventos <<record>> {
+    -busca: String
+    -generoId: Long
+    -cidade: String
+    -pagina: int
+    -tamanho: int
+    +FiltroEventos(busca: String, generoId: Long, cidade: String, pagina: int, tamanho: int)
+    +{static} de(q: Map<String, String>): FiltroEventos
+  }
+  class "TipoIngressoDados" as br_com_joinup_eventos_dto_TipoIngressoDados <<record>> {
+    -nome: String
+    -preco: BigDecimal
+    -quantidade: Integer
+  }
+}
+package "eventos.facade" {
+  class "EventoFacade" as br_com_joinup_eventos_facade_EventoFacade <<Facade>> {
+    -transacoes: ExecutorTransacional
+    -sessoes: GerenciadorSessao
+    -eventos: EventoService
+    -artistas: ArtistaService
+    -tipos: TipoIngressoService
+    -comunidades: ComunidadeService
+    -clock: Clock
+    +EventoFacade(t: ExecutorTransacional, s: GerenciadorSessao, e: EventoService, a: ArtistaService, i: TipoIngressoService, c: ComunidadeService, clock: Clock)
+    +criarEvento(token: String, dados: CriarEventoDados): EventoView
+    ~criarIntegrado(c: Connection, dono: long, d: CriarEventoDados): EventoView
+    +editarEvento(token: String, id: long, d: EditarEventoDados): EventoView
+    +adicionarTipo(token: String, evento: long, d: TipoIngressoDados): TipoIngresso
+    +editarTipo(token: String, evento: long, tipo: long, d: TipoIngressoDados): TipoIngresso
+    +consultar(id: long): EventoView
+    +tiposIngresso(evento: long): List<TipoIngresso>
+    +explorar(f: FiltroEventos): Map<String, Object>
+    +meusEventos(token: String, f: FiltroEventos): Map<String, Object>
+    +generos(): List<ItemCatalogo>
+    +artistas(busca: String): List<ItemCatalogo>
+  }
+}
+package "eventos.http" {
+  class "EventoRoutes" as br_com_joinup_eventos_http_EventoRoutes {
+    -json: JsonCodec
+    -respostas: HttpResponses
+    -seguranca: SegurancaHttp
+    -contas: ContaService
+    -facade: EventoFacade
+    +EventoRoutes(j: JsonCodec, r: HttpResponses, s: SegurancaHttp, c: ContaService, f: EventoFacade)
+    +registrar(router: Router): void
+  }
+}
+package "eventos.repository" {
+  class "ArtistaRepositoryJdbc" as br_com_joinup_eventos_repository_ArtistaRepositoryJdbc {
+    +buscar(c: Connection, busca: String): List<ItemCatalogo>
+    +generos(c: Connection): List<ItemCatalogo>
+    +lineup(c: Connection, evento: long): List<ItemCatalogo>
+    +existe(c: Connection, id: long): boolean
+    +substituirLineup(c: Connection, evento: long, artistas: List<Long>): void
+  }
+  class "ComunidadeRepositoryJdbc" as br_com_joinup_eventos_repository_ComunidadeRepositoryJdbc {
+    +criar(c: Connection, e: Evento): long
+    +buscar(c: Connection, evento: long): Comunidade
+  }
+  class "EventoRepositoryJdbc" as br_com_joinup_eventos_repository_EventoRepositoryJdbc {
+    -{static} SELECT: String
+    +buscar(c: Connection, id: long, bloquear: boolean): Evento
+    +criar(c: Connection, e: Evento): long
+    +atualizar(c: Connection, e: Evento): void
+    +generoExiste(c: Connection, id: long): boolean
+    +listar(c: Connection, f: FiltroEventos, dono: Long): List<Evento>
+    +contar(c: Connection, f: FiltroEventos, dono: Long): long
+  }
+  class "JdbcEventos" as br_com_joinup_eventos_repository_JdbcEventos {
+    ~{static} preencher(ps: PreparedStatement, valores: Object[]): void
+    ~{static} inserir(c: Connection, sql: String, valores: Object[]): long
+    ~{static} executar(c: Connection, sql: String, valores: Object[]): void
+  }
+  class "TipoIngressoRepositoryJdbc" as br_com_joinup_eventos_repository_TipoIngressoRepositoryJdbc {
+    -{static} SELECT: String
+    +listar(c: Connection, evento: long): List<TipoIngresso>
+    +bloquear(c: Connection, evento: long, tipo: long): TipoIngresso
+    +criar(c: Connection, evento: long, d: TipoIngressoDados): long
+    +atualizar(c: Connection, tipo: long, d: TipoIngressoDados): void
+  }
+}
+package "eventos.service" {
+  class "ArtistaService" as br_com_joinup_eventos_service_ArtistaService {
+    -artistas: ArtistaRepositoryJdbc
+    +ArtistaService(artistas: ArtistaRepositoryJdbc)
+    +sincronizarLineup(c: Connection, evento: long, ids: List<Long>): void
+    +lineup(c: Connection, evento: long): List<ItemCatalogo>
+    +buscar(c: Connection, busca: String): List<ItemCatalogo>
+    +generos(c: Connection): List<ItemCatalogo>
+  }
+  class "ComunidadeService" as br_com_joinup_eventos_service_ComunidadeService {
+    -comunidades: ComunidadeRepositoryJdbc
+    +ComunidadeService(comunidades: ComunidadeRepositoryJdbc)
+    +criarParaEvento(c: Connection, evento: Evento): long
+    +buscar(c: Connection, evento: long): Comunidade
+  }
+  class "EventoService" as br_com_joinup_eventos_service_EventoService {
+    -eventos: EventoRepositoryJdbc
+    +EventoService(eventos: EventoRepositoryJdbc)
+    +criar(c: Connection, d: CriarEventoDados, dono: long, agora: Instant): Evento
+    +bloquearEditavel(c: Connection, id: long, dono: long, clock: Clock): Evento
+    +editar(c: Connection, e: Evento, d: EditarEventoDados, agora: Instant): Evento
+    +buscar(c: Connection, id: long): Evento
+    +listar(c: Connection, f: FiltroEventos, dono: Long): List<Evento>
+    +contar(c: Connection, f: FiltroEventos, dono: Long): long
+  }
+  class "TipoIngressoService" as br_com_joinup_eventos_service_TipoIngressoService {
+    -tipos: TipoIngressoRepositoryJdbc
+    +TipoIngressoService(tipos: TipoIngressoRepositoryJdbc)
+    +cadastrarTipos(c: Connection, evento: long, dados: List<TipoIngressoDados>): List<Long>
+    +adicionar(c: Connection, evento: long, d: TipoIngressoDados): long
+    +editar(c: Connection, evento: long, id: long, d: TipoIngressoDados): void
+    +listar(c: Connection, evento: long): List<TipoIngresso>
+    +{static} validar(d: TipoIngressoDados): TipoIngressoDados
+  }
+  class "ValidacaoEvento" as br_com_joinup_eventos_service_ValidacaoEvento {
+    -{static} UFS: Set<String>
+    +{static} invalido(campo: String): HttpException
+    +{static} naoEncontrado(): HttpException
+    +{static} texto(s: String, limite: int, campo: String): String
+    +{static} id(id: Long, campo: String): long
+    +{static} uf(uf: String): String
+    +{static} cep(cep: String): String
+    +{static} imagem(imagem: String): String
+    +{static} dataFutura(data: OffsetDateTime, agora: Instant): Instant
+    +{static} antesInicio(inicio: Instant, agora: Instant): void
+  }
+}
+package "http" {
+  class "HealthHandler" as br_com_joinup_http_HealthHandler {
+    -respostas: HttpResponses
+    +HealthHandler(respostas: HttpResponses)
+    +handle(exchange: HttpExchange, corpo: byte[]): void
+  }
+  class "HttpException" as br_com_joinup_http_HttpException {
+    -status: int
+    -codigo: String
+    +HttpException(status: int, codigo: String, mensagem: String)
+    +status(): int
+    +codigo(): String
+  }
+  class "HttpResponses" as br_com_joinup_http_HttpResponses {
+    -json: JsonCodec
+    +HttpResponses(json: JsonCodec)
+    +json(exchange: HttpExchange, status: int, valor: Object): void
+    +erro(exchange: HttpExchange, status: int, codigo: String, mensagem: String): void
+    +bytes(exchange: HttpExchange, status: int, tipo: String, corpo: byte[]): void
+  }
+  class "JsonCodec" as br_com_joinup_http_JsonCodec {
+    -mapper: ObjectMapper
+    +escrever(valor: Object): byte[]
+    +ler(corpo: byte[], tipo: Class<T>): T
+  }
+  interface "ParameterizedRouteHandler" as br_com_joinup_http_ParameterizedRouteHandler {
+    +handle(exchange: HttpExchange, corpo: byte[], parametros: RouteParameters): void
+  }
+  class "RequestBody" as br_com_joinup_http_RequestBody {
+    +{static} ler(exchange: HttpExchange, limite: int): byte[]
+  }
+  class "RequestPath" as br_com_joinup_http_RequestPath {
+    +{static} validar(uri: URI): String
+  }
+  interface "RouteHandler" as br_com_joinup_http_RouteHandler {
+    +handle(exchange: HttpExchange, corpo: byte[]): void
+  }
+  class "RouteParameters" as br_com_joinup_http_RouteParameters <<record>> {
+    -caminho: Map<String, String>
+    -query: Map<String, String>
+    +RouteParameters(caminho: Map<String, String>, query: Map<String, String>)
+    +{static} lerQuery(uri: URI): Map<String, String>
+    +{static} id(valor: String): long
+  }
+  class "Router" as br_com_joinup_http_Router {
+    -{static} LOG: System.Logger
+    -rotas: List<Rota>
+    -respostas: HttpResponses
+    -estaticos: StaticFileHandler
+    -limiteCorpo: int
+    -limitesPorRota: Map<String, Integer>
+    -iniciado: boolean
+    +Router(respostas: HttpResponses, estaticos: StaticFileHandler, limiteCorpo: int)
+    +registrar(metodo: String, caminho: String, handler: RouteHandler): void
+    +registrar(metodo: String, caminho: String, handler: ParameterizedRouteHandler): void
+    +iniciar(): void
+    +registrarComLimite(metodo: String, caminho: String, limite: int, handler: ParameterizedRouteHandler): void
+    +handle(exchange: HttpExchange): void
+  }
+  class "Router.Rota" as br_com_joinup_http_Router_Rota <<record>> {
+    -padrao: String
+    -segmentos: List<String>
+    -metodos: Map<String, ParameterizedRouteHandler>
+  }
+  class "StaticFileHandler" as br_com_joinup_http_StaticFileHandler {
+    -{static} TIPOS: Map<String, String>
+    -respostas: HttpResponses
+    +StaticFileHandler(respostas: HttpResponses)
+    +servir(exchange: HttpExchange): void
+  }
+}
+package "paineis.dto" {
+  class "PainelView" as br_com_joinup_paineis_dto_PainelView <<record>> {
+    -perfil: Perfil
+    -consultadoEm: Instant
+    -indicadores: Map<String, Object>
+    -chamadosPorStatus: Map<String, Long>
+    -eventos: List<Map<String, Object>>
+  }
+}
+package "paineis.http" {
+  class "PainelRoutes" as br_com_joinup_paineis_http_PainelRoutes {
+    -respostas: HttpResponses
+    -service: PainelService
+    +PainelRoutes(respostas: HttpResponses, service: PainelService)
+    +registrar(router: Router): void
+  }
+}
+package "paineis.repository" {
+  class "PainelRepositoryJdbc" as br_com_joinup_paineis_repository_PainelRepositoryJdbc {
+    +participante(c: Connection, id: long, agora: Instant): Map<String, Object>
+    +proximos(c: Connection, id: long, agora: Instant): List<Map<String, Object>>
+    +organizador(c: Connection, id: long, agora: Instant): Map<String, Object>
+    +eventos(c: Connection, id: long, agora: Instant): List<Map<String, Object>>
+    +suporte(c: Connection, id: long): Map<String, Object>
+    +chamados(c: Connection, u: Usuario): Map<String, Long>
+  }
+}
+package "paineis.service" {
+  class "PainelService" as br_com_joinup_paineis_service_PainelService {
+    -transacoes: ExecutorTransacional
+    -sessoes: GerenciadorSessao
+    -repo: PainelRepositoryJdbc
+    -clock: Clock
+    +PainelService(transacoes: ExecutorTransacional, sessoes: GerenciadorSessao, repo: PainelRepositoryJdbc, clock: Clock)
+    +consultar(token: String, perfil: Perfil): PainelView
+  }
+}
+package "revendas.domain" {
+  class "Anuncio" as br_com_joinup_revendas_domain_Anuncio <<record>> {
+    -id: long
+    -ingressoId: long
+    -vendedorId: long
+    -preco: BigDecimal
+    -status: String
+  }
+}
+package "revendas.dto" {
+  class "AnuncioDados" as br_com_joinup_revendas_dto_AnuncioDados <<record>> {
+    -ingressoIds: List<Long>
+    -precoUnitario: BigDecimal
+  }
+  class "FiltroRevendas" as br_com_joinup_revendas_dto_FiltroRevendas <<record>> {
+    -eventoId: Long
+    -pagina: int
+    -tamanho: int
+    +FiltroRevendas(eventoId: Long, pagina: int, tamanho: int)
+    +{static} de(q: Map<String, String>): FiltroRevendas
+  }
+}
+package "revendas.repository" {
+  class "RevendaRepositoryJdbc" as br_com_joinup_revendas_repository_RevendaRepositoryJdbc {
+    -{static} PROJECAO: String
+    +buscar(c: Connection, id: long, lock: boolean): Anuncio
+    +disponivel(c: Connection, ingresso: long): boolean
+    +criar(c: Connection, ingresso: long, vendedor: long, preco: java.math.BigDecimal): long
+    +cancelar(c: Connection, id: long, vendedor: long): void
+    +vender(c: Connection, id: long, comprador: long): void
+    +listar(c: Connection, usuario: long, f: FiltroRevendas, meus: boolean, agora: Instant): List<Map<String, Object>>
+    +detalhe(c: Connection, usuario: long, id: long, agora: Instant): Map<String, Object>
+    +contar(c: Connection, f: FiltroRevendas): long
+    +recebidas(c: Connection, comprador: long): List<Map<String, Object>>
+  }
+}
+package "revendas.service" {
+  class "RevendaService" as br_com_joinup_revendas_service_RevendaService {
+    -transacoes: ExecutorTransacional
+    -sessoes: GerenciadorSessao
+    -eventos: CompraRepositoryJdbc
+    -ingressos: IngressoRepositoryJdbc
+    -tipos: TipoIngressoRepositoryJdbc
+    -revendas: RevendaRepositoryJdbc
+    -clock: Clock
+    +RevendaService(t: ExecutorTransacional, s: GerenciadorSessao, e: CompraRepositoryJdbc, i: IngressoRepositoryJdbc, tipos: TipoIngressoRepositoryJdbc, r: RevendaRepositoryJdbc, clock: Clock)
+    +anunciar(token: String, dados: AnuncioDados): List<Map<String, Object>>
+    +comprar(token: String, anuncioId: long): Map<String, Object>
+    +cancelar(token: String, anuncioId: long): Map<String, Object>
+    +listar(token: String, filtro: FiltroRevendas): Map<String, Object>
+    +meus(token: String): List<Map<String, Object>>
+    +detalhe(token: String, id: long): Map<String, Object>
+  }
+}
+package "shared.db" {
+  class "ConnectionFactory" as br_com_joinup_shared_db_ConnectionFactory {
+    -url: String
+    -usuario: String
+    -senha: String
+    +ConnectionFactory(configuracao: ConfiguracaoSistema)
+    +abrirConexao(): Connection
+  }
+  class "ExecutorTransacional" as br_com_joinup_shared_db_ExecutorTransacional {
+    -conexoes: ConnectionFactory
+    +ExecutorTransacional(conexoes: ConnectionFactory)
+    +executar(operacao: Operacao<T>): T
+  }
+  interface "ExecutorTransacional.Operacao" as br_com_joinup_shared_db_ExecutorTransacional_Operacao {
+    +executar(conexao: Connection): T
+  }
+}
+package "suporte.domain" {
+  class "MensagemTicket" as br_com_joinup_suporte_domain_MensagemTicket <<record>> {
+    -id: long
+    -autorTipo: String
+    -autorId: long
+    -autorNome: String
+    -mensagem: String
+    -enviadoEm: Instant
+  }
+  enum "StatusTicket" as br_com_joinup_suporte_domain_StatusTicket {
+    +{static} aberto: StatusTicket
+    +{static} em_atendimento: StatusTicket
+    +{static} aguardando_usuario: StatusTicket
+    +{static} fechado: StatusTicket
+    +responder(): StatusTicket
+    +retornar(): StatusTicket
+    +resolver(): StatusTicket
+    +encerrar(): StatusTicket
+  }
+  class "Ticket" as br_com_joinup_suporte_domain_Ticket <<record>> {
+    -id: long
+    -titulo: String
+    -descricao: String
+    -status: StatusTicket
+    -participanteId: Long
+    -organizadorId: Long
+    -suporteId: Long
+    -criadoEm: Instant
+    -atualizadoEm: Instant
+    -fechadoEm: Instant
+  }
+}
+package "suporte.dto" {
+  class "AbrirTicketDados" as br_com_joinup_suporte_dto_AbrirTicketDados <<record>> {
+    -titulo: String
+    -descricao: String
+  }
+  class "MensagemTicketDados" as br_com_joinup_suporte_dto_MensagemTicketDados <<record>> {
+    -mensagem: String
+  }
+  class "PaginaTickets" as br_com_joinup_suporte_dto_PaginaTickets <<record>> {
+    -dados: List<Ticket>
+    -pagina: int
+    -tamanho: int
+    -total: long
+  }
+  class "TicketDetalhe" as br_com_joinup_suporte_dto_TicketDetalhe <<record>> {
+    -ticket: Ticket
+    -mensagens: List<MensagemTicket>
+    -pagina: int
+    -tamanho: int
+    -totalMensagens: long
+  }
+}
+package "suporte.http" {
+  class "TicketRoutes" as br_com_joinup_suporte_http_TicketRoutes {
+    -json: JsonCodec
+    -respostas: HttpResponses
+    -seguranca: SegurancaHttp
+    -contas: ContaService
+    -service: TicketService
+    +TicketRoutes(json: JsonCodec, respostas: HttpResponses, seguranca: SegurancaHttp, contas: ContaService, service: TicketService)
+    +registrar(router: Router): void
+  }
+}
+package "suporte.repository" {
+  class "TicketRepositoryJdbc" as br_com_joinup_suporte_repository_TicketRepositoryJdbc {
+    +criar(c: Connection, u: Usuario, titulo: String, descricao: String): long
+    +buscar(c: Connection, id: long, bloquear: boolean): Ticket
+    +mensagem(c: Connection, id: long, u: Usuario, texto: String): void
+    +transicionar(c: Connection, id: long, destino: StatusTicket, texto: String, resposta: boolean): void
+    +associar(c: Connection, id: long, suporteId: long): void
+    +listar(c: Connection, u: Usuario, status: StatusTicket, pagina: int, tamanho: int): PaginaTickets
+    +detalhe(c: Connection, ticket: Ticket, pagina: int, tamanho: int): TicketDetalhe
+  }
+}
+package "suporte.service" {
+  class "TicketService" as br_com_joinup_suporte_service_TicketService {
+    -transacoes: ExecutorTransacional
+    -sessoes: GerenciadorSessao
+    -repo: TicketRepositoryJdbc
+    +TicketService(transacoes: ExecutorTransacional, sessoes: GerenciadorSessao, repo: TicketRepositoryJdbc)
+    +criar(token: String, dados: AbrirTicketDados): Ticket
+    +listar(token: String, suporte: boolean, status: StatusTicket, pagina: int, tamanho: int): PaginaTickets
+    +detalhe(token: String, suporte: boolean, id: long, pagina: int, tamanho: int): TicketDetalhe
+    +associar(token: String, id: long): Ticket
+    +responder(token: String, id: long, dados: MensagemTicketDados): Ticket
+    +retornar(token: String, id: long, dados: MensagemTicketDados): Ticket
+    +resolver(token: String, id: long): Ticket
+    +encerrar(token: String, id: long): Ticket
+    +{static} texto(s: String, max: int): String
+    +{static} validarPagina(pagina: int, tamanho: int): void
+  }
+}
+package "usuarios.domain" {
+  class "Organizador" as br_com_joinup_usuarios_domain_Organizador {
+    -cnpj: String
+    +Organizador(id: long, nome: String, email: String, hash: String, ativo: boolean, cnpj: String)
+    +perfil(): Perfil
+    +cnpj(): String
+  }
+  class "Participante" as br_com_joinup_usuarios_domain_Participante {
+    -cpf: String
+    -dataNascimento: LocalDate
+    +Participante(id: long, nome: String, email: String, hash: String, ativo: boolean, cpf: String, nascimento: LocalDate)
+    +perfil(): Perfil
+    +cpf(): String
+    +dataNascimento(): LocalDate
+  }
+  enum "Perfil" as br_com_joinup_usuarios_domain_Perfil {
+    +{static} PARTICIPANTE: Perfil
+    +{static} ORGANIZADOR: Perfil
+    +{static} SUPORTE: Perfil
+    -tabela: String
+    -colunaId: String
+    ~Perfil(tabela: String, colunaId: String)
+    +tabela(): String
+    +colunaId(): String
+  }
+  abstract class "Usuario" as br_com_joinup_usuarios_domain_Usuario {
+    -id: long
+    -nome: String
+    -email: String
+    -hashSenha: String
+    -ativo: boolean
+    #Usuario(id: long, nome: String, email: String, hashSenha: String, ativo: boolean)
+    +id(): long
+    +nome(): String
+    +email(): String
+    +hashSenha(): String
+    +ativo(): boolean
+    +{abstract} perfil(): Perfil
+    +atribuirId(id: long): void
+  }
+  class "UsuarioSuporte" as br_com_joinup_usuarios_domain_UsuarioSuporte {
+    +UsuarioSuporte(id: long, nome: String, email: String, hash: String)
+    +perfil(): Perfil
+  }
+}
+package "usuarios.dto" {
+  class "CadastroDados" as br_com_joinup_usuarios_dto_CadastroDados <<record>> {
+    -nome: String
+    -email: String
+    -senha: String
+    -cpf: String
+    -cnpj: String
+    -data_nascimento: LocalDate
+    +toString(): String
+  }
+  class "Credenciais" as br_com_joinup_usuarios_dto_Credenciais <<record>> {
+    -email: String
+    -senha: String
+    +toString(): String
+  }
+  class "PerfilDados" as br_com_joinup_usuarios_dto_PerfilDados <<record>> {
+    -nome: String
+    -email: String
+    -nova_senha: String
+    -cnpj: String
+    +toString(): String
+  }
+  class "UsuarioView" as br_com_joinup_usuarios_dto_UsuarioView <<record>> {
+    -id: long
+    -perfil: Perfil
+    -nome: String
+    -email: String
+    -ativo: boolean
+    -cpf: String
+    -cnpj: String
+    -data_nascimento: LocalDate
+    +{static} de(usuario: Usuario): UsuarioView
+  }
+}
+package "usuarios.http" {
+  class "UsuarioRoutes" as br_com_joinup_usuarios_http_UsuarioRoutes {
+    -json: JsonCodec
+    -respostas: HttpResponses
+    -seguranca: SegurancaHttp
+    -contas: ContaService
+    +UsuarioRoutes(json: JsonCodec, respostas: HttpResponses, seguranca: SegurancaHttp, contas: ContaService)
+    +registrar(router: Router, participante: CadastroParticipanteCreator, organizador: CadastroOrganizadorCreator, suporte: CadastroSuporteCreator, loginP: AutenticacaoParticipante, loginO: AutenticacaoOrganizador, loginS: AutenticacaoSuporte): void
+  }
+}
+package "usuarios.repository" {
+  class "ContaRepositoryJdbc" as br_com_joinup_usuarios_repository_ContaRepositoryJdbc {
+    +atualizar(c: Connection, u: Usuario, nome: String, email: String, hashSenha: String, cnpj: String): void
+    +desativar(c: Connection, u: Usuario): void
+    +cancelarAnuncios(c: Connection, idParticipante: long): void
+    +reativar(c: Connection, u: Usuario, idSuporte: long): void
+  }
+  class "OrganizadorRepositoryJdbc" as br_com_joinup_usuarios_repository_OrganizadorRepositoryJdbc {
+    +OrganizadorRepositoryJdbc()
+    #mapear(rs: ResultSet): Organizador
+    +salvar(c: Connection, usuario: Usuario): long
+  }
+  class "ParticipanteRepositoryJdbc" as br_com_joinup_usuarios_repository_ParticipanteRepositoryJdbc {
+    +ParticipanteRepositoryJdbc()
+    #mapear(rs: ResultSet): Participante
+    +salvar(c: Connection, usuario: Usuario): long
+  }
+  class "RepositoriosUsuarios" as br_com_joinup_usuarios_repository_RepositoriosUsuarios {
+    -repositorios: Map<Perfil, UsuarioRepository>
+    +RepositoriosUsuarios(participante: UsuarioRepository, organizador: UsuarioRepository, suporte: UsuarioRepository)
+    +de(perfil: Perfil): UsuarioRepository
+  }
+  class "SuporteRepositoryJdbc" as br_com_joinup_usuarios_repository_SuporteRepositoryJdbc {
+    +SuporteRepositoryJdbc()
+    #mapear(rs: ResultSet): UsuarioSuporte
+    +salvar(c: Connection, usuario: Usuario): long
+  }
+  interface "UsuarioRepository" as br_com_joinup_usuarios_repository_UsuarioRepository {
+    +perfil(): Perfil
+    +salvar(c: Connection, usuario: Usuario): long
+    +buscarEmail(c: Connection, email: String, bloquear: boolean): Usuario
+    +buscarId(c: Connection, id: long, bloquear: boolean): Usuario
+    +listarInativos(c: Connection, limite: int, offset: int): List<Usuario>
+    +contarInativos(c: Connection): long
+  }
+  abstract class "UsuarioRepositoryJdbc" as br_com_joinup_usuarios_repository_UsuarioRepositoryJdbc {
+    -perfil: Perfil
+    #UsuarioRepositoryJdbc(perfil: Perfil)
+    +{final} perfil(): Perfil
+    #{abstract} mapear(rs: ResultSet): Usuario
+    +buscarEmail(c: Connection, email: String, bloquear: boolean): Usuario
+    +buscarId(c: Connection, id: long, bloquear: boolean): Usuario
+    +listarInativos(c: Connection, limite: int, offset: int): List<Usuario>
+    +contarInativos(c: Connection): long
+    #inserir(c: Connection, sql: String, valores: Object[]): long
+  }
+}
+package "usuarios.service" {
+  class "CadastroOrganizadorCreator" as br_com_joinup_usuarios_service_CadastroOrganizadorCreator {
+    +CadastroOrganizadorCreator(t: ExecutorTransacional, s: SenhasPbkdf2, r: OrganizadorRepositoryJdbc)
+    #criarUsuario(d: CadastroDados, hash: String): Organizador
+  }
+  class "CadastroParticipanteCreator" as br_com_joinup_usuarios_service_CadastroParticipanteCreator {
+    +CadastroParticipanteCreator(t: ExecutorTransacional, s: SenhasPbkdf2, r: ParticipanteRepositoryJdbc)
+    #criarUsuario(d: CadastroDados, hash: String): Participante
+  }
+  class "CadastroSuporteCreator" as br_com_joinup_usuarios_service_CadastroSuporteCreator {
+    -sessoes: GerenciadorSessao
+    +CadastroSuporteCreator(t: ExecutorTransacional, s: SenhasPbkdf2, r: SuporteRepositoryJdbc, sessoes: GerenciadorSessao)
+    #autorizar(c: Connection, token: String): void
+    #criarUsuario(d: CadastroDados, hash: String): UsuarioSuporte
+  }
+  abstract class "CadastroUsuarioCreator" as br_com_joinup_usuarios_service_CadastroUsuarioCreator <<Factory Method>> {
+    -transacoes: ExecutorTransacional
+    -senhas: SenhasPbkdf2
+    -usuarios: UsuarioRepository
+    #CadastroUsuarioCreator(t: ExecutorTransacional, senhas: SenhasPbkdf2, usuarios: UsuarioRepository)
+    +{final} cadastrar(dados: CadastroDados, tokenOperador: String): Usuario
+    #autorizar(c: Connection, tokenOperador: String): void
+    #{abstract} criarUsuario(dados: CadastroDados, hashSenha: String): Usuario
+  }
+  class "ContaService" as br_com_joinup_usuarios_service_ContaService {
+    -transacoes: ExecutorTransacional
+    -sessoes: GerenciadorSessao
+    -usuarios: RepositoriosUsuarios
+    -contas: ContaRepositoryJdbc
+    -senhas: SenhasPbkdf2
+    +ContaService(t: ExecutorTransacional, s: GerenciadorSessao, u: RepositoriosUsuarios, c: ContaRepositoryJdbc, senhas: SenhasPbkdf2)
+    +identificar(token: String, perfis: Perfil[]): Usuario
+    +atualizar(token: String, dados: PerfilDados): Usuario
+    +desativar(token: String): void
+    +logout(token: String): void
+    +listarInativas(token: String, perfil: Perfil, pagina: int, tamanho: int): Map<String, Object>
+    +reativar(token: String, perfil: Perfil, id: long): Usuario
+  }
+  class "ValidacaoUsuario" as br_com_joinup_usuarios_service_ValidacaoUsuario {
+    +{static} texto(valor: String, maximo: int, campo: String): String
+    +{static} email(valor: String, maximo: int): String
+    +{static} senha(senha: String): String
+    +{static} cpf(valor: String): String
+    +{static} cnpj(valor: String): String
+    +{static} nascimento(valor: LocalDate): LocalDate
+    +{static} invalido(campo: String): HttpException
+  }
+}
+br_com_joinup_Main ..> br_com_joinup_bootstrap_ApplicationBootstrap
+br_com_joinup_Main ..> br_com_joinup_config_ConfiguracaoSistema
+br_com_joinup_arquivos_ArmazenamentoLocal ..> br_com_joinup_arquivos_MultipartImagem
+br_com_joinup_arquivos_ArmazenamentoLocal ..> br_com_joinup_http_HttpException
+br_com_joinup_arquivos_ArquivoRoutes --> br_com_joinup_arquivos_ArquivoService : referência em campo
+br_com_joinup_arquivos_ArquivoRoutes ..> br_com_joinup_arquivos_ArquivoService_ArquivoView
+br_com_joinup_arquivos_ArquivoRoutes ..> br_com_joinup_arquivos_MultipartImagem
+br_com_joinup_arquivos_ArquivoRoutes --> br_com_joinup_auth_SegurancaHttp : referência em campo
+br_com_joinup_arquivos_ArquivoRoutes ..> br_com_joinup_http_HttpException
+br_com_joinup_arquivos_ArquivoRoutes --> br_com_joinup_http_HttpResponses : referência em campo
+br_com_joinup_arquivos_ArquivoRoutes ..> br_com_joinup_http_ParameterizedRouteHandler
+br_com_joinup_arquivos_ArquivoRoutes ..> br_com_joinup_http_RouteParameters
+br_com_joinup_arquivos_ArquivoRoutes ..> br_com_joinup_http_Router
+br_com_joinup_arquivos_ArquivoRoutes ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_arquivos_ArquivoRoutes ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_arquivos_ArquivoRoutes --> br_com_joinup_usuarios_service_ContaService : referência em campo
+br_com_joinup_arquivos_ArquivoService --> br_com_joinup_arquivos_ArmazenamentoLocal : referência em campo
+br_com_joinup_arquivos_ArquivoService ..> br_com_joinup_arquivos_ArquivoService_ArquivoView
+br_com_joinup_arquivos_ArquivoService ..> br_com_joinup_arquivos_ImagemSegura
+br_com_joinup_arquivos_ArquivoService ..> br_com_joinup_arquivos_MultipartImagem
+br_com_joinup_arquivos_ArquivoService --> br_com_joinup_auth_GerenciadorSessao : referência em campo
+br_com_joinup_arquivos_ArquivoService --> br_com_joinup_comunidades_service_ComunidadeSocialService : referência em campo
+br_com_joinup_arquivos_ArquivoService ..> br_com_joinup_eventos_domain_Evento
+br_com_joinup_arquivos_ArquivoService --> br_com_joinup_eventos_service_EventoService : referência em campo
+br_com_joinup_arquivos_ArquivoService ..> br_com_joinup_eventos_service_ValidacaoEvento
+br_com_joinup_arquivos_ArquivoService ..> br_com_joinup_http_HttpException
+br_com_joinup_arquivos_ArquivoService --> br_com_joinup_shared_db_ExecutorTransacional : referência em campo
+br_com_joinup_arquivos_ArquivoService ..> br_com_joinup_shared_db_ExecutorTransacional_Operacao
+br_com_joinup_arquivos_ArquivoService ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_arquivos_ArquivoService ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_arquivos_ArquivoService_ArquivoView ..> br_com_joinup_arquivos_ArquivoService
+br_com_joinup_arquivos_ImagemSegura ..> br_com_joinup_arquivos_MultipartImagem
+br_com_joinup_arquivos_ImagemSegura ..> br_com_joinup_http_HttpException
+br_com_joinup_arquivos_MultipartImagem ..> br_com_joinup_http_HttpException
+br_com_joinup_auth_AutenticacaoOrganizador --|> br_com_joinup_auth_AutenticacaoTemplate
+br_com_joinup_auth_AutenticacaoOrganizador ..> br_com_joinup_auth_GerenciadorSessao
+br_com_joinup_auth_AutenticacaoOrganizador ..> br_com_joinup_auth_VerificadorSenha
+br_com_joinup_auth_AutenticacaoOrganizador ..> br_com_joinup_shared_db_ExecutorTransacional
+br_com_joinup_auth_AutenticacaoOrganizador ..> br_com_joinup_usuarios_domain_Organizador
+br_com_joinup_auth_AutenticacaoOrganizador ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_auth_AutenticacaoOrganizador --> br_com_joinup_usuarios_repository_OrganizadorRepositoryJdbc : referência em campo
+br_com_joinup_auth_AutenticacaoParticipante --|> br_com_joinup_auth_AutenticacaoTemplate
+br_com_joinup_auth_AutenticacaoParticipante ..> br_com_joinup_auth_GerenciadorSessao
+br_com_joinup_auth_AutenticacaoParticipante ..> br_com_joinup_auth_VerificadorSenha
+br_com_joinup_auth_AutenticacaoParticipante ..> br_com_joinup_shared_db_ExecutorTransacional
+br_com_joinup_auth_AutenticacaoParticipante ..> br_com_joinup_usuarios_domain_Participante
+br_com_joinup_auth_AutenticacaoParticipante ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_auth_AutenticacaoParticipante --> br_com_joinup_usuarios_repository_ParticipanteRepositoryJdbc : referência em campo
+br_com_joinup_auth_AutenticacaoSuporte --|> br_com_joinup_auth_AutenticacaoTemplate
+br_com_joinup_auth_AutenticacaoSuporte ..> br_com_joinup_auth_GerenciadorSessao
+br_com_joinup_auth_AutenticacaoSuporte ..> br_com_joinup_auth_VerificadorSenha
+br_com_joinup_auth_AutenticacaoSuporte ..> br_com_joinup_shared_db_ExecutorTransacional
+br_com_joinup_auth_AutenticacaoSuporte ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_auth_AutenticacaoSuporte ..> br_com_joinup_usuarios_domain_UsuarioSuporte
+br_com_joinup_auth_AutenticacaoSuporte --> br_com_joinup_usuarios_repository_SuporteRepositoryJdbc : referência em campo
+br_com_joinup_auth_AutenticacaoTemplate --> br_com_joinup_auth_GerenciadorSessao : referência em campo
+br_com_joinup_auth_AutenticacaoTemplate ..> br_com_joinup_auth_SessaoEmitida
+br_com_joinup_auth_AutenticacaoTemplate --> br_com_joinup_auth_VerificadorSenha : referência em campo
+br_com_joinup_auth_AutenticacaoTemplate ..> br_com_joinup_http_HttpException
+br_com_joinup_auth_AutenticacaoTemplate --> br_com_joinup_shared_db_ExecutorTransacional : referência em campo
+br_com_joinup_auth_AutenticacaoTemplate ..> br_com_joinup_shared_db_ExecutorTransacional_Operacao
+br_com_joinup_auth_AutenticacaoTemplate ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_auth_AutenticacaoTemplate ..> br_com_joinup_usuarios_dto_Credenciais
+br_com_joinup_auth_AutenticacaoTemplate ..> br_com_joinup_usuarios_service_ValidacaoUsuario
+br_com_joinup_auth_GerenciadorSessao ..> br_com_joinup_auth_SessaoEmitida
+br_com_joinup_auth_GerenciadorSessao --> br_com_joinup_auth_SessaoRepositoryJdbc : referência em campo
+br_com_joinup_auth_GerenciadorSessao ..> br_com_joinup_auth_SessaoRepositoryJdbc_Titular
+br_com_joinup_auth_GerenciadorSessao ..> br_com_joinup_http_HttpException
+br_com_joinup_auth_GerenciadorSessao ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_auth_GerenciadorSessao ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_auth_GerenciadorSessao --> br_com_joinup_usuarios_repository_RepositoriosUsuarios : referência em campo
+br_com_joinup_auth_GerenciadorSessao ..> br_com_joinup_usuarios_repository_UsuarioRepository
+br_com_joinup_auth_SegurancaHttp ..> br_com_joinup_auth_GerenciadorSessao
+br_com_joinup_auth_SegurancaHttp ..> br_com_joinup_auth_SessaoEmitida
+br_com_joinup_auth_SegurancaHttp ..> br_com_joinup_http_HttpException
+br_com_joinup_auth_SenhasPbkdf2 ..|> br_com_joinup_auth_VerificadorSenha
+br_com_joinup_auth_SessaoEmitida --> br_com_joinup_usuarios_domain_Usuario : referência em campo
+br_com_joinup_auth_SessaoRepositoryJdbc ..> br_com_joinup_auth_SessaoRepositoryJdbc_Titular
+br_com_joinup_auth_SessaoRepositoryJdbc ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_auth_SessaoRepositoryJdbc ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_auth_SessaoRepositoryJdbc_Titular ..> br_com_joinup_auth_SessaoRepositoryJdbc
+br_com_joinup_auth_SessaoRepositoryJdbc_Titular --> br_com_joinup_usuarios_domain_Perfil : referência em campo
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_arquivos_ArmazenamentoLocal
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_arquivos_ArquivoRoutes
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_arquivos_ArquivoService
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_auth_AutenticacaoOrganizador
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_auth_AutenticacaoParticipante
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_auth_AutenticacaoSuporte
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_auth_GerenciadorSessao
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_auth_SegurancaHttp
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_auth_SenhasPbkdf2
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_auth_SessaoRepositoryJdbc
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_auth_VerificadorSenha
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_compras_http_ComercioRoutes
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_compras_repository_CompraRepositoryJdbc
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_compras_repository_IngressoRepositoryJdbc
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_compras_service_CompraService
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_comunidades_http_ComunidadeRoutes
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_comunidades_repository_ComunidadeSocialRepositoryJdbc
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_comunidades_service_ComunidadeSocialService
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_config_ConfiguracaoSistema
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_demo_DemoRunner
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_eventos_facade_EventoFacade
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_eventos_http_EventoRoutes
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_eventos_repository_ArtistaRepositoryJdbc
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_eventos_repository_ComunidadeRepositoryJdbc
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_eventos_repository_EventoRepositoryJdbc
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_eventos_repository_TipoIngressoRepositoryJdbc
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_eventos_service_ArtistaService
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_eventos_service_ComunidadeService
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_eventos_service_EventoService
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_eventos_service_TipoIngressoService
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_http_HealthHandler
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_http_HttpResponses
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_http_JsonCodec
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_http_RouteHandler
+br_com_joinup_bootstrap_ApplicationBootstrap --> br_com_joinup_http_Router : referência em campo
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_http_StaticFileHandler
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_paineis_http_PainelRoutes
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_paineis_repository_PainelRepositoryJdbc
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_paineis_service_PainelService
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_revendas_repository_RevendaRepositoryJdbc
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_revendas_service_RevendaService
+br_com_joinup_bootstrap_ApplicationBootstrap --> br_com_joinup_shared_db_ConnectionFactory : referência em campo
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_shared_db_ExecutorTransacional
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_suporte_http_TicketRoutes
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_suporte_repository_TicketRepositoryJdbc
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_suporte_service_TicketService
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_usuarios_http_UsuarioRoutes
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_usuarios_repository_ContaRepositoryJdbc
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_usuarios_repository_OrganizadorRepositoryJdbc
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_usuarios_repository_ParticipanteRepositoryJdbc
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_usuarios_repository_RepositoriosUsuarios
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_usuarios_repository_SuporteRepositoryJdbc
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_usuarios_repository_UsuarioRepository
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_usuarios_service_CadastroOrganizadorCreator
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_usuarios_service_CadastroParticipanteCreator
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_usuarios_service_CadastroSuporteCreator
+br_com_joinup_bootstrap_ApplicationBootstrap ..> br_com_joinup_usuarios_service_ContaService
+br_com_joinup_compras_dto_CompraDados --> br_com_joinup_compras_dto_CompraDados_Item : referência em campo
+br_com_joinup_compras_dto_CompraDados_Item ..> br_com_joinup_compras_dto_CompraDados
+br_com_joinup_compras_http_ComercioRoutes --> br_com_joinup_auth_SegurancaHttp : referência em campo
+br_com_joinup_compras_http_ComercioRoutes ..> br_com_joinup_compras_dto_CompraDados
+br_com_joinup_compras_http_ComercioRoutes --> br_com_joinup_compras_service_CompraService : referência em campo
+br_com_joinup_compras_http_ComercioRoutes ..> br_com_joinup_http_HttpException
+br_com_joinup_compras_http_ComercioRoutes --> br_com_joinup_http_HttpResponses : referência em campo
+br_com_joinup_compras_http_ComercioRoutes --> br_com_joinup_http_JsonCodec : referência em campo
+br_com_joinup_compras_http_ComercioRoutes ..> br_com_joinup_http_ParameterizedRouteHandler
+br_com_joinup_compras_http_ComercioRoutes ..> br_com_joinup_http_RouteParameters
+br_com_joinup_compras_http_ComercioRoutes ..> br_com_joinup_http_Router
+br_com_joinup_compras_http_ComercioRoutes ..> br_com_joinup_revendas_dto_AnuncioDados
+br_com_joinup_compras_http_ComercioRoutes ..> br_com_joinup_revendas_dto_FiltroRevendas
+br_com_joinup_compras_http_ComercioRoutes --> br_com_joinup_revendas_service_RevendaService : referência em campo
+br_com_joinup_compras_http_ComercioRoutes ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_compras_http_ComercioRoutes ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_compras_http_ComercioRoutes --> br_com_joinup_usuarios_service_ContaService : referência em campo
+br_com_joinup_compras_repository_CompraRepositoryJdbc ..> br_com_joinup_compras_domain_EventoComercial
+br_com_joinup_compras_repository_CompraRepositoryJdbc ..> br_com_joinup_compras_repository_JdbcComercio
+br_com_joinup_compras_repository_CompraRepositoryJdbc ..> br_com_joinup_http_HttpException
+br_com_joinup_compras_repository_IngressoRepositoryJdbc ..> br_com_joinup_compras_domain_Ingresso
+br_com_joinup_compras_repository_IngressoRepositoryJdbc ..> br_com_joinup_compras_repository_JdbcComercio
+br_com_joinup_compras_repository_IngressoRepositoryJdbc ..> br_com_joinup_http_HttpException
+br_com_joinup_compras_service_CompraService --> br_com_joinup_auth_GerenciadorSessao : referência em campo
+br_com_joinup_compras_service_CompraService ..> br_com_joinup_compras_domain_EventoComercial
+br_com_joinup_compras_service_CompraService ..> br_com_joinup_compras_dto_CompraDados
+br_com_joinup_compras_service_CompraService ..> br_com_joinup_compras_dto_CompraDados_Item
+br_com_joinup_compras_service_CompraService --> br_com_joinup_compras_repository_CompraRepositoryJdbc : referência em campo
+br_com_joinup_compras_service_CompraService --> br_com_joinup_compras_repository_IngressoRepositoryJdbc : referência em campo
+br_com_joinup_compras_service_CompraService ..> br_com_joinup_compras_service_ValidacaoComercio
+br_com_joinup_compras_service_CompraService ..> br_com_joinup_eventos_domain_TipoIngresso
+br_com_joinup_compras_service_CompraService --> br_com_joinup_eventos_repository_TipoIngressoRepositoryJdbc : referência em campo
+br_com_joinup_compras_service_CompraService ..> br_com_joinup_eventos_service_ValidacaoEvento
+br_com_joinup_compras_service_CompraService ..> br_com_joinup_http_HttpException
+br_com_joinup_compras_service_CompraService --> br_com_joinup_revendas_repository_RevendaRepositoryJdbc : referência em campo
+br_com_joinup_compras_service_CompraService --> br_com_joinup_shared_db_ExecutorTransacional : referência em campo
+br_com_joinup_compras_service_CompraService ..> br_com_joinup_shared_db_ExecutorTransacional_Operacao
+br_com_joinup_compras_service_CompraService ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_compras_service_CompraService ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_compras_service_ValidacaoComercio ..> br_com_joinup_compras_dto_CompraDados
+br_com_joinup_compras_service_ValidacaoComercio ..> br_com_joinup_compras_dto_CompraDados_Item
+br_com_joinup_compras_service_ValidacaoComercio ..> br_com_joinup_eventos_service_ValidacaoEvento
+br_com_joinup_compras_service_ValidacaoComercio ..> br_com_joinup_http_HttpException
+br_com_joinup_comunidades_http_ComunidadeRoutes --> br_com_joinup_auth_SegurancaHttp : referência em campo
+br_com_joinup_comunidades_http_ComunidadeRoutes ..> br_com_joinup_comunidades_domain_Comentario
+br_com_joinup_comunidades_http_ComunidadeRoutes ..> br_com_joinup_comunidades_domain_MensagemComunidade
+br_com_joinup_comunidades_http_ComunidadeRoutes ..> br_com_joinup_comunidades_domain_Postagem
+br_com_joinup_comunidades_http_ComunidadeRoutes ..> br_com_joinup_comunidades_dto_ComunidadeDetalheView
+br_com_joinup_comunidades_http_ComunidadeRoutes ..> br_com_joinup_comunidades_dto_CriarComentarioRequest
+br_com_joinup_comunidades_http_ComunidadeRoutes ..> br_com_joinup_comunidades_dto_CriarPostagemRequest
+br_com_joinup_comunidades_http_ComunidadeRoutes ..> br_com_joinup_comunidades_dto_EnviarMensagemRequest
+br_com_joinup_comunidades_http_ComunidadeRoutes --> br_com_joinup_comunidades_service_ComunidadeSocialService : referência em campo
+br_com_joinup_comunidades_http_ComunidadeRoutes ..> br_com_joinup_http_HttpException
+br_com_joinup_comunidades_http_ComunidadeRoutes --> br_com_joinup_http_HttpResponses : referência em campo
+br_com_joinup_comunidades_http_ComunidadeRoutes --> br_com_joinup_http_JsonCodec : referência em campo
+br_com_joinup_comunidades_http_ComunidadeRoutes ..> br_com_joinup_http_ParameterizedRouteHandler
+br_com_joinup_comunidades_http_ComunidadeRoutes ..> br_com_joinup_http_RouteParameters
+br_com_joinup_comunidades_http_ComunidadeRoutes ..> br_com_joinup_http_Router
+br_com_joinup_comunidades_http_ComunidadeRoutes ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_comunidades_http_ComunidadeRoutes ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_comunidades_http_ComunidadeRoutes --> br_com_joinup_usuarios_service_ContaService : referência em campo
+br_com_joinup_comunidades_repository_ComunidadeSocialRepositoryJdbc ..> br_com_joinup_comunidades_domain_Comentario
+br_com_joinup_comunidades_repository_ComunidadeSocialRepositoryJdbc ..> br_com_joinup_comunidades_domain_ComunidadeResumo
+br_com_joinup_comunidades_repository_ComunidadeSocialRepositoryJdbc ..> br_com_joinup_comunidades_domain_MensagemComunidade
+br_com_joinup_comunidades_repository_ComunidadeSocialRepositoryJdbc ..> br_com_joinup_comunidades_domain_Postagem
+br_com_joinup_comunidades_repository_ComunidadeSocialRepositoryJdbc ..> br_com_joinup_comunidades_repository_JdbcComunidades
+br_com_joinup_comunidades_repository_ComunidadeSocialRepositoryJdbc ..> br_com_joinup_http_HttpException
+br_com_joinup_comunidades_repository_ComunidadeSocialRepositoryJdbc ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_comunidades_repository_ComunidadeSocialRepositoryJdbc ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_comunidades_service_ComunidadeSocialService --> br_com_joinup_arquivos_ArquivoService : referência em campo
+br_com_joinup_comunidades_service_ComunidadeSocialService --> br_com_joinup_auth_GerenciadorSessao : referência em campo
+br_com_joinup_comunidades_service_ComunidadeSocialService ..> br_com_joinup_comunidades_domain_Comentario
+br_com_joinup_comunidades_service_ComunidadeSocialService ..> br_com_joinup_comunidades_domain_ComunidadeResumo
+br_com_joinup_comunidades_service_ComunidadeSocialService ..> br_com_joinup_comunidades_domain_MensagemComunidade
+br_com_joinup_comunidades_service_ComunidadeSocialService ..> br_com_joinup_comunidades_domain_Postagem
+br_com_joinup_comunidades_service_ComunidadeSocialService ..> br_com_joinup_comunidades_dto_ComunidadeDetalheView
+br_com_joinup_comunidades_service_ComunidadeSocialService ..> br_com_joinup_comunidades_dto_CriarComentarioRequest
+br_com_joinup_comunidades_service_ComunidadeSocialService ..> br_com_joinup_comunidades_dto_CriarPostagemRequest
+br_com_joinup_comunidades_service_ComunidadeSocialService ..> br_com_joinup_comunidades_dto_EnviarMensagemRequest
+br_com_joinup_comunidades_service_ComunidadeSocialService --> br_com_joinup_comunidades_repository_ComunidadeSocialRepositoryJdbc : referência em campo
+br_com_joinup_comunidades_service_ComunidadeSocialService ..> br_com_joinup_http_HttpException
+br_com_joinup_comunidades_service_ComunidadeSocialService --> br_com_joinup_shared_db_ExecutorTransacional : referência em campo
+br_com_joinup_comunidades_service_ComunidadeSocialService ..> br_com_joinup_shared_db_ExecutorTransacional_Operacao
+br_com_joinup_comunidades_service_ComunidadeSocialService ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_comunidades_service_ComunidadeSocialService ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_config_ConfiguracaoSistema ..> br_com_joinup_auth_SegurancaHttp
+br_com_joinup_config_ConfiguracaoSistema ..> br_com_joinup_config_ConfiguracaoSistema_Holder
+br_com_joinup_config_ConfiguracaoSistema_Holder --> br_com_joinup_config_ConfiguracaoSistema : referência em campo
+br_com_joinup_demo_DemoRunner ..> br_com_joinup_config_ConfiguracaoSistema
+br_com_joinup_demo_DemoRunner ..> br_com_joinup_demo_SqlDemo
+br_com_joinup_demo_DemoRunner --> br_com_joinup_shared_db_ConnectionFactory : referência em campo
+br_com_joinup_eventos_dto_CriarEventoDados --> br_com_joinup_eventos_dto_TipoIngressoDados : referência em campo
+br_com_joinup_eventos_dto_EventoView --> br_com_joinup_eventos_domain_Comunidade : referência em campo
+br_com_joinup_eventos_dto_EventoView ..> br_com_joinup_eventos_domain_Evento
+br_com_joinup_eventos_dto_EventoView --> "1" br_com_joinup_eventos_domain_ItemCatalogo : genero (EventoView.de)
+br_com_joinup_eventos_dto_EventoView --> "0..*" br_com_joinup_eventos_domain_ItemCatalogo : artistas (List)
+br_com_joinup_eventos_dto_EventoView --> "0..*" br_com_joinup_eventos_domain_TipoIngresso : tiposIngresso (List)
+br_com_joinup_eventos_dto_FiltroEventos ..> br_com_joinup_http_HttpException
+br_com_joinup_eventos_dto_FiltroEventos ..> br_com_joinup_http_RouteParameters
+br_com_joinup_eventos_facade_EventoFacade --> br_com_joinup_auth_GerenciadorSessao : referência em campo
+br_com_joinup_eventos_facade_EventoFacade ..> br_com_joinup_eventos_domain_Comunidade
+br_com_joinup_eventos_facade_EventoFacade ..> br_com_joinup_eventos_domain_Evento
+br_com_joinup_eventos_facade_EventoFacade ..> br_com_joinup_eventos_domain_ItemCatalogo
+br_com_joinup_eventos_facade_EventoFacade ..> br_com_joinup_eventos_domain_TipoIngresso
+br_com_joinup_eventos_facade_EventoFacade ..> br_com_joinup_eventos_dto_CriarEventoDados
+br_com_joinup_eventos_facade_EventoFacade ..> br_com_joinup_eventos_dto_EditarEventoDados
+br_com_joinup_eventos_facade_EventoFacade ..> br_com_joinup_eventos_dto_EventoView
+br_com_joinup_eventos_facade_EventoFacade ..> br_com_joinup_eventos_dto_FiltroEventos
+br_com_joinup_eventos_facade_EventoFacade ..> br_com_joinup_eventos_dto_TipoIngressoDados
+br_com_joinup_eventos_facade_EventoFacade --> br_com_joinup_eventos_service_ArtistaService : referência em campo
+br_com_joinup_eventos_facade_EventoFacade --> br_com_joinup_eventos_service_ComunidadeService : referência em campo
+br_com_joinup_eventos_facade_EventoFacade --> br_com_joinup_eventos_service_EventoService : referência em campo
+br_com_joinup_eventos_facade_EventoFacade --> br_com_joinup_eventos_service_TipoIngressoService : referência em campo
+br_com_joinup_eventos_facade_EventoFacade ..> br_com_joinup_eventos_service_ValidacaoEvento
+br_com_joinup_eventos_facade_EventoFacade --> br_com_joinup_shared_db_ExecutorTransacional : referência em campo
+br_com_joinup_eventos_facade_EventoFacade ..> br_com_joinup_shared_db_ExecutorTransacional_Operacao
+br_com_joinup_eventos_facade_EventoFacade ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_eventos_facade_EventoFacade ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_eventos_http_EventoRoutes --> br_com_joinup_auth_SegurancaHttp : referência em campo
+br_com_joinup_eventos_http_EventoRoutes ..> br_com_joinup_eventos_domain_TipoIngresso
+br_com_joinup_eventos_http_EventoRoutes ..> br_com_joinup_eventos_dto_CriarEventoDados
+br_com_joinup_eventos_http_EventoRoutes ..> br_com_joinup_eventos_dto_EditarEventoDados
+br_com_joinup_eventos_http_EventoRoutes ..> br_com_joinup_eventos_dto_EventoView
+br_com_joinup_eventos_http_EventoRoutes ..> br_com_joinup_eventos_dto_FiltroEventos
+br_com_joinup_eventos_http_EventoRoutes ..> br_com_joinup_eventos_dto_TipoIngressoDados
+br_com_joinup_eventos_http_EventoRoutes --> br_com_joinup_eventos_facade_EventoFacade : referência em campo
+br_com_joinup_eventos_http_EventoRoutes ..> br_com_joinup_http_HttpException
+br_com_joinup_eventos_http_EventoRoutes --> br_com_joinup_http_HttpResponses : referência em campo
+br_com_joinup_eventos_http_EventoRoutes --> br_com_joinup_http_JsonCodec : referência em campo
+br_com_joinup_eventos_http_EventoRoutes ..> br_com_joinup_http_ParameterizedRouteHandler
+br_com_joinup_eventos_http_EventoRoutes ..> br_com_joinup_http_RouteHandler
+br_com_joinup_eventos_http_EventoRoutes ..> br_com_joinup_http_RouteParameters
+br_com_joinup_eventos_http_EventoRoutes ..> br_com_joinup_http_Router
+br_com_joinup_eventos_http_EventoRoutes ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_eventos_http_EventoRoutes ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_eventos_http_EventoRoutes --> br_com_joinup_usuarios_service_ContaService : referência em campo
+br_com_joinup_eventos_repository_ArtistaRepositoryJdbc ..> br_com_joinup_eventos_domain_ItemCatalogo
+br_com_joinup_eventos_repository_ArtistaRepositoryJdbc ..> br_com_joinup_eventos_repository_JdbcEventos
+br_com_joinup_eventos_repository_ComunidadeRepositoryJdbc ..> br_com_joinup_eventos_domain_Comunidade
+br_com_joinup_eventos_repository_ComunidadeRepositoryJdbc ..> br_com_joinup_eventos_domain_Evento
+br_com_joinup_eventos_repository_ComunidadeRepositoryJdbc ..> br_com_joinup_eventos_repository_JdbcEventos
+br_com_joinup_eventos_repository_EventoRepositoryJdbc ..> br_com_joinup_eventos_domain_Evento
+br_com_joinup_eventos_repository_EventoRepositoryJdbc ..> br_com_joinup_eventos_dto_FiltroEventos
+br_com_joinup_eventos_repository_EventoRepositoryJdbc ..> br_com_joinup_eventos_repository_JdbcEventos
+br_com_joinup_eventos_repository_TipoIngressoRepositoryJdbc ..> br_com_joinup_eventos_domain_TipoIngresso
+br_com_joinup_eventos_repository_TipoIngressoRepositoryJdbc ..> br_com_joinup_eventos_dto_TipoIngressoDados
+br_com_joinup_eventos_repository_TipoIngressoRepositoryJdbc ..> br_com_joinup_eventos_repository_JdbcEventos
+br_com_joinup_eventos_service_ArtistaService ..> br_com_joinup_eventos_domain_ItemCatalogo
+br_com_joinup_eventos_service_ArtistaService --> br_com_joinup_eventos_repository_ArtistaRepositoryJdbc : referência em campo
+br_com_joinup_eventos_service_ArtistaService ..> br_com_joinup_eventos_service_ValidacaoEvento
+br_com_joinup_eventos_service_ArtistaService ..> br_com_joinup_http_HttpException
+br_com_joinup_eventos_service_ComunidadeService ..> br_com_joinup_eventos_domain_Comunidade
+br_com_joinup_eventos_service_ComunidadeService ..> br_com_joinup_eventos_domain_Evento
+br_com_joinup_eventos_service_ComunidadeService --> br_com_joinup_eventos_repository_ComunidadeRepositoryJdbc : referência em campo
+br_com_joinup_eventos_service_EventoService ..> br_com_joinup_eventos_domain_Evento
+br_com_joinup_eventos_service_EventoService ..> br_com_joinup_eventos_dto_CriarEventoDados
+br_com_joinup_eventos_service_EventoService ..> br_com_joinup_eventos_dto_EditarEventoDados
+br_com_joinup_eventos_service_EventoService ..> br_com_joinup_eventos_dto_FiltroEventos
+br_com_joinup_eventos_service_EventoService --> br_com_joinup_eventos_repository_EventoRepositoryJdbc : referência em campo
+br_com_joinup_eventos_service_EventoService ..> br_com_joinup_eventos_service_ValidacaoEvento
+br_com_joinup_eventos_service_EventoService ..> br_com_joinup_http_HttpException
+br_com_joinup_eventos_service_TipoIngressoService ..> br_com_joinup_eventos_domain_TipoIngresso
+br_com_joinup_eventos_service_TipoIngressoService ..> br_com_joinup_eventos_dto_TipoIngressoDados
+br_com_joinup_eventos_service_TipoIngressoService --> br_com_joinup_eventos_repository_TipoIngressoRepositoryJdbc : referência em campo
+br_com_joinup_eventos_service_TipoIngressoService ..> br_com_joinup_eventos_service_ValidacaoEvento
+br_com_joinup_eventos_service_TipoIngressoService ..> br_com_joinup_http_HttpException
+br_com_joinup_eventos_service_ValidacaoEvento ..> br_com_joinup_http_HttpException
+br_com_joinup_http_HealthHandler --> br_com_joinup_http_HttpResponses : referência em campo
+br_com_joinup_http_HealthHandler ..|> br_com_joinup_http_RouteHandler
+br_com_joinup_http_HttpResponses --> br_com_joinup_http_JsonCodec : referência em campo
+br_com_joinup_http_JsonCodec ..> br_com_joinup_http_HttpException
+br_com_joinup_http_ParameterizedRouteHandler ..> br_com_joinup_http_RouteParameters
+br_com_joinup_http_RequestBody ..> br_com_joinup_http_HttpException
+br_com_joinup_http_RequestPath ..> br_com_joinup_http_HttpException
+br_com_joinup_http_RouteParameters ..> br_com_joinup_http_HttpException
+br_com_joinup_http_Router ..> br_com_joinup_http_HttpException
+br_com_joinup_http_Router --> br_com_joinup_http_HttpResponses : referência em campo
+br_com_joinup_http_Router ..> br_com_joinup_http_ParameterizedRouteHandler
+br_com_joinup_http_Router ..> br_com_joinup_http_RequestBody
+br_com_joinup_http_Router ..> br_com_joinup_http_RequestPath
+br_com_joinup_http_Router ..> br_com_joinup_http_RouteHandler
+br_com_joinup_http_Router ..> br_com_joinup_http_RouteParameters
+br_com_joinup_http_Router --> br_com_joinup_http_Router_Rota : referência em campo
+br_com_joinup_http_Router --> br_com_joinup_http_StaticFileHandler : referência em campo
+br_com_joinup_http_Router_Rota --> br_com_joinup_http_ParameterizedRouteHandler : referência em campo
+br_com_joinup_http_Router_Rota ..> br_com_joinup_http_Router
+br_com_joinup_http_StaticFileHandler ..> br_com_joinup_http_HttpException
+br_com_joinup_http_StaticFileHandler --> br_com_joinup_http_HttpResponses : referência em campo
+br_com_joinup_http_StaticFileHandler ..> br_com_joinup_http_RequestPath
+br_com_joinup_paineis_dto_PainelView --> br_com_joinup_usuarios_domain_Perfil : referência em campo
+br_com_joinup_paineis_http_PainelRoutes ..> br_com_joinup_auth_SegurancaHttp
+br_com_joinup_paineis_http_PainelRoutes --> br_com_joinup_http_HttpResponses : referência em campo
+br_com_joinup_paineis_http_PainelRoutes ..> br_com_joinup_http_ParameterizedRouteHandler
+br_com_joinup_paineis_http_PainelRoutes ..> br_com_joinup_http_RouteParameters
+br_com_joinup_paineis_http_PainelRoutes ..> br_com_joinup_http_Router
+br_com_joinup_paineis_http_PainelRoutes ..> br_com_joinup_paineis_dto_PainelView
+br_com_joinup_paineis_http_PainelRoutes --> br_com_joinup_paineis_service_PainelService : referência em campo
+br_com_joinup_paineis_http_PainelRoutes ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_paineis_repository_PainelRepositoryJdbc ..> br_com_joinup_compras_repository_JdbcComercio
+br_com_joinup_paineis_repository_PainelRepositoryJdbc ..> br_com_joinup_suporte_domain_StatusTicket
+br_com_joinup_paineis_repository_PainelRepositoryJdbc ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_paineis_repository_PainelRepositoryJdbc ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_paineis_service_PainelService --> br_com_joinup_auth_GerenciadorSessao : referência em campo
+br_com_joinup_paineis_service_PainelService ..> br_com_joinup_paineis_dto_PainelView
+br_com_joinup_paineis_service_PainelService --> br_com_joinup_paineis_repository_PainelRepositoryJdbc : referência em campo
+br_com_joinup_paineis_service_PainelService --> br_com_joinup_shared_db_ExecutorTransacional : referência em campo
+br_com_joinup_paineis_service_PainelService ..> br_com_joinup_shared_db_ExecutorTransacional_Operacao
+br_com_joinup_paineis_service_PainelService ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_paineis_service_PainelService ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_revendas_dto_FiltroRevendas ..> br_com_joinup_http_HttpException
+br_com_joinup_revendas_dto_FiltroRevendas ..> br_com_joinup_http_RouteParameters
+br_com_joinup_revendas_repository_RevendaRepositoryJdbc ..> br_com_joinup_compras_repository_JdbcComercio
+br_com_joinup_revendas_repository_RevendaRepositoryJdbc ..> br_com_joinup_compras_service_ValidacaoComercio
+br_com_joinup_revendas_repository_RevendaRepositoryJdbc ..> br_com_joinup_http_HttpException
+br_com_joinup_revendas_repository_RevendaRepositoryJdbc ..> br_com_joinup_revendas_domain_Anuncio
+br_com_joinup_revendas_repository_RevendaRepositoryJdbc ..> br_com_joinup_revendas_dto_FiltroRevendas
+br_com_joinup_revendas_service_RevendaService --> br_com_joinup_auth_GerenciadorSessao : referência em campo
+br_com_joinup_revendas_service_RevendaService ..> br_com_joinup_compras_domain_EventoComercial
+br_com_joinup_revendas_service_RevendaService ..> br_com_joinup_compras_domain_Ingresso
+br_com_joinup_revendas_service_RevendaService --> br_com_joinup_compras_repository_CompraRepositoryJdbc : referência em campo
+br_com_joinup_revendas_service_RevendaService --> br_com_joinup_compras_repository_IngressoRepositoryJdbc : referência em campo
+br_com_joinup_revendas_service_RevendaService ..> br_com_joinup_compras_service_ValidacaoComercio
+br_com_joinup_revendas_service_RevendaService ..> br_com_joinup_eventos_domain_TipoIngresso
+br_com_joinup_revendas_service_RevendaService --> br_com_joinup_eventos_repository_TipoIngressoRepositoryJdbc : referência em campo
+br_com_joinup_revendas_service_RevendaService ..> br_com_joinup_eventos_service_ValidacaoEvento
+br_com_joinup_revendas_service_RevendaService ..> br_com_joinup_http_HttpException
+br_com_joinup_revendas_service_RevendaService ..> br_com_joinup_revendas_domain_Anuncio
+br_com_joinup_revendas_service_RevendaService ..> br_com_joinup_revendas_dto_AnuncioDados
+br_com_joinup_revendas_service_RevendaService ..> br_com_joinup_revendas_dto_FiltroRevendas
+br_com_joinup_revendas_service_RevendaService --> br_com_joinup_revendas_repository_RevendaRepositoryJdbc : referência em campo
+br_com_joinup_revendas_service_RevendaService --> br_com_joinup_shared_db_ExecutorTransacional : referência em campo
+br_com_joinup_revendas_service_RevendaService ..> br_com_joinup_shared_db_ExecutorTransacional_Operacao
+br_com_joinup_revendas_service_RevendaService ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_revendas_service_RevendaService ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_shared_db_ConnectionFactory ..> br_com_joinup_config_ConfiguracaoSistema
+br_com_joinup_shared_db_ExecutorTransacional ..> br_com_joinup_http_HttpException
+br_com_joinup_shared_db_ExecutorTransacional --> br_com_joinup_shared_db_ConnectionFactory : referência em campo
+br_com_joinup_shared_db_ExecutorTransacional ..> br_com_joinup_shared_db_ExecutorTransacional_Operacao
+br_com_joinup_shared_db_ExecutorTransacional_Operacao ..> br_com_joinup_shared_db_ExecutorTransacional
+br_com_joinup_suporte_domain_StatusTicket ..> br_com_joinup_http_HttpException
+br_com_joinup_suporte_domain_Ticket --> br_com_joinup_suporte_domain_StatusTicket : referência em campo
+br_com_joinup_suporte_dto_PaginaTickets --> "0..*" br_com_joinup_suporte_domain_Ticket : dados (List)
+br_com_joinup_suporte_dto_TicketDetalhe --> "0..*" br_com_joinup_suporte_domain_MensagemTicket : mensagens (List)
+br_com_joinup_suporte_dto_TicketDetalhe --> br_com_joinup_suporte_domain_Ticket : referência em campo
+br_com_joinup_suporte_http_TicketRoutes --> br_com_joinup_auth_SegurancaHttp : referência em campo
+br_com_joinup_suporte_http_TicketRoutes ..> br_com_joinup_http_HttpException
+br_com_joinup_suporte_http_TicketRoutes --> br_com_joinup_http_HttpResponses : referência em campo
+br_com_joinup_suporte_http_TicketRoutes --> br_com_joinup_http_JsonCodec : referência em campo
+br_com_joinup_suporte_http_TicketRoutes ..> br_com_joinup_http_ParameterizedRouteHandler
+br_com_joinup_suporte_http_TicketRoutes ..> br_com_joinup_http_RouteParameters
+br_com_joinup_suporte_http_TicketRoutes ..> br_com_joinup_http_Router
+br_com_joinup_suporte_http_TicketRoutes ..> br_com_joinup_suporte_domain_StatusTicket
+br_com_joinup_suporte_http_TicketRoutes ..> br_com_joinup_suporte_domain_Ticket
+br_com_joinup_suporte_http_TicketRoutes ..> br_com_joinup_suporte_dto_AbrirTicketDados
+br_com_joinup_suporte_http_TicketRoutes ..> br_com_joinup_suporte_dto_MensagemTicketDados
+br_com_joinup_suporte_http_TicketRoutes ..> br_com_joinup_suporte_dto_PaginaTickets
+br_com_joinup_suporte_http_TicketRoutes ..> br_com_joinup_suporte_dto_TicketDetalhe
+br_com_joinup_suporte_http_TicketRoutes --> br_com_joinup_suporte_service_TicketService : referência em campo
+br_com_joinup_suporte_http_TicketRoutes ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_suporte_http_TicketRoutes ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_suporte_http_TicketRoutes --> br_com_joinup_usuarios_service_ContaService : referência em campo
+br_com_joinup_suporte_repository_TicketRepositoryJdbc ..> br_com_joinup_compras_repository_JdbcComercio
+br_com_joinup_suporte_repository_TicketRepositoryJdbc ..> br_com_joinup_suporte_domain_MensagemTicket
+br_com_joinup_suporte_repository_TicketRepositoryJdbc ..> br_com_joinup_suporte_domain_StatusTicket
+br_com_joinup_suporte_repository_TicketRepositoryJdbc ..> br_com_joinup_suporte_domain_Ticket
+br_com_joinup_suporte_repository_TicketRepositoryJdbc ..> br_com_joinup_suporte_dto_PaginaTickets
+br_com_joinup_suporte_repository_TicketRepositoryJdbc ..> br_com_joinup_suporte_dto_TicketDetalhe
+br_com_joinup_suporte_repository_TicketRepositoryJdbc ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_suporte_repository_TicketRepositoryJdbc ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_suporte_service_TicketService --> br_com_joinup_auth_GerenciadorSessao : referência em campo
+br_com_joinup_suporte_service_TicketService ..> br_com_joinup_http_HttpException
+br_com_joinup_suporte_service_TicketService --> br_com_joinup_shared_db_ExecutorTransacional : referência em campo
+br_com_joinup_suporte_service_TicketService ..> br_com_joinup_shared_db_ExecutorTransacional_Operacao
+br_com_joinup_suporte_service_TicketService ..> br_com_joinup_suporte_domain_StatusTicket
+br_com_joinup_suporte_service_TicketService ..> br_com_joinup_suporte_domain_Ticket
+br_com_joinup_suporte_service_TicketService ..> br_com_joinup_suporte_dto_AbrirTicketDados
+br_com_joinup_suporte_service_TicketService ..> br_com_joinup_suporte_dto_MensagemTicketDados
+br_com_joinup_suporte_service_TicketService ..> br_com_joinup_suporte_dto_PaginaTickets
+br_com_joinup_suporte_service_TicketService ..> br_com_joinup_suporte_dto_TicketDetalhe
+br_com_joinup_suporte_service_TicketService --> br_com_joinup_suporte_repository_TicketRepositoryJdbc : referência em campo
+br_com_joinup_suporte_service_TicketService ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_suporte_service_TicketService ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_usuarios_domain_Organizador ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_usuarios_domain_Organizador --|> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_usuarios_domain_Participante ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_usuarios_domain_Participante --|> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_usuarios_domain_Usuario ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_usuarios_domain_UsuarioSuporte ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_usuarios_domain_UsuarioSuporte --|> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_usuarios_dto_UsuarioView ..> br_com_joinup_usuarios_domain_Organizador
+br_com_joinup_usuarios_dto_UsuarioView ..> br_com_joinup_usuarios_domain_Participante
+br_com_joinup_usuarios_dto_UsuarioView --> br_com_joinup_usuarios_domain_Perfil : referência em campo
+br_com_joinup_usuarios_dto_UsuarioView ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_auth_AutenticacaoOrganizador
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_auth_AutenticacaoParticipante
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_auth_AutenticacaoSuporte
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_auth_AutenticacaoTemplate
+br_com_joinup_usuarios_http_UsuarioRoutes --> br_com_joinup_auth_SegurancaHttp : referência em campo
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_auth_SessaoEmitida
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_http_HttpException
+br_com_joinup_usuarios_http_UsuarioRoutes --> br_com_joinup_http_HttpResponses : referência em campo
+br_com_joinup_usuarios_http_UsuarioRoutes --> br_com_joinup_http_JsonCodec : referência em campo
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_http_ParameterizedRouteHandler
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_http_RouteHandler
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_http_RouteParameters
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_http_Router
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_usuarios_dto_CadastroDados
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_usuarios_dto_Credenciais
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_usuarios_dto_PerfilDados
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_usuarios_dto_UsuarioView
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_usuarios_service_CadastroOrganizadorCreator
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_usuarios_service_CadastroParticipanteCreator
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_usuarios_service_CadastroSuporteCreator
+br_com_joinup_usuarios_http_UsuarioRoutes ..> br_com_joinup_usuarios_service_CadastroUsuarioCreator
+br_com_joinup_usuarios_http_UsuarioRoutes --> br_com_joinup_usuarios_service_ContaService : referência em campo
+br_com_joinup_usuarios_repository_ContaRepositoryJdbc ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_usuarios_repository_ContaRepositoryJdbc ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_usuarios_repository_OrganizadorRepositoryJdbc ..> br_com_joinup_usuarios_domain_Organizador
+br_com_joinup_usuarios_repository_OrganizadorRepositoryJdbc ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_usuarios_repository_OrganizadorRepositoryJdbc ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_usuarios_repository_OrganizadorRepositoryJdbc --|> br_com_joinup_usuarios_repository_UsuarioRepositoryJdbc
+br_com_joinup_usuarios_repository_ParticipanteRepositoryJdbc ..> br_com_joinup_usuarios_domain_Participante
+br_com_joinup_usuarios_repository_ParticipanteRepositoryJdbc ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_usuarios_repository_ParticipanteRepositoryJdbc ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_usuarios_repository_ParticipanteRepositoryJdbc --|> br_com_joinup_usuarios_repository_UsuarioRepositoryJdbc
+br_com_joinup_usuarios_repository_RepositoriosUsuarios --> br_com_joinup_usuarios_domain_Perfil : referência em campo
+br_com_joinup_usuarios_repository_RepositoriosUsuarios --> br_com_joinup_usuarios_repository_UsuarioRepository : referência em campo
+br_com_joinup_usuarios_repository_SuporteRepositoryJdbc ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_usuarios_repository_SuporteRepositoryJdbc ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_usuarios_repository_SuporteRepositoryJdbc ..> br_com_joinup_usuarios_domain_UsuarioSuporte
+br_com_joinup_usuarios_repository_SuporteRepositoryJdbc --|> br_com_joinup_usuarios_repository_UsuarioRepositoryJdbc
+br_com_joinup_usuarios_repository_UsuarioRepository ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_usuarios_repository_UsuarioRepository ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_usuarios_repository_UsuarioRepositoryJdbc --> br_com_joinup_usuarios_domain_Perfil : referência em campo
+br_com_joinup_usuarios_repository_UsuarioRepositoryJdbc ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_usuarios_repository_UsuarioRepositoryJdbc ..|> br_com_joinup_usuarios_repository_UsuarioRepository
+br_com_joinup_usuarios_service_CadastroOrganizadorCreator ..> br_com_joinup_auth_SenhasPbkdf2
+br_com_joinup_usuarios_service_CadastroOrganizadorCreator ..> br_com_joinup_http_HttpException
+br_com_joinup_usuarios_service_CadastroOrganizadorCreator ..> br_com_joinup_shared_db_ExecutorTransacional
+br_com_joinup_usuarios_service_CadastroOrganizadorCreator ..> br_com_joinup_usuarios_domain_Organizador
+br_com_joinup_usuarios_service_CadastroOrganizadorCreator ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_usuarios_service_CadastroOrganizadorCreator ..> br_com_joinup_usuarios_dto_CadastroDados
+br_com_joinup_usuarios_service_CadastroOrganizadorCreator ..> br_com_joinup_usuarios_repository_OrganizadorRepositoryJdbc
+br_com_joinup_usuarios_service_CadastroOrganizadorCreator ..> br_com_joinup_usuarios_repository_UsuarioRepository
+br_com_joinup_usuarios_service_CadastroOrganizadorCreator --|> br_com_joinup_usuarios_service_CadastroUsuarioCreator
+br_com_joinup_usuarios_service_CadastroOrganizadorCreator ..> br_com_joinup_usuarios_service_ValidacaoUsuario
+br_com_joinup_usuarios_service_CadastroParticipanteCreator ..> br_com_joinup_auth_SenhasPbkdf2
+br_com_joinup_usuarios_service_CadastroParticipanteCreator ..> br_com_joinup_http_HttpException
+br_com_joinup_usuarios_service_CadastroParticipanteCreator ..> br_com_joinup_shared_db_ExecutorTransacional
+br_com_joinup_usuarios_service_CadastroParticipanteCreator ..> br_com_joinup_usuarios_domain_Participante
+br_com_joinup_usuarios_service_CadastroParticipanteCreator ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_usuarios_service_CadastroParticipanteCreator ..> br_com_joinup_usuarios_dto_CadastroDados
+br_com_joinup_usuarios_service_CadastroParticipanteCreator ..> br_com_joinup_usuarios_repository_ParticipanteRepositoryJdbc
+br_com_joinup_usuarios_service_CadastroParticipanteCreator ..> br_com_joinup_usuarios_repository_UsuarioRepository
+br_com_joinup_usuarios_service_CadastroParticipanteCreator --|> br_com_joinup_usuarios_service_CadastroUsuarioCreator
+br_com_joinup_usuarios_service_CadastroParticipanteCreator ..> br_com_joinup_usuarios_service_ValidacaoUsuario
+br_com_joinup_usuarios_service_CadastroSuporteCreator --> br_com_joinup_auth_GerenciadorSessao : referência em campo
+br_com_joinup_usuarios_service_CadastroSuporteCreator ..> br_com_joinup_auth_SenhasPbkdf2
+br_com_joinup_usuarios_service_CadastroSuporteCreator ..> br_com_joinup_http_HttpException
+br_com_joinup_usuarios_service_CadastroSuporteCreator ..> br_com_joinup_shared_db_ExecutorTransacional
+br_com_joinup_usuarios_service_CadastroSuporteCreator ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_usuarios_service_CadastroSuporteCreator ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_usuarios_service_CadastroSuporteCreator ..> br_com_joinup_usuarios_domain_UsuarioSuporte
+br_com_joinup_usuarios_service_CadastroSuporteCreator ..> br_com_joinup_usuarios_dto_CadastroDados
+br_com_joinup_usuarios_service_CadastroSuporteCreator ..> br_com_joinup_usuarios_repository_SuporteRepositoryJdbc
+br_com_joinup_usuarios_service_CadastroSuporteCreator ..> br_com_joinup_usuarios_repository_UsuarioRepository
+br_com_joinup_usuarios_service_CadastroSuporteCreator --|> br_com_joinup_usuarios_service_CadastroUsuarioCreator
+br_com_joinup_usuarios_service_CadastroSuporteCreator ..> br_com_joinup_usuarios_service_ValidacaoUsuario
+br_com_joinup_usuarios_service_CadastroUsuarioCreator --> br_com_joinup_auth_SenhasPbkdf2 : referência em campo
+br_com_joinup_usuarios_service_CadastroUsuarioCreator --> br_com_joinup_shared_db_ExecutorTransacional : referência em campo
+br_com_joinup_usuarios_service_CadastroUsuarioCreator ..> br_com_joinup_shared_db_ExecutorTransacional_Operacao
+br_com_joinup_usuarios_service_CadastroUsuarioCreator ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_usuarios_service_CadastroUsuarioCreator ..> br_com_joinup_usuarios_dto_CadastroDados
+br_com_joinup_usuarios_service_CadastroUsuarioCreator --> br_com_joinup_usuarios_repository_UsuarioRepository : referência em campo
+br_com_joinup_usuarios_service_CadastroUsuarioCreator ..> br_com_joinup_usuarios_service_ValidacaoUsuario
+br_com_joinup_usuarios_service_ContaService --> br_com_joinup_auth_GerenciadorSessao : referência em campo
+br_com_joinup_usuarios_service_ContaService --> br_com_joinup_auth_SenhasPbkdf2 : referência em campo
+br_com_joinup_usuarios_service_ContaService ..> br_com_joinup_http_HttpException
+br_com_joinup_usuarios_service_ContaService --> br_com_joinup_shared_db_ExecutorTransacional : referência em campo
+br_com_joinup_usuarios_service_ContaService ..> br_com_joinup_shared_db_ExecutorTransacional_Operacao
+br_com_joinup_usuarios_service_ContaService ..> br_com_joinup_usuarios_domain_Organizador
+br_com_joinup_usuarios_service_ContaService ..> br_com_joinup_usuarios_domain_Perfil
+br_com_joinup_usuarios_service_ContaService ..> br_com_joinup_usuarios_domain_Usuario
+br_com_joinup_usuarios_service_ContaService ..> br_com_joinup_usuarios_dto_PerfilDados
+br_com_joinup_usuarios_service_ContaService --> br_com_joinup_usuarios_repository_ContaRepositoryJdbc : referência em campo
+br_com_joinup_usuarios_service_ContaService --> br_com_joinup_usuarios_repository_RepositoriosUsuarios : referência em campo
+br_com_joinup_usuarios_service_ContaService ..> br_com_joinup_usuarios_repository_UsuarioRepository
+br_com_joinup_usuarios_service_ContaService ..> br_com_joinup_usuarios_service_ValidacaoUsuario
+br_com_joinup_usuarios_service_ValidacaoUsuario ..> br_com_joinup_http_HttpException
+legend bottom
+Seta contínua: referência em campo. Tracejada: usa tipo/bytecode.
+Triângulo: herança/implementação Java. Tipos internos nomeados também incluídos.
+Sem diamantes: não há prova de propriedade exclusiva/ciclo de vida de objetos.
+IDs em records são referências SQL, não associações ORM. JDK/bibliotecas externos omitidos.
+Assinaturas explícitas; accessors/equals/hashCode gerados dos records omitidos.
+Exatamente quatro GoF reivindicados: Singleton, Factory Method, Template Method, Facade.
+endlegend
+@enduml
