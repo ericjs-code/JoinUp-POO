@@ -25,7 +25,7 @@
 - O trabalho examinou `main` **após #8**; inventário documental aponta **123 tipos nomeados em 117 fontes Java**, diagrama integral de ~99 KB e SVG correspondente. Visão resumida existente para uso em slides/apresentação.
 - Quatro GoF estão associados a classes reais e casos de uso: `ConfiguracaoSistema` Singleton, `CadastroUsuarioCreator` Factory Method, `AutenticacaoTemplate` Template Method, `EventoFacade` Facade. Documento distingue tradeoffs e alternativas, sem reivindicar quinto GoF.
 - `VALIDACAO_DOCUMENTAL.md` declara PlantUML `-checkonly`/renderização Graphviz concluídos, 167 Surefire executados localmente sem MySQL, e conferência do [CI pós-#8](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38247779976).
-- [CI do PR #9](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38251275138) **completed/success**. O workflow da `main` recém-mergeada, [run 38252383206](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38252383206), ainda estava **in_progress** na última checagem durante a auditoria; confirmar resultado antes de congelar release.
+- [CI do PR #9](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38251275138) **completed/success**. O workflow da `main` recém-mergeada, [run 38252383206](https://github.com/ericjs-code/JoinUp-POO/actions/runs/38252383206), **concluiu com sucesso** após a conferência final.
 - **A matriz V01–V45 continua integralmente `NÃO EXECUTADO` quanto ao ensaio dessa frente**. As suites CI e sanidades anteriores são evidências separadas; não alterar rótulos sem nova execução e registro individual.
 - **Enunciado integral RA2 não estava disponível** para a frente documental; equipe/instituição/turma/professor e duração real da apresentação ainda são campos a confirmar. Sem isso não garantir conformidade integral com critérios de nota.
 
@@ -35,7 +35,7 @@
 
 | Pri. | ID | Ação concreta | Gate |
 | --- | --- | --- | --- |
-| **P0** | FIN-01 | Confirmar conclusão verde do CI na `main` após PR #9; se falhar, corrigir antes de prosseguir. | Checks `completed/success` |
+| **P0** | FIN-01 | Reconfirmar CI verde da `main` após PR #9 ao congelar o release; já verificado como completed/success nesta auditoria. | Checks `completed/success` |
 | **P0** | FIN-02 | Instalação limpa em **nova base isolada**: JDK 21, Maven, MySQL 8, `schema_v0.2.sql` → `migration_06_midia_demo.sql`, conta DML, `JOINUP_ENV=demo` + `JOINUP_DEMO=true`, upload dir externo. | App inicia; três logins e recursos reais funcionam; versão e evidências |
 | **P0** | FIN-03 | Executar roteiro integrado dos três perfis com **cookies separados** e matriz de 45 casos; registrar os realizados como `EXECUTADO / APROVADO` ou `REPROVADO` com evidência, mantendo não feitos como NÃO EXECUTADO/BLOQUEADO. | Fluxo público → evento/compra → ingresso/revenda → comunidade/feed/chat/mídia → chamados/dois suportes → dashboards |
 | **P0** | FIN-04 | Confirmar enunciado original da RA2, integrantes, instituição/turma/professor, tempo e formato final. | Relatório conforme critérios reais, sem placeholders |
