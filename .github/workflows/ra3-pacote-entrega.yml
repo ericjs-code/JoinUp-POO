@@ -1,0 +1,46 @@
+name: Preparar pacote de entrega RA3
+on:
+  push:
+    branches:
+      - packaging/ra3-entrega-20261108
+permissions:
+  contents: read
+jobs:
+  pacote:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preparar fontes
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import pathlib, subprocess, zipfile, re, sys
+          tracked=subprocess.check_output(['git','ls-files','-z']).decode().split('\0')
+          names=[n for n in tracked if n and (n.startswith(('src/main/','src/test/','.mvn/wrapper/')) or n in ('pom.xml','mvnw','mvnw.cmd','.gitignore','.env.example'))]
+          print('FONTES',len(names))
+          bad=[]
+          banned=re.compile(r'(?i)chat[\s-]*gpt|codex|openai|gpt[- ]?[0-9]|github[\s-]*copilot|gerad[oa]s?\s+por\s+(?:ia|intelig[eê]ncia\s+artificial)')
+          for n in names:
+              p=pathlib.Path(n)
+              if p.suffix.lower() in {'.java','.xml','.html','.js','.css','.sql','.md','.txt','.json','.properties','.yml','.yaml','.toml','.cmd','.sh','.gitignore','.example'} or p.name=='mvnw':
+                  try: s=p.read_text(encoding='utf-8')
+                  except UnicodeDecodeError: continue
+                  bad += [(n,s.count('\n',0,m.start())+1,m.group(0)) for m in banned.finditer(s)]
+          if bad:
+              print('ACHADOS',len(bad),bad[:40]);sys.exit(8)
+          out=pathlib.Path('joinup-poo-ra3-fontes.zip')
+          with zipfile.ZipFile(out,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=8) as z:
+              for n in names:z.write(n,'JoinUp-POO-RA3/'+n)
+          with zipfile.ZipFile(out) as z:
+              assert len(z.namelist())==len(names)
+              assert 'JoinUp-POO-RA3/pom.xml' in z.namelist()
+              assert any(n.endswith('/br/com/joinup/ra3/Ra3Main.java') for n in z.namelist())
+              assert not any('prompt' in n.lower() or '/.git/' in n for n in z.namelist())
+          print('ZIP_CRU_OK',out.stat().st_size,len(names))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pacote-fontes-ra3
+          path: joinup-poo-ra3-fontes.zip
+          if-no-files-found: error
+          retention-days: 7
