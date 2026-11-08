@@ -35,7 +35,7 @@ class GeneroMusicalMySqlIT {
                     assertEquals(nome, leitura.createNativeQuery(
                             "SELECT nome FROM joinup_poo_ra3.generos_musicais WHERE id_genero_musical = ?")
                             .setParameter(1, genero.getId()).getSingleResult());
-                    assertEquals(1, fabrica.getMetamodel().getEntities().size());
+                    assertEquals(7, fabrica.getMetamodel().getEntities().size());
                     System.out.println("RA3_SMOKE_OK provider=" + org.eclipse.persistence.Version.getVersion()
                             + " catalogo=joinup_poo_ra3 id=" + genero.getId() + " leitura=outro-EntityManager+SQL");
                 }

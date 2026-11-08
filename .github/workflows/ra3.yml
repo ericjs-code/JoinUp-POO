@@ -1,4 +1,4 @@
-name: RA3 Entrega 00 - EclipseLink e MySQL isolado
+name: RA3 Entrega 01 - sete entidades e relacionamentos
 
 on:
   push:
@@ -37,7 +37,7 @@ jobs:
           cache: maven
       - name: Unitários sem depender de MySQL
         run: mvn --batch-mode --no-transfer-progress -Pra3 clean test
-      - name: Aplicar somente schema RA3 e criar conta DML de fixture
+      - name: Aplicar sete tabelas RA3 e criar conta DML de fixture
         env:
           MYSQL_PWD: ra3-root-fixture-ci-only
         run: |
@@ -46,7 +46,8 @@ jobs:
           CREATE USER 'ra3_it'@'%' IDENTIFIED BY 'ra3-fixture-ci-only';
           GRANT SELECT, INSERT, UPDATE, DELETE ON joinup_poo_ra3.* TO 'ra3_it'@'%';
           SQL
-      - name: Smoke test JPA real e diagnóstico sem escrita
+          mysql --host=127.0.0.1 --port=3309 --user=root < src/main/resources/db/ra3/verificar_schema_ra3.sql
+      - name: Validar schema, grafo JPA, constraints, rollback e diagnóstico
         run: |
           mvn --batch-mode --no-transfer-progress -Pra3,ra3-it verify
           mvn --batch-mode --no-transfer-progress -Pra3 exec:java

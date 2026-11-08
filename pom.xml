@@ -11,6 +11,7 @@
     <joinup.mainClass>br.com.joinup.Main</joinup.mainClass>
     <ra3.source.exclude>br/com/joinup/ra3/**</ra3.source.exclude>
     <ra3.persistence.exclude>META-INF/persistence.xml</ra3.persistence.exclude>
+    <ra3.orm.exclude>META-INF/orm-ra3.xml</ra3.orm.exclude>
     <ra3.sql.exclude>db/ra3/**</ra3.sql.exclude>
   </properties>
   <dependencies>
@@ -49,6 +50,7 @@
         <directory>src/main/resources</directory>
         <excludes>
           <exclude>${ra3.persistence.exclude}</exclude>
+          <exclude>${ra3.orm.exclude}</exclude>
           <exclude>${ra3.sql.exclude}</exclude>
         </excludes>
       </resource>
@@ -109,6 +111,7 @@
         <joinup.mainClass>br.com.joinup.ra3.Ra3Main</joinup.mainClass>
         <ra3.source.exclude>__nenhuma_fonte_ra3_excluida__/**</ra3.source.exclude>
         <ra3.persistence.exclude>__nenhum_descriptor_excluido__</ra3.persistence.exclude>
+        <ra3.orm.exclude>__nenhum_mapeamento_excluido__</ra3.orm.exclude>
         <ra3.sql.exclude>__nenhum_sql_ra3_excluido__/**</ra3.sql.exclude>
       </properties>
       <dependencies>

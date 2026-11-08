@@ -67,6 +67,8 @@ public final class ConfiguracaoRa3 {
         p.put("jakarta.persistence.jdbc.password", senha);
         p.put("eclipselink.jdbc.property.connectTimeout", "5000");
         p.put("eclipselink.jdbc.property.socketTimeout", "10000");
+        p.put("eclipselink.jdbc.property.connectionTimeZone", "UTC");
+        p.put("eclipselink.jdbc.property.forceConnectionTimeZoneToSession", "true");
         return p;
     }
 
