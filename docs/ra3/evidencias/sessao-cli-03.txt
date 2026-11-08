@@ -127,6 +127,7 @@ Programa encerrado.
 [INFO] BUILD SUCCESS
 [INFO] Finished at: 2026-11-08T18:01:44-03:00
 COMMAND: mvn --batch-mode --no-transfer-progress -Pra3 exec:java
+NOTA DE REPRODUCAO: o condutor enviou 2, 1, "CLI03 EOF descartado" e fechou stdin no campo de e-mail; esse envio parcial não recebeu o prefixo >>> no log bruto.
 Fim da entrada.
 Programa encerrado.
 [INFO] BUILD SUCCESS

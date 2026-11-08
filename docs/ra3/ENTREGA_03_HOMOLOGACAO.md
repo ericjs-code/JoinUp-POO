@@ -8,6 +8,9 @@ de implementar: [PR #14](https://github.com/ericjs-code/JoinUp-POO/pull/14)
 Branch nova: **feat/ra3-03-homologacao**, criada diretamente de `origin/main`.
 O histórico Git e o PR associado identificam os commits; nenhum merge foi feito
 pelo Codex. A entrega permanece sujeita à auditoria do Tech Lead/PO.
+[PR #15 aberto](https://github.com/ericjs-code/JoinUp-POO/pull/15), código e provas
+locais no commit `fef7f7830ad401e62692eb8b5def279e8dd42cc0`; o commit posterior
+registra os resultados de CI e uma nota de reprodução, somente em documentação.
 
 ## Fontes, ambiente e limites
 
@@ -164,9 +167,27 @@ incluindo reinício de JVM, em [sessao-cli-03.txt](evidencias/sessao-cli-03.txt)
 Unitários usam validações/doubles/processos isolados; os 42 Failsafe acessam
 MySQL; a demonstração executa menu/serviço reais. Nenhuma dessas camadas
 substitui a observação do CI. O perfil JDBC `-Pmysql-it` **não foi executado
-localmente**: requer duas instâncias RA2. Sua regressão será observada no
-workflow histórico, preservado, após push. CI desta entrega é registrado
-separadamente, por SHA/run, sem reutilizar números anteriores.
+localmente**: requer duas instâncias RA2. Sua regressão foi observada no
+workflow histórico, preservado, após push e abertura do PR, conforme abaixo.
+
+## CI observado no GitHub
+
+Head `fef7f7830ad401e62692eb8b5def279e8dd42cc0`, ambos os runs do evento
+`pull_request` retornaram **completed / success**. O checkout do Actions usou
+o merge sintético `c8db89f` do PR contra a base `0ebc151`; isso não integra o
+PR na main. Não foi executada ação de merge.
+
+| Workflow preservado | Run / resultado observado |
+| --- | --- |
+| RA3 Entrega 02 - CRUD e menu Java | [42523930875](https://github.com/ericjs-code/JoinUp-POO/actions/runs/42523930875): success; logs com 268 Surefire e 42 Failsafe, zero falhas/erros/skips; diagnóstico aprovado. Paginação global=23 no CI, controles preservados e EAGER confirmado. |
+| Java 21 e integração MySQL 8.4 | [42523930870](https://github.com/ericjs-code/JoinUp-POO/actions/runs/42523930870): success; `mvn -Pmysql-it clean verify`, 167 Surefire e 301 Failsafe, zero falhas/erros/skips. |
+
+Os nomes históricos dos workflows foram mantidos. Os números acima foram
+extraídos dos logs destes jobs, não das entregas anteriores. Trechos com
+timestamp UTC e identificação do head constam de `validacao-03.txt`.
+O último commit é somente de documentação; seus checks são acompanhados
+separadamente no PR e informados na resposta de encerramento, sem presumir que
+o sucesso do commit anterior seja automaticamente o resultado do novo head.
 
 ## Isolamento, execução reproduzível e pendências
 
@@ -184,8 +205,8 @@ descartável, roteiro e limpeza do ambiente. Os exemplos contêm apenas marcador
 fictícios. Maven é o modo de execução; não se distribui um JAR RA3 isolado.
 
 **Bloqueantes de processo:** auditoria Tech Lead/PO e autorização de integração
-do PR desta entrega. Os checks de CI precisam ser conferidos por SHA; a seção
-de evidência de CI registra a consulta efetiva. Não há defeito funcional local
+do PR desta entrega. A seção de CI registra o sucesso observado por SHA/run,
+separado da execução local. Não há defeito funcional local
 bloqueante identificado após as verificações descritas.
 
 **Pendências acadêmicas:** Entrega 04 ainda necessária para UML final e relatório

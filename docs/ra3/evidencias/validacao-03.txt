@@ -359,8 +359,35 @@ Credencial temporária procurada literalmente nos artefatos: nenhuma ocorrência
 Nenhum .env, JAR de aula, dump ou screenshot novo versionado.
 Perfil mysql-it RA2: NÃO EXECUTADO LOCALMENTE; observação do workflow histórico é separada.
 Instalação em computador novo e gesto físico Ctrl+Z: NÃO EXECUTADOS; EOF por stream/JVM real executado.
-CI: registrar em seção própria após push e consulta dos runs; não inferir pelo resultado local.
+CI: observação efetiva por head/run na seção final; não inferida pelo resultado local.
 
 ENCERRAMENTO REAL: mysql administrativo SHUTDOWN na porta descartavel 50064; conexão recusada após shutdown.
 MYSQL_DESCARTAVEL_ENCERRADO=true CREDENCIAL_TEMPORARIA_REMOVIDA=true
 CATALOGOS_LEGADOS_AUSENTES_NA_INSTANCIA=true SEGREDO_LITERAL_AUSENTE_NOS_ARTEFATOS=true
+
+CI OBSERVADO NO GITHUB — head fef7f7830ad401e62692eb8b5def279e8dd42cc0
+PR: https://github.com/ericjs-code/JoinUp-POO/pull/15 — open, merged=false
+Evento: pull_request. Checkout do Actions em merge sintetico c8db89f; nao e integracao na main.
+RA3: https://github.com/ericjs-code/JoinUp-POO/actions/runs/42523930875 — completed/success
+Java/JDBC: https://github.com/ericjs-code/JoinUp-POO/actions/runs/42523930870 — completed/success
+Logs de jobs consultados via conector GitHub; trechos sanitizados com timestamp UTC:
+2026-11-08T21:11:48.3386143Z ##[group]Checking out the ref
+2026-11-08T21:11:48.3949791Z HEAD is now at c8db89f Merge fef7f7830ad401e62692eb8b5def279e8dd42cc0 into 0ebc1518a423077bd4793537dea353806299c3a3
+2026-11-08T21:12:09.3430580Z [INFO] Tests run: 268, Failures: 0, Errors: 0, Skipped: 0
+2026-11-08T21:12:09.3456989Z [INFO] BUILD SUCCESS
+2026-11-08T21:12:18.4602016Z [INFO] Tests run: 268, Failures: 0, Errors: 0, Skipped: 0
+2026-11-08T21:12:22.4204257Z RA3_LISTAGEM_OK global=23 limite=20 ordem=ID_ASC controles_fora_fixture=preservados pagina_excedente=vazia
+2026-11-08T21:12:22.9514727Z RA3_EAGER_OK atualizacao=outro_EM exclusao=colecao_vazia JDBC=ausente leitura_apos_close=confirmada
+2026-11-08T21:12:23.8072134Z [INFO] Tests run: 42, Failures: 0, Errors: 0, Skipped: 0
+2026-11-08T21:12:23.9810288Z [INFO] BUILD SUCCESS
+2026-11-08T21:12:25.8346404Z RA3_CONEXAO_OK: EclipseLink conectado ao catálogo joinup_poo_ra3; DDL automático desabilitado.
+2026-11-08T21:12:25.8386298Z [INFO] BUILD SUCCESS
+2026-11-08T21:11:49.3290232Z HEAD is now at c8db89f Merge fef7f7830ad401e62692eb8b5def279e8dd42cc0 into 0ebc1518a423077bd4793537dea353806299c3a3
+2026-11-08T21:11:50.1964447Z ##[group]Run mvn --batch-mode --no-transfer-progress -Pmysql-it clean verify
+2026-11-08T21:11:50.1964795Z mvn --batch-mode --no-transfer-progress -Pmysql-it clean verify
+2026-11-08T21:12:01.9095792Z [INFO] Tests run: 167, Failures: 0, Errors: 0, Skipped: 0
+2026-11-08T21:14:33.0397311Z [INFO] Tests run: 301, Failures: 0, Errors: 0, Skipped: 0
+2026-11-08T21:14:33.2417399Z [INFO] BUILD SUCCESS
+Codigo permanece no commit acima; commit posterior apenas documenta esta observacao.
+Checks do head final sao acompanhados separadamente e reportados no encerramento.
+
