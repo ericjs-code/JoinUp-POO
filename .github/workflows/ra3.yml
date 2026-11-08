@@ -1,4 +1,4 @@
-name: RA3 Entrega 01 - sete entidades e relacionamentos
+name: RA3 Entrega 02 - CRUD e menu Java
 
 on:
   push:
@@ -50,7 +50,7 @@ jobs:
       - name: Validar schema, grafo JPA, constraints, rollback e diagnóstico
         run: |
           mvn --batch-mode --no-transfer-progress -Pra3,ra3-it verify
-          mvn --batch-mode --no-transfer-progress -Pra3 exec:java
+          mvn --batch-mode --no-transfer-progress -Pra3 exec:java -Dexec.args=--diagnostico
       - name: Publicar evidências RA3
         if: always()
         uses: actions/upload-artifact@v4
