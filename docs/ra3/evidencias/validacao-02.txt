@@ -1,0 +1,229 @@
+RA3 Entrega 02 - evidencias locais, 2026-11-08 America/Sao_Paulo
+Base: 1dfd4d2f6a4cb1268170be274d688b2c07e0b0ee
+Branch: feat/ra3-02-crud-menu
+JDK 21.0.12.1 / Maven 3.9.9 / MySQL 8.4.0 / Windows 11
+Nova instancia descartavel loopback 58274; schema manual e usuario somente DML no RA3.
+
+COMMAND: mvn clean test
+LOG_SHA256: 15D0E4972EE17416CA0F624B0EC4A2BB89067203C47051534CE152612CBD7197
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.206 s -- in br.com.joinup.arquivos.ImagemSeguraTest
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.003 s -- in br.com.joinup.auth.AuthenticationSecurityTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.732 s -- in br.com.joinup.bootstrap.ApplicationBootstrapTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.027 s -- in br.com.joinup.compras.ValidacaoComercioTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in br.com.joinup.comunidades.ComunidadeSocialTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.569 s -- in br.com.joinup.config.ConfiguracaoSistemaTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in br.com.joinup.demo.SqlDemoTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in br.com.joinup.eventos.facade.EventoFacadeTest
+[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s -- in br.com.joinup.eventos.ValidacaoEventoTest
+[INFO] Tests run: 33, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.187 s -- in br.com.joinup.http.HttpFoundationTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.095 s -- in br.com.joinup.http.RouterParametersTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.743 s -- in br.com.joinup.shared.db.SeedDemoPasswordTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.027 s -- in br.com.joinup.suporte.StatusTicketTest
+[INFO] Tests run: 167, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  8.324 s
+[INFO] Finished at: 2026-11-08T15:20:51-03:00
+
+COMMAND: mvn clean verify
+LOG_SHA256: DCAFB6DEEBDD75B3404E9788D490E800B06EEC6109ACBE063857BDBD73402E07
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.202 s -- in br.com.joinup.arquivos.ImagemSeguraTest
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.012 s -- in br.com.joinup.auth.AuthenticationSecurityTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.741 s -- in br.com.joinup.bootstrap.ApplicationBootstrapTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.031 s -- in br.com.joinup.compras.ValidacaoComercioTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in br.com.joinup.comunidades.ComunidadeSocialTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.620 s -- in br.com.joinup.config.ConfiguracaoSistemaTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in br.com.joinup.demo.SqlDemoTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s -- in br.com.joinup.eventos.facade.EventoFacadeTest
+[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.032 s -- in br.com.joinup.eventos.ValidacaoEventoTest
+[INFO] Tests run: 33, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.204 s -- in br.com.joinup.http.HttpFoundationTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.117 s -- in br.com.joinup.http.RouterParametersTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.779 s -- in br.com.joinup.shared.db.SeedDemoPasswordTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.026 s -- in br.com.joinup.suporte.StatusTicketTest
+[INFO] Tests run: 167, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  9.349 s
+[INFO] Finished at: 2026-11-08T15:21:01-03:00
+
+COMMAND: mvn dependency:tree (filtro EclipseLink/JPA)
+LOG_SHA256: 2D9AB66B8DD0A5CA229FAFC1B1389EA8877326A1C2BC2E81A7D84B756CBE0DB5
+[INFO] BUILD SUCCESS
+[INFO] Total time:  1.000 s
+[INFO] Finished at: 2026-11-08T15:21:03-03:00
+
+COMMAND: mvn -Pra3 clean test
+LOG_SHA256: D71C4EF0FE116ABAA7B6A32E01E23472A614DD741594B2ADB8FD5976A97CFB10
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.211 s -- in br.com.joinup.arquivos.ImagemSeguraTest
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.025 s -- in br.com.joinup.auth.AuthenticationSecurityTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.734 s -- in br.com.joinup.bootstrap.ApplicationBootstrapTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in br.com.joinup.compras.ValidacaoComercioTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 s -- in br.com.joinup.comunidades.ComunidadeSocialTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.621 s -- in br.com.joinup.config.ConfiguracaoSistemaTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in br.com.joinup.demo.SqlDemoTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.008 s -- in br.com.joinup.eventos.facade.EventoFacadeTest
+[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s -- in br.com.joinup.eventos.ValidacaoEventoTest
+[INFO] Tests run: 33, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.159 s -- in br.com.joinup.http.HttpFoundationTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.086 s -- in br.com.joinup.http.RouterParametersTest
+[INFO] Tests run: 28, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.028 s -- in br.com.joinup.ra3.ConfiguracaoRa3Test
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in br.com.joinup.ra3.DadosCrudRa3Test
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.049 s -- in br.com.joinup.ra3.EntidadesJpaTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.442 s -- in br.com.joinup.ra3.FundacaoJpaTest
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.050 s -- in br.com.joinup.ra3.MenuRa3Test
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.713 s -- in br.com.joinup.shared.db.SeedDemoPasswordTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.028 s -- in br.com.joinup.suporte.StatusTicketTest
+[INFO] Tests run: 243, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  9.827 s
+[INFO] Finished at: 2026-11-08T15:21:47-03:00
+
+COMMAND: mvn -Pra3,ra3-it verify
+LOG_SHA256: B1F89C807B3CFAC15F6C38AD2E78A5C453750BAFBCBB63FF890679406647BE09
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.258 s -- in br.com.joinup.arquivos.ImagemSeguraTest
+[INFO] Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.091 s -- in br.com.joinup.auth.AuthenticationSecurityTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.472 s -- in br.com.joinup.bootstrap.ApplicationBootstrapTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 s -- in br.com.joinup.compras.ValidacaoComercioTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in br.com.joinup.comunidades.ComunidadeSocialTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.600 s -- in br.com.joinup.config.ConfiguracaoSistemaTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s -- in br.com.joinup.demo.SqlDemoTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s -- in br.com.joinup.eventos.facade.EventoFacadeTest
+[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in br.com.joinup.eventos.ValidacaoEventoTest
+[INFO] Tests run: 33, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.161 s -- in br.com.joinup.http.HttpFoundationTest
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.077 s -- in br.com.joinup.http.RouterParametersTest
+[INFO] Tests run: 28, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.030 s -- in br.com.joinup.ra3.ConfiguracaoRa3Test
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s -- in br.com.joinup.ra3.DadosCrudRa3Test
+[INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.029 s -- in br.com.joinup.ra3.EntidadesJpaTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.464 s -- in br.com.joinup.ra3.FundacaoJpaTest
+[INFO] Tests run: 23, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.035 s -- in br.com.joinup.ra3.MenuRa3Test
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.703 s -- in br.com.joinup.shared.db.SeedDemoPasswordTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.030 s -- in br.com.joinup.suporte.StatusTicketTest
+[INFO] Tests run: 243, Failures: 0, Errors: 0, Skipped: 0
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=2 restantes=0
+RA3_EXCLUSAO_PROTEGIDA entidade=GENERO pai_e_filhos=preservados
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=3 restantes=0
+RA3_EXCLUSAO_PROTEGIDA entidade=ORGANIZADOR pai_e_filhos=preservados
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=3 restantes=0
+RA3_EXCLUSAO_PROTEGIDA entidade=PARTICIPANTE pai_e_filhos=preservados
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=6 restantes=0
+RA3_EXCLUSAO_PROTEGIDA entidade=EVENTO pai_e_filhos=preservados
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=4 restantes=0
+RA3_EXCLUSAO_PROTEGIDA entidade=COMUNIDADE pai_e_filhos=preservados
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=6 restantes=0
+RA3_LISTAGEM_OK pagina1=20 pagina2=1 ordem=ID_ASC
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=21 restantes=0
+RA3_CONCORRENCIA_OK pai_bloqueado=aguardou filho_confirmado=preservado cascade=impedido
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=4 restantes=0
+RA3_CRUD_ROLLBACK_OK alteracao_apos_flush=desfeita novo_EM=confirmado
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=1 restantes=0
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=0 restantes=0
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=0 restantes=0
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=0 restantes=0
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=0 restantes=0
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=0 restantes=0
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=0 restantes=0
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=0 restantes=0
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=4 restantes=0
+RA3_FK_CONCORRENTE_OK codigo=1452 mensagem=VINCULO rollback_apos_flush=confirmado
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=4 restantes=0
+RA3_CRUD_OK entidade=GENERO acao=CRIAR id=85
+RA3_CRUD_OK entidade=GENERO acao=CONSULTAR id=85
+RA3_CRUD_OK entidade=GENERO acao=ATUALIZAR id=85
+RA3_CRUD_OK entidade=GENERO acao=EXCLUIR id=85
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=1 restantes=0
+RA3_CRUD_OK entidade=ORGANIZADOR acao=CRIAR id=40
+RA3_CRUD_OK entidade=ORGANIZADOR acao=CONSULTAR id=40
+RA3_CRUD_OK entidade=ORGANIZADOR acao=ATUALIZAR id=40
+RA3_CRUD_OK entidade=ORGANIZADOR acao=EXCLUIR id=40
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=1 restantes=0
+RA3_CRUD_OK entidade=PARTICIPANTE acao=CRIAR id=22
+RA3_CRUD_OK entidade=PARTICIPANTE acao=CONSULTAR id=22
+RA3_CRUD_OK entidade=PARTICIPANTE acao=ATUALIZAR id=22
+RA3_CRUD_OK entidade=PARTICIPANTE acao=EXCLUIR id=22
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=1 restantes=0
+RA3_CRUD_OK entidade=EVENTO acao=CRIAR id=34
+RA3_CRUD_OK entidade=EVENTO acao=CONSULTAR id=34
+RA3_CRUD_OK entidade=EVENTO acao=ATUALIZAR id=34
+RA3_CRUD_OK entidade=EVENTO acao=EXCLUIR id=34
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=3 restantes=0
+RA3_CRUD_OK entidade=TIPO_INGRESSO acao=CRIAR id=19
+RA3_CRUD_OK entidade=TIPO_INGRESSO acao=CONSULTAR id=19
+RA3_CRUD_OK entidade=TIPO_INGRESSO acao=ATUALIZAR id=19
+RA3_CRUD_OK entidade=TIPO_INGRESSO acao=EXCLUIR id=19
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=4 restantes=0
+RA3_CRUD_OK entidade=COMUNIDADE acao=CRIAR id=25
+RA3_CRUD_OK entidade=COMUNIDADE acao=CONSULTAR id=25
+RA3_CRUD_OK entidade=COMUNIDADE acao=ATUALIZAR id=25
+RA3_CRUD_OK entidade=COMUNIDADE acao=EXCLUIR id=25
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=4 restantes=0
+RA3_CRUD_OK entidade=POSTAGEM acao=CRIAR id=20
+RA3_CRUD_OK entidade=POSTAGEM acao=CONSULTAR id=20
+RA3_CRUD_OK entidade=POSTAGEM acao=ATUALIZAR id=20
+RA3_CRUD_OK entidade=POSTAGEM acao=EXCLUIR id=20
+RA3_CRUD_FIXTURE_LIMPA ids_proprios=6 restantes=0
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.404 s -- in br.com.joinup.ra3.CrudRa3MySqlIT
+RA3_SMOKE_OK provider=4.0.4 catalogo=joinup_poo_ra3 id=90 leitura=outro-EntityManager+SQL
+RA3_FIXTURE_LIMPA: registro pr�prio ausente em nova consulta.
+RA3_FIXTURE_LIMPA: registro pr�prio ausente em nova consulta.
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.053 s -- in br.com.joinup.ra3.GeneroMusicalMySqlIT
+RA3_CONSTRAINT_OK FK_NOT_NULL=1048 rollback=confirmado
+RA3_GRAFO_LIMPO tabelas=7 registros_proprios=0 verificacao=JDBC-independente
+RA3_GRAFO_OK entidades=7 leitura=outro-EntityManager+JDBC_JOIN EAGER=destacado UTC=sem-conversao evento-sem-comunidade=aceito
+RA3_GRAFO_IDS genero=93 organizador=46 participante=25 evento=39 tipo=21 comunidade=28 postagem=22
+RA3_GRAFO_LIMPO tabelas=7 registros_proprios=0 verificacao=JDBC-independente
+RA3_CONSTRAINT_OK participante_cpf=UNIQUE codigo=1062
+RA3_GRAFO_LIMPO tabelas=7 registros_proprios=0 verificacao=JDBC-independente
+RA3_CONSTRAINT_OK participante_email=UNIQUE codigo=1062
+RA3_GRAFO_LIMPO tabelas=7 registros_proprios=0 verificacao=JDBC-independente
+RA3_CONSTRAINT_OK CHECK_valor=3819
+RA3_GRAFO_LIMPO tabelas=7 registros_proprios=0 verificacao=JDBC-independente
+RA3_CONSTRAINT_OK CHECK_quantidade_disponivel=3819
+RA3_GRAFO_LIMPO tabelas=7 registros_proprios=0 verificacao=JDBC-independente
+RA3_CONSTRAINT_OK CHECK_quantidade_vendida=3819
+RA3_GRAFO_LIMPO tabelas=7 registros_proprios=0 verificacao=JDBC-independente
+RA3_GRAFO_LIMPO tabelas=7 registros_proprios=0 verificacao=JDBC-independente
+RA3_LIMPEZA_RESTRITA_OK registro_fora_do_marcador=preservado
+RA3_GRAFO_LIMPO tabelas=7 registros_proprios=0 verificacao=JDBC-independente
+RA3_ROLLBACK_OK UNIQUE_comunidade_evento=1062 insert_anterior=ausente JDBC=confirmado
+RA3_GRAFO_LIMPO tabelas=7 registros_proprios=0 verificacao=JDBC-independente
+RA3_CONSTRAINT_OK organizador_email=UNIQUE codigo=1062
+RA3_GRAFO_LIMPO tabelas=7 registros_proprios=0 verificacao=JDBC-independente
+RA3_CONSTRAINT_OK organizador_cnpj=UNIQUE codigo=1062
+RA3_GRAFO_LIMPO tabelas=7 registros_proprios=0 verificacao=JDBC-independente
+RA3_CONSTRAINT_OK FK_INEXISTENTE=1452 rollback=confirmado
+RA3_GRAFO_LIMPO tabelas=7 registros_proprios=0 verificacao=JDBC-independente
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.314 s -- in br.com.joinup.ra3.RelacionamentosMySqlIT
+RA3_SCHEMA_OK tabelas=7 fks=6 checks=5 colunas_indices_defaults=contrato-RA2
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.019 s -- in br.com.joinup.ra3.SchemaRa3MySqlIT
+[INFO] Tests run: 39, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  11.105 s
+[INFO] Finished at: 2026-11-08T15:21:59-03:00
+
+COMMAND: mvn -Pra3 exec:java -Dexec.args=--diagnostico (porta indisponivel; exit 1 esperado)
+LOG_SHA256: 6A64D8AE9B2B8315732441C0901D91BC2B2885EB10E81B03E7703341EAFAEBBA
+RA3_CONEXAO_FALHOU: confira MySQL, credenciais, permiss�es e schema manual.
+[INFO] BUILD FAILURE
+[INFO] Total time:  0.902 s
+[INFO] Finished at: 2026-11-08T15:24:40-03:00
+
+COMMAND: mvn -Pra3 exec:java -Dexec.args=--diagnostico (schema antigo; exit 1 esperado)
+LOG_SHA256: FCA58CA3BE3CD882FE7355FA70ED50ADB4B9B52ECFE9029FD2522078FD0EB33C
+RA3_CONFIGURACAO_INVALIDA: Destino RA3 recusado: use URL MySQL simples para joinup_poo_ra3 e par�metros permitidos.
+[INFO] BUILD FAILURE
+[INFO] Total time:  0.400 s
+[INFO] Finished at: 2026-11-08T15:24:41-03:00
+
+ORIGINAL_JAR_ISOLADO=true ORIGINAL_CLASSPATH_SEM_ORM=true
+SQL_INDEPENDENTE_APOS_TESTES_E_CLI:
+mysql_version
+8.4.0
+tabela	registros
+organizadores	0
+generos_musicais	0
+participantes	0
+eventos	0
+tipos_ingressos	0
+comunidades	0
+postagens	0
+Grants for ra3_smoke@127.0.0.1
+GRANT USAGE ON *.* TO `ra3_smoke`@`127.0.0.1`
+GRANT SELECT, INSERT, UPDATE, DELETE ON `joinup_poo_ra3`.* TO `ra3_smoke`@`127.0.0.1`
+RA3_MYSQL_ENCERRADO=true CREDENCIAL_TEMPORARIA_REMOVIDA=true

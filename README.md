@@ -1,10 +1,11 @@
 # JoinUp-POO
 
-**RA3 — Entrega 01:** sete entidades JPA e relacionamentos em perfil separado.
+**RA3 — Entrega 02:** CRUD das sete entidades e menu Java em perfil separado.
 Consulte [execução no PowerShell](docs/ra3/EXECUCAO_RA3.md),
 [decisão de isolamento](docs/arquitetura/ADR-002-RA3-JPA-ISOLADO.md) e
-[resultados e limites](docs/ra3/ENTREGA_01_RESULTADOS.md).
-O ponto de entrada RA3 executa apenas diagnóstico; CRUD e menu ficam para a Entrega 02.
+[resultados e limites](docs/ra3/ENTREGA_02_RESULTADOS.md).
+Menu: `mvn -Pra3 compile exec:java`. Diagnóstico sem interação:
+`mvn -Pra3 exec:java '-Dexec.args=--diagnostico'`.
 O modo padrão abaixo continua sendo a aplicação web/JDBC da RA2.
 
 Java 21 puro com HttpServer do JDK, JDBC/MySQL 8, Jackson e JUnit. Entregas 00–07 integradas:

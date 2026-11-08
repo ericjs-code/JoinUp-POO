@@ -1,0 +1,63 @@
+RA3 Entrega 02 - trechos reais da sessao Maven CLI, 2026-11-08. Dados ficticios.
+Menus repetidos e logs Maven rotineiros omitidos. Nao ha credenciais na transcricao.
+RAW_LOG_SHA256: D619940F82AC1A6A753A46E72E576B618A16B1F6C0FDA1BCFA1ACC7A95D2762E
+
+MENU PRINCIPAL OBSERVADO:
+====================================
+         JOINUP-POO | RA3
+       JPA + EclipseLink / MySQL
+====================================
+Demonstração acadêmica: use somente CPF/CNPJ e dados fictícios. Não há login ou senha pessoal.
+1. Gêneros musicais
+2. Organizadores
+3. Participantes
+4. Eventos
+5. Tipos de ingresso
+6. Comunidades
+7. Postagens
+0. Encerrar
+Opção:
+
+COMANDOS E RESPOSTAS OBSERVADOS:
+COMMAND: mvn --batch-mode --no-transfer-progress -Pra3 compile exec:java
+Cadastrado. ID: 52 | CLI02 Genero Ficticio
+Cadastrado. ID: 29 | CLI02 Organizador Ficticio | email=cli02.o@fixture.test | CNPJ fictício=000000000000000002 | ativo=true
+Cadastrado. ID: 25 | CLI02 Evento Ficticio | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI02 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=(vazio) | organizador=#29 CLI02 Organizador Ficticio | gênero=#52 CLI02 Genero Ficticio
+Cadastrado. ID: 19 | CLI02 Participante Ficticio | email=cli02.p@fixture.test | nascimento=2000-01-02 | ativo=true
+Cadastrado. ID: 16 | CLI02 Pista | valor=125.50 | disponível=20 | vendida=0 | evento=#25 CLI02 Evento Ficticio
+Cadastrado. ID: 20 | CLI02 Comunidade | descrição=(vazio) | imagem=(vazio) | criação=2030-11-12T18:30 UTC | evento=#25 CLI02 Evento Ficticio
+Cadastrado. ID: 17 | CLI02 Postagem Ficticia | imagem=(vazio) | data=2030-11-12T18:30 UTC | autor=#19 CLI02 Participante Ficticio | comunidade=#20 CLI02 Comunidade
+Consulta. ID: 25 | CLI02 Evento Ficticio | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI02 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=(vazio) | organizador=#29 CLI02 Organizador Ficticio | gênero=#52 CLI02 Genero Ficticio
+Atualizado. ID: 25 | CLI02 Evento Atualizado | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI02 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=cli02.png | organizador=#29 CLI02 Organizador Ficticio | gênero=#52 CLI02 Genero Ficticio
+Consulta. ID: 25 | CLI02 Evento Atualizado | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI02 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=cli02.png | organizador=#29 CLI02 Organizador Ficticio | gênero=#52 CLI02 Genero Ficticio
+Excluir. ID: 25 | CLI02 Evento Atualizado | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI02 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=cli02.png | organizador=#29 CLI02 Organizador Ficticio | gênero=#52 CLI02 Genero Ficticio
+Exclusão recusada: remova primeiro os registros dependentes. Nenhum registro foi excluído.
+Consulta. ID: 17 | CLI02 Postagem Ficticia | imagem=(vazio) | data=2030-11-12T18:30 UTC | autor=#19 CLI02 Participante Ficticio | comunidade=#20 CLI02 Comunidade
+Excluir. ID: 17 | CLI02 Postagem Ficticia | imagem=(vazio) | data=2030-11-12T18:30 UTC | autor=#19 CLI02 Participante Ficticio | comunidade=#20 CLI02 Comunidade
+Excluído. ID: 17
+ID não encontrado. Consulte os registros existentes.
+[INFO] BUILD SUCCESS
+CHECK: processo encerrado; iniciando outra JVM/fabrica para confirmar persistencia.
+COMMAND: mvn --batch-mode --no-transfer-progress -Pra3 exec:java
+Consulta. ID: 25 | CLI02 Evento Atualizado | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI02 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=cli02.png | organizador=#29 CLI02 Organizador Ficticio | gênero=#52 CLI02 Genero Ficticio
+Consulta. ID: 52 | CLI02 Genero Ficticio
+Consulta. ID: 29 | CLI02 Organizador Ficticio | email=cli02.o@fixture.test | CNPJ fictício=000000000000000002 | ativo=true
+[INFO] BUILD SUCCESS
+COMMAND: mvn --batch-mode --no-transfer-progress -Pra3 exec:java -Dexec.args=--diagnostico
+RA3_CONEXAO_OK: EclipseLink conectado ao catálogo joinup_poo_ra3; DDL automático desabilitado.
+[INFO] BUILD SUCCESS
+COMMAND: mvn --batch-mode --no-transfer-progress -Pra3 exec:java
+Excluir. ID: 16 | CLI02 Pista | valor=125.50 | disponível=20 | vendida=0 | evento=#25 CLI02 Evento Atualizado
+Excluído. ID: 16
+Excluir. ID: 20 | CLI02 Comunidade | descrição=(vazio) | imagem=(vazio) | criação=2030-11-12T18:30 UTC | evento=#25 CLI02 Evento Atualizado
+Excluído. ID: 20
+Excluir. ID: 25 | CLI02 Evento Atualizado | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI02 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=cli02.png | organizador=#29 CLI02 Organizador Ficticio | gênero=#52 CLI02 Genero Ficticio
+Excluído. ID: 25
+Excluir. ID: 19 | CLI02 Participante Ficticio | email=cli02.p@fixture.test | nascimento=2000-01-02 | ativo=true
+Excluído. ID: 19
+Excluir. ID: 29 | CLI02 Organizador Ficticio | email=cli02.o@fixture.test | CNPJ fictício=000000000000000002 | ativo=true
+Excluído. ID: 29
+Excluir. ID: 52 | CLI02 Genero Ficticio
+Excluído. ID: 52
+[INFO] BUILD SUCCESS
+CLI_REAL_OK sete_cadastros=confirmados atualizacao=confirmada pai_com_filhos=recusado postagem=excluida reinicio=persistencia_confirmada diagnostico=sem_interacao limpeza=ids_proprios

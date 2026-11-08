@@ -1,8 +1,8 @@
-# RA3 — Guia consolidado até a Entrega 01
+# RA3 — Guia consolidado até a Entrega 02
 
 Pré-requisitos: JDK 21 (`JAVA_HOME`), Maven 3.9.x, MySQL 8.0.16+ (homologação
 com 8.4.0), `mvn` e `mysql` no PATH ou executados pelos caminhos absolutos.
-Parta da raiz do checkout da branch `feat/ra3-01-entidades-relacionamentos`.
+Parta da raiz do checkout da branch `feat/ra3-02-crud-menu`.
 A aplicação original continua em `br.com.joinup.Main`, sem dependências ORM.
 O RA3 mantém EclipseLink 4.0.4, uma API Jakarta Persistence 3.1.0 e driver 8.4.0.
 
@@ -74,18 +74,20 @@ mvn -version
 mvn clean test                    # Unitários originais; sem JPA
 mvn clean verify                  # JAR web original
 mvn -Pra3 clean test              # Inclui as sete classes; sem exigir MySQL
-mvn -Pra3 exec:java               # Após compilar: só conecta, diagnostica e encerra
+mvn -Pra3 compile exec:java       # Menu interativo real; não inicia HTTP
+mvn -Pra3 exec:java '-Dexec.args=--diagnostico' # Conecta e termina sem ler entrada
 
 # Somente na instância descartável, com schema previamente aplicado:
 $env:JOINUP_RA3_IT_DATABASE = 'instancia-descartavel-ra3'
 mvn '-Pra3,ra3-it' verify
 ```
 
-`exec:java` não compila automaticamente; alternativamente use
-`mvn -Pra3 compile exec:java`. O diagnóstico não insere fixtures nem oferece
-CRUD. As saídas `RA3_CONEXAO_OK`, `RA3_CONFIGURACAO_INVALIDA` e
+`exec:java` não compila automaticamente: após checkout limpo, use `compile`
+ou `clean test` antes. Sem argumentos abre o menu. Com `--diagnostico`, não
+insere fixtures, não abre menu e não lê entrada; use esse modo na CI.
+As saídas `RA3_CONEXAO_OK`, `RA3_CONFIGURACAO_INVALIDA` e
 `RA3_CONEXAO_FALHOU` são sanitizadas; falhas fazem o comando Maven falhar.
-A mensagem de apresentação ainda identifica a fundação da Entrega 00, preservada.
+Não há carga automática de demonstração em nenhum dos dois modos.
 
 Sem `-Pra3`, o compilador/recursos excluem RA3 e o JAR padrão permanece sem
 classes ORM/descriptor/API EclipseLink. RA3 usa `target/ra3`, separado das classes
@@ -97,6 +99,8 @@ convertem ausência de banco em teste ignorado. Abrangem o smoke test de gênero
 da Entrega 00, schema instalado, grafo de sete entidades, leitura em outro
 EntityManager, JOIN por conexão JDBC independente, multiplicidades, UNIQUEs,
 NOT NULL, FKs, CHECKs, rollback e limpeza apenas dos marcadores UUID próprios.
+Incluem ainda os 28 caminhos CRUD do serviço real, paginação, IDs ausentes,
+exclusões protegidas e duas disputas concorrentes de FK/remoção.
 O teste de limpeza verifica que uma fixture de controle fora do marcador é
 preservada e depois remove especificamente esse controle que ele próprio criou.
 Uma fábrica é reutilizada por classe de integração; cada operação fecha seu EM.
@@ -104,7 +108,7 @@ Uma fábrica é reutilizada por classe de integração; cada operação fecha se
 Relatórios: `target/ra3/surefire-reports` e `target/ra3/failsafe-reports`.
 O [workflow RA3](../../.github/workflows/ra3.yml) aplica sete tabelas manualmente
 em MySQL de CI dedicado e publica os relatórios. A aplicação nunca executa DDL.
-Interrupção abrupta pode deixar registros com prefixo `r1-` ou `ra3-it-`; não
+Interrupção abrupta pode deixar registros com prefixo `r1-`, `r2-` ou `ra3-it-`; não
 há exclusão geral ou reset automático. AUTO_INCREMENT avança durante os testes.
 
 ## Contratos de tipo e carregamento
@@ -130,10 +134,13 @@ declara LAZY implementado. A coleção exposta é somente leitura, e criar um
 TipoIngresso associa ambos os lados em memória, sem persistir automaticamente.
 Não há cascade PERSIST/REMOVE ou orphanRemoval. As FKs SQL preservam CASCADE
 somente em comunidade→evento e postagem→comunidade, conforme o original.
-Exclusões funcionais e seus efeitos no contexto JPA serão tratadas na Entrega 02.
+O serviço da Entrega 02 impede excluir pais com vínculos, inclusive nos dois
+caminhos SQL com CASCADE, e sempre reabre o contexto na próxima operação.
 
-Os campos `senha` recebem hash produzido fora do modelo; fixtures usam somente
-marcador fictício sem autenticação. Este módulo não oferece hashing/login nem
+Os cadastros de organizador/participante pelo menu usam o marcador fixo
+`SEM_LOGIN_RA3_DEMO` no campo obrigatório `senha`. Ele não é senha pessoal,
+não é hash seguro, não autentica e não serve para produção. Use somente dados
+fictícios de CPF/CNPJ/e-mail. Este módulo não oferece hashing/login nem
 getter público de hash. Entidades não são serializadas para JSON e não possuem
 equals/hashCode/toString recursivos.
 
@@ -142,5 +149,66 @@ Remove-Item Env:JOINUP_RA3_DB_PASSWORD -ErrorAction SilentlyContinue
 Remove-Item Env:JOINUP_RA3_IT_DATABASE -ErrorAction SilentlyContinue
 ```
 
-Escopo encerrado na Entrega 01: modelagem, relacionamentos e validação. CRUD,
-menu interativo, relatório acadêmico final e UML final não estão implementados.
+## Navegação e campos do menu
+
+O menu principal apresenta as sete entidades na ordem gênero, organizador,
+participante, evento, tipo de ingresso, comunidade e postagem. `0` encerra.
+Cada submenu oferece Cadastrar, Consultar por ID, Listar, Atualizar e Excluir;
+`0` volta. Não há recursão entre menus. EOF encerra normalmente, inclusive no
+meio de um formulário, sem confirmar uma operação incompleta.
+
+Listagens usam páginas de **20 registros ordenados por ID**, indicam o limite
+e pedem o número da página. Os formulários dependentes mostram os pais já
+cadastrados e pedem seus IDs. Para pais fora da primeira página, consulte o
+respectivo submenu antes e informe o ID conhecido; nenhum pai é criado em silêncio.
+
+Use nascimento `2000-01-02`, data UTC `2030-11-12T18:30:00`, UF como `SP` e
+valor como `125.50` (ponto, até duas casas). Campos obrigatórios em branco,
+inteiros inválidos, datas e decimais inválidos são recusados sem matar o menu.
+Imagem/descrição opcionais em branco limpam o campo durante atualização.
+Postagem exige descrição e/ou imagem no serviço, sem mudar a nulabilidade SQL.
+IDs ausentes, duplicidade, vínculos e concorrência produzem mensagens próprias,
+sem SQL, URL de conexão, credenciais, hash ou stacktrace do driver.
+
+Atualizações disponíveis: renomear gênero/organizador/participante; renomear e
+alterar imagem de evento; nome/valor/quantidades de tipo; nome/descrição/imagem
+de comunidade; descrição/imagem de postagem. Não há alteração de pais/identidades,
+autenticação, compra ou venda real nesta entrega.
+
+## Exclusão didática e ordem das associações
+
+A remoção física de registros folha com `EntityManager.remove()` é uma escolha
+técnica para o banco acadêmico isolado, **não uma imposição do enunciado**.
+`ativo=false` não substitui a ação Excluir. Todas as sete entidades exigem
+digitar exatamente `SIM`; outra resposta cancela. O serviço também verifica
+essa confirmação, além do terminal.
+
+| Entidade | Excluir somente quando |
+| --- | --- |
+| Gênero / Organizador | Não houver eventos associados. |
+| Participante | Não houver postagens associadas. |
+| Evento | Não houver tipos nem comunidade. |
+| Comunidade | Não houver postagens. |
+| Tipo / Postagem | São folhas no modelo RA3 atual. |
+
+A transação bloqueia o pai com PESSIMISTIC_WRITE antes de consultar dependentes,
+impedindo a janela em que um filho recém-inserido seria removido pelo CASCADE.
+Falhas de FK ou deadlock concorrente fazem rollback; o programa informa a
+falha e permite consultar novamente. Não existe exclusão de árvore silenciosa.
+
+Cadastre nesta ordem: gênero e organizador; participante; evento com IDs dos
+pais; tipo e comunidade com ID de evento; postagem com participante/comunidade.
+Para excluir todo um conjunto próprio, use: postagens; tipos/comunidade;
+evento; participante/organizador/gênero. Cada remoção requer confirmação.
+Use essa ordem manualmente; não há comando de reset ou exclusão em lote.
+
+Uma EntityManagerFactory pertence à execução CLI. Cada consulta/operação usa
+um EntityManager novo e fechado; escrita usa begin/commit/rollback e verifica
+o catálogo antes da transação. Atualizações usam dirty checking, sem bulk UPDATE;
+exclusões usam remove, sem bulk DELETE. A próxima consulta observa o estado
+persistido em novo contexto, inclusive após remoção de tipos da coleção EAGER.
+
+Roteiro executado e matriz de provas: [resultados 02](ENTREGA_02_RESULTADOS.md)
+e [transcrição CLI](evidencias/sessao-cli-02.txt).
+Escopo encerrado na Entrega 02: relatório acadêmico final, reflexões da equipe,
+UML final, integração web e Entrega 03 permanecem fora deste incremento.
