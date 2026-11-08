@@ -14,6 +14,7 @@ public final class MenuRa3 {
     private final BufferedReader entrada;
     private final PrintWriter saida;
     private final OperacoesRa3 operacoes;
+    private boolean lendoOperacao;
     public MenuRa3(Reader entrada, PrintWriter saida, OperacoesRa3 operacoes) {
         this.entrada = new BufferedReader(entrada); this.saida = saida; this.operacoes = operacoes;
     }
@@ -38,7 +39,9 @@ public final class MenuRa3 {
             saida.println("\n" + tipo.titulo() + "\n1. Cadastrar\n2. Consultar por ID\n3. Listar\n4. Atualizar\n5. Excluir\n0. Voltar");
             int acao = inteiro("Ação:", 0, 5);
             if (acao == 0) return;
+            saida.println("Digite /cancelar em qualquer campo para voltar sem enviar alterações. 0 continua válido nos campos numéricos que o permitem.");
             try {
+                lendoOperacao = true;
                 switch (acao) {
                     case 1 -> mostrar("Cadastrado", operacoes.cadastrar(cadastro(tipo)));
                     case 2 -> mostrar("Consulta", operacoes.consultar(tipo, id()));
@@ -54,8 +57,12 @@ public final class MenuRa3 {
                     }
                     default -> throw new IllegalStateException("Ação fora do menu.");
                 }
+            } catch (OperacaoCancelada ignored) {
+                saida.println("Operação cancelada. Nenhuma alteração foi enviada.");
             } catch (FalhaRa3 | IllegalArgumentException e) {
                 saida.println(e.getMessage());
+            } finally {
+                lendoOperacao = false;
             }
         }
     }
@@ -141,7 +148,9 @@ public final class MenuRa3 {
         saida.println(rotulo); saida.flush();
         String linha = entrada.readLine();
         if (linha == null) throw new FimEntrada();
+        if (lendoOperacao && "/cancelar".equals(linha.strip())) throw new OperacaoCancelada();
         return linha;
     }
+    private static final class OperacaoCancelada extends RuntimeException { }
     private static final class FimEntrada extends RuntimeException { }
 }

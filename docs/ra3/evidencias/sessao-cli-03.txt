@@ -1,0 +1,150 @@
+RA3 Entrega 03 — sessão CLI real sanitizada
+Data: 08/11/2026 America/Sao_Paulo; JDK21/Maven3.9.9/MySQL8.4.0, porta descartável 50064.
+Condutor externo envia stdin ao processo Maven e lê IDs retornados; serviço JPA real, sem fake.
+Menus/logs repetidos omitidos; entradas em ordem e respostas relevantes preservadas.
+Cada grupo ENTRADA contém linhas sucessivas; <vazio> representa Enter sem texto.
+Ao reproduzir, substitua IDs observados pelos seus. Dados exclusivamente fictícios.
+
+COMMAND: mvn --batch-mode --no-transfer-progress -Pra3 compile exec:java
+ENTRADA (uma linha por item): ["2", "1", "CLI03 Cancelado", "/cancelar", "0"]
+Operação cancelada. Nenhuma alteração foi enviada.
+ENTRADA (uma linha por item): ["1", "1", "CLI03 Genero Ficticio", "0"]
+Cadastrado. ID: 82 | CLI03 Genero Ficticio
+ENTRADA (uma linha por item): ["2", "1", "CLI03 Organizador Ficticio", "cli03.o@fixture.test", "000000000000000004", "0"]
+Cadastrado. ID: 36 | CLI03 Organizador Ficticio | email=cli03.o@fixture.test | CNPJ fictício=000000000000000004 | ativo=true
+ENTRADA (uma linha por item): ["4", "1", "CLI03 Evento Ficticio", "2030-11-12T18:30:00", "Evento de demonstracao CLI03", "Local ficticio", "Cidade ficticia", "SP", "00000000", "36", "82", "0"]
+Registro. ID: 1 | CONTROLE03 organizador | email=controle03@fixture.test | CNPJ fictício=000000000000000003 | ativo=true
+Registro. ID: 36 | CLI03 Organizador Ficticio | email=cli03.o@fixture.test | CNPJ fictício=000000000000000004 | ativo=true
+Registro. ID: 1 | CONTROLE03 preexistente
+Registro. ID: 82 | CLI03 Genero Ficticio
+Cadastrado. ID: 30 | CLI03 Evento Ficticio | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI03 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=(vazio) | organizador=#36 CLI03 Organizador Ficticio | gênero=#82 CLI03 Genero Ficticio
+ENTRADA (uma linha por item): ["3", "1", "CLI03 Participante Ficticio", "00000000004", "2000-01-02", "cli03.p@fixture.test", "0"]
+Cadastrado. ID: 21 | CLI03 Participante Ficticio | email=cli03.p@fixture.test | nascimento=2000-01-02 | ativo=true
+ENTRADA (uma linha por item): ["5", "1", "CLI03 Pista", "125.50", "20", "30", "0"]
+Registro. ID: 1 | CONTROLE03 evento | data=2030-11-12T18:30 UTC | controle | local=local | cidade/SP | CEP=00000000 | imagem=(vazio) | organizador=#1 CONTROLE03 organizador | gênero=#1 CONTROLE03 preexistente
+Registro. ID: 30 | CLI03 Evento Ficticio | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI03 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=(vazio) | organizador=#36 CLI03 Organizador Ficticio | gênero=#82 CLI03 Genero Ficticio
+Cadastrado. ID: 20 | CLI03 Pista | valor=125.50 | disponível=20 | vendida=0 | evento=#30 CLI03 Evento Ficticio
+ENTRADA (uma linha por item): ["6", "1", "CLI03 Comunidade", "30", "2030-11-12T18:30:00", "0"]
+Registro. ID: 1 | CONTROLE03 evento | data=2030-11-12T18:30 UTC | controle | local=local | cidade/SP | CEP=00000000 | imagem=(vazio) | organizador=#1 CONTROLE03 organizador | gênero=#1 CONTROLE03 preexistente
+Registro. ID: 30 | CLI03 Evento Ficticio | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI03 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=(vazio) | organizador=#36 CLI03 Organizador Ficticio | gênero=#82 CLI03 Genero Ficticio
+Cadastrado. ID: 22 | CLI03 Comunidade | descrição=(vazio) | imagem=(vazio) | criação=2030-11-12T18:30 UTC | evento=#30 CLI03 Evento Ficticio
+ENTRADA (uma linha por item): ["7", "1", "CLI03 Postagem Ficticia", "<vazio>", "21", "22", "2030-11-12T18:30:00", "0"]
+Registro. ID: 21 | CLI03 Participante Ficticio | email=cli03.p@fixture.test | nascimento=2000-01-02 | ativo=true
+Registro. ID: 22 | CLI03 Comunidade | descrição=(vazio) | imagem=(vazio) | criação=2030-11-12T18:30 UTC | evento=#30 CLI03 Evento Ficticio
+Cadastrado. ID: 19 | CLI03 Postagem Ficticia | imagem=(vazio) | data=2030-11-12T18:30 UTC | autor=#21 CLI03 Participante Ficticio | comunidade=#22 CLI03 Comunidade
+ENTRADA (uma linha por item): ["1", "3", "1", "0"]
+Registro. ID: 1 | CONTROLE03 preexistente
+Registro. ID: 82 | CLI03 Genero Ficticio
+ENTRADA (uma linha por item): ["2", "3", "1", "0"]
+Registro. ID: 1 | CONTROLE03 organizador | email=controle03@fixture.test | CNPJ fictício=000000000000000003 | ativo=true
+Registro. ID: 36 | CLI03 Organizador Ficticio | email=cli03.o@fixture.test | CNPJ fictício=000000000000000004 | ativo=true
+ENTRADA (uma linha por item): ["3", "3", "1", "0"]
+Registro. ID: 21 | CLI03 Participante Ficticio | email=cli03.p@fixture.test | nascimento=2000-01-02 | ativo=true
+ENTRADA (uma linha por item): ["4", "3", "1", "0"]
+Registro. ID: 1 | CONTROLE03 evento | data=2030-11-12T18:30 UTC | controle | local=local | cidade/SP | CEP=00000000 | imagem=(vazio) | organizador=#1 CONTROLE03 organizador | gênero=#1 CONTROLE03 preexistente
+Registro. ID: 30 | CLI03 Evento Ficticio | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI03 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=(vazio) | organizador=#36 CLI03 Organizador Ficticio | gênero=#82 CLI03 Genero Ficticio
+ENTRADA (uma linha por item): ["5", "3", "1", "0"]
+Registro. ID: 20 | CLI03 Pista | valor=125.50 | disponível=20 | vendida=0 | evento=#30 CLI03 Evento Ficticio
+ENTRADA (uma linha por item): ["6", "3", "1", "0"]
+Registro. ID: 22 | CLI03 Comunidade | descrição=(vazio) | imagem=(vazio) | criação=2030-11-12T18:30 UTC | evento=#30 CLI03 Evento Ficticio
+ENTRADA (uma linha por item): ["7", "3", "1", "0"]
+Registro. ID: 19 | CLI03 Postagem Ficticia | imagem=(vazio) | data=2030-11-12T18:30 UTC | autor=#21 CLI03 Participante Ficticio | comunidade=#22 CLI03 Comunidade
+ENTRADA (uma linha por item): ["1", "5", "82", "SIM", "0"]
+Excluir. ID: 82 | CLI03 Genero Ficticio
+Exclusão recusada: remova primeiro os registros dependentes. Nenhum registro foi excluído.
+ENTRADA (uma linha por item): ["2", "5", "36", "SIM", "0"]
+Excluir. ID: 36 | CLI03 Organizador Ficticio | email=cli03.o@fixture.test | CNPJ fictício=000000000000000004 | ativo=true
+Exclusão recusada: remova primeiro os registros dependentes. Nenhum registro foi excluído.
+ENTRADA (uma linha por item): ["3", "5", "21", "SIM", "0"]
+Excluir. ID: 21 | CLI03 Participante Ficticio | email=cli03.p@fixture.test | nascimento=2000-01-02 | ativo=true
+Exclusão recusada: remova primeiro os registros dependentes. Nenhum registro foi excluído.
+ENTRADA (uma linha por item): ["4", "5", "30", "SIM", "0"]
+Excluir. ID: 30 | CLI03 Evento Ficticio | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI03 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=(vazio) | organizador=#36 CLI03 Organizador Ficticio | gênero=#82 CLI03 Genero Ficticio
+Exclusão recusada: remova primeiro os registros dependentes. Nenhum registro foi excluído.
+ENTRADA (uma linha por item): ["6", "5", "22", "SIM", "0"]
+Excluir. ID: 22 | CLI03 Comunidade | descrição=(vazio) | imagem=(vazio) | criação=2030-11-12T18:30 UTC | evento=#30 CLI03 Evento Ficticio
+Exclusão recusada: remova primeiro os registros dependentes. Nenhum registro foi excluído.
+ENTRADA (uma linha por item): ["5", "4", "20", "CLI03 Gratuito", "0", "0", "0", "2", "20", "0"]
+Atual. ID: 20 | CLI03 Pista | valor=125.50 | disponível=20 | vendida=0 | evento=#30 CLI03 Evento Ficticio
+Atualizado. ID: 20 | CLI03 Gratuito | valor=0.00 | disponível=0 | vendida=0 | evento=#30 CLI03 Evento Ficticio
+Consulta. ID: 20 | CLI03 Gratuito | valor=0.00 | disponível=0 | vendida=0 | evento=#30 CLI03 Evento Ficticio
+ENTRADA (uma linha por item): ["4", "4", "30", "CLI03 Descartado", "/cancelar", "2", "30", "0"]
+Atual. ID: 30 | CLI03 Evento Ficticio | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI03 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=(vazio) | organizador=#36 CLI03 Organizador Ficticio | gênero=#82 CLI03 Genero Ficticio
+Operação cancelada. Nenhuma alteração foi enviada.
+Consulta. ID: 30 | CLI03 Evento Ficticio | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI03 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=(vazio) | organizador=#36 CLI03 Organizador Ficticio | gênero=#82 CLI03 Genero Ficticio
+ENTRADA (uma linha por item): ["4", "2", "30", "4", "30", "CLI03 Evento Atualizado", "cli03.png", "2", "30", "5", "30", "SIM", "0"]
+Consulta. ID: 30 | CLI03 Evento Ficticio | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI03 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=(vazio) | organizador=#36 CLI03 Organizador Ficticio | gênero=#82 CLI03 Genero Ficticio
+Atual. ID: 30 | CLI03 Evento Ficticio | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI03 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=(vazio) | organizador=#36 CLI03 Organizador Ficticio | gênero=#82 CLI03 Genero Ficticio
+Atualizado. ID: 30 | CLI03 Evento Atualizado | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI03 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=cli03.png | organizador=#36 CLI03 Organizador Ficticio | gênero=#82 CLI03 Genero Ficticio
+Consulta. ID: 30 | CLI03 Evento Atualizado | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI03 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=cli03.png | organizador=#36 CLI03 Organizador Ficticio | gênero=#82 CLI03 Genero Ficticio
+Excluir. ID: 30 | CLI03 Evento Atualizado | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI03 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=cli03.png | organizador=#36 CLI03 Organizador Ficticio | gênero=#82 CLI03 Genero Ficticio
+Exclusão recusada: remova primeiro os registros dependentes. Nenhum registro foi excluído.
+ENTRADA (uma linha por item): ["7", "2", "19", "5", "19", "SIM", "2", "19", "0"]
+Consulta. ID: 19 | CLI03 Postagem Ficticia | imagem=(vazio) | data=2030-11-12T18:30 UTC | autor=#21 CLI03 Participante Ficticio | comunidade=#22 CLI03 Comunidade
+Excluir. ID: 19 | CLI03 Postagem Ficticia | imagem=(vazio) | data=2030-11-12T18:30 UTC | autor=#21 CLI03 Participante Ficticio | comunidade=#22 CLI03 Comunidade
+Excluído. ID: 19
+ID não encontrado. Consulte os registros existentes.
+ENTRADA (uma linha por item): ["0"]
+Programa encerrado.
+[INFO] BUILD SUCCESS
+[INFO] Finished at: 2026-11-08T18:01:38-03:00
+CHECK: processo encerrado; iniciando outra JVM/fabrica para confirmar persistencia.
+COMMAND: mvn --batch-mode --no-transfer-progress -Pra3 exec:java
+ENTRADA (uma linha por item): ["4", "2", "30", "0", "1", "2", "82", "0", "2", "2", "36", "0"]
+Consulta. ID: 30 | CLI03 Evento Atualizado | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI03 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=cli03.png | organizador=#36 CLI03 Organizador Ficticio | gênero=#82 CLI03 Genero Ficticio
+ENTRADA (uma linha por item): ["0"]
+Consulta. ID: 82 | CLI03 Genero Ficticio
+Consulta. ID: 36 | CLI03 Organizador Ficticio | email=cli03.o@fixture.test | CNPJ fictício=000000000000000004 | ativo=true
+Programa encerrado.
+[INFO] BUILD SUCCESS
+[INFO] Finished at: 2026-11-08T18:01:40-03:00
+COMMAND: mvn --batch-mode --no-transfer-progress -Pra3 exec:java -Dexec.args=--diagnostico
+RA3_CONEXAO_OK: EclipseLink conectado ao catálogo joinup_poo_ra3; DDL automático desabilitado.
+[INFO] BUILD SUCCESS
+[INFO] Finished at: 2026-11-08T18:01:42-03:00
+CHECK diagnostico: processo saiu com stdin ainda aberto.
+COMMAND: mvn --batch-mode --no-transfer-progress -Pra3 exec:java
+ENTRADA (uma linha por item): ["5", "5", "20", "SIM", "0"]
+Excluir. ID: 20 | CLI03 Gratuito | valor=0.00 | disponível=0 | vendida=0 | evento=#30 CLI03 Evento Atualizado
+Excluído. ID: 20
+ENTRADA (uma linha por item): ["6", "5", "22", "SIM", "0"]
+Excluir. ID: 22 | CLI03 Comunidade | descrição=(vazio) | imagem=(vazio) | criação=2030-11-12T18:30 UTC | evento=#30 CLI03 Evento Atualizado
+Excluído. ID: 22
+ENTRADA (uma linha por item): ["4", "5", "30", "SIM", "0"]
+Excluir. ID: 30 | CLI03 Evento Atualizado | data=2030-11-12T18:30 UTC | Evento de demonstracao CLI03 | local=Local ficticio | Cidade ficticia/SP | CEP=00000000 | imagem=cli03.png | organizador=#36 CLI03 Organizador Ficticio | gênero=#82 CLI03 Genero Ficticio
+Excluído. ID: 30
+ENTRADA (uma linha por item): ["3", "5", "21", "SIM", "0"]
+Excluir. ID: 21 | CLI03 Participante Ficticio | email=cli03.p@fixture.test | nascimento=2000-01-02 | ativo=true
+Excluído. ID: 21
+ENTRADA (uma linha por item): ["2", "5", "36", "SIM", "0"]
+Excluir. ID: 36 | CLI03 Organizador Ficticio | email=cli03.o@fixture.test | CNPJ fictício=000000000000000004 | ativo=true
+Excluído. ID: 36
+ENTRADA (uma linha por item): ["1", "5", "82", "SIM", "0"]
+Excluir. ID: 82 | CLI03 Genero Ficticio
+Excluído. ID: 82
+ENTRADA (uma linha por item): ["0"]
+Programa encerrado.
+[INFO] BUILD SUCCESS
+[INFO] Finished at: 2026-11-08T18:01:44-03:00
+COMMAND: mvn --batch-mode --no-transfer-progress -Pra3 exec:java
+NOTA DE REPRODUCAO: o condutor enviou 2, 1, "CLI03 EOF descartado" e fechou stdin no campo de e-mail; esse envio parcial não recebeu o prefixo >>> no log bruto.
+Fim da entrada.
+Programa encerrado.
+[INFO] BUILD SUCCESS
+[INFO] Finished at: 2026-11-08T18:01:46-03:00
+CLI_REAL_OK sete_cadastros=confirmados atualizacao=confirmada pai_com_filhos=recusado postagem=excluida reinicio=persistencia_confirmada diagnostico=sem_interacao limpeza=ids_proprios
+COMMAND: mvn --batch-mode --no-transfer-progress -Pra3 exec:java
+CHECK: MySQL descartavel desligado apos abertura do menu.
+ENTRADA (uma linha por item): ["1", "2", "1", "0"]
+Não foi possível concluir a operação. Verifique os campos e a disponibilidade do banco.
+ENTRADA (uma linha por item): ["1", "1", "CLI03 indisponivel nao gravar", "0"]
+Não foi possível concluir a operação. Verifique os campos e a disponibilidade do banco.
+ENTRADA (uma linha por item): ["0"]
+Programa encerrado.
+[INFO] BUILD SUCCESS
+[INFO] Finished at: 2026-11-08T18:02:48-03:00
+QUEDA_REAL_OK consulta=falha mutacao=falha sucesso_falso=ausente menu=recuperavel saida=0
+REINICIO_MYSQL_OK controles=preservados mutacao_falha=ausente
+
+SQL independente final: somente gênero/organizador/evento CONTROLE03; nenhuma fixture CLI03 ou dos testes.
+Controles fora das fixtures foram mantidos até o encerramento da instância; sem limpeza geral.

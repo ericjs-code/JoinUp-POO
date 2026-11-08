@@ -17,6 +17,65 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MenuRa3Test {
     @ParameterizedTest @EnumSource(TipoRegistro.class)
+    void cancelarEmCadaCampoDoCadastroNaoEnviaComando(TipoRegistro tipo) throws Exception {
+        var campos = camposCadastro(tipo);
+        for (int campo = 0; campo < campos.size(); campo++) {
+            var linhas = new ArrayList<String>(List.of("" + (tipo.ordinal() + 1), "1"));
+            linhas.addAll(campos.subList(0, campo)); linhas.add("/cancelar"); linhas.addAll(List.of("0", "0"));
+            var fake = new OperacoesTeste();
+            String texto = executar(linhas, fake);
+            assertTrue(fake.cadastros.isEmpty(), tipo + " campo " + campo);
+            assertTrue(texto.contains("Operação cancelada. Nenhuma alteração foi enviada."));
+            assertTrue(texto.contains("/cancelar em qualquer campo"));
+            assertTrue(texto.contains("Programa encerrado."));
+        }
+    }
+
+    @ParameterizedTest @EnumSource(TipoRegistro.class)
+    void cancelarNoIdEOuEmCadaCampoDaAtualizacaoNaoEnviaComando(TipoRegistro tipo) throws Exception {
+        var campos = new ArrayList<String>(List.of("1")); campos.addAll(camposAlteracao(tipo));
+        for (int campo = 0; campo < campos.size(); campo++) {
+            var linhas = new ArrayList<String>(List.of("" + (tipo.ordinal() + 1), "4"));
+            linhas.addAll(campos.subList(0, campo)); linhas.add(" /cancelar "); linhas.addAll(List.of("0", "0"));
+            var fake = new OperacoesTeste();
+            String texto = executar(linhas, fake);
+            assertTrue(fake.alteracoes.isEmpty(), tipo + " campo " + campo);
+            assertTrue(texto.contains("Operação cancelada. Nenhuma alteração foi enviada."));
+        }
+    }
+
+    @Test void zeroContinuaValidoParaValorEQuantidades() throws Exception {
+        var fake = new OperacoesTeste();
+        executar(List.of("5", "1", "Gratuito", "0", "0", "1", "4", "1", "Gratuito", "0", "0", "0", "0", "0"), fake);
+        var criado = (DadosRa3.NovoTipo) fake.cadastros.getFirst();
+        var atualizado = (DadosRa3.AlterarTipo) fake.alteracoes.getFirst();
+        assertEquals(new java.math.BigDecimal("0.00"), criado.valor()); assertEquals(0, criado.quantidade());
+        assertEquals(0, atualizado.disponivel()); assertEquals(0, atualizado.vendida());
+    }
+
+    @ParameterizedTest @EnumSource(TipoRegistro.class)
+    void eofNoUltimoCampoDoCadastroEDaAtualizacaoNaoEnviaMutacao(TipoRegistro tipo) throws Exception {
+        for (boolean atualizar : List.of(false, true)) {
+            var campos = atualizar ? camposAlteracao(tipo) : camposCadastro(tipo);
+            var linhas = new ArrayList<String>(List.of("" + (tipo.ordinal() + 1), atualizar ? "4" : "1"));
+            if (atualizar) linhas.add("1");
+            linhas.addAll(campos.subList(0, campos.size() - 1));
+            var fake = new OperacoesTeste(); var out = new StringWriter();
+            new MenuRa3(new StringReader(String.join("\n", linhas) + "\n"), new PrintWriter(out), fake).executar();
+            assertTrue(fake.cadastros.isEmpty()); assertTrue(fake.alteracoes.isEmpty());
+            assertTrue(out.toString().contains("Fim da entrada."));
+        }
+    }
+
+    @Test void cancelarConsultaPaginaEConfirmacaoRetornaAoSubmenu() throws Exception {
+        var fake = new OperacoesTeste();
+        String texto = executar(List.of("/cancelar", "1", "/cancelar", "2", "/cancelar", "3", "/cancelar", "5", "1", "/cancelar", "0", "0"), fake);
+        assertEquals(1, fake.consultas); assertTrue(fake.confirmacoes.isEmpty());
+        assertEquals(3, texto.split("Operação cancelada", -1).length - 1);
+        assertTrue(texto.contains("Número inválido"));
+    }
+
+    @ParameterizedTest @EnumSource(TipoRegistro.class)
     void seteMenusEncaminhamCadastroConsultaListagemAtualizacaoEExclusao(TipoRegistro tipo) throws Exception {
         var entrada = new ArrayList<String>();
         entrada.add("" + (tipo.ordinal() + 1)); entrada.add("1"); entrada.addAll(camposCadastro(tipo));

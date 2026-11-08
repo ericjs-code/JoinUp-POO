@@ -1,10 +1,61 @@
-# RA3 — Guia consolidado até a Entrega 02
+# RA3 — Execução e homologação no Windows (Entrega 03)
 
 Pré-requisitos: JDK 21 (`JAVA_HOME`), Maven 3.9.x, MySQL 8.0.16+ (homologação
 com 8.4.0), `mvn` e `mysql` no PATH ou executados pelos caminhos absolutos.
-Parta da raiz do checkout da branch `feat/ra3-02-crud-menu`.
+Instale também Git. MySQL precisa incluir servidor e cliente; Workbench sozinho
+não fornece um servidor em execução. Docker não é necessário. Os comandos abaixo
+partem da raiz do repositório, em PowerShell, com uma instância MySQL exclusiva.
 A aplicação original continua em `br.com.joinup.Main`, sem dependências ORM.
 O RA3 mantém EclipseLink 4.0.4, uma API Jakarta Persistence 3.1.0 e driver 8.4.0.
+
+## Ferramentas, checkout e versão aprovada
+
+```powershell
+git --version
+java -version
+javac -version
+mvn -version
+mysql --version
+mysqld --version
+git clone https://github.com/ericjs-code/JoinUp-POO.git
+Set-Location JoinUp-POO
+git switch main
+git pull --ff-only origin main
+git rev-parse HEAD
+```
+
+O PR #14 foi integrado. A base aprovada usada na Entrega 03 é
+`0ebc1518a423077bd4793537dea353806299c3a3`. A branch
+`feat/ra3-03-homologacao` contém esta homologação e permanece sujeita à auditoria
+do Tech Lead/PO. Para reproduzi-la durante a revisão, após clonar:
+
+```powershell
+git fetch origin feat/ra3-03-homologacao
+git switch --track origin/feat/ra3-03-homologacao
+git rev-parse HEAD
+```
+
+Esse comando seleciona a proposta em revisão; não a torna aprovada. Depois da
+integração autorizada, estudantes devem usar a `main` aprovada, registrando seu SHA.
+Execute os comandos de compilação abaixo antes de tentar `exec:java`.
+
+Se houver outro Java no PATH, configure somente a sessão atual. Substitua os
+caminhos pelos diretórios instalados no computador, sem alterar o sistema:
+
+```powershell
+$env:JAVA_HOME = 'C:\Ferramentas\jdk-21'
+$ra3Maven = 'C:\Ferramentas\apache-maven-3.9.9\bin\mvn.cmd'
+$ra3MysqlBin = 'C:\Ferramentas\mysql-8.4.0-winx64\bin'
+$env:PATH = "$env:JAVA_HOME\bin;$(Split-Path $ra3Maven);$ra3MysqlBin;$env:PATH"
+& "$env:JAVA_HOME\bin\java.exe" -version
+& $ra3Maven -version  # Deve indicar Java 21 e o JAVA_HOME escolhido
+# Alternativa por caminho absoluto a qualquer comando mvn do guia:
+& $ra3Maven -Pra3 clean test
+```
+
+A homologação local usou ferramentas já disponíveis, em worktree inicialmente
+sem `target`, com cache Maven existente. Não simula instalação de Windows/JDK/MySQL
+em computador novo; veja [resultados e limites](ENTREGA_03_HOMOLOGACAO.md).
 
 ## Preparação manual das sete tabelas
 
@@ -35,12 +86,21 @@ mvn '-Pra3,ra3-it' '-Dit.test=SchemaRa3MySqlIT' verify
 ```
 
 O teste do grafo também exige essa verificação antes de persistir fixtures.
-Configure uma conta dedicada com somente SELECT/INSERT/UPDATE/DELETE no RA3;
-crie a conta e escolha a senha em sessão administrativa fora do repositório.
+Configure uma conta dedicada com somente SELECT/INSERT/UPDATE/DELETE no RA3.
+Abra o cliente administrativo com `mysql --host=127.0.0.1 --port=3309
+--user=administrador -p` e execute o exemplo abaixo, escolhendo a senha na sessão
+local. `SUBSTITUA_POR_SENHA_LOCAL!` é um marcador fictício, não uma credencial
+fornecida. Não salve a instrução preenchida em arquivo do repositório ou log.
 
 ```sql
+CREATE USER 'joinup_ra3_app'@'127.0.0.1' IDENTIFIED BY 'SUBSTITUA_POR_SENHA_LOCAL!';
 GRANT SELECT, INSERT, UPDATE, DELETE ON joinup_poo_ra3.* TO 'joinup_ra3_app'@'127.0.0.1';
+SHOW GRANTS FOR 'joinup_ra3_app'@'127.0.0.1';
 ```
+
+Crie o usuário para o host efetivamente usado pelo servidor. Não conceda DDL,
+permissões globais ou acesso aos bancos da RA2 à conta de execução. Execute o
+schema com o administrador e o aplicativo com a conta DML.
 
 ## Configuração no PowerShell
 
@@ -88,6 +148,9 @@ insere fixtures, não abre menu e não lê entrada; use esse modo na CI.
 As saídas `RA3_CONEXAO_OK`, `RA3_CONFIGURACAO_INVALIDA` e
 `RA3_CONEXAO_FALHOU` são sanitizadas; falhas fazem o comando Maven falhar.
 Não há carga automática de demonstração em nenhum dos dois modos.
+Em falha de inicialização/diagnóstico, o Java/Maven termina com código não zero
+e mensagem própria sem stacktrace. No menu, uma falha recuperável de operação
+é exibida, sem confirmação de sucesso; o usuário pode tentar novamente ou sair.
 
 Sem `-Pra3`, o compilador/recursos excluem RA3 e o JAR padrão permanece sem
 classes ORM/descriptor/API EclipseLink. RA3 usa `target/ra3`, separado das classes
@@ -134,7 +197,7 @@ declara LAZY implementado. A coleção exposta é somente leitura, e criar um
 TipoIngresso associa ambos os lados em memória, sem persistir automaticamente.
 Não há cascade PERSIST/REMOVE ou orphanRemoval. As FKs SQL preservam CASCADE
 somente em comunidade→evento e postagem→comunidade, conforme o original.
-O serviço da Entrega 02 impede excluir pais com vínculos, inclusive nos dois
+O serviço impede excluir pais com vínculos, inclusive nos dois
 caminhos SQL com CASCADE, e sempre reabre o contexto na próxima operação.
 
 Os cadastros de organizador/participante pelo menu usam o marcador fixo
@@ -208,7 +271,72 @@ o catálogo antes da transação. Atualizações usam dirty checking, sem bulk U
 exclusões usam remove, sem bulk DELETE. A próxima consulta observa o estado
 persistido em novo contexto, inclusive após remoção de tipos da coleção EAGER.
 
-Roteiro executado e matriz de provas: [resultados 02](ENTREGA_02_RESULTADOS.md)
-e [transcrição CLI](evidencias/sessao-cli-02.txt).
-Escopo encerrado na Entrega 02: relatório acadêmico final, reflexões da equipe,
-UML final, integração web e Entrega 03 permanecem fora deste incremento.
+## Cancelar formulários e reproduzir a demonstração
+
+Em qualquer campo de operação, digite `/cancelar` em uma linha própria. O menu
+informa a opção antes de ler os campos e retorna ao submenu sem enviar cadastro,
+atualização ou exclusão ao serviço. O token é reservado quando ocupa todo o campo
+(espaços externos são aceitos); não substitui `0`, que continua válido em preço
+e quantidades. Nos menus, `0` volta/encerra. EOF (no console Windows, Ctrl+Z e
+Enter) encerra normalmente, inclusive com formulário parcial. Os testes simulam
+EOF pelo stream e fecham stdin em uma JVM real; o gesto físico Ctrl+Z não foi
+automatizado na homologação.
+
+Reproduza a [sessão 03](evidencias/sessao-cli-03.txt) com dados fictícios e anote
+os IDs retornados, substituindo os IDs da transcrição pelos seus:
+
+1. Cadastre gênero, organizador e participante; cadastre evento com os pais.
+2. Cadastre tipo e comunidade com evento; postagem com participante/comunidade.
+3. Liste os sete tipos; consulte os vínculos; atualize evento e tipo, incluindo
+   preço e quantidades zero. Experimente cancelar uma atualização no último campo.
+4. Tente excluir gênero, organizador, participante, evento e comunidade com filhos:
+   todos devem recusar. Exclua a postagem com SIM e confirme sua ausência.
+5. Encerre. Execute novamente `mvn -Pra3 exec:java` em outra JVM e consulte os IDs
+   mantidos para comprovar persistência. Execute o diagnóstico não interativo.
+6. Remova somente os IDs próprios, com SIM, na ordem tipo, comunidade, evento,
+   participante, organizador e gênero. Preserve os controles e demais dados.
+
+O teste de paginação cria 21 gêneros próprios e dois controles fora da fixture,
+compara todas as páginas com a ordem global lida por JDBC e comprova a preservação
+dos controles após a limpeza. Funciona também com outros registros preexistentes;
+rode sem outro processo alterando as tabelas durante essa comparação.
+
+## Erros comuns e encerramento
+
+| Sinal | Verificação local |
+| --- | --- |
+| `mvn`/`mysql` não reconhecido | Confira PATH ou use `& 'caminho completo\mvn.cmd'` / `mysql.exe`. |
+| release 21 não suportado | Confira `mvn -version`; JAVA_HOME deve apontar ao JDK 21, não apenas ao JRE ou ao Java do PATH. |
+| RA3_CONFIGURACAO_INVALIDA | Defina as três variáveis exclusivas; use catálogo exato e parâmetros permitidos. |
+| RA3_CONEXAO_FALHOU | Confira servidor iniciado, porta, usuário/senha, host da conta, grants e schema manual. A mensagem omite detalhes por segurança; use o cliente MySQL local para diagnosticar. |
+| Conexão recusada/timeout no cliente | 3309 é exemplo; confira a porta escolhida na instalação. Não redirecione ao banco legado para contornar a falha. |
+| Public Key Retrieval/TLS no cliente | Na fixture local descartável, use os dois parâmetros indicados acima se necessários; não presuma configuração TLS de outro servidor. |
+| Schema/constraint divergente | Inspecione metadados; IF NOT EXISTS não migra tabelas. Não faça reset automático. |
+| Registro duplicado ou associado | Consulte os registros e referências; nenhuma alteração daquela operação foi confirmada. |
+
+Na preparação desta execução, uma senha temporária gerada apenas com caracteres
+hexadecimais foi interpretada pelo EclipseLink como senha criptografada e recusada.
+Uma credencial temporária com composição diferente permitiu a conexão, sem mudar
+o aplicativo. Essa observação do ambiente é registrada como limitação operacional;
+não há senha real nos exemplos ou evidências. Escolha uma senha local que não
+reproduza esse caso e não publique diagnósticos internos do provider.
+
+Para limpar segredos da sessão atual ao terminar:
+
+```powershell
+Remove-Item Env:JOINUP_RA3_DB_PASSWORD -ErrorAction SilentlyContinue
+Remove-Item Env:JOINUP_RA3_DB_USER -ErrorAction SilentlyContinue
+Remove-Item Env:JOINUP_RA3_JDBC_URL -ErrorAction SilentlyContinue
+Remove-Item Env:JOINUP_RA3_IT_DATABASE -ErrorAction SilentlyContinue
+Remove-Variable ra3Segredo,ra3Credencial -ErrorAction SilentlyContinue
+```
+
+Se iniciou uma instância descartável manualmente, encerre somente essa instância
+com a conta administrativa e a porta conferida (`mysqladmin --host=127.0.0.1
+--port=3309 --user=administrador -p shutdown`). Não encerre um serviço compartilhado.
+Não há distribuição de JAR RA3 isolado: o modo adotado é Maven com perfil `ra3`.
+
+Matriz e resultados atuais: [homologação 03](ENTREGA_03_HOMOLOGACAO.md),
+[logs 03](evidencias/validacao-03.txt) e [sessão CLI 03](evidencias/sessao-cli-03.txt).
+O relatório acadêmico, reflexões reais da equipe e UML final pertencem à Entrega 04.
+Prazos informados pelo PO: entrega em 12/11/2026 e apresentação em 13/11/2026.

@@ -13,11 +13,18 @@ public final class Ra3Main {
         try {
             if (new AplicacaoRa3().executar(args, System.getenv(), new InputStreamReader(System.in, StandardCharsets.UTF_8),
                     new PrintWriter(System.out, true), new PrintWriter(System.err, true)) != 0) {
-                throw new IllegalStateException("Execução RA3 não concluída; consulte o status sanitizado acima.");
+                throw new FalhaExecucao();
             }
         } finally {
             // Processo terminal dedicado: não deixar o daemon do Connector/J no classloader do exec.
             AbandonedConnectionCleanupThread.checkedShutdown();
+        }
+    }
+
+    /** Mantém exit não zero no Java/Maven sem publicar uma stacktrace no terminal. */
+    private static final class FalhaExecucao extends RuntimeException {
+        private FalhaExecucao() {
+            super("Execução RA3 não concluída; consulte o status sanitizado acima.", null, false, false);
         }
     }
 }

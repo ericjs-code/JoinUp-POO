@@ -76,13 +76,31 @@ class CrudRa3MySqlIT {
         assertEquals(FalhaRa3.Motivo.NAO_ENCONTRADO, assertThrows(FalhaRa3.class, () -> servico.excluir(tipo, id, "SIM")).motivo());
     }
 
-    @Test void listagemTemOrdemLimiteEPaginacaoReal() {
-        var ids = new ArrayList<Integer>();
-        for (int i = 0; i < 21; i++) ids.add(criar(TipoRegistro.GENERO, new NovoGenero(marca + i)));
-        var primeira = servico.listar(TipoRegistro.GENERO, 1); var segunda = servico.listar(TipoRegistro.GENERO, 2);
-        assertEquals(ids.subList(0, 20), primeira.stream().map(OperacoesRa3.Registro::id).toList());
-        assertEquals(List.of(ids.get(20)), segunda.stream().map(OperacoesRa3.Registro::id).toList());
-        System.out.println("RA3_LISTAGEM_OK pagina1=20 pagina2=1 ordem=ID_ASC");
+    @Test void listagemTemOrdemLimiteEPaginacaoReal() throws Exception {
+        // Controles não pertencem à lista proprios, usada pela limpeza da fixture.
+        var controles = new ArrayList<Integer>();
+        var antes = generosJdbc();
+        try {
+            for (int i = 0; i < 2; i++) controles.add(servico.cadastrar(new NovoGenero("controle-" + UUID.randomUUID())).id());
+            for (int i = 0; i < 21; i++) criar(TipoRegistro.GENERO, new NovoGenero(marca + i));
+            var global = new ArrayList<>(generosJdbc().keySet());
+            assertTrue(global.size() >= 23);
+            int paginas = (global.size() + OperacoesRa3.LIMITE - 1) / OperacoesRa3.LIMITE;
+            for (int pagina = 1; pagina <= paginas; pagina++) {
+                int inicio = (pagina - 1) * OperacoesRa3.LIMITE;
+                assertEquals(global.subList(inicio, Math.min(inicio + OperacoesRa3.LIMITE, global.size())),
+                        servico.listar(TipoRegistro.GENERO, pagina).stream().map(OperacoesRa3.Registro::id).toList());
+            }
+            assertTrue(servico.listar(TipoRegistro.GENERO, paginas + 1).isEmpty());
+            limparSomenteIdsProprios();
+            var preservados = generosJdbc();
+            antes.forEach((id, nome) -> assertEquals(nome, preservados.get(id)));
+            for (int id : controles) assertTrue(preservados.containsKey(id));
+            assertEquals(antes.size() + controles.size(), preservados.size());
+            System.out.println("RA3_LISTAGEM_OK global=" + global.size() + " limite=20 ordem=ID_ASC controles_fora_fixture=preservados pagina_excedente=vazia");
+        } finally {
+            for (int id : controles) assertTrue(servico.excluir(TipoRegistro.GENERO, id, "SIM"));
+        }
     }
 
     @Test void duplicidadeEFkInexistenteSaoSanitizadasSemInsertParcial() {
@@ -91,9 +109,37 @@ class CrudRa3MySqlIT {
         assertEquals(FalhaRa3.Motivo.DUPLICIDADE, assertThrows(FalhaRa3.class,
                 () -> servico.cadastrar(new NovoOrganizador(marca + "dup", email, documento(18)))).motivo());
         int g = genero();
+        long eventosAntes = new UnidadeTrabalhoRa3(fabrica).ler(em -> em.createQuery("SELECT COUNT(e) FROM Evento e", Long.class).getSingleResult());
         assertEquals(FalhaRa3.Motivo.NAO_ENCONTRADO, assertThrows(FalhaRa3.class,
                 () -> servico.cadastrar(new NovoEvento(marca, UTC, "D", "L", "C", "SP", "12345678", Integer.MAX_VALUE, g))).motivo());
-        assertTrue(servico.listar(TipoRegistro.EVENTO, 1).isEmpty());
+        long eventosDepois = new UnidadeTrabalhoRa3(fabrica).ler(em -> em.createQuery("SELECT COUNT(e) FROM Evento e", Long.class).getSingleResult());
+        assertEquals(eventosAntes, eventosDepois);
+    }
+
+    @Test void colecaoEagerEmNovoContextoRefleteAtualizacaoEExclusaoDoTipo() throws Exception {
+        int pai = evento();
+        int tipo = criar(TipoRegistro.TIPO_INGRESSO, new NovoTipo(marca, BigDecimal.ONE, 1, pai));
+        Evento anterior;
+        try (var em = fabrica.createEntityManager()) { anterior = em.find(Evento.class, pai); assertEquals(1, anterior.getTiposIngressos().size()); }
+        servico.atualizar(new AlterarTipo(tipo, marca + "atual", new BigDecimal("42.50"), 0, 0));
+        Evento atualizado;
+        try (var em = fabrica.createEntityManager()) { atualizado = em.find(Evento.class, pai); }
+        var filho = atualizado.getTiposIngressos().getFirst();
+        assertEquals(marca + "atual", filho.getNome()); assertEquals(new BigDecimal("42.50"), filho.getValor());
+        assertSame(atualizado, filho.getEvento()); assertEquals(0, filho.getQuantidadeDisponivel());
+        assertTrue(servico.excluir(TipoRegistro.TIPO_INGRESSO, tipo, "SIM"));
+        try (var em = fabrica.createEntityManager()) { assertTrue(em.find(Evento.class, pai).getTiposIngressos().isEmpty()); }
+        assertEquals(0, contarJdbc(TipoRegistro.TIPO_INGRESSO, tipo));
+        System.out.println("RA3_EAGER_OK atualizacao=outro_EM exclusao=colecao_vazia JDBC=ausente leitura_apos_close=confirmada");
+    }
+
+    private static Map<Integer, String> generosJdbc() throws Exception {
+        var registros = new LinkedHashMap<Integer, String>();
+        try (var c = ConexoesRa3IT.abrir(); var s = c.createStatement();
+             var rs = s.executeQuery("SELECT id_genero_musical,nome FROM joinup_poo_ra3.generos_musicais ORDER BY id_genero_musical")) {
+            while (rs.next()) registros.put(rs.getInt(1), rs.getString(2));
+        }
+        return registros;
     }
 
     @Test void unidadeDeTrabalhoReverteAlteracaoJaEnviadaAoBanco() {
