@@ -1,0 +1,108 @@
+@startuml
+title JoinUp-POO — Diagrama de Classes RA3 (JPA/EclipseLink)
+caption Modelo integrado em a835c2e • 08/11/2026 • br.com.joinup.ra3.modelo
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam classAttributeIconSize 0
+skinparam classBackgroundColor #F4F8FC
+skinparam classBorderColor #254866
+skinparam ArrowColor #254866
+skinparam nodesep 50
+skinparam ranksep 65
+hide circle
+left to right direction
+
+package "br.com.joinup.ra3.modelo" as modelo {
+  class GeneroMusical <<Entity>> {
+    - id: Integer {PK}
+    - nome: String
+    + renomear(String): void
+  }
+  class Organizador <<Entity>> {
+    - id: Integer {PK}
+    - nome: String
+    - email: String
+    - senhaHash: String
+    - ativo: boolean
+    - dataDesativacao: LocalDateTime
+    - cnpj: String
+    + renomear(String): void
+  }
+  class Evento <<Entity>> {
+    - id: Integer {PK}
+    - nome: String
+    - data: LocalDateTime
+    - descricao: String
+    - imagem: String
+    - localizacao: String
+    - cidade: String
+    - estado: String
+    - cep: String
+    - organizador: Organizador
+    - generoMusical: GeneroMusical
+    - tiposIngressos: List<TipoIngresso>
+    + renomear(String): void
+    + definirImagem(String): void
+  }
+  class TipoIngresso <<Entity>> {
+    - id: Integer {PK}
+    - nome: String
+    - valor: BigDecimal
+    - quantidadeDisponivel: int
+    - quantidadeVendida: int
+    - evento: Evento
+    + renomear(String): void
+    + definirValor(BigDecimal): void
+    + definirQuantidades(int, int): void
+  }
+  class Comunidade <<Entity>> {
+    - id: Integer {PK}
+    - nome: String
+    - descricao: String
+    - imagem: String
+    - evento: Evento
+    - dataCriacao: LocalDateTime
+    + renomear(String): void
+    + definirDescricao(String): void
+    + definirImagem(String): void
+  }
+  class Participante <<Entity>> {
+    - id: Integer {PK}
+    - cpf: String
+    - nome: String
+    - nascimentoIso: String
+    - email: String
+    - senhaHash: String
+    - ativo: boolean
+    - dataDesativacao: LocalDateTime
+    + renomear(String): void
+  }
+  class Postagem <<Entity>> {
+    - id: Integer {PK}
+    - descricao: String
+    - imagem: String
+    - curtidas: Integer
+    - participante: Participante
+    - comunidade: Comunidade
+    - dataPostagem: LocalDateTime
+    + alterarConteudo(String, String): void
+  }
+
+  Organizador "1" -- "0..*" Evento : organizador\nFK em Evento
+  GeneroMusical "1" -- "0..*" Evento : generoMusical\nFK em Evento
+  Evento "1" -- "0..*" TipoIngresso : evento / tiposIngressos\nFK em TipoIngresso\ninverso: mappedBy="evento"
+  Evento "1" -- "0..1" Comunidade : evento\nFK UNIQUE em Comunidade
+  Comunidade "1" -- "0..*" Postagem : comunidade\nFK em Postagem
+  Participante "1" -- "0..*" Postagem : participante\nFK em Postagem
+}
+
+legend bottom
+  Sete entidades, seis associações simples; linhas não indicam navegação bidirecional.
+  PK: @Id + @GeneratedValue(IDENTITY). FKs proprietárias: @JoinColumn(nullable=false).
+  Cinco @ManyToOne e um @OneToOne; somente tiposIngressos tem coleção inversa.
+  Operações exibidas: mutadores públicos existentes; construtores e getters omitidos.
+  LocalDateTime representa UTC; nascimentoIso é String ISO em CHAR(14), exposta como LocalDate.
+endlegend
+@enduml
