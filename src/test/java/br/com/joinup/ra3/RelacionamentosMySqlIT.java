@@ -164,6 +164,17 @@ class RelacionamentosMySqlIT {
     private Participante participante(String documento, String email) {
         return new Participante(marca + "a", documento, LocalDate.of(2000, 1, 2), email, "HASH_FICTICIO_SEM_AUTENTICACAO");
     }
+    @ParameterizedTest @ValueSource(strings = {"organizadores", "participantes"})
+    void checksDeAtivoTambemSaoAplicadosPeloMySql(String tabela) throws Exception {
+        String pk = tabela.equals("organizadores") ? "id_organizador" : "id_participante";
+        int id = tabela.equals("organizadores") ? organizador.getId() : participante.getId();
+        falhaSql(3819, "chk_" + tabela + "_ativo", em -> em.createNativeQuery(
+                "UPDATE joinup_poo_ra3." + tabela + " SET ativo=2 WHERE " + pk + "=?").setParameter(1, id).executeUpdate());
+        try (var c = ConexoesRa3IT.abrir(); var ps = c.prepareStatement("SELECT ativo FROM joinup_poo_ra3." + tabela + " WHERE " + pk + "=?")) {
+            ps.setInt(1, id); try (var rs = ps.executeQuery()) { assertTrue(rs.next()); assertEquals(1, rs.getInt(1)); }
+        }
+        System.out.println("RA3_CONSTRAINT_OK CHECK_" + tabela + "_ativo=3819 rollback=confirmado");
+    }
     private Evento evento(String sufixo) { return new Evento(marca + sufixo, UTC, marca, "Local", "Cidade", "SP", "12345678", organizador, genero); }
 
     private static void transacao(java.util.function.Consumer<EntityManager> operacao) {
