@@ -390,4 +390,3 @@ Logs de jobs consultados via conector GitHub; trechos sanitizados com timestamp 
 2026-11-08T21:14:33.2417399Z [INFO] BUILD SUCCESS
 Codigo permanece no commit acima; commit posterior apenas documenta esta observacao.
 Checks do head final sao acompanhados separadamente e reportados no encerramento.
-
