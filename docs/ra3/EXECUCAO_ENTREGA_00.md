@@ -1,5 +1,10 @@
 # RA3 — Execução da Entrega 00 no PowerShell
 
+Este guia registra a fundação da Entrega 00. Para o schema atual de **sete
+tabelas** e os testes de relacionamentos da Entrega 01, use o
+[guia RA3 consolidado](EXECUCAO_RA3.md). Os resultados históricos da Entrega 00
+continuam no documento próprio; não são evidência automática da Entrega 01.
+
 Pré-requisitos: JDK 21 (`JAVA_HOME`), Maven 3.9.x e MySQL 8.0.16+.
 Homologado nesta entrega com JDK 21.0.12.1, Maven 3.9.9 e MySQL 8.4.0.
 `mvn` e `mysql` devem estar no PATH; caminhos absolutos equivalentes funcionam.

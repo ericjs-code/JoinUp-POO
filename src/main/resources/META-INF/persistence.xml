@@ -5,7 +5,14 @@
              version="3.0">
   <persistence-unit name="joinup-ra3" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <mapping-file>META-INF/orm-ra3.xml</mapping-file>
     <class>br.com.joinup.ra3.modelo.GeneroMusical</class>
+    <class>br.com.joinup.ra3.modelo.Organizador</class>
+    <class>br.com.joinup.ra3.modelo.Participante</class>
+    <class>br.com.joinup.ra3.modelo.Evento</class>
+    <class>br.com.joinup.ra3.modelo.TipoIngresso</class>
+    <class>br.com.joinup.ra3.modelo.Comunidade</class>
+    <class>br.com.joinup.ra3.modelo.Postagem</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties>

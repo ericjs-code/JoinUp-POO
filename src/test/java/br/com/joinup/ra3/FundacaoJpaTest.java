@@ -19,8 +19,12 @@ class FundacaoJpaTest {
             var doc = parser.newDocumentBuilder().parse(xml);
             assertEquals("joinup-ra3", doc.getElementsByTagName("persistence-unit").item(0).getAttributes().getNamedItem("name").getNodeValue());
             assertEquals("org.eclipse.persistence.jpa.PersistenceProvider", doc.getElementsByTagName("provider").item(0).getTextContent());
-            assertEquals(1, doc.getElementsByTagName("class").getLength());
-            assertEquals(GeneroMusical.class.getName(), doc.getElementsByTagName("class").item(0).getTextContent());
+            assertEquals("META-INF/orm-ra3.xml", doc.getElementsByTagName("mapping-file").item(0).getTextContent());
+            assertEquals(7, doc.getElementsByTagName("class").getLength());
+            var classes = new java.util.HashSet<String>();
+            for (int i = 0; i < 7; i++) classes.add(doc.getElementsByTagName("class").item(i).getTextContent());
+            assertEquals(java.util.Set.of("GeneroMusical", "Organizador", "Participante", "Evento", "TipoIngresso", "Comunidade", "Postagem")
+                    .stream().map(n -> "br.com.joinup.ra3.modelo." + n).collect(java.util.stream.Collectors.toSet()), classes);
             assertEquals("true", doc.getElementsByTagName("exclude-unlisted-classes").item(0).getTextContent());
             var propriedades = doc.getElementsByTagName("property");
             var esperadas = Map.of("jakarta.persistence.schema-generation.database.action", "none",
