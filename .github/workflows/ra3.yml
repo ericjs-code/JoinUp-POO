@@ -1,4 +1,4 @@
-name: RA3 Entrega 02 - CRUD e menu Java
+name: RA3 - CRUD, terminal e compilação JavaFX
 
 on:
   push:
@@ -37,6 +37,8 @@ jobs:
           cache: maven
       - name: Unitários sem depender de MySQL
         run: mvn --batch-mode --no-transfer-progress -Pra3 clean test
+      - name: Compilar interface JavaFX sem iniciar display
+        run: mvn --batch-mode --no-transfer-progress -Pra3,ra3-gui compile
       - name: Aplicar sete tabelas RA3 e criar conta DML de fixture
         env:
           MYSQL_PWD: ra3-root-fixture-ci-only

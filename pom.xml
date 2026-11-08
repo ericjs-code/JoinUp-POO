@@ -105,6 +105,7 @@
     </plugins>
   </build>
   <profiles>
+
     <profile>
       <id>ra3</id>
       <properties>
@@ -130,6 +131,38 @@
         </dependency>
       </dependencies>
       <build><directory>${project.basedir}/target/ra3</directory></build>
+    </profile>
+    <profile>
+      <!-- Ativar junto com ra3. Fontes gráficas não participam do CLI/RA2. -->
+      <id>ra3-gui</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-controls</artifactId>
+          <version>21.0.2</version>
+        </dependency>
+      </dependencies>
+      <build>
+        <directory>${project.basedir}/target/ra3-gui</directory>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <version>3.6.0</version>
+            <executions><execution>
+              <id>fontes-javafx</id><phase>generate-sources</phase>
+              <goals><goal>add-source</goal></goals>
+              <configuration><sources><source>src/ra3-gui/java</source></sources></configuration>
+            </execution></executions>
+          </plugin>
+          <plugin>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-maven-plugin</artifactId>
+            <version>0.0.8</version>
+            <configuration><mainClass>br.com.joinup.ra3.apresentacao.Ra3FxMain</mainClass></configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
     <profile>
       <!-- Usar junto com -Pra3; não executa a integração JDBC antiga. -->

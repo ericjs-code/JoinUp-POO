@@ -215,6 +215,47 @@ Remove-Item Env:JOINUP_RA3_IT_DATABASE -ErrorAction SilentlyContinue
 
 ## Navegação e campos do menu
 
+### Interface JavaFX opcional (Entrega 05)
+
+Com JDK 21, ambiente gráfico Windows ou Linux com display, Maven e o mesmo
+esquema manual/variáveis `JOINUP_RA3_JDBC_URL`, `JOINUP_RA3_DB_USER` e
+`JOINUP_RA3_DB_PASSWORD` configurados acima, execute na raiz:
+
+```powershell
+mvn '-Pra3,ra3-gui' compile
+mvn '-Pra3,ra3-gui' javafx:run
+```
+
+O Maven obtém JavaFX Controls 21.0.2 e bibliotecas nativas da plataforma;
+não é preciso instalar Scene Builder ou SDK JavaFX separadamente. O perfil
+`ra3-gui` é opt-in e deve acompanhar `ra3`. Suas fontes ficam em
+`src/ra3-gui/java` e sua saída em `target/ra3-gui`, separada do CLI e RA2.
+Os builds padrão e `-Pra3` não incluem dependências JavaFX. Os comandos do
+terminal continuam válidos: `mvn -Pra3 compile exec:java`.
+
+A janela **JoinUp-POO RA3** oferece as sete entidades no ComboBox, tabela de
+ID/Resumo com até 20 linhas por página e botões de CRUD. Consulte os pais
+antes de abrir um cadastro com referências e digite seus IDs existentes.
+Atualizar/Excluir aceitam o ID selecionado como sugestão; Consultar ID pede
+o número. Na atualização, o resumo atual aparece para consulta e os campos
+editáveis recebem novos valores, como no terminal. Preencha todos eles;
+opcionais vazios limpam o valor. Cancelar/fechar um formulário não salva.
+Entradas inválidas mantêm o formulário aberto. Datas são UTC sem sufixo:
+`2030-11-12T18:30:00`; nascimento `2000-01-02`; preço `125.50`.
+
+Excluir exige confirmação Sim/Não e mantém a proteção de dependentes do
+serviço. A fábrica JPA abre no início e fecha ao sair, inclusive pelo X da
+janela; os registros confirmados permanecem no MySQL. Falhas de configuração,
+conexão ou esquema mostram erro legível e encerram a inicialização. Operações
+usam os mesmos comandos e serviço do CLI; não há banco em memória.
+
+Em CI sem display, execute os testes de conversão sem iniciar JavaFX. Evidências
+e limites desta entrega: [validação 05](VALIDACAO_ENTREGA_05.md).
+
+O ZIP anterior ficou desatualizado. Somente após auditoria e integração deste
+PR deve ser gerado novo pacote com código e documentos Word/draw.io conferidos,
+sem `docs/prompts`, `.git`, temporários, logs ou ferramentas de desenvolvimento.
+
 O menu principal apresenta as sete entidades na ordem gênero, organizador,
 participante, evento, tipo de ingresso, comunidade e postagem. `0` encerra.
 Cada submenu oferece Cadastrar, Consultar por ID, Listar, Atualizar e Excluir;
