@@ -1,0 +1,90 @@
+RA3 Entrega 04 - evidencias em 08/11/2026, America/Sao_Paulo
+Base main: a835c2e41b10606f75d425aba2bc4fbea9f11812
+Branch: docs/ra3-04-uml-relatorio-apresentacao
+Gate PR #15: merged=true; merged_at=2026-11-08T21:21:11Z
+Head integrado: 9664e31394ca30d901d5e61c8fa5df14c313c887
+Gate CI: RA3 run 42524319355 e Java run 42524319487 completed/success
+ANCESTRAL_AUDITADO_OK fef7f7830ad401e62692eb8b5def279e8dd42cc0
+
+LOG: test-padrao.log
+SHA256: 0673CC4BCA6101278695FA15A264E79BB10274996D3F3818B13BDFEAE57FE4D3
+[INFO] Tests run: 167, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+
+LOG: test-ra3.log
+SHA256: 85EDC2839AD2537628A0C299A353919656C75818631B73C8B08947C7802460D6
+[INFO] Tests run: 268, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+
+LOG: verify-ra3-it.log
+SHA256: C468FE3B7431A0482C05ABFD433D522D5B16190BB87AEC1943086E42BFA7027A
+[INFO] Tests run: 268, Failures: 0, Errors: 0, Skipped: 0
+RA3_CONCORRENCIA_OK pai_bloqueado=aguardou filho_confirmado=preservado cascade=impedido
+RA3_EAGER_OK atualizacao=outro_EM exclusao=colecao_vazia JDBC=ausente leitura_apos_close=confirmada
+RA3_FK_CONCORRENTE_OK codigo=1452 mensagem=VINCULO rollback_apos_flush=confirmado
+RA3_CRUD_OK entidade=GENERO acao=CRIAR id=36
+RA3_CRUD_OK entidade=GENERO acao=CONSULTAR id=36
+RA3_CRUD_OK entidade=GENERO acao=ATUALIZAR id=36
+RA3_CRUD_OK entidade=GENERO acao=EXCLUIR id=36
+RA3_CRUD_OK entidade=ORGANIZADOR acao=CRIAR id=12
+RA3_CRUD_OK entidade=ORGANIZADOR acao=CONSULTAR id=12
+RA3_CRUD_OK entidade=ORGANIZADOR acao=ATUALIZAR id=12
+RA3_CRUD_OK entidade=ORGANIZADOR acao=EXCLUIR id=12
+RA3_CRUD_OK entidade=PARTICIPANTE acao=CRIAR id=3
+RA3_CRUD_OK entidade=PARTICIPANTE acao=CONSULTAR id=3
+RA3_CRUD_OK entidade=PARTICIPANTE acao=ATUALIZAR id=3
+RA3_CRUD_OK entidade=PARTICIPANTE acao=EXCLUIR id=3
+RA3_CRUD_OK entidade=EVENTO acao=CRIAR id=10
+RA3_CRUD_OK entidade=EVENTO acao=CONSULTAR id=10
+RA3_CRUD_OK entidade=EVENTO acao=ATUALIZAR id=10
+RA3_CRUD_OK entidade=EVENTO acao=EXCLUIR id=10
+RA3_CRUD_OK entidade=TIPO_INGRESSO acao=CRIAR id=4
+RA3_CRUD_OK entidade=TIPO_INGRESSO acao=CONSULTAR id=4
+RA3_CRUD_OK entidade=TIPO_INGRESSO acao=ATUALIZAR id=4
+RA3_CRUD_OK entidade=TIPO_INGRESSO acao=EXCLUIR id=4
+RA3_CRUD_OK entidade=COMUNIDADE acao=CRIAR id=5
+RA3_CRUD_OK entidade=COMUNIDADE acao=CONSULTAR id=5
+RA3_CRUD_OK entidade=COMUNIDADE acao=ATUALIZAR id=5
+RA3_CRUD_OK entidade=COMUNIDADE acao=EXCLUIR id=5
+RA3_CRUD_OK entidade=POSTAGEM acao=CRIAR id=3
+RA3_CRUD_OK entidade=POSTAGEM acao=CONSULTAR id=3
+RA3_CRUD_OK entidade=POSTAGEM acao=ATUALIZAR id=3
+RA3_CRUD_OK entidade=POSTAGEM acao=EXCLUIR id=3
+RA3_GRAFO_OK entidades=7 leitura=outro-EntityManager+JDBC_JOIN EAGER=destacado UTC=sem-conversao evento-sem-comunidade=aceito
+RA3_SCHEMA_OK tabelas=7 fks=6 checks=5 colunas_indices_defaults=contrato-RA2
+[INFO] Tests run: 42, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+
+LOG: diagnostico.log
+SHA256: 99A9DDA66E3A4284AD0B7F07C735A25FAD825D2939DDB74D8E9C557044985ED1
+[INFO] BUILD SUCCESS
+
+DIAGNOSTICO: RA3_CONEXAO_OK; exit 0 (linha sanitizada para evitar variacao de encoding do console).
+AMBIENTE: JDK 21.0.12.1, Maven 3.9.9, MySQL 8.4.0, Windows.
+MYSQL: instancia nova descartavel, loopback 64211, schema manual e conta DML exclusiva.
+tabela	restantes
+generos_musicais	0
+organizadores	0
+participantes	0
+eventos	0
+tipos_ingressos	0
+comunidades	0
+postagens	0
+MYSQL_SHUTDOWN_OK: processo encerrado apos mysqladmin shutdown; sem servico instalado.
+
+PLANTUML: 1.2025.2; Graphviz 2.44.1; checkonly=0, tsvg=0, tpng=0.
+docs/ra3/DIAGRAMA_CLASSES_RA3.puml SHA256=72A52ECB617792E35769B60E674646EB69B03A097ADA74BF725E5BD82AB24DA8
+docs/ra3/DIAGRAMA_CLASSES_RA3.svg SHA256=986FEAA18032ED254FAD59CBA75581558575AA9B673BF950DE464366B83A8420
+docs/ra3/evidencias/diagrama-classes-ra3.png SHA256=5F4D3656605ED9952A166EF937F7C355777A39D4BF9E9CB8A9CD9A5BFCABC6DF
+VISUAL: PNG real inspecionado; sete caixas, seis associacoes, sem cortes/cruzamentos.
+SVG: XML real valido, 1643 x 990; layout horizontal.
+
+CI desta entrega: status por SHA final registrado na descricao do PR e resposta final apos conclusao.
+Perfil mysql-it RA2 nao executado localmente; observar workflow Java do PR atual.
+Sem nova sessao CLI completa ou ensaio presencial; evidencia CLI 03 e historica.
+Sem alteracoes funcionais, merge, envio ao Canvas ou leitura declarada dos PDFs inacessiveis.
+ENTIDADES_OK classes=7 atributos=48 mutadores=12 PK=IDENTITY XML=7
+RELACOES_OK associacoes=6 ManyToOne=5 OneToOne=1 FKs=6 UNIQUE_comunidade=sim mappedBy=evento
+SVG_XML_OK largura=1643px altura=990px classes=7
+DOCUMENTOS_OK links_locais=47 topicos_relatorio=2
+GIT_DIFF_CHECK_OK

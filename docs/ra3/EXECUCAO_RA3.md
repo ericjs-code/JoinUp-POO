@@ -1,4 +1,4 @@
-# RA3 — Execução e homologação no Windows (Entrega 03)
+# RA3 — Execução no Windows e preparação da entrega final (Entrega 04)
 
 Pré-requisitos: JDK 21 (`JAVA_HOME`), Maven 3.9.x, MySQL 8.0.16+ (homologação
 com 8.4.0), `mvn` e `mysql` no PATH ou executados pelos caminhos absolutos.
@@ -24,14 +24,15 @@ git pull --ff-only origin main
 git rev-parse HEAD
 ```
 
-O PR #14 foi integrado. A base aprovada usada na Entrega 03 é
-`0ebc1518a423077bd4793537dea353806299c3a3`. A branch
-`feat/ra3-03-homologacao` contém esta homologação e permanece sujeita à auditoria
-do Tech Lead/PO. Para reproduzi-la durante a revisão, após clonar:
+O PR #15 foi integrado em 08/11/2026. A base da documentação final é
+`a835c2e41b10606f75d425aba2bc4fbea9f11812`, que inclui a homologação da Entrega 03.
+Para executar a aplicação, use a `main` aprovada e registre seu SHA.
+A Entrega 04 é documental, na branch `docs/ra3-04-uml-relatorio-apresentacao`;
+para revisar os artefatos antes da integração autorizada:
 
 ```powershell
-git fetch origin feat/ra3-03-homologacao
-git switch --track origin/feat/ra3-03-homologacao
+git fetch origin docs/ra3-04-uml-relatorio-apresentacao
+git switch --track origin/docs/ra3-04-uml-relatorio-apresentacao
 git rev-parse HEAD
 ```
 
@@ -338,5 +339,13 @@ Não há distribuição de JAR RA3 isolado: o modo adotado é Maven com perfil `
 
 Matriz e resultados atuais: [homologação 03](ENTREGA_03_HOMOLOGACAO.md),
 [logs 03](evidencias/validacao-03.txt) e [sessão CLI 03](evidencias/sessao-cli-03.txt).
-O relatório acadêmico, reflexões reais da equipe e UML final pertencem à Entrega 04.
+Materiais finais: [UML](DIAGRAMA_CLASSES_RA3.svg),
+[fonte editável](DIAGRAMA_CLASSES_RA3.puml),
+[relatório acadêmico](RELATORIO_ACADEMICO_RA3.md),
+[roteiro de apresentação](ROTEIRO_APRESENTACAO_RA3.md),
+[checklist Canvas](CHECKLIST_ENTREGA_RA3.md) e
+[validação documental](VALIDACAO_ENTREGA_04.md).
+As reflexões e a identificação do relatório ainda precisam da revisão dos integrantes.
+Use uma instância de demonstração diferente da descartável usada pela integração,
+mantendo o catálogo `joinup_poo_ra3` em cada uma, com portas/instâncias distintas.
 Prazos informados pelo PO: entrega em 12/11/2026 e apresentação em 13/11/2026.
