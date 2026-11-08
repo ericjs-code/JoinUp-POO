@@ -23,14 +23,15 @@ O domínio permite, por exemplo, cadastrar um evento, definir suas categorias
 de ingresso e registrar publicações em sua comunidade.
 
 O módulo reaproveita a base Java do JoinUp-POO, mas funciona de forma independente
-da aplicação web anterior. Sua interface é um terminal em Java 21, com persistência
+da aplicação web anterior. Oferece um terminal em Java 21 e uma interface JavaFX
+simples adicional, ambos usando o mesmo serviço CRUD, com persistência
 no banco MySQL exclusivo `joinup_poo_ra3`, usando Jakarta Persistence API 3.1.0
 e EclipseLink 4.0.4. Todas as sete classes possuem operações reais de cadastro,
 consulta, atualização e exclusão. Os registros confirmados permanecem no banco
 após encerrar e reiniciar o programa. O escopo é o estudo do mapeamento de objetos
 para tabelas relacionais; não inclui autenticação nem compra ou venda de ingressos.
 
-A organização em três camadas separa a apresentação, em `MenuRa3`, os casos de uso,
+A organização em três camadas separa a apresentação, em `MenuRa3` e `Ra3FxMain`, os casos de uso,
 em `ServicoCrudRa3`, e a persistência, coordenada por `UnidadeTrabalhoRa3` com
 EclipseLink e MySQL. A escrita utiliza transações. A exclusão de registros sem
 dependentes usa `EntityManager.remove()`, exige confirmação e protege vínculos
