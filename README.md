@@ -1,5 +1,11 @@
 # JoinUp-POO
 
+**RA3 — Entrega 00:** fundação JPA/EclipseLink em perfil separado, com apenas
+`GeneroMusical`. Consulte [execução no PowerShell](docs/ra3/EXECUCAO_ENTREGA_00.md),
+[decisão de isolamento](docs/arquitetura/ADR-002-RA3-JPA-ISOLADO.md) e
+[evidências verificáveis](docs/ra3/ENTREGA_00_RESULTADOS.md).
+O modo padrão abaixo continua sendo a aplicação web/JDBC da RA2.
+
 Java 21 puro com HttpServer do JDK, JDBC/MySQL 8, Jackson e JUnit. Entregas 00–07 integradas:
 contas/autenticação, eventos, compra/revenda, comunidades sociais, chamados
 e painéis por perfil. Os quatro GoF estão em fluxos executáveis:

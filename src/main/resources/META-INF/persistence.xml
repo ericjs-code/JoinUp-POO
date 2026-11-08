@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+  <persistence-unit name="joinup-ra3" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>br.com.joinup.ra3.modelo.GeneroMusical</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <shared-cache-mode>NONE</shared-cache-mode>
+    <properties>
+      <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="jakarta.persistence.schema-generation.database.action" value="none"/>
+      <property name="jakarta.persistence.schema-generation.scripts.action" value="none"/>
+      <property name="eclipselink.ddl-generation" value="none"/>
+      <property name="eclipselink.target-database" value="org.eclipse.persistence.platform.database.MySQLPlatform"/>
+      <property name="eclipselink.weaving" value="false"/>
+      <!-- Erros do provider podem carregar URL/credenciais: diagnóstico próprio sanitizado. -->
+      <property name="eclipselink.logging.level" value="OFF"/>
+      <property name="eclipselink.logging.parameters" value="false"/>
+    </properties>
+  </persistence-unit>
+</persistence>

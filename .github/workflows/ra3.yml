@@ -1,0 +1,60 @@
+name: RA3 Entrega 00 - EclipseLink e MySQL isolado
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  fundacao-ra3:
+    runs-on: ubuntu-latest
+    services:
+      mysql_ra3:
+        image: mysql:8.4.0
+        env:
+          MYSQL_ROOT_PASSWORD: ra3-root-fixture-ci-only
+          MYSQL_ROOT_HOST: '%'
+        ports:
+          - 3309:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -pra3-root-fixture-ci-only"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=12
+    env:
+      JOINUP_RA3_JDBC_URL: jdbc:mysql://127.0.0.1:3309/joinup_poo_ra3?connectionTimeZone=UTC&connectTimeout=5000&socketTimeout=10000&useSSL=false&allowPublicKeyRetrieval=true
+      JOINUP_RA3_DB_USER: ra3_it
+      JOINUP_RA3_DB_PASSWORD: ra3-fixture-ci-only
+      JOINUP_RA3_IT_DATABASE: instancia-descartavel-ra3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Unitários sem depender de MySQL
+        run: mvn --batch-mode --no-transfer-progress -Pra3 clean test
+      - name: Aplicar somente schema RA3 e criar conta DML de fixture
+        env:
+          MYSQL_PWD: ra3-root-fixture-ci-only
+        run: |
+          mysql --host=127.0.0.1 --port=3309 --user=root < src/main/resources/db/ra3/schema_ra3.sql
+          mysql --host=127.0.0.1 --port=3309 --user=root <<'SQL'
+          CREATE USER 'ra3_it'@'%' IDENTIFIED BY 'ra3-fixture-ci-only';
+          GRANT SELECT, INSERT, UPDATE, DELETE ON joinup_poo_ra3.* TO 'ra3_it'@'%';
+          SQL
+      - name: Smoke test JPA real e diagnóstico sem escrita
+        run: |
+          mvn --batch-mode --no-transfer-progress -Pra3,ra3-it verify
+          mvn --batch-mode --no-transfer-progress -Pra3 exec:java
+      - name: Publicar evidências RA3
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: testes-ra3-java21-mysql
+          path: |
+            target/ra3/surefire-reports/
+            target/ra3/failsafe-reports/
